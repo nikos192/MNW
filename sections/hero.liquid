@@ -69,15 +69,23 @@
   <div class="hero__footer">
 
     <div class="hero__headline-block">
-      <h1 class="hero__headline" aria-label="{{ section.settings.headline_line1 | default: 'Forged.' }} {{ section.settings.headline_line2 | default: 'Not cast.' }}">
-        <span class="hero__line"><span>{{ section.settings.headline_line1 | default: 'Forged.' }}</span></span>
-        <span class="hero__line"><span>{{ section.settings.headline_line2 | default: 'Not cast.' }}</span></span>
+      <h1 class="hero__headline" aria-label="{{ section.settings.headline_line1 | default: 'Custom.' }} {{ section.settings.headline_line2 | default: 'By chassis.' }}">
+        <span class="hero__line"><span>{{ section.settings.headline_line1 | default: 'Custom.' }}</span></span>
+        <span class="hero__line"><span>{{ section.settings.headline_line2 | default: 'By chassis.' }}</span></span>
       </h1>
+      <p class="hero__support">
+        MNW is a custom wheel program. Start with a wheel face, then machine the final diameter, width, offset, centre bore, and finish around the car.
+      </p>
+      <div class="hero__process" aria-label="Custom build process">
+        <span class="hero__process-item">Choose Design</span>
+        <span class="hero__process-item">Confirm Fitment</span>
+        <span class="hero__process-item">Build To Order</span>
+      </div>
     </div>
 
     <div class="hero__actions">
       <a class="btn-ghost hero__cta" href="{{ routes.all_products_collection_url }}">
-        Configure Your Set
+        Start Your Build
       </a>
       <div class="hero__scroll-cue" aria-hidden="true">
         <svg width="1" height="36" viewBox="0 0 1 36" fill="none">
@@ -218,6 +226,44 @@
   color: var(--text-primary);
 }
 
+.hero__support {
+  max-width: 520px;
+  margin-top: 20px;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(14px, 1.2vw, 16px);
+  letter-spacing: 0.04em;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  opacity: 0;
+  animation: hero-fade-in-up 500ms var(--ease-precision) 2.15s forwards;
+}
+
+.hero__process {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+  opacity: 0;
+  animation: hero-fade-in-up 500ms var(--ease-precision) 2.28s forwards;
+}
+
+.hero__process-item {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: rgba(255,255,255,0.02);
+}
+
 /* Curtain reveal: overflow:hidden clips inner span animating from below */
 .hero__line {
   display: block;
@@ -303,6 +349,8 @@
   .hero__wheel-wrap,
   .hero__header,
   .hero__line span,
+  .hero__support,
+  .hero__process,
   .hero__cta,
   .hero__scroll-cue {
     animation: none !important;
@@ -317,6 +365,7 @@
   .hero { padding: 24px 24px 40px; }
   .hero__wheel-wrap { width: min(76vw, 340px); }
   .hero__headline { font-size: clamp(44px, 12vw, 72px); }
+  .hero__support { max-width: 100%; }
 }
 
 @media (max-width: 480px) {
@@ -331,6 +380,14 @@
     width: 100%;
     justify-content: space-between;
   }
+  .hero__process {
+    gap: 8px;
+  }
+  .hero__process-item {
+    min-height: 32px;
+    padding: 0 12px;
+    font-size: 9px;
+  }
 }
 {% endstylesheet %}
 
@@ -343,13 +400,13 @@
       "type": "text",
       "id": "headline_line1",
       "label": "Headline — Line 1",
-      "default": "Forged."
+      "default": "Custom."
     },
     {
       "type": "text",
       "id": "headline_line2",
       "label": "Headline — Line 2",
-      "default": "Not cast."
+      "default": "By chassis."
     },
     {
       "type": "image_picker",

@@ -1,0 +1,231 @@
+.page {
+  display: grid;
+}
+
+.hero {
+  position: relative;
+  padding: 1.5rem clamp(1.25rem, 3vw, 2.5rem) clamp(3.5rem, 8vw, 6rem);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(177, 141, 88, 0.16), transparent 18%),
+    linear-gradient(180deg, #090b0f 0%, #10141a 100%);
+}
+
+.texture {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.012) 0,
+      rgba(255, 255, 255, 0.012) 1px,
+      transparent 1px,
+      transparent 9px
+    );
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.9fr);
+  gap: 2rem;
+  align-items: end;
+  padding-top: clamp(3rem, 8vw, 6rem);
+}
+
+.kicker {
+  display: inline-flex;
+  margin-bottom: 1rem;
+  color: rgba(216, 200, 173, 0.84);
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.copy h1,
+.panelHead h2,
+.bridgePanel h2 {
+  color: #f8f5ef;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+}
+
+.copy p,
+.quoteNote p,
+.sideItem p,
+.bridgePanel p {
+  color: rgba(231, 226, 218, 0.72);
+  line-height: 1.75;
+  font-size: 0.98rem;
+}
+
+.copy p {
+  max-width: 36rem;
+  margin-top: 1.25rem;
+}
+
+.quoteNote,
+.formPanel,
+.sidePanel,
+.bridgePanel {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+}
+
+.quoteNote {
+  padding: 1.5rem;
+}
+
+.quoteNote strong,
+.sideItem h3 {
+  color: #f7f4ec;
+}
+
+.quoteNote strong {
+  display: inline-flex;
+  margin-bottom: 0.7rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.intakeSection,
+.bridge {
+  padding: clamp(3.5rem, 8vw, 7rem) clamp(1.25rem, 3vw, 2.5rem);
+}
+
+.intakeSection {
+  background: #0d1014;
+}
+
+.intakeGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+  gap: 1rem;
+}
+
+.formPanel,
+.sidePanel,
+.bridgePanel {
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+.panelHead {
+  display: grid;
+  gap: 0.9rem;
+  margin-bottom: 1.6rem;
+}
+
+.panelHead h2,
+.bridgePanel h2 {
+  font-size: clamp(2.4rem, 5vw, 4.8rem);
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.field {
+  min-height: 4.5rem;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(235, 228, 218, 0.74);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.actions,
+.bridgeActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  align-items: center;
+}
+
+.sideList {
+  display: grid;
+  gap: 1rem;
+}
+
+.sideItem {
+  display: grid;
+  gap: 0.55rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sideItem:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.bridge {
+  background: #101318;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.bridgePanel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2rem;
+  align-items: end;
+}
+
+.primaryCta,
+.secondaryCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
+  padding: 0 1.35rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.primaryCta {
+  background: #f4efe5;
+  color: #0d1014;
+}
+
+.primaryCta:hover {
+  transform: translateY(-1px);
+  background: #ffffff;
+}
+
+.secondaryCta {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ebe5da;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.secondaryCta:hover {
+  color: #f7f4ec;
+}
+
+@media (max-width: 1100px) {
+  .heroContent,
+  .intakeGrid,
+  .bridgePanel,
+  .fields {
+    grid-template-columns: 1fr;
+  }
+}

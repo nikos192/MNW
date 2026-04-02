@@ -1,0 +1,33 @@
+.footer {
+  padding: 1.5rem clamp(1.25rem, 3vw, 2.5rem) 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: #090b0e;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  font-size: 0.75rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #f7f4ec;
+}
+
+.meta {
+  color: rgba(230, 225, 218, 0.62);
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 760px) {
+  .inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -8,15 +8,39 @@
 
   <!-- Collection header -->
   <div class="collection-page__header container">
-    <p class="label collection-page__overline">
-      {{ section.settings.overline | default: 'All Wheels' }}
-    </p>
-    <h1 class="heading-lg collection-page__heading" id="collection-heading">
-      {{ collection.title | default: 'Forged Wheels' }}
-    </h1>
-    {% if collection.description != blank %}
-      <p class="body-text collection-page__desc">{{ collection.description }}</p>
-    {% endif %}
+    <div class="collection-page__header-copy">
+      <p class="label collection-page__overline">
+        {{ section.settings.overline | default: 'Custom Wheel Program' }}
+      </p>
+      <h1 class="heading-lg collection-page__heading" id="collection-heading">
+        {{ collection.title | default: 'Design Bases & Delivered Sets' }}
+      </h1>
+      {% if collection.description != blank %}
+        <p class="body-text collection-page__desc">{{ collection.description }}</p>
+      {% else %}
+        <p class="body-text collection-page__desc">
+          Use these products as wheel-face references and completed-build examples. Final diameter, width, offset, centre bore, and finish are specified around the car rather than selected from fixed shelf stock.
+        </p>
+      {% endif %}
+    </div>
+
+    <div class="collection-page__brief">
+      <p class="label collection-page__brief-label">How MNW Works</p>
+      <div class="collection-page__brief-steps">
+        <article class="collection-page__brief-step">
+          <span class="collection-page__brief-num">01</span>
+          <p>Choose a design direction from the library.</p>
+        </article>
+        <article class="collection-page__brief-step">
+          <span class="collection-page__brief-num">02</span>
+          <p>Confirm chassis, brake clearance, widths, and offsets.</p>
+        </article>
+        <article class="collection-page__brief-step">
+          <span class="collection-page__brief-num">03</span>
+          <p>Approve finish and build details, then we machine to order.</p>
+        </article>
+      </div>
+    </div>
   </div>
 
   <div class="collection-page__layout container">
@@ -109,11 +133,11 @@
             <div class="product-card__info">
               <h2 class="product-card__title">{{ product.title }}</h2>
               <p class="product-card__price">From {{ product.price_min | money }} / set</p>
-              <p class="product-card__finishes">Multiple Finishes Available</p>
+              <p class="product-card__finishes">Design reference for a custom build</p>
             </div>
 
             <!-- Hover CTA -->
-            <span class="product-card__cta" aria-hidden="true">Configure &rarr;</span>
+            <span class="product-card__cta" aria-hidden="true">Start build &rarr;</span>
 
           </a>
 
@@ -210,7 +234,11 @@
 
 /* Header */
 .collection-page__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 40px;
   margin-bottom: 48px;
+  align-items: end;
 }
 
 .collection-page__overline {
@@ -224,6 +252,50 @@
 .collection-page__desc {
   max-width: 560px;
   font-size: 14px;
+}
+
+.collection-page__brief {
+  padding-top: 22px;
+  border-top: 1px solid var(--rule);
+}
+
+.collection-page__brief-label {
+  margin-bottom: 16px;
+}
+
+.collection-page__brief-steps {
+  display: grid;
+  gap: 12px;
+}
+
+.collection-page__brief-step {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 14px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.collection-page__brief-step:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.collection-page__brief-num {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--text-primary);
+}
+
+.collection-page__brief-step p {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+  color: var(--text-secondary);
 }
 
 /* Layout: sidebar + grid */
@@ -549,6 +621,11 @@
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
+  .collection-page__header {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
   .collection-page__layout {
     grid-template-columns: 1fr;
   }
@@ -596,7 +673,7 @@
       "type": "text",
       "id": "overline",
       "label": "Overline",
-      "default": "All Wheels"
+      "default": "Custom Wheel Program"
     }
   ],
   "presets": [

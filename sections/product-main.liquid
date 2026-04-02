@@ -85,6 +85,10 @@
         From <strong>{{ product.price_min | money }}</strong> / set
       </p>
 
+      <p class="product-page__custom-note">
+        This design is a starting point. Final diameter, width, offset, centre bore, finish, and hardware are specified around your chassis.
+      </p>
+
       <hr class="rule product-page__rule">
 
       <!-- Finish swatches -->
@@ -249,7 +253,7 @@
         class="btn-solid product-page__quote-btn"
         href="{{ routes.root_url }}pages/contact?product={{ product.handle }}&title={{ product.title | url_encode }}"
       >
-        Request a Quote
+        Start Your Build
       </a>
 
       <!-- Lead time note -->
@@ -259,7 +263,7 @@
         &nbsp;&middot;&nbsp;
         Made to order
         &nbsp;&middot;&nbsp;
-        No deposit until approval
+        Final spec approved before production
       </p>
 
     </div>
@@ -301,7 +305,7 @@
   <div class="container">
     <hr class="rule">
     <p class="product-story__quality-line caption">
-      Backed by passed JWL fatigue and impact testing, certified 6061-T6 material data, and stricter in-house RAVIZE validation.
+      Start with the chassis, lock the final spec, then move into machining, finishing, and validation backed by passed JWL testing and certified 6061-T6 material data.
     </p>
   </div>
 </div>
@@ -427,6 +431,16 @@
 .product-page__price strong {
   font-weight: 400;
   color: var(--text-primary);
+}
+
+.product-page__custom-note {
+  margin-top: 14px;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  line-height: 1.7;
+  color: var(--text-secondary);
 }
 
 .product-page__rule {

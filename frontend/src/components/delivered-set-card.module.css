@@ -1,0 +1,55 @@
+.card {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.media {
+  position: relative;
+  overflow: hidden;
+  min-height: 20rem;
+  background:
+    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.12), transparent 16%),
+    linear-gradient(135deg, #11151b 0%, #171c23 100%);
+}
+
+.media::before {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  border: 16px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.body {
+  padding: 1.4rem;
+}
+
+.title {
+  margin-bottom: 0.7rem;
+  font-size: 1.45rem;
+  color: #f7f4ec;
+}
+
+.fitment {
+  margin-bottom: 0.5rem;
+  color: rgba(231, 226, 218, 0.82);
+  line-height: 1.6;
+  font-size: 0.98rem;
+}
+
+.finish {
+  display: inline-flex;
+  margin-bottom: 0.95rem;
+  color: rgba(216, 200, 173, 0.84);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.note {
+  color: rgba(231, 226, 218, 0.68);
+  line-height: 1.7;
+  font-size: 0.94rem;
+}
