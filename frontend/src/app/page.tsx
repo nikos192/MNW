@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import ScrollExpandMedia from "@/components/blocks/scroll-expansion-hero";
 import { DeliveredSetCard } from "@/components/delivered-set-card";
 import { ProductCard } from "@/components/product-card";
+import { BackgroundPaths } from "@/components/ui/background-paths";
 import { VehicleConfigurator } from "@/components/vehicle-configurator";
 import { getCatalogData } from "@/lib/catalog";
 import styles from "./page.module.css";
@@ -13,6 +15,7 @@ export default async function Home() {
   return (
     <main className={styles.page}>
       <section className={styles.hero} data-hero-section>
+        <BackgroundPaths className={styles.heroPaths} />
         <div className={styles.heroMedia} aria-hidden="true">
           <div className={styles.heroMediaShade} />
           <div className={styles.heroMediaGrain} />
@@ -51,48 +54,48 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className={styles.introSection}>
-        <div className={`${styles.introGrid} container`}>
-          <div className={styles.introCopy} data-reveal>
-            <p className={`label ${styles.darkLabel}`}>Product</p>
-            <h2 className={styles.darkHeading}>
+      <ScrollExpandMedia
+        bgImageSrc={heroProduct?.images[0]?.url || "/media/hero-wheel-poster.jpg"}
+        date="Process"
+        mediaSrc={heroProduct?.images[0]?.url || "/media/hero-wheel-poster.jpg"}
+        mediaType="image"
+        scrollToExpand="Scroll through the build brief"
+        title="Chassis-first design"
+      >
+        <div className={styles.expansionContent}>
+          <div className={styles.expansionIntro}>
+            <p className={`label ${styles.expansionLabel}`}>Product</p>
+            <h2 className={styles.expansionHeading}>
               Premium forged wheels, resolved through fitment first.
             </h2>
-            <p className={styles.darkText}>
+            <p className={styles.expansionText}>
               The catalogue gives you the design base. Final diameter, width,
               offset, and finish are confirmed only after the car is known.
             </p>
-            <div className={styles.introMeta}>
-              <div>
-                <span className={styles.metaLabel}>Process</span>
-                <p>Quote, approval, machining, finishing, delivery.</p>
-              </div>
-              <div>
-                <span className={styles.metaLabel}>Lead time</span>
-                <p>{heroProduct?.leadTime || "8–12 weeks"}</p>
-              </div>
+          </div>
+
+          <div className={styles.expansionMeta}>
+            <div>
+              <span className={styles.expansionMetaLabel}>Process</span>
+              <p>Quote, approval, machining, finishing, delivery.</p>
             </div>
-            <Link className="button-outline-dark" href="/shop">
+            <div>
+              <span className={styles.expansionMetaLabel}>Lead time</span>
+              <p>{heroProduct?.leadTime || "8–12 weeks"}</p>
+            </div>
+            <div>
+              <span className={styles.expansionMetaLabel}>Program</span>
+              <p>Made-to-order geometry, finish, and brake clearance.</p>
+            </div>
+          </div>
+
+          <div className={styles.expansionAction}>
+            <Link className="button-outline" href="/shop">
               Explore the collection
             </Link>
           </div>
-
-          <div className={styles.introMedia} data-reveal>
-            {heroProduct?.images[0] ? (
-              <Image
-                alt={heroProduct.images[0].alt}
-                className={styles.introImage}
-                src={heroProduct.images[0].url}
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                width={1400}
-                height={1400}
-              />
-            ) : (
-              <div className={styles.introPlaceholder} aria-hidden="true" />
-            )}
-          </div>
         </div>
-      </section>
+      </ScrollExpandMedia>
 
       <section className={`${styles.featuredSection} page-section`}>
         <div className="container">

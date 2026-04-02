@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { GlowCard } from "@/components/ui/spotlight-card";
 import type { CatalogProduct } from "@/lib/mnw-data";
 import styles from "./product-card.module.css";
 
@@ -13,42 +14,44 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <article className={styles.card} data-reveal>
-      <Link className={styles.link} href={`/shop/${product.handle}`}>
-        <div className={styles.media}>
-          {product.images[0] ? (
-            <>
-              <Image
-                alt={product.images[0].alt}
-                className={`${styles.image} ${styles.primary}`}
-                loading="lazy"
-                src={product.images[0].url}
-                sizes="(max-width: 1024px) 50vw, 33vw"
-                width={1200}
-                height={1200}
-              />
-              {secondaryImage ? (
+      <GlowCard className={styles.glowCard} customSize glowColor="orange">
+        <Link className={styles.link} href={`/shop/${product.handle}`}>
+          <div className={styles.media}>
+            {product.images[0] ? (
+              <>
                 <Image
-                  alt={product.images[1]?.alt || `${product.title} alternate view`}
-                  className={`${styles.image} ${styles.secondary}`}
+                  alt={product.images[0].alt}
+                  className={`${styles.image} ${styles.primary}`}
                   loading="lazy"
-                  src={secondaryImage}
+                  src={product.images[0].url}
                   sizes="(max-width: 1024px) 50vw, 33vw"
                   width={1200}
                   height={1200}
                 />
-              ) : null}
-            </>
-          ) : (
-            <div className={styles.placeholder} aria-hidden="true" />
-          )}
-        </div>
+                {secondaryImage ? (
+                  <Image
+                    alt={product.images[1]?.alt || `${product.title} alternate view`}
+                    className={`${styles.image} ${styles.secondary}`}
+                    loading="lazy"
+                    src={secondaryImage}
+                    sizes="(max-width: 1024px) 50vw, 33vw"
+                    width={1200}
+                    height={1200}
+                  />
+                ) : null}
+              </>
+            ) : (
+              <div className={styles.placeholder} aria-hidden="true" />
+            )}
+          </div>
 
-        <div className={styles.meta}>
-          <h3 className={styles.title}>{product.title}</h3>
-          <p className={styles.price}>From {product.price} / set</p>
-          <p className={styles.finishes}>{finishCount} {finishCount === 1 ? "finish" : "finishes"}</p>
-        </div>
-      </Link>
+          <div className={styles.meta}>
+            <h3 className={styles.title}>{product.title}</h3>
+            <p className={styles.price}>From {product.price} / set</p>
+            <p className={styles.finishes}>{finishCount} {finishCount === 1 ? "finish" : "finishes"}</p>
+          </div>
+        </Link>
+      </GlowCard>
     </article>
   );
 }

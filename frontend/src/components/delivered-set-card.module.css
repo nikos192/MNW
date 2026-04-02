@@ -1,28 +1,41 @@
 .card {
-  background: var(--bg-dark);
+  background: transparent;
+}
+
+.glowCard {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  gap: 0;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .media {
   aspect-ratio: 1 / 1;
   overflow: hidden;
   background: var(--bg-surface);
+  border-radius: 22px 22px 0 0;
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: opacity 300ms var(--ease-precision);
+  transition:
+    opacity 300ms var(--ease-precision),
+    transform 700ms var(--ease-precision);
 }
 
 .card:hover .image {
   opacity: 0.82;
+  transform: scale(1.04);
 }
 
 .body {
   display: grid;
   gap: 0.9rem;
-  padding: 16px 0 0;
+  padding: 18px 18px 20px;
 }
 
 .title {
