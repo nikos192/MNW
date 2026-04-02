@@ -4,25 +4,24 @@
 
 .hero {
   position: relative;
-  padding: 1.5rem clamp(1.25rem, 3vw, 2.5rem) clamp(3.5rem, 8vw, 6rem);
+  padding: 1.2rem clamp(1.25rem, 3vw, 2.5rem) 3rem;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 82% 18%, rgba(173, 139, 89, 0.14), transparent 22%),
-    linear-gradient(180deg, #090b0f 0%, #10141a 100%);
 }
 
 .texture {
   position: absolute;
   inset: 0;
   background:
+    radial-gradient(circle at 84% 14%, rgba(217, 185, 129, 0.12), transparent 20%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 26%),
     repeating-linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.012) 0,
-      rgba(255, 255, 255, 0.012) 1px,
+      rgba(255, 255, 255, 0.014) 0,
+      rgba(255, 255, 255, 0.014) 1px,
       transparent 1px,
       transparent 8px
     );
-  opacity: 0.28;
+  opacity: 0.8;
   pointer-events: none;
 }
 
@@ -30,49 +29,51 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(20rem, 0.9fr);
-  gap: 2rem;
+  grid-template-columns: minmax(0, 1.15fr) minmax(19rem, 0.85fr);
+  gap: 1.5rem;
   align-items: end;
-  padding-top: clamp(3rem, 8vw, 6rem);
+  padding-top: clamp(3rem, 7vw, 5rem);
 }
 
 .copy h1,
 .sectionHead h2,
 .bridgePanel h2 {
-  color: #f8f5ef;
-  font-size: clamp(3rem, 7vw, 6rem);
-  line-height: 0.94;
-  letter-spacing: -0.04em;
+  color: var(--text);
+  font-size: clamp(3.4rem, 7vw, 6.6rem);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
 }
 
 .copy p,
 .sectionHead p,
 .bridgePanel p,
 .sideMetric span {
-  color: rgba(231, 226, 218, 0.72);
-  line-height: 1.75;
+  color: var(--text-soft);
+  line-height: 1.8;
   font-size: 0.98rem;
 }
 
 .copy p {
-  max-width: 36rem;
+  max-width: 38rem;
   margin-top: 1.25rem;
 }
 
 .kicker {
   display: inline-flex;
-  margin-bottom: 1rem;
-  color: rgba(216, 200, 173, 0.84);
-  font-size: 0.75rem;
-  letter-spacing: 0.24em;
+  width: fit-content;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--line-strong);
+  color: var(--accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
 }
 
 .sidePanel,
 .bridgePanel {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.012));
+  box-shadow: var(--shadow);
 }
 
 .sidePanel {
@@ -83,9 +84,9 @@
 
 .sideMetric {
   display: grid;
-  gap: 0.4rem;
+  gap: 0.45rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--line);
 }
 
 .sideMetric:first-child {
@@ -94,24 +95,26 @@
 }
 
 .sideMetric strong {
-  color: #f7f4ec;
-  font-size: 0.8rem;
-  letter-spacing: 0.18em;
+  color: var(--text);
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
 }
 
 .gridSection,
 .bridge {
-  padding: clamp(3.5rem, 8vw, 7rem) clamp(1.25rem, 3vw, 2.5rem);
+  padding: clamp(4rem, 8vw, 7.5rem) clamp(1.25rem, 3vw, 2.5rem);
 }
 
 .gridSection {
-  background: #0d1014;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(217, 185, 129, 0.08), transparent 18%),
+    var(--surface);
 }
 
 .sectionHead {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(20rem, 0.9fr);
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.9fr);
   gap: 2rem;
   align-items: end;
   margin-bottom: 2rem;
@@ -124,7 +127,7 @@
 
 .sectionHead h2,
 .bridgePanel h2 {
-  font-size: clamp(2.4rem, 5vw, 4.8rem);
+  font-size: clamp(3rem, 5vw, 5.4rem);
 }
 
 .grid {
@@ -134,8 +137,8 @@
 }
 
 .bridge {
-  background: #101318;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 28%), var(--bg);
+  border-top: 1px solid var(--line);
 }
 
 .bridgePanel {
@@ -143,13 +146,13 @@
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 2rem;
   align-items: end;
-  padding: clamp(1.5rem, 4vw, 2.25rem);
+  padding: clamp(1.8rem, 4vw, 2.5rem);
 }
 
 .bridgeActions {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.95rem;
   align-items: center;
 }
 
@@ -158,11 +161,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 3.25rem;
+  min-height: 3.2rem;
   padding: 0 1.35rem;
   border-radius: 999px;
-  font-size: 0.76rem;
-  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   transition:
     transform 180ms ease,
@@ -172,23 +175,22 @@
 }
 
 .primaryCta {
-  background: #f4efe5;
-  color: #0d1014;
+  background: linear-gradient(180deg, var(--warm), #d4b47f);
+  color: #101216;
 }
 
 .primaryCta:hover {
   transform: translateY(-1px);
-  background: #ffffff;
 }
 
 .secondaryCta {
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  color: #ebe5da;
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .secondaryCta:hover {
-  color: #f7f4ec;
+  border-color: var(--line-strong);
 }
 
 @media (max-width: 1100px) {

@@ -45,6 +45,20 @@ export default function BuildPage() {
               Each set is machined around the approved fitment and finish. The
               brief keeps the first conversation focused and useful.
             </p>
+            <div className={styles.noteList}>
+              <div className={styles.noteItem}>
+                <span>01</span>
+                <p>Design language gets agreed before the set goes any further.</p>
+              </div>
+              <div className={styles.noteItem}>
+                <span>02</span>
+                <p>Brake clearance, widths, and offsets are resolved around the exact chassis.</p>
+              </div>
+              <div className={styles.noteItem}>
+                <span>03</span>
+                <p>Finish, hardware, and final proportion are approved before production starts.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

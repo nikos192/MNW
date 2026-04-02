@@ -16,32 +16,48 @@ export function DesignBaseCard({
   ctaLabel = "Start from this base",
 }: DesignBaseCardProps) {
   return (
-    <article className={styles.card}>
+    <article className={styles.card} data-tone={tone}>
       <div className={styles.visual} data-tone={tone}>
-        <div className={styles.wheel} />
+        <div className={styles.visualHead}>
+          <span className={styles.serial}>Design Base</span>
+          <span className={styles.profileTag}>{item.profile}</span>
+        </div>
+        <div className={styles.wheelField}>
+          <div className={styles.wheel} />
+        </div>
+        <div className={styles.visualFoot}>
+          <span>Fitment-led machining</span>
+          <span>Finish tailored on approval</span>
+        </div>
       </div>
       <div className={styles.body}>
-        <span className={styles.eyebrow}>{item.profile}</span>
-        <h3 className={styles.title}>{item.name}</h3>
-        {item.price ? <div className={styles.price}>From {item.price} / set</div> : null}
+        <div className={styles.heading}>
+          <div>
+            <span className={styles.eyebrow}>MNW atelier spec</span>
+            <h3 className={styles.title}>{item.name}</h3>
+          </div>
+          {item.price ? <div className={styles.price}>From {item.price} / set</div> : null}
+        </div>
         <p className={styles.copy}>{item.description}</p>
         <div className={styles.metaList}>
           <div className={styles.metaItem}>
             <strong>Use case</strong>
-            <span>{item.note}</span>
+            <p>{item.note}</p>
           </div>
           <div className={styles.metaItem}>
             <strong>Fitment focus</strong>
-            <span>{item.fitmentFocus}</span>
+            <p>{item.fitmentFocus}</p>
           </div>
           <div className={styles.metaItem}>
             <strong>Finish direction</strong>
-            <span>{item.finishDirection}</span>
+            <p>{item.finishDirection}</p>
           </div>
         </div>
-        <Link className={styles.cta} href={ctaHref}>
-          {ctaLabel}
-        </Link>
+        <div className={styles.footer}>
+          <Link className={styles.cta} href={ctaHref}>
+            {ctaLabel}
+          </Link>
+        </div>
       </div>
     </article>
   );

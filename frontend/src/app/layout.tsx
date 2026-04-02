@@ -1,22 +1,23 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, IBM_Plex_Sans } from "next/font/google";
+import { Cormorant_Garamond, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const headingFont = Space_Grotesk({
+const headingFont = Cormorant_Garamond({
   variable: "--font-heading",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
-const bodyFont = IBM_Plex_Sans({
+const bodyFont = Space_Grotesk({
   variable: "--font-body",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "MNW | Custom Wheel Program",
+  title: "MNW | Custom Forged Wheels",
   description:
-    "A headless concept for MNW: custom wheels, exact fitment, and a frontend built around design bases and delivered sets.",
+    "Custom forged wheels built around the exact chassis, fitment, and finish direction of your car.",
 };
 
 export default function RootLayout({

@@ -1,66 +1,82 @@
 .header {
-  position: relative;
-  z-index: 3;
-  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
   gap: 1.5rem;
+  padding: 1rem 0;
 }
 
 .wordmark {
-  font-size: 0.8rem;
-  letter-spacing: 0.42em;
+  font-size: 1rem;
+  letter-spacing: 0.55em;
   text-transform: uppercase;
-  color: #f4f1ea;
+  color: var(--text);
 }
 
 .nav {
+  justify-self: center;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  color: rgba(234, 231, 225, 0.68);
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  gap: 1.2rem;
+  padding: 0.45rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(10, 12, 15, 0.72);
+  backdrop-filter: blur(16px);
 }
 
-.nav a,
-.cta {
-  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease,
+.nav a {
+  padding: 0.7rem 1rem;
+  color: var(--text-muted);
+  font-size: 0.73rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
     transform 180ms ease;
 }
 
-.nav a:hover,
-.cta:hover {
-  color: #f7f4ec;
+.nav a:hover {
+  color: var(--text);
+  transform: translateY(-1px);
 }
 
 .cta {
   display: inline-flex;
   align-items: center;
-  min-height: 2.75rem;
-  padding: 0 1.15rem;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  min-height: 3rem;
+  padding: 0 1.25rem;
+  border: 1px solid var(--line-strong);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  color: #f7f4ec;
-  font-size: 0.75rem;
-  letter-spacing: 0.16em;
+  background: linear-gradient(180deg, rgba(217, 185, 129, 0.2), rgba(217, 185, 129, 0.08));
+  color: var(--warm);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
 }
 
 .cta:hover {
   transform: translateY(-1px);
+  border-color: rgba(223, 189, 135, 0.4);
 }
 
-@media (max-width: 760px) {
+@media (max-width: 920px) {
   .header {
-    flex-wrap: wrap;
+    grid-template-columns: 1fr;
+    justify-items: start;
   }
 
   .nav {
-    order: 3;
-    width: 100%;
-    justify-content: space-between;
+    justify-self: start;
+    overflow-x: auto;
+    max-width: 100%;
   }
 }

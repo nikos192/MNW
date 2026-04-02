@@ -1,33 +1,44 @@
 .footer {
-  padding: 1.5rem clamp(1.25rem, 3vw, 2.5rem) 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  background: #090b0e;
+  padding: 2rem clamp(1.25rem, 3vw, 2.5rem) 2.5rem;
+  border-top: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0)),
+    var(--bg-deep);
 }
 
 .inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   gap: 1rem;
+  align-items: center;
 }
 
 .brand {
-  font-size: 0.75rem;
-  letter-spacing: 0.32em;
+  font-size: 0.92rem;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: #f7f4ec;
+  color: var(--text);
+}
+
+.rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
 }
 
 .meta {
-  color: rgba(230, 225, 218, 0.62);
+  color: var(--text-muted);
   font-size: 0.76rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
+  text-align: right;
 }
 
 @media (max-width: 760px) {
   .inner {
-    flex-direction: column;
-    align-items: flex-start;
+    grid-template-columns: 1fr;
+  }
+
+  .meta {
+    text-align: left;
   }
 }

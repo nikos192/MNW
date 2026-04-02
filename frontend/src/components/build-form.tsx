@@ -8,14 +8,14 @@ type BuildFormProps = {
 };
 
 const fields = [
-  { id: "make", label: "Vehicle make", type: "text" },
-  { id: "model", label: "Vehicle model", type: "text" },
-  { id: "year", label: "Vehicle year", type: "text" },
-  { id: "brakes", label: "Brake package", type: "text" },
-  { id: "suspension", label: "Suspension / ride height", type: "text" },
-  { id: "diameter", label: "Preferred diameter", type: "text" },
-  { id: "finish", label: "Finish direction", type: "text" },
-  { id: "references", label: "Reference links", type: "text" },
+  { id: "make", label: "Vehicle make", type: "text", placeholder: "BMW" },
+  { id: "model", label: "Vehicle model", type: "text", placeholder: "G80 M3" },
+  { id: "year", label: "Vehicle year", type: "text", placeholder: "2024" },
+  { id: "brakes", label: "Brake package", type: "text", placeholder: "Carbon ceramics / factory steel / big brake kit" },
+  { id: "suspension", label: "Suspension / ride height", type: "text", placeholder: "Factory, lowered, or coilovers" },
+  { id: "diameter", label: "Preferred diameter", type: "text", placeholder: "19 / 20 / open to guidance" },
+  { id: "finish", label: "Finish direction", type: "text", placeholder: "Brushed clear / satin graphite / bronze" },
+  { id: "references", label: "Reference links", type: "text", placeholder: "Instagram, Pinterest, or car photos" },
 ] as const;
 
 export function BuildForm({ email }: BuildFormProps) {
@@ -42,7 +42,7 @@ export function BuildForm({ email }: BuildFormProps) {
         {fields.map((field) => (
           <label key={field.id} className={styles.field}>
             <span>{field.label}</span>
-            <input name={field.id} type={field.type} />
+            <input name={field.id} type={field.type} placeholder={field.placeholder} />
           </label>
         ))}
         <label className={styles.fieldWide}>
