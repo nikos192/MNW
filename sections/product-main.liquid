@@ -175,6 +175,45 @@
 
       <hr class="rule product-page__rule">
 
+      <div class="product-page__quality-proof">
+        <p class="label product-page__quality-label">Quality Proof</p>
+        <p class="product-page__quality-lead">
+          Documented test data and certified material reports that support the wheel beyond the brochure copy.
+        </p>
+
+        <div class="product-page__quality-grid">
+          <article class="product-page__quality-card">
+            <p class="product-page__quality-stat">PASS</p>
+            <p class="product-page__quality-title">JWL inspection report</p>
+            <p class="product-page__quality-copy">
+              Cornering fatigue, radial fatigue, and 13 degree impact testing all passed on the supplier inspection report.
+            </p>
+          </article>
+
+          <article class="product-page__quality-card">
+            <p class="product-page__quality-stat">+50% / +60%</p>
+            <p class="product-page__quality-title">Higher internal fatigue targets</p>
+            <p class="product-page__quality-copy">
+              RAVIZE targets 150,000 cornering cycles and 800,000 radial cycles, plus a 10 percent higher 13 degree impact drop and added 30 / 90 degree impact tests.
+            </p>
+          </article>
+
+          <article class="product-page__quality-card">
+            <p class="product-page__quality-stat">6061-T6</p>
+            <p class="product-page__quality-title">Certified alloy foundation</p>
+            <p class="product-page__quality-copy">
+              Mechanical and chemical reports verify the 6061 alloy used in production, including composition and hardness data.
+            </p>
+          </article>
+        </div>
+
+        <p class="product-page__quality-note caption">
+          Source pack includes inspection report CWIC2020-12-32 and material reports 2015-L-3670 / 2015-H-0409.
+        </p>
+      </div>
+
+      <hr class="rule product-page__rule">
+
       <!-- Fitment checker -->
       <div class="product-page__fitment-checker">
         <p class="label product-page__fitment-label">Fitment Check</p>
@@ -262,7 +301,7 @@
   <div class="container">
     <hr class="rule">
     <p class="product-story__quality-line caption">
-      Every MNW wheel is inspected before shipping. If it doesn't pass, it doesn't leave.
+      Backed by passed JWL fatigue and impact testing, certified 6061-T6 material data, and stricter in-house RAVIZE validation.
     </p>
   </div>
 </div>
@@ -477,6 +516,66 @@
   font-size: 13px;
   letter-spacing: 0.03em;
   color: var(--text-primary);
+}
+
+/* Quality proof */
+.product-page__quality-label {
+  margin-bottom: 14px;
+}
+
+.product-page__quality-lead {
+  margin-bottom: 18px;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.product-page__quality-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.product-page__quality-card {
+  padding: 16px;
+  border: 1px solid var(--rule);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.005) 100%);
+}
+
+.product-page__quality-stat {
+  margin-bottom: 10px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+}
+
+.product-page__quality-title {
+  margin-bottom: 8px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.product-page__quality-copy {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.product-page__quality-note {
+  margin-top: 14px;
+  line-height: 1.7;
 }
 
 /* Fitment checker */
