@@ -133,21 +133,6 @@
   gap: 1rem;
 }
 
-.dataStatus {
-  display: inline-flex;
-  align-items: center;
-  width: fit-content;
-  min-height: 2.25rem;
-  padding: 0 0.85rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-  color: rgba(216, 200, 173, 0.84);
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.03);
-}
-
 .bridge {
   background: #101318;
   border-top: 1px solid rgba(255, 255, 255, 0.06);

@@ -8,7 +8,7 @@ import { processSteps } from "@/lib/mnw-data";
 import styles from "./page.module.css";
 
 export default async function Home() {
-  const { designBases, deliveredSets, source } = await getDesignLibraryData();
+  const { designBases, deliveredSets } = await getDesignLibraryData();
 
   return (
     <main className={styles.page}>
@@ -18,10 +18,8 @@ export default async function Home() {
 
         <div className={styles.heroGrid}>
           <div className={styles.heroMeta}>
-            <span className={styles.kicker}>Custom Wheel Program</span>
-            <p className={styles.metaCopy}>
-              Built for chassis-specific fitment, not generic inventory.
-            </p>
+            <span className={styles.kicker}>Custom Forged Wheels</span>
+            <p className={styles.metaCopy}>Built to the car, not picked from a shelf.</p>
           </div>
 
           <div className={styles.heroStage} aria-hidden="true">
@@ -37,9 +35,9 @@ export default async function Home() {
               <span>By chassis.</span>
             </h1>
             <p className={styles.heroDescription}>
-              MNW is not a shelf-first wheel store. It is a custom build
-              studio where the face, fitment, finish, and hardware are
-              resolved as one object around the car.
+              Every MNW set starts with the right wheel face, then gets machined
+              around your exact fitment, brake package, finish direction, and
+              intended use.
             </p>
             <div className={styles.heroActions}>
               <Link className={styles.primaryCta} href="/build">
@@ -70,30 +68,30 @@ export default async function Home() {
 
       <section className={styles.metrics}>
         <div className={styles.metricCard}>
-          <span>Build model</span>
-          <strong>Quote first</strong>
-          <p>Design library plus custom-spec workflow.</p>
+          <span>Made to order</span>
+          <strong>Exact fitment</strong>
+          <p>Widths, offsets, bores, and brake clearance resolved around the chassis.</p>
         </div>
         <div className={styles.metricCard}>
-          <span>Media strategy</span>
-          <strong>Real installs</strong>
-          <p>Delivered cars gradually replace placeholders and renders.</p>
+          <span>Cold forged</span>
+          <strong>6061-T6 aluminium</strong>
+          <p>Strength, finish quality, and clean spoke geometry without cast compromise.</p>
         </div>
         <div className={styles.metricCard}>
-          <span>Commerce path</span>
-          <strong>Shopify + Stripe</strong>
-          <p>Headless frontend with flexible payment collection after approval.</p>
+          <span>Built with intent</span>
+          <strong>Finish led</strong>
+          <p>Brushed, machined, painted, or custom finishes tailored to the overall build.</p>
         </div>
       </section>
 
       <section className={styles.section} id="process">
         <div className={styles.sectionIntro}>
-          <span className={styles.kicker}>Commission Flow</span>
+          <span className={styles.kicker}>How It Works</span>
           <h2>Start from the car, not the shelf.</h2>
           <p>
-            The frontend should behave like a studio intake and portfolio,
-            not a generic catalog. That means fewer fake choices and a much
-            clearer path from idea to approved build.
+            Choose a face, tell us about the car, and we will shape the final
+            fitment and finish around the build. The goal is a wheel that feels
+            native to the chassis rather than adapted after the fact.
           </p>
         </div>
         <div className={styles.processGrid}>
@@ -110,17 +108,12 @@ export default async function Home() {
       <section className={styles.library} id="design-library">
         <div className={styles.sectionIntro}>
           <span className={styles.kicker}>Design Library</span>
-          <h2>Products become starting points.</h2>
+          <h2>Choose the right face, then tailor the set.</h2>
           <p>
-            Each product page becomes a face reference with quality proof,
-            completed-fitment examples, and a build CTA. Final dimensions stay
-            fluid until the chassis is confirmed.
+            Use the range as a guide to design language, spoke architecture,
+            and finish direction. Final diameter, width, offset, and hardware
+            are confirmed once the car is known.
           </p>
-          <div className={styles.dataStatus}>
-            {source === "shopify"
-              ? "Live Shopify product data"
-              : "Fallback MNW concept data until Shopify credentials are connected"}
-          </div>
         </div>
         <div className={styles.libraryGrid}>
           {designBases.slice(0, 3).map((item, index) => (
@@ -136,11 +129,11 @@ export default async function Home() {
       <section className={styles.delivered} id="delivered">
         <div className={styles.sectionIntro}>
           <span className={styles.kicker}>Delivered Sets</span>
-          <h2>Real cars should become the strongest media.</h2>
+          <h2>Completed builds tell the story best.</h2>
           <p>
-            Instead of waiting for a supplier catalog that does not exist, the
-            site should grow around completed builds. That makes the gallery
-            more credible and the product pages more specific over time.
+            The gallery grows with real customer cars, real fitments, and real
+            finish combinations. That makes every new set both proof and
+            inspiration for the next build.
           </p>
         </div>
         <div className={styles.deliveredGrid}>
@@ -153,12 +146,12 @@ export default async function Home() {
       <section className={styles.briefSection} id="brief">
         <div className={styles.briefPanel}>
           <div className={styles.sectionIntro}>
-            <span className={styles.kicker}>Build Brief</span>
-            <h2>The frontend should qualify, not overwhelm.</h2>
+            <span className={styles.kicker}>Start Your Build</span>
+            <h2>Ready to spec a set around your car?</h2>
             <p>
-              The next step is a serious intake flow: vehicle, brake package,
-              ride height, target diameter, finish direction, and reference
-              images. That gives you much better leads than a default cart.
+              Send through the basics of the car, the look you want, and any
+              reference images. We will come back with the right direction,
+              fitment, and finish options.
             </p>
           </div>
 
@@ -173,12 +166,9 @@ export default async function Home() {
 
           <div className={styles.briefActions}>
             <Link className={styles.primaryCta} href="/build">
-              Open Project Intake
+              Open Build Brief
             </Link>
-            <p>
-              Recommended flow: spec approval first, deposit second, production
-              after sign-off.
-            </p>
+            <p>Vehicle details, finish direction, and reference images all help.</p>
           </div>
         </div>
       </section>

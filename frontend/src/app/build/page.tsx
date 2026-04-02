@@ -1,36 +1,27 @@
 import Link from "next/link";
+import { BuildForm } from "@/components/build-form";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import styles from "./page.module.css";
 
-const intakeFields = [
-  "Vehicle make",
-  "Vehicle model",
-  "Vehicle year",
-  "Brake package",
-  "Suspension / ride height",
-  "Target diameter",
-  "Target width direction",
-  "Finish direction",
-  "Reference images",
-];
-
 const checkpoints = [
   {
     title: "Design direction",
-    copy: "Choose a face from the design library or bring your own visual references.",
+    copy: "Choose a wheel design from the range or send through reference images that match the look you want.",
   },
   {
-    title: "Engineering detail",
-    copy: "We verify fitment, brake clearance, offsets, widths, centre bore, and any constraints around the chassis.",
+    title: "Fitment detail",
+    copy: "We verify brake clearance, offsets, widths, centre bore, and any other constraints around the chassis.",
   },
   {
-    title: "Approval and payment",
-    copy: "After the build is quoted and approved, payment can happen through Stripe without forcing a normal retail cart.",
+    title: "Quote and approval",
+    copy: "Once the direction is right, we confirm the build, final finish, and move the set into production.",
   },
 ];
 
 export default function BuildPage() {
+  const email = process.env.BUILD_INTAKE_EMAIL ?? "hello@mnw.au";
+
   return (
     <main className={styles.page}>
       <section className={styles.hero}>
@@ -40,20 +31,19 @@ export default function BuildPage() {
         <div className={styles.heroContent}>
           <div className={styles.copy}>
             <span className={styles.kicker}>Build Brief</span>
-            <h1>Tell the site enough to make the next conversation useful.</h1>
+            <h1>Start with the car and the look you want.</h1>
             <p>
-              The best version of MNW does not ask people to guess a size and
-              throw it in a cart. It asks for the car, the constraints, the
-              finish direction, and the visual goal, then turns that into a
-              serious quote.
+              Send through the essentials of the car, the finish direction, and
+              any references you like. We will take that and shape the right
+              wheel spec around the build.
             </p>
           </div>
 
           <div className={styles.quoteNote}>
-            <strong>Ideal payment flow</strong>
+            <strong>Made to order</strong>
             <p>
-              Spec first. Quote second. Deposit through Stripe after approval.
-              Final balance later in the process.
+              Each set is machined around the approved fitment and finish. The
+              brief keeps the first conversation focused and useful.
             </p>
           </div>
         </div>
@@ -63,30 +53,15 @@ export default function BuildPage() {
         <div className={styles.intakeGrid}>
           <div className={styles.formPanel}>
             <div className={styles.panelHead}>
-              <span className={styles.kicker}>Intake Structure</span>
-              <h2>This is the route we should turn into a real form next.</h2>
+              <span className={styles.kicker}>Build Brief</span>
+              <h2>Send the details and we will spec the set from there.</h2>
             </div>
 
-            <div className={styles.fields} aria-hidden="true">
-              {intakeFields.map((field) => (
-                <div key={field} className={styles.field}>
-                  {field}
-                </div>
-              ))}
-            </div>
-
-            <div className={styles.actions}>
-              <a className={styles.primaryCta} href="mailto:hello@mnw.au">
-                Send Build Brief
-              </a>
-              <Link className={styles.secondaryCta} href="/design-library">
-                Need a design first?
-              </Link>
-            </div>
+            <BuildForm email={email} />
           </div>
 
           <aside className={styles.sidePanel}>
-            <span className={styles.kicker}>Why this matters</span>
+            <span className={styles.kicker}>What to include</span>
             <div className={styles.sideList}>
               {checkpoints.map((item) => (
                 <article key={item.title} className={styles.sideItem}>
@@ -102,17 +77,17 @@ export default function BuildPage() {
       <section className={styles.bridge}>
         <div className={styles.bridgePanel}>
           <div>
-            <span className={styles.kicker}>Architecture fit</span>
-            <h2>This is where a headless stack starts to make sense.</h2>
+            <span className={styles.kicker}>Need inspiration first?</span>
+            <h2>Browse the wheel range and come back with a clear direction.</h2>
             <p>
-              Shopify can still own the design library, content, and media. The
-              frontend owns the intake and storytelling. Stripe comes in when a
-              real build is approved, not as the first interaction.
+              If you are still deciding on spoke style or finish direction, the
+              design library is the quickest way to narrow in on the right face
+              before sending the brief.
             </p>
           </div>
           <div className={styles.bridgeActions}>
             <Link className={styles.primaryCta} href="/design-library">
-              Back to library
+              View Wheel Range
             </Link>
             <Link className={styles.secondaryCta} href="/">
               Return home

@@ -103,12 +103,6 @@
   background: #0d1014;
 }
 
-.intakeGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
-  gap: 1rem;
-}
-
 .formPanel,
 .sidePanel,
 .bridgePanel {
@@ -126,31 +120,16 @@
   font-size: clamp(2.4rem, 5vw, 4.8rem);
 }
 
-.fields {
+.intakeGrid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
   gap: 1rem;
 }
 
-.field {
-  min-height: 4.5rem;
-  display: flex;
-  align-items: center;
-  padding: 0 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.02);
-  color: rgba(235, 228, 218, 0.74);
-  font-size: 0.78rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.actions,
 .bridgeActions {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-top: 1.5rem;
   align-items: center;
 }
 

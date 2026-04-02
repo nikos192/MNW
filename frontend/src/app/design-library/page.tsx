@@ -6,7 +6,7 @@ import { getDesignLibraryData } from "@/lib/design-library";
 import styles from "./page.module.css";
 
 export default async function DesignLibraryPage() {
-  const { designBases, source } = await getDesignLibraryData();
+  const { designBases } = await getDesignLibraryData();
 
   return (
     <main className={styles.page}>
@@ -16,27 +16,26 @@ export default async function DesignLibraryPage() {
 
         <div className={styles.heroContent}>
           <div className={styles.copy}>
-            <span className={styles.kicker}>Design Library</span>
-            <h1>Design bases, not pretend inventory.</h1>
+            <span className={styles.kicker}>Wheel Range</span>
+            <h1>Choose the design that suits the car.</h1>
             <p>
-              Each wheel here is a design reference that can be tailored into a
-              specific build. The right way to read the library is: face first,
-              then fitment, finish, hardware, and final stance around the car.
+              Start with the wheel face that feels right, then tailor the final
+              fitment, brake clearance, finish, and hardware around the build.
             </p>
           </div>
 
           <div className={styles.sidePanel}>
             <div className={styles.sideMetric}>
-              <strong>Use cases</strong>
-              <span>Luxury street, track, staggered, show build</span>
+              <strong>Built to order</strong>
+              <span>Designed around the chassis, not pulled from fixed inventory.</span>
             </div>
             <div className={styles.sideMetric}>
-              <strong>Variables</strong>
-              <span>Diameter, width, offset, bore, finish, hardware</span>
+              <strong>Fitment led</strong>
+              <span>Diameter, width, offset, and centre bore resolved per vehicle.</span>
             </div>
             <div className={styles.sideMetric}>
-              <strong>Next action</strong>
-              <span>Choose a design direction, then open a build brief</span>
+              <strong>Finish focused</strong>
+              <span>Brushed, machined, painted, or custom finishes to suit the brief.</span>
             </div>
           </div>
         </div>
@@ -46,19 +45,14 @@ export default async function DesignLibraryPage() {
         <div className={styles.sectionHead}>
           <div>
             <span className={styles.kicker}>Current Range</span>
-            <h2>Choose the face that feels closest.</h2>
+            <h2>Pick the direction, then we refine the details.</h2>
           </div>
           <div className={styles.sectionMeta}>
             <p>
-              You do not need to find a perfect stock match. The point is to
-              pick the right design language, then lock the engineering around
-              the vehicle.
+              You do not need a perfect off-the-shelf match. The goal is to
+              choose the right design language first, then finalise the
+              engineering around the car.
             </p>
-            <div className={styles.dataStatus}>
-              {source === "shopify"
-                ? "Live from Shopify Storefront API"
-                : "Fallback design-library content"}
-            </div>
           </div>
         </div>
 
@@ -69,7 +63,7 @@ export default async function DesignLibraryPage() {
               item={item}
               tone={((index % 3) + 1) as 1 | 2 | 3}
               ctaHref="/build"
-              ctaLabel="Use this as the base"
+              ctaLabel="Build a set from this"
             />
           ))}
         </div>
@@ -78,13 +72,12 @@ export default async function DesignLibraryPage() {
       <section className={styles.bridge}>
         <div className={styles.bridgePanel}>
           <div>
-            <span className={styles.kicker}>What happens next</span>
-            <h2>Once you have the right face, the project gets specific.</h2>
+            <span className={styles.kicker}>Next Step</span>
+            <h2>Once the face is right, the rest gets specific.</h2>
             <p>
-              The build brief should narrow in on the exact car, braking
-              package, ride height, intended finish, and any reference images
-              or stance direction. That is where the wheel stops being a design
-              reference and becomes a real set.
+              Share the exact car, braking package, ride height, finish
+              direction, and any reference imagery so the set is built with the
+              right proportions from the beginning.
             </p>
           </div>
           <div className={styles.bridgeActions}>
@@ -92,7 +85,7 @@ export default async function DesignLibraryPage() {
               Open Build Brief
             </Link>
             <Link className={styles.secondaryCta} href="/">
-              Back to overview
+              Back to home
             </Link>
           </div>
         </div>

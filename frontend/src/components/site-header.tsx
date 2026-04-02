@@ -16,9 +16,9 @@ export function SiteHeader({
         MNW
       </Link>
       <nav className={styles.nav}>
-        <Link href="/#process">Process</Link>
-        <Link href="/design-library">Design Library</Link>
-        <Link href="/#delivered">Delivered Sets</Link>
+        <Link href="/">Home</Link>
+        <Link href="/design-library">Wheels</Link>
+        <Link href="/#delivered">Gallery</Link>
       </nav>
       <Link className={styles.cta} href={ctaHref}>
         {ctaLabel}

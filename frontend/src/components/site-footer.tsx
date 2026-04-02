@@ -5,10 +5,7 @@ export function SiteFooter() {
     <footer className={styles.footer}>
       <div className={styles.inner}>
         <div className={styles.brand}>MNW</div>
-        <div className={styles.meta}>
-          Headless custom wheel storefront concept · Shopify backend · Stripe
-          payments
-        </div>
+        <div className={styles.meta}>Custom forged wheels · Brisbane, Australia</div>
       </div>
     </footer>
   );
