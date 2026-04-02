@@ -1,0 +1,206 @@
+{% comment %}
+  MNW — Product Introduction Section (Section 2)
+  Two-column 50/50: left full-bleed wheel image, right text block
+  Background: #141414
+{% endcomment %}
+
+<section class="product-intro" aria-labelledby="product-intro-heading">
+  <div class="product-intro__grid">
+
+    <!-- Left: full-bleed image with parallax -->
+    <div class="product-intro__image-col">
+      {% if section.settings.product_image != blank %}
+        {{ section.settings.product_image | image_url: width: 900 | image_tag:
+          loading: 'lazy',
+          class: 'product-intro__img',
+          alt: section.settings.product_image.alt | default: 'MNW forged wheel',
+          data-parallax: 'true'
+        }}
+      {% else %}
+        <div class="product-intro__img-placeholder" aria-hidden="true">
+          <svg viewBox="0 0 600 700" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+            <rect width="600" height="700" fill="#1A1A18"/>
+            <circle cx="300" cy="350" r="220" stroke="#2A2A28" stroke-width="2"/>
+            <circle cx="300" cy="350" r="190" stroke="#3A3A38" stroke-width="18"/>
+            <line x1="300" y1="350" x2="300" y2="140" stroke="#4A4A48" stroke-width="22" stroke-linecap="round"/>
+            <line x1="300" y1="350" x2="481" y2="456" stroke="#4A4A48" stroke-width="22" stroke-linecap="round"/>
+            <line x1="300" y1="350" x2="413" y2="558" stroke="#4A4A48" stroke-width="22" stroke-linecap="round"/>
+            <line x1="300" y1="350" x2="187" y2="558" stroke="#4A4A48" stroke-width="22" stroke-linecap="round"/>
+            <line x1="300" y1="350" x2="119" y2="456" stroke="#4A4A48" stroke-width="22" stroke-linecap="round"/>
+            <circle cx="300" cy="350" r="40" fill="#1E1E1C" stroke="#3A3A38" stroke-width="2"/>
+            <circle cx="300" cy="350" r="16" fill="#2A2A28"/>
+          </svg>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Right: text block -->
+    <div class="product-intro__text-col">
+      <div class="product-intro__text-inner reveal">
+
+        <p class="label product-intro__overline">
+          {{ section.settings.overline | default: 'Series 01 — Forged Monoblock' }}
+        </p>
+
+        <h2 class="heading-lg product-intro__heading" id="product-intro-heading">
+          {{ section.settings.heading | default: 'Precision under pressure.' }}
+        </h2>
+
+        <p class="body-text product-intro__body">
+          {{ section.settings.body | default: "MNW wheels are cold-forged from 6061-T6 aluminium billet. Each set is machined to your vehicle's exact specification — no adapters, no compromise." }}
+        </p>
+
+        {% if section.settings.cta_label != blank and section.settings.cta_url != blank %}
+          <a
+            class="btn-ghost product-intro__cta"
+            href="{{ section.settings.cta_url }}"
+          >
+            {{ section.settings.cta_label | default: 'Configure Your Set →' }}
+          </a>
+        {% else %}
+          <a
+            class="btn-ghost product-intro__cta"
+            href="{{ routes.all_products_collection_url }}"
+          >
+            Configure Your Set &rarr;
+          </a>
+        {% endif %}
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% stylesheet %}
+.product-intro {
+  background: var(--bg-dark);
+  overflow: hidden;
+}
+
+.product-intro__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 80vh;
+}
+
+/* Left image column — no padding, edge-to-edge */
+.product-intro__image-col {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+.product-intro__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: translateY(0);
+  transition: transform 0.1s linear;
+  will-change: transform;
+}
+
+.product-intro__img-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+}
+
+/* Right text column */
+.product-intro__text-col {
+  display: flex;
+  align-items: center;
+  padding: var(--section-pad-v) 80px;
+}
+
+.product-intro__text-inner {
+  max-width: 480px;
+}
+
+.product-intro__overline {
+  margin-bottom: 20px;
+}
+
+.product-intro__heading {
+  margin-bottom: 24px;
+}
+
+.product-intro__body {
+  margin-bottom: 40px;
+  max-width: 400px;
+}
+
+.product-intro__cta {
+  display: inline-block;
+}
+
+/* ── Mobile ── */
+@media (max-width: 900px) {
+  .product-intro__grid {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .product-intro__image-col {
+    min-height: 56vw;
+  }
+
+  .product-intro__text-col {
+    padding: 60px var(--section-pad-h);
+  }
+
+  .product-intro__text-inner {
+    max-width: 100%;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product Introduction",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Wheel image",
+      "info": "Full-bleed left column. Dark background, clinical studio shot."
+    },
+    {
+      "type": "text",
+      "id": "overline",
+      "label": "Overline",
+      "default": "Series 01 — Forged Monoblock"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Precision under pressure."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body copy",
+      "default": "MNW wheels are cold-forged from 6061-T6 aluminium billet. Each set is machined to your vehicle's exact specification — no adapters, no compromise."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Configure Your Set →"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Introduction"
+    }
+  ]
+}
+{% endschema %}

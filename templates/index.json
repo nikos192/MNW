@@ -1,0 +1,52 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "product-intro": {
+      "type": "product-intro",
+      "settings": {
+        "overline": "Series 01 — Forged Monoblock",
+        "heading": "Precision under pressure.",
+        "body": "MNW wheels are cold-forged from 6061-T6 aluminium billet. Each set is machined to your vehicle's exact specification — no adapters, no compromise.",
+        "cta_label": "Configure Your Set →"
+      }
+    },
+    "configurator-cta": {
+      "type": "configurator-cta",
+      "settings": {
+        "heading": "Built for your car.",
+        "subheadline": "Select your vehicle and we'll spec the right fitment, offset, and finish. Every set is made to order."
+      }
+    },
+    "gallery": {
+      "type": "gallery",
+      "block_order": [
+        "gallery-1",
+        "gallery-2",
+        "gallery-3",
+        "gallery-4",
+        "gallery-5",
+        "gallery-6"
+      ],
+      "blocks": {
+        "gallery-1": { "type": "image", "settings": {} },
+        "gallery-2": { "type": "image", "settings": {} },
+        "gallery-3": { "type": "image", "settings": {} },
+        "gallery-4": { "type": "image", "settings": {} },
+        "gallery-5": { "type": "image", "settings": {} },
+        "gallery-6": { "type": "image", "settings": {} }
+      },
+      "settings": {
+        "instagram_handle": "mnwwheels"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "product-intro",
+    "configurator-cta",
+    "gallery"
+  ]
+}

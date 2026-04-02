@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "collection-main",
+      "settings": {
+        "overline": "All Wheels"
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,739 @@
+{% comment %}
+  MNW — Product Detail Page (Section 5)
+  - Full-width hero image / carousel
+  - Finish swatches (from metafields)
+  - Spec table
+  - Fitment checker
+  - "Request a Quote" CTA
+  - Long-form product story below fold
+{% endcomment %}
+
+<div class="product-page">
+
+  <!-- ── Hero: image carousel ── -->
+  <div class="product-page__hero">
+    <div class="product-page__carousel">
+      {% if product.images.size > 0 %}
+        {% for image in product.images %}
+          <div
+            class="product-page__slide{% if forloop.first %} is-active{% endif %}"
+            data-slide="{{ forloop.index0 }}"
+            role="img"
+            aria-label="{{ image.alt | default: product.title }}"
+          >
+            {% if forloop.first %}
+              {{ image | image_url: width: 1400 | image_tag:
+                loading: 'eager',
+                fetchpriority: 'high',
+                class: 'product-page__slide-img',
+                alt: image.alt | default: product.title
+              }}
+            {% else %}
+              {{ image | image_url: width: 1400 | image_tag:
+                loading: 'lazy',
+                fetchpriority: 'auto',
+                class: 'product-page__slide-img',
+                alt: image.alt | default: product.title
+              }}
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="product-page__slide is-active" role="img" aria-label="{{ product.title }}">
+          <div class="product-page__slide-placeholder" aria-hidden="true"></div>
+        </div>
+      {% endif %}
+
+      <!-- Thumbnail nav -->
+      {% if product.images.size > 1 %}
+        <div class="product-page__thumbs" role="tablist" aria-label="Product images">
+          {% for image in product.images %}
+            <button
+              class="product-page__thumb{% if forloop.first %} is-active{% endif %}"
+              role="tab"
+              data-target="{{ forloop.index0 }}"
+              aria-selected="{{ forloop.first }}"
+              aria-label="{{ image.alt | default: 'Image ' | append: forloop.index }}"
+            >
+              {{ image | image_url: width: 120 | image_tag:
+                loading: 'lazy',
+                class: 'product-page__thumb-img',
+                alt: ''
+              }}
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ── Product details panel ── -->
+  <div class="product-page__panel">
+
+    <div class="product-page__panel-inner">
+
+      <!-- Overline -->
+      {% if product.vendor != blank %}
+        <p class="label product-page__vendor">{{ product.vendor }}</p>
+      {% endif %}
+
+      <!-- Title -->
+      <h1 class="product-page__title">{{ product.title }}</h1>
+
+      <!-- Price -->
+      <p class="product-page__price">
+        From <strong>{{ product.price_min | money }}</strong> / set
+      </p>
+
+      <hr class="rule product-page__rule">
+
+      <!-- Finish swatches -->
+      {% assign finish_options = product.metafields.wheel.finish_options.value %}
+      {% if finish_options != blank %}
+        <div class="product-page__finishes">
+          <p class="label product-page__finishes-label">Finish</p>
+          <div class="product-page__swatch-row" role="radiogroup" aria-label="Select finish">
+            {% for finish in finish_options %}
+              <label class="product-page__swatch-wrap">
+                <input
+                  class="visually-hidden"
+                  type="radio"
+                  name="finish"
+                  value="{{ finish.name | handleize }}"
+                  {% if forloop.first %}checked{% endif %}
+                  aria-label="{{ finish.name }}"
+                >
+                <span
+                  class="product-page__swatch{% if forloop.first %} is-selected{% endif %}"
+                  style="{% if finish.color %}background: {{ finish.color }};{% elsif finish.image %}background-image: url('{{ finish.image }}'); background-size: cover;{% else %}background: #3A3A38;{% endif %}"
+                  title="{{ finish.name }}"
+                  data-finish-name="{{ finish.name }}"
+                  data-finish-image="{{ finish.image | default: '' }}"
+                ></span>
+                <span class="product-page__swatch-name caption">{{ finish.name }}</span>
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+        <hr class="rule product-page__rule">
+      {% endif %}
+
+      <!-- Spec table -->
+      <div class="product-page__specs">
+        <p class="label product-page__specs-label">Specifications</p>
+        <table class="product-page__spec-table" aria-label="Wheel specifications">
+          <tbody>
+            <tr>
+              <td class="product-page__spec-key">Construction</td>
+              <td class="product-page__spec-val">{{ product.metafields.wheel.construction | default: 'Forged Monoblock' }}</td>
+            </tr>
+            <tr>
+              <td class="product-page__spec-key">Material</td>
+              <td class="product-page__spec-val">{{ product.metafields.wheel.material | default: '6061-T6 Aluminium' }}</td>
+            </tr>
+            {% if product.metafields.wheel.diameter_options.value %}
+              <tr>
+                <td class="product-page__spec-key">Available Diameters</td>
+                <td class="product-page__spec-val">{{ product.metafields.wheel.diameter_options.value | join: ',  ' }}</td>
+              </tr>
+            {% endif %}
+            {% if product.metafields.wheel.width_options.value %}
+              <tr>
+                <td class="product-page__spec-key">Available Widths</td>
+                <td class="product-page__spec-val">{{ product.metafields.wheel.width_options.value | join: ',  ' }}</td>
+              </tr>
+            {% endif %}
+            {% if product.metafields.wheel.pcd_options.value %}
+              <tr>
+                <td class="product-page__spec-key">PCD Options</td>
+                <td class="product-page__spec-val">{{ product.metafields.wheel.pcd_options.value | join: ',  ' }}</td>
+              </tr>
+            {% endif %}
+            {% if product.metafields.wheel.centre_bore.value %}
+              <tr>
+                <td class="product-page__spec-key">Centre Bore</td>
+                <td class="product-page__spec-val">{{ product.metafields.wheel.centre_bore.value }}</td>
+              </tr>
+            {% endif %}
+            {% if product.metafields.wheel.weight_per_wheel.value %}
+              <tr>
+                <td class="product-page__spec-key">Weight (per wheel)</td>
+                <td class="product-page__spec-val">{{ product.metafields.wheel.weight_per_wheel.value }}</td>
+              </tr>
+            {% endif %}
+            {% if finish_options != blank %}
+              <tr>
+                <td class="product-page__spec-key">Finish Options</td>
+                <td class="product-page__spec-val">
+                  {% for f in finish_options %}{{ f.name }}{% unless forloop.last %},  {% endunless %}{% endfor %}
+                </td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+
+      <hr class="rule product-page__rule">
+
+      <!-- Fitment checker -->
+      <div class="product-page__fitment-checker">
+        <p class="label product-page__fitment-label">Fitment Check</p>
+        <div class="fitment-checker">
+          <div class="fitment-checker__inputs">
+            <select class="fitment-checker__select" id="fitment-make" aria-label="Your car make">
+              <option value="">Make</option>
+              <option value="BMW">BMW</option>
+              <option value="Porsche">Porsche</option>
+              <option value="Audi">Audi</option>
+              <option value="Mercedes">Mercedes</option>
+              <option value="Volkswagen">Volkswagen</option>
+            </select>
+            <input
+              class="fitment-checker__input"
+              type="text"
+              id="fitment-model"
+              placeholder="Model + Year"
+              aria-label="Your car model and year"
+            >
+            <button class="btn-ghost fitment-checker__check" type="button" id="fitment-check-btn">
+              Check
+            </button>
+          </div>
+          <div class="fitment-checker__result" id="fitment-result" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <hr class="rule product-page__rule">
+
+      <!-- CTA -->
+      <a
+        class="btn-solid product-page__quote-btn"
+        href="{{ routes.root_url }}pages/contact?product={{ product.handle }}&title={{ product.title | url_encode }}"
+      >
+        Request a Quote
+      </a>
+
+      <!-- Lead time note -->
+      <p class="product-page__lead-time caption">
+        Lead time:&nbsp;
+        {{ product.metafields.wheel.lead_time | default: '8–12 weeks' }}
+        &nbsp;&middot;&nbsp;
+        Made to order
+        &nbsp;&middot;&nbsp;
+        No deposit until approval
+      </p>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Long-form product story ── -->
+<div class="product-story">
+  <div class="product-story__grid container">
+
+    <div class="product-story__text reveal">
+      <h2 class="heading-md product-story__heading">The forging process</h2>
+      {% if product.description != blank %}
+        <div class="body-text product-story__body">{{ product.description }}</div>
+      {% else %}
+        <div class="body-text product-story__body">
+          <p>Cold forging subjects a billet of 6061-T6 aluminium to extreme compressive force, aligning the grain structure of the metal to follow the contour of the part. The result is a wheel that is significantly stronger than a cast equivalent at the same weight.</p>
+          <p>Each MNW wheel begins as a precision-cut cylindrical billet. It is pressed into rough form under several thousand tonnes of force, then CNC-machined to final specification. No casting porosity. No weak points. Every gram of material is load-bearing.</p>
+          <p>The spoke geometry, back pad, and hub bore are all machined to your vehicle's exact fitment — not generic dimensions. This eliminates the need for hub-centric rings or spacers, and ensures the wheel sits on the hub exactly as it was engineered to.</p>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="product-story__media reveal">
+      {% if product.images.size > 2 %}
+        {{ product.images[2] | image_url: width: 800 | image_tag:
+          loading: 'lazy',
+          class: 'product-story__img',
+          alt: 'Forging process detail'
+        }}
+      {% else %}
+        <div class="product-story__img-placeholder" aria-hidden="true"></div>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <div class="container">
+    <hr class="rule">
+    <p class="product-story__quality-line caption">
+      Every MNW wheel is inspected before shipping. If it doesn't pass, it doesn't leave.
+    </p>
+  </div>
+</div>
+
+{% stylesheet %}
+/* ── Product page layout ── */
+.product-page {
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  min-height: 100vh;
+  padding-top: 80px; /* nav clearance */
+  background: var(--bg-dark);
+}
+
+/* ── Image carousel ── */
+.product-page__hero {
+  position: sticky;
+  top: 80px;
+  height: calc(100vh - 80px);
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+.product-page__carousel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.product-page__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-precision);
+}
+
+.product-page__slide.is-active {
+  opacity: 1;
+}
+
+.product-page__slide-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 40px;
+  background: var(--bg-surface);
+}
+
+.product-page__slide-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-surface);
+}
+
+/* Thumbnails */
+.product-page__thumbs {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.product-page__thumb {
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  background: var(--bg-dark);
+  border: 1px solid var(--rule);
+  cursor: pointer;
+  transition: border-color var(--duration-hover);
+  padding: 0;
+}
+
+.product-page__thumb.is-active {
+  border-color: var(--text-secondary);
+}
+
+.product-page__thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Panel ── */
+.product-page__panel {
+  overflow-y: auto;
+  padding: 60px 48px 80px;
+  border-left: 1px solid var(--rule);
+  background: var(--bg-dark);
+}
+
+.product-page__panel-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.product-page__vendor {
+  margin-bottom: 12px;
+}
+
+.product-page__title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(24px, 2.5vw, 32px);
+  letter-spacing: 0.03em;
+  color: var(--text-primary);
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+
+.product-page__price {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+.product-page__price strong {
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.product-page__rule {
+  margin: 28px 0;
+}
+
+/* Finish swatches */
+.product-page__finishes-label {
+  margin-bottom: 14px;
+}
+
+.product-page__swatch-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.product-page__swatch-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.product-page__swatch {
+  display: block;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition:
+    border-color var(--duration-hover),
+    transform var(--duration-hover);
+}
+
+.product-page__swatch-wrap input:checked + .product-page__swatch,
+.product-page__swatch.is-selected {
+  border-color: var(--text-primary);
+  outline: 2px solid rgba(245,245,243,0.15);
+  outline-offset: 2px;
+}
+
+.product-page__swatch-wrap:hover .product-page__swatch {
+  transform: scale(1.1);
+}
+
+.product-page__swatch-name {
+  text-align: center;
+  max-width: 64px;
+  line-height: 1.3;
+}
+
+/* Spec table */
+.product-page__specs-label {
+  margin-bottom: 14px;
+}
+
+.product-page__spec-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-page__spec-table tr {
+  border-bottom: 1px solid var(--rule);
+}
+
+.product-page__spec-key,
+.product-page__spec-val {
+  padding: 10px 0;
+  vertical-align: top;
+}
+
+.product-page__spec-key {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  width: 50%;
+  text-transform: uppercase;
+}
+
+.product-page__spec-val {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  color: var(--text-primary);
+}
+
+/* Fitment checker */
+.product-page__fitment-label {
+  margin-bottom: 14px;
+}
+
+.fitment-checker__inputs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fitment-checker__select,
+.fitment-checker__input {
+  flex: 1;
+  min-width: 100px;
+  background: transparent;
+  border: 1px solid var(--rule);
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--text-primary);
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color var(--duration-hover);
+}
+
+.fitment-checker__select:focus,
+.fitment-checker__input:focus {
+  outline: none;
+  border-color: var(--text-secondary);
+}
+
+.fitment-checker__select option {
+  background: var(--bg-dark);
+  color: var(--text-primary);
+}
+
+.fitment-checker__input::placeholder {
+  color: var(--text-muted);
+}
+
+.fitment-checker__check {
+  white-space: nowrap;
+  font-size: 11px;
+  padding: 10px 20px;
+}
+
+.fitment-checker__result {
+  margin-top: 12px;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  min-height: 18px;
+}
+
+.fitment-checker__result--ok {
+  color: #8AB88A; /* Muted green — only subtle colour use */
+}
+
+.fitment-checker__result--warn {
+  color: var(--text-secondary);
+}
+
+/* CTA */
+.product-page__quote-btn {
+  margin-top: 4px;
+}
+
+.product-page__lead-time {
+  text-align: center;
+  margin-top: 16px;
+  opacity: 0.7;
+}
+
+/* ── Product story ── */
+.product-story {
+  background: var(--bg-dark);
+  padding: var(--section-pad-v) 0;
+  border-top: 1px solid var(--rule);
+}
+
+.product-story__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-bottom: 60px;
+  align-items: start;
+}
+
+.product-story__heading {
+  margin-bottom: 24px;
+}
+
+.product-story__body p + p {
+  margin-top: 16px;
+}
+
+.product-story__img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.product-story__img-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: var(--bg-surface);
+}
+
+.product-story__quality-line {
+  text-align: center;
+  margin-top: 32px;
+  font-style: italic;
+  letter-spacing: 0.2em;
+}
+
+/* ── Mobile ── */
+@media (max-width: 1024px) {
+  .product-page {
+    grid-template-columns: 1fr;
+    padding-top: 80px;
+  }
+
+  .product-page__hero {
+    position: relative;
+    top: 0;
+    height: 60vw;
+    min-height: 320px;
+    max-height: 520px;
+  }
+
+  .product-page__panel {
+    padding: 40px var(--section-pad-h) 60px;
+    border-left: none;
+    border-top: 1px solid var(--rule);
+  }
+}
+
+@media (max-width: 768px) {
+  .product-story__grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .product-page__thumbs {
+    display: none; /* Simplify on mobile */
+  }
+}
+{% endstylesheet %}
+
+<script>
+  // ── Carousel ──
+  (function() {
+    const slides = document.querySelectorAll('.product-page__slide');
+    const thumbs = document.querySelectorAll('.product-page__thumb');
+
+    function goTo(index) {
+      slides.forEach(function(s, i) {
+        s.classList.toggle('is-active', i === index);
+      });
+      thumbs.forEach(function(t, i) {
+        t.classList.toggle('is-active', i === index);
+        t.setAttribute('aria-selected', i === index);
+      });
+    }
+
+    thumbs.forEach(function(thumb) {
+      thumb.addEventListener('click', function() {
+        goTo(parseInt(thumb.dataset.target, 10));
+      });
+    });
+  })();
+
+  // ── Finish swatch switching ──
+  (function() {
+    const swatches = document.querySelectorAll('.product-page__swatch-wrap input[type="radio"]');
+    const heroImg = document.querySelector('.product-page__slide.is-active .product-page__slide-img');
+
+    swatches.forEach(function(input) {
+      input.addEventListener('change', function() {
+        document.querySelectorAll('.product-page__swatch').forEach(function(s) {
+          s.classList.remove('is-selected');
+        });
+        input.nextElementSibling.classList.add('is-selected');
+
+        // Update hero image if finish has an associated image
+        const finishImage = input.nextElementSibling.dataset.finishImage;
+        if (finishImage && heroImg) {
+          heroImg.src = finishImage;
+        }
+      });
+    });
+  })();
+
+  // ── Fitment checker ──
+  (function() {
+    const checkBtn = document.getElementById('fitment-check-btn');
+    const makeSelect = document.getElementById('fitment-make');
+    const modelInput = document.getElementById('fitment-model');
+    const resultEl = document.getElementById('fitment-result');
+
+    if (!checkBtn || !resultEl) return;
+
+    checkBtn.addEventListener('click', function() {
+      const make = makeSelect.value;
+      const model = modelInput.value.trim();
+
+      if (!make || !model) {
+        resultEl.textContent = 'Please enter your make and model.';
+        resultEl.className = 'fitment-checker__result';
+        return;
+      }
+
+      // Retrieve fitment data from product metafield (injected below)
+      const fitmentData = window.MNWFitmentData || [];
+      const match = fitmentData.find(function(f) {
+        return f.make && f.make.toLowerCase() === make.toLowerCase() &&
+          model.toLowerCase().includes(f.model ? f.model.toLowerCase() : '');
+      });
+
+      if (match) {
+        if (match.arch_mod) {
+          resultEl.innerHTML = 'This width may require arch modification &mdash; <a href="/pages/contact" style="color:inherit;text-decoration:underline">contact us first</a>.';
+          resultEl.className = 'fitment-checker__result fitment-checker__result--warn';
+        } else {
+          resultEl.textContent = '✓ Compatible — recommended offset: ' + (match.offset || 'ET35');
+          resultEl.className = 'fitment-checker__result fitment-checker__result--ok';
+        }
+      } else {
+        resultEl.innerHTML = 'Fitment data not found for this vehicle. <a href="/pages/contact" style="color:inherit;text-decoration:underline">Contact us</a> for a custom spec.';
+        resultEl.className = 'fitment-checker__result';
+      }
+    });
+  })();
+</script>
+
+<script>
+  // Inject fitment data from metafield
+  window.MNWFitmentData = {{ product.metafields.wheel.fitment_vehicles.value | default: '[]' | json }};
+</script>
+
+{% schema %}
+{
+  "name": "Product Main",
+  "tag": "div",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Product Main"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,340 @@
+{% comment %}
+  MNW — Hero Section
+  Full-screen animated hero. Wheel reveal with CSS animation.
+  Supports video loop or image fallback.
+  prefers-reduced-motion: static only.
+{% endcomment %}
+
+<section class="hero" aria-label="MNW hero">
+
+  <!-- Background texture overlay -->
+  <div class="hero__texture" aria-hidden="true"></div>
+
+  <!-- Wheel visual: video or image -->
+  <div class="hero__wheel-wrap" aria-hidden="true">
+    {% if section.settings.hero_video != blank %}
+      <video
+        class="hero__video"
+        src="{{ section.settings.hero_video }}"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="none"
+        poster="{{ section.settings.hero_image | image_url: width: 1400 }}"
+      ></video>
+    {% elsif section.settings.hero_image != blank %}
+      <div class="hero__wheel hero__wheel--image">
+        {{ section.settings.hero_image | image_url: width: 1400 | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          class: 'hero__img',
+          alt: 'MNW forged wheel'
+        }}
+      </div>
+    {% else %}
+      <!-- Placeholder wheel SVG — replace with product image -->
+      <div class="hero__wheel hero__wheel--placeholder" aria-hidden="true">
+        <svg class="hero__wheel-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Outer rim -->
+          <circle cx="200" cy="200" r="190" stroke="#3A3A38" stroke-width="2"/>
+          <!-- Tyre profile -->
+          <circle cx="200" cy="200" r="175" stroke="#2A2A2A" stroke-width="12" stroke-dasharray="4 4"/>
+          <!-- Wheel face ring -->
+          <circle cx="200" cy="200" r="155" stroke="#4A4A48" stroke-width="1.5"/>
+          <!-- Spokes (5-spoke) -->
+          <line x1="200" y1="200" x2="200" y2="50" stroke="#5A5A58" stroke-width="18" stroke-linecap="round"/>
+          <line x1="200" y1="200" x2="347" y2="147" stroke="#5A5A58" stroke-width="18" stroke-linecap="round"/>
+          <line x1="200" y1="200" x2="291" y2="326" stroke="#5A5A58" stroke-width="18" stroke-linecap="round"/>
+          <line x1="200" y1="200" x2="109" y2="326" stroke="#5A5A58" stroke-width="18" stroke-linecap="round"/>
+          <line x1="200" y1="200" x2="53" y2="147" stroke="#5A5A58" stroke-width="18" stroke-linecap="round"/>
+          <!-- Hub -->
+          <circle cx="200" cy="200" r="32" stroke="#4A4A48" stroke-width="2" fill="#1A1A18"/>
+          <circle cx="200" cy="200" r="14" fill="#2A2A28"/>
+          <!-- Specular highlight -->
+          <ellipse cx="155" cy="130" rx="30" ry="18" fill="white" opacity="0.04" transform="rotate(-30 155 130)"/>
+        </svg>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Typography overlay -->
+  <div class="hero__overlay">
+
+    <!-- Top-left brand mark -->
+    <div class="hero__brand-mark">
+      <span class="hero__wordmark">MNW</span>
+      <span class="hero__submark">Forged Wheels &nbsp;/&nbsp; Australia</span>
+    </div>
+
+    <!-- Centre headline -->
+    <div class="hero__headline-wrap">
+      <p class="hero__headline" aria-label="Forged. Not cast.">
+        <span class="hero__headline-word" data-word="1">Forged.</span>
+        <span class="hero__headline-word" data-word="2">Not cast.</span>
+      </p>
+    </div>
+
+    <!-- Scroll chevron -->
+    <div class="hero__scroll-cue" aria-hidden="true">
+      <svg width="16" height="24" viewBox="0 0 16 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 0v20M1 14l7 7 7-7" stroke="#7A7A78" stroke-width="1" stroke-linecap="square"/>
+      </svg>
+    </div>
+
+  </div>
+
+</section>
+
+{% stylesheet %}
+/* ── Hero ── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  min-height: 600px;
+  background: var(--bg-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Brushed aluminium texture — CSS noise via SVG filter */
+.hero__texture {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  opacity: 0.035;
+}
+
+@media (max-width: 768px) {
+  .hero__texture {
+    display: none; /* Performance on mobile */
+  }
+}
+
+/* ── Wheel container ── */
+.hero__wheel-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* CSS animation: wheel reveal */
+.hero__wheel,
+.hero__wheel-svg,
+.hero__video {
+  animation:
+    wheel-reveal 1.8s var(--ease-precision) forwards,
+    wheel-drift 20s linear 1.8s infinite;
+  transform-origin: center;
+  will-change: transform, opacity, filter;
+}
+
+.hero__wheel--image,
+.hero__wheel--placeholder {
+  width: min(70vw, 560px);
+  aspect-ratio: 1;
+}
+
+.hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hero__wheel-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hero__video {
+  width: min(70vw, 560px);
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+/* Wheel reveal keyframes */
+@keyframes wheel-reveal {
+  0% {
+    transform: scale(1.1) rotate(0deg);
+    filter: saturate(0.1) brightness(0.6);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(0.9) rotate(-2deg);
+    filter: saturate(1) brightness(1);
+    opacity: 1;
+  }
+}
+
+/* Imperceptible drift after settle */
+@keyframes wheel-drift {
+  0%   { transform: scale(0.9) rotate(-2deg); }
+  50%  { transform: scale(0.9) rotate(-2.3deg); }
+  100% { transform: scale(0.9) rotate(-2deg); }
+}
+
+/* Parallax on scroll — driven by JS if needed, or CSS scroll-timeline */
+
+/* ── Overlay typography ── */
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  padding: 120px var(--section-pad-h) 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Brand mark top-left */
+.hero__brand-mark {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  opacity: 0;
+  animation: fade-in-up 500ms var(--ease-precision) 2s forwards;
+}
+
+.hero__wordmark {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.hero__submark {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+/* Centre headline */
+.hero__headline-wrap {
+  position: absolute;
+  bottom: 22%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.hero__headline {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(22px, 2.5vw, 32px);
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  text-transform: none;
+  line-height: 1.2;
+}
+
+.hero__headline-word {
+  display: inline-block;
+  opacity: 0;
+}
+
+.hero__headline-word[data-word="1"] {
+  animation: fade-in-up 500ms var(--ease-precision) 2s forwards;
+}
+
+.hero__headline-word[data-word="2"] {
+  animation: fade-in-up 500ms var(--ease-precision) 2.3s forwards;
+  margin-left: 0.4em;
+}
+
+/* Scroll chevron */
+.hero__scroll-cue {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fade-in-up 500ms var(--ease-precision) 2.5s forwards;
+}
+
+/* Shared entrance keyframe */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .hero__wheel,
+  .hero__wheel-svg,
+  .hero__video,
+  .hero__brand-mark,
+  .hero__headline-word,
+  .hero__scroll-cue {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .hero__wheel--image,
+  .hero__wheel--placeholder,
+  .hero__video {
+    width: min(85vw, 340px);
+  }
+
+  .hero__headline {
+    font-size: clamp(18px, 5vw, 24px);
+  }
+
+  .hero__overlay {
+    padding: 100px 24px 40px;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero wheel image",
+      "info": "Used as fallback if no video. Recommended: 1400×1400px, PNG on transparent or dark background."
+    },
+    {
+      "type": "url",
+      "id": "hero_video",
+      "label": "Hero video URL",
+      "info": "WebM or MP4. 6–8 second loop of wheel slowly rotating on dark surface. Muted, autoplay."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero"
+    }
+  ]
+}
+{% endschema %}

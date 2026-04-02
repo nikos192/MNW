@@ -1,0 +1,269 @@
+{% comment %}
+  MNW — About / Brand Story
+{% endcomment %}
+
+<section class="about-story" aria-labelledby="about-story-heading">
+  <div class="about-story__hero container reveal">
+    <p class="label about-story__label">MNW</p>
+    <h1 class="about-story__title" id="about-story-heading">{{ section.settings.headline }}</h1>
+    <div class="about-story__intro body-text">
+      {{ section.settings.intro }}
+    </div>
+  </div>
+
+  <div class="about-story__process container">
+    <div class="about-story__process-head reveal">
+      <p class="label">The Process</p>
+    </div>
+
+    <div class="about-story__process-grid">
+      {% for block in section.blocks %}
+        <article class="about-story__step reveal" {{ block.shopify_attributes }}>
+          <div class="about-story__step-icon" aria-hidden="true">{{ block.settings.icon }}</div>
+          <p class="about-story__step-number label">{{ block.settings.step_number }}</p>
+          <h2 class="about-story__step-title">{{ block.settings.title }}</h2>
+          <p class="about-story__step-copy body-text">{{ block.settings.copy }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="about-story__founders container">
+    <div class="about-story__portrait reveal">
+      {% if section.settings.founders_image != blank %}
+        {{ section.settings.founders_image | image_url: width: 1200 | image_tag:
+          loading: 'lazy',
+          class: 'about-story__portrait-img',
+          alt: 'MNW founders'
+        }}
+      {% else %}
+        <div class="about-story__portrait-placeholder"></div>
+      {% endif %}
+    </div>
+
+    <div class="about-story__founder-copy reveal">
+      <div class="about-story__founder-block">
+        <p class="label">{{ section.settings.founder_one_name }}</p>
+        <div class="body-text">{{ section.settings.founder_one_copy }}</div>
+      </div>
+
+      <div class="about-story__founder-block">
+        <p class="label">{{ section.settings.founder_two_name }}</p>
+        <div class="body-text">{{ section.settings.founder_two_copy }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-story__quote reveal">
+    <div class="container">
+      <blockquote class="about-story__quote-text">{{ section.settings.quote }}</blockquote>
+      <p class="about-story__quote-source caption">Cold Forged — The MNW Design Philosophy</p>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.about-story {
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  padding-top: 140px;
+}
+
+.about-story__hero {
+  padding-bottom: 72px;
+}
+
+.about-story__label {
+  margin-bottom: 18px;
+}
+
+.about-story__title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(56px, 9vw, 96px);
+  letter-spacing: 0.02em;
+  line-height: 0.96;
+  color: var(--text-primary);
+  margin-bottom: 28px;
+}
+
+.about-story__intro {
+  max-width: 820px;
+}
+
+.about-story__process {
+  padding-bottom: 88px;
+}
+
+.about-story__process-head {
+  margin-bottom: 24px;
+}
+
+.about-story__process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.about-story__step {
+  border-top: 1px solid var(--rule);
+  padding-top: 20px;
+}
+
+.about-story__step-icon {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.about-story__step-number {
+  margin-bottom: 10px;
+}
+
+.about-story__step-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+
+.about-story__founders {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 56px;
+  align-items: start;
+  padding-bottom: 88px;
+}
+
+.about-story__portrait-img,
+.about-story__portrait-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: var(--bg-surface);
+}
+
+.about-story__founder-copy {
+  display: grid;
+  gap: 28px;
+}
+
+.about-story__founder-block {
+  border-top: 1px solid var(--rule);
+  padding-top: 18px;
+}
+
+.about-story__founder-block .label {
+  margin-bottom: 14px;
+}
+
+.about-story__quote {
+  padding: 72px 0 96px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+}
+
+.about-story__quote-text {
+  max-width: 880px;
+  margin: 0 auto 20px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 1024px) {
+  .about-story__process-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-story__founders {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-story {
+    padding-top: 110px;
+  }
+
+  .about-story__process-grid {
+    grid-template-columns: 1fr;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "About Story",
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Cold Forged"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Opening copy",
+      "default": "<p>We got tired of ordering wheels from brands that had never sat behind the wheel of the cars they were building for. MNW exists because fitment, proportion, and material quality should feel deliberate from the first drawing to the final inspection.</p><p>We build forged wheels for people who know the difference between appearance and engineering. The details matter because the car matters.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "founders_image",
+      "label": "Founders image"
+    },
+    {
+      "type": "text",
+      "id": "founder_one_name",
+      "label": "Founder one name",
+      "default": "Nikos"
+    },
+    {
+      "type": "richtext",
+      "id": "founder_one_copy",
+      "label": "Founder one copy",
+      "default": "<p>I wanted wheels that respected the car they were going on. That meant no generic offsets, no inflated claims, and no distractions around the product itself.</p>"
+    },
+    {
+      "type": "text",
+      "id": "founder_two_name",
+      "label": "Founder two name",
+      "default": "Max"
+    },
+    {
+      "type": "richtext",
+      "id": "founder_two_copy",
+      "label": "Founder two copy",
+      "default": "<p>MNW is our attempt to compress the object to what matters: strength, weight, proportion, finish, and fitment. Everything else is removed.</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Philosophy quote",
+      "default": "The finest objects are not decorated. They are compressed into their final form."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "process_step",
+      "name": "Process Step",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon / glyph", "default": "▣" },
+        { "type": "text", "id": "step_number", "label": "Step number", "default": "01" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Billet" },
+        { "type": "textarea", "id": "copy", "label": "Copy", "default": "A solid billet of 6061-T6 aluminium is selected for its integrity before any force is applied." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Story"
+    }
+  ]
+}
+{% endschema %}

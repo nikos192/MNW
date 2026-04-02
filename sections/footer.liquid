@@ -1,0 +1,134 @@
+{% comment %}
+  MNW — Global Footer
+  - Dark background, minimal, centred
+  - N glyph mark, nav links, legal
+{% endcomment %}
+
+<footer class="site-footer" role="contentinfo">
+  <div class="site-footer__inner container">
+
+    <!-- N glyph mark -->
+    <div class="site-footer__mark" aria-hidden="true">
+      <svg class="mnw-glyph" viewBox="0 0 48 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="MNW">
+        <!-- Left vertical bar -->
+        <rect x="0" y="0" width="8" height="64" fill="#F5F5F3"/>
+        <!-- Right vertical bar -->
+        <rect x="40" y="0" width="8" height="64" fill="#F5F5F3"/>
+        <!-- Diagonal stroke -->
+        <polygon points="0,0 8,0 48,64 40,64" fill="#F5F5F3"/>
+        <!-- Precision hairline at vertical midpoint -->
+        <rect x="0" y="31" width="48" height="1" fill="#7A7A78" opacity="0.6"/>
+      </svg>
+    </div>
+
+    <!-- Primary nav -->
+    <nav class="site-footer__nav" aria-label="Footer navigation">
+      <a class="site-footer__nav-link" href="{{ routes.all_products_collection_url }}">Shop</a>
+      <span class="site-footer__sep" aria-hidden="true">&middot;</span>
+      <a class="site-footer__nav-link" href="{{ routes.root_url }}pages/fitment-guide">Fitment Guide</a>
+      <span class="site-footer__sep" aria-hidden="true">&middot;</span>
+      <a class="site-footer__nav-link" href="{{ routes.root_url }}pages/about">About</a>
+      <span class="site-footer__sep" aria-hidden="true">&middot;</span>
+      <a class="site-footer__nav-link" href="{{ routes.root_url }}pages/contact">Contact</a>
+      <span class="site-footer__sep" aria-hidden="true">&middot;</span>
+      <a class="site-footer__nav-link" href="{{ routes.root_url }}pages/faq">FAQ</a>
+    </nav>
+
+    <!-- Secondary nav -->
+    <nav class="site-footer__nav site-footer__nav--secondary" aria-label="Footer secondary navigation">
+      <a class="site-footer__nav-link" href="https://instagram.com/mnwwheels" target="_blank" rel="noopener">Instagram</a>
+      <span class="site-footer__sep" aria-hidden="true">&middot;</span>
+      <a class="site-footer__nav-link" href="{{ routes.root_url }}pages/shipping">Returns Policy</a>
+      <span class="site-footer__sep" aria-hidden="true">&middot;</span>
+      <a class="site-footer__nav-link" href="{{ routes.root_url }}policies/privacy-policy">Privacy Policy</a>
+    </nav>
+
+    <hr class="rule site-footer__rule">
+
+    <!-- Legal -->
+    <p class="site-footer__legal">
+      &copy; {{ 'now' | date: '%Y' }} MNW Pty Ltd &middot; Brisbane, Australia &middot; All rights reserved
+    </p>
+
+  </div>
+</footer>
+
+{% stylesheet %}
+.site-footer {
+  background: var(--bg-deep);
+  padding: 80px 0 48px;
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+/* N glyph */
+.site-footer__mark {
+  margin-bottom: 8px;
+}
+
+.mnw-glyph {
+  width: 48px;
+  height: auto;
+  display: block;
+  opacity: 0.85;
+}
+
+/* Nav rows */
+.site-footer__nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 4px;
+}
+
+.site-footer__nav-link {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color var(--duration-hover) var(--ease-precision);
+}
+
+.site-footer__nav-link:hover {
+  color: var(--text-primary);
+}
+
+.site-footer__sep {
+  font-size: 12px;
+  color: var(--rule);
+  user-select: none;
+}
+
+.site-footer__nav--secondary .site-footer__nav-link {
+  color: var(--text-muted);
+}
+
+.site-footer__rule {
+  margin: 8px 0;
+}
+
+.site-footer__legal {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #5A5A58;
+  text-align: center;
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,257 @@
+{% comment %}
+  MNW — Configurator CTA Section (Section 3)
+  Near-white background — deliberate contrast reversal.
+  Vehicle selector: Make → Model → Year → "See Available Fitments →"
+{% endcomment %}
+
+<section class="configurator-cta" aria-labelledby="configurator-heading">
+  <div class="container">
+
+    <div class="configurator-cta__content reveal">
+
+      <h2 class="configurator-cta__heading" id="configurator-heading">
+        {{ section.settings.heading | default: 'Built for your car.' }}
+      </h2>
+
+      <p class="configurator-cta__sub">
+        {{ section.settings.subheadline | default: "Select your vehicle and we'll spec the right fitment, offset, and finish. Every set is made to order." }}
+      </p>
+
+      <!-- Vehicle selector widget -->
+      <form class="configurator-cta__form" role="search" aria-label="Find fitments for your vehicle">
+
+        <div class="configurator-cta__selects">
+
+          <div class="configurator-cta__select-wrap">
+            <label class="visually-hidden" for="vehicle-make">Make</label>
+            <select class="configurator-cta__select" id="vehicle-make" name="make">
+              <option value="">Make</option>
+              <option value="BMW">BMW</option>
+              <option value="Porsche">Porsche</option>
+              <option value="Audi">Audi</option>
+              <option value="Mercedes">Mercedes</option>
+              <option value="Volkswagen">Volkswagen</option>
+              <option value="Other">Other</option>
+            </select>
+            <span class="configurator-cta__select-arrow" aria-hidden="true">&#8964;</span>
+          </div>
+
+          <div class="configurator-cta__select-wrap">
+            <label class="visually-hidden" for="vehicle-model">Model</label>
+            <select class="configurator-cta__select" id="vehicle-model" name="model" disabled>
+              <option value="">Model</option>
+            </select>
+            <span class="configurator-cta__select-arrow" aria-hidden="true">&#8964;</span>
+          </div>
+
+          <div class="configurator-cta__select-wrap">
+            <label class="visually-hidden" for="vehicle-year">Year</label>
+            <select class="configurator-cta__select" id="vehicle-year" name="year" disabled>
+              <option value="">Year</option>
+            </select>
+            <span class="configurator-cta__select-arrow" aria-hidden="true">&#8964;</span>
+          </div>
+
+        </div>
+
+        <a
+          class="btn-ghost-dark configurator-cta__btn"
+          href="{{ routes.all_products_collection_url }}"
+          id="configurator-cta-btn"
+          aria-disabled="true"
+        >
+          See Available Fitments &rarr;
+        </a>
+
+      </form>
+
+      <!-- Can't find your car? -->
+      <p class="configurator-cta__not-found">
+        Can't find your car?
+        <a class="configurator-cta__contact-link" href="{{ routes.root_url }}pages/contact">
+          Get in touch
+        </a>
+      </p>
+
+    </div>
+
+  </div>
+</section>
+
+{% stylesheet %}
+.configurator-cta {
+  background: var(--off-white-bg);
+  padding: var(--section-pad-v) 0;
+}
+
+.configurator-cta__content {
+  max-width: 740px;
+  margin-inline: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.configurator-cta__heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(40px, 6vw, 72px);
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  color: var(--ink);
+}
+
+.configurator-cta__sub {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(15px, 1.4vw, 18px);
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  max-width: 520px;
+  line-height: 1.7;
+}
+
+/* Vehicle selector form */
+.configurator-cta__form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.configurator-cta__selects {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  max-width: 640px;
+}
+
+/* Select wrapper */
+.configurator-cta__select-wrap {
+  flex: 1;
+  position: relative;
+}
+
+.configurator-cta__select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: 1px solid rgba(22, 22, 22, 0.25);
+  border-bottom: 1px solid rgba(22, 22, 22, 0.55);
+  padding: 14px 36px 14px 16px;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    border-color var(--duration-hover) var(--ease-precision),
+    background var(--duration-hover) var(--ease-precision);
+}
+
+.configurator-cta__select:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+
+.configurator-cta__select:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.configurator-cta__select option {
+  color: var(--ink);
+  background: var(--off-white-bg);
+}
+
+.configurator-cta__select-arrow {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: var(--text-muted);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* CTA button */
+.configurator-cta__btn {
+  margin-top: 8px;
+}
+
+.configurator-cta__btn[aria-disabled="true"] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.configurator-cta__btn.is-active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* "Can't find your car?" */
+.configurator-cta__not-found {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.configurator-cta__contact-link {
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-decoration-color: rgba(122, 122, 120, 0.5);
+  text-underline-offset: 3px;
+  transition: color var(--duration-hover) var(--ease-precision);
+}
+
+.configurator-cta__contact-link:hover {
+  color: var(--ink);
+}
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .configurator-cta__selects {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .configurator-cta__btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Configurator CTA",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Built for your car."
+    },
+    {
+      "type": "textarea",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "Select your vehicle and we'll spec the right fitment, offset, and finish. Every set is made to order."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Configurator CTA"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,546 @@
+{% comment %}
+  MNW — Collection Main Section
+  Product tiles: dark bg, hover crossfade, configure CTA.
+  Left sidebar filters on desktop / top drawer on mobile.
+{% endcomment %}
+
+<section class="collection-page" aria-labelledby="collection-heading">
+
+  <!-- Collection header -->
+  <div class="collection-page__header container">
+    <p class="label collection-page__overline">
+      {{ section.settings.overline | default: 'All Wheels' }}
+    </p>
+    <h1 class="heading-lg collection-page__heading" id="collection-heading">
+      {{ collection.title | default: 'Forged Wheels' }}
+    </h1>
+    {% if collection.description != blank %}
+      <p class="body-text collection-page__desc">{{ collection.description }}</p>
+    {% endif %}
+  </div>
+
+  <div class="collection-page__layout container">
+
+    <!-- ── Sidebar filters ── -->
+    <aside class="collection-page__sidebar" aria-label="Filters">
+
+      <div class="collection-page__filter-group">
+        <p class="collection-page__filter-label label">Vehicle Make</p>
+        <ul class="collection-page__filter-list">
+          {% assign makes = 'BMW,Porsche,Audi,Mercedes,Volkswagen' | split: ',' %}
+          {% for make in makes %}
+            <li>
+              <a
+                class="collection-page__filter-link{% if current_tags contains make %} is-active{% endif %}"
+                href="{{ collection.url }}/{{ make | handleize }}"
+              >{{ make }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="collection-page__filter-group">
+        <p class="collection-page__filter-label label">Diameter</p>
+        <ul class="collection-page__filter-list">
+          {% assign diameters = '18",19",20",21"' | split: ',' %}
+          {% for d in diameters %}
+            <li>
+              <a
+                class="collection-page__filter-link{% if current_tags contains d %} is-active{% endif %}"
+                href="{{ collection.url }}/{{ d | handleize }}"
+              >{{ d }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="collection-page__filter-group">
+        <p class="collection-page__filter-label label">Finish</p>
+        <ul class="collection-page__filter-list">
+          {% assign finishes = 'Gloss Black,Matte Black,Brushed Silver,Machine Face,Custom' | split: ',' %}
+          {% for finish in finishes %}
+            <li>
+              <a
+                class="collection-page__filter-link{% if current_tags contains finish %} is-active{% endif %}"
+                href="{{ collection.url }}/{{ finish | handleize }}"
+              >{{ finish }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      {% if current_tags.size > 0 %}
+        <a class="collection-page__clear" href="{{ collection.url }}">Clear filters</a>
+      {% endif %}
+
+    </aside>
+
+    <!-- ── Product grid ── -->
+    <div class="collection-page__grid" role="list">
+      {% for product in collection.products %}
+        <article class="product-card reveal" role="listitem" style="--delay: {{ forloop.index0 | modulo: 3 | times: 80 }}ms">
+
+          <a class="product-card__link" href="{{ product.url }}" aria-label="{{ product.title }}">
+
+            <!-- Image with crossfade on hover -->
+            <div class="product-card__images">
+              {% if product.images.size > 0 %}
+                {{ product.images[0] | image_url: width: 700 | image_tag:
+                  loading: 'lazy',
+                  class: 'product-card__img product-card__img--primary',
+                  alt: product.title
+                }}
+                {% if product.images.size > 1 %}
+                  {{ product.images[1] | image_url: width: 700 | image_tag:
+                    loading: 'lazy',
+                    class: 'product-card__img product-card__img--hover',
+                    alt: product.title | append: ' — side view'
+                  }}
+                {% endif %}
+              {% else %}
+                <div class="product-card__img-placeholder" aria-hidden="true"></div>
+              {% endif %}
+            </div>
+
+          </a>
+
+          <!-- Product info -->
+          <div class="product-card__info">
+            <h2 class="product-card__title">{{ product.title }}</h2>
+            <p class="product-card__price">
+              From {{ product.price_min | money }} / set
+            </p>
+            {% assign finish_count = product.metafields.wheel.finish_options.value | default: '' %}
+            {% if finish_count != blank %}
+              <p class="product-card__finishes">{{ finish_count | size }} Finishes Available</p>
+            {% else %}
+              <p class="product-card__finishes">Multiple Finishes Available</p>
+            {% endif %}
+          </div>
+
+          <a class="btn-ghost product-card__cta" href="{{ product.url }}">Configure</a>
+
+        </article>
+      {% else %}
+        <p class="collection-page__empty body-text">No wheels found. <a href="{{ collection.url }}">Clear filters</a>.</p>
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <!-- Mobile filter toggle -->
+  <div class="collection-page__mobile-filter-bar container">
+    <button class="collection-page__filter-toggle" aria-expanded="false" aria-controls="mobile-filters">
+      Filter &amp; Sort
+    </button>
+    {% if current_tags.size > 0 %}
+      <span class="label">{{ current_tags.size }} active</span>
+    {% endif %}
+  </div>
+
+</section>
+
+<div class="collection-page__mobile-drawer" id="mobile-filters" aria-hidden="true">
+  <div class="collection-page__mobile-backdrop" data-mobile-filter-close></div>
+  <div class="collection-page__mobile-panel" role="dialog" aria-modal="true" aria-label="Collection filters">
+    <div class="collection-page__mobile-panel-head">
+      <p class="label">Filter Wheels</p>
+      <button class="collection-page__mobile-close" type="button" aria-label="Close filters" data-mobile-filter-close>
+        &times;
+      </button>
+    </div>
+
+    <div class="collection-page__mobile-groups">
+      <div class="collection-page__filter-group">
+        <p class="collection-page__filter-label label">Vehicle Make</p>
+        <ul class="collection-page__filter-list">
+          {% assign makes = 'BMW,Porsche,Audi,Mercedes,Volkswagen' | split: ',' %}
+          {% for make in makes %}
+            <li>
+              <a
+                class="collection-page__filter-link{% if current_tags contains make %} is-active{% endif %}"
+                href="{{ collection.url }}/{{ make | handleize }}"
+              >{{ make }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="collection-page__filter-group">
+        <p class="collection-page__filter-label label">Diameter</p>
+        <ul class="collection-page__filter-list">
+          {% assign diameters = '18",19",20",21"' | split: ',' %}
+          {% for d in diameters %}
+            <li>
+              <a
+                class="collection-page__filter-link{% if current_tags contains d %} is-active{% endif %}"
+                href="{{ collection.url }}/{{ d | handleize }}"
+              >{{ d }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="collection-page__filter-group">
+        <p class="collection-page__filter-label label">Finish</p>
+        <ul class="collection-page__filter-list">
+          {% assign finishes = 'Gloss Black,Matte Black,Brushed Silver,Machine Face,Custom' | split: ',' %}
+          {% for finish in finishes %}
+            <li>
+              <a
+                class="collection-page__filter-link{% if current_tags contains finish %} is-active{% endif %}"
+                href="{{ collection.url }}/{{ finish | handleize }}"
+              >{{ finish }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      {% if current_tags.size > 0 %}
+        <a class="collection-page__clear" href="{{ collection.url }}">Clear filters</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+.collection-page {
+  background: var(--bg-dark);
+  padding-top: 140px; /* Clears fixed nav */
+  padding-bottom: var(--section-pad-v);
+  min-height: 100vh;
+}
+
+/* Header */
+.collection-page__header {
+  margin-bottom: 48px;
+}
+
+.collection-page__overline {
+  margin-bottom: 12px;
+}
+
+.collection-page__heading {
+  margin-bottom: 16px;
+}
+
+.collection-page__desc {
+  max-width: 560px;
+  font-size: 14px;
+}
+
+/* Layout: sidebar + grid */
+.collection-page__layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+/* ── Sidebar ── */
+.collection-page__sidebar {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.collection-page__filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.collection-page__filter-label {
+  color: var(--text-muted);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.collection-page__filter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.collection-page__filter-link {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--duration-hover);
+}
+
+.collection-page__filter-link:hover,
+.collection-page__filter-link.is-active {
+  color: var(--text-primary);
+}
+
+.collection-page__filter-link.is-active {
+  border-bottom: 1px solid var(--text-secondary);
+  padding-bottom: 1px;
+}
+
+.collection-page__clear {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  text-decoration: underline;
+}
+
+/* ── Product grid ── */
+.collection-page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2px;
+}
+
+.collection-page__empty {
+  grid-column: 1 / -1;
+  padding: 40px 0;
+  color: var(--text-muted);
+}
+
+/* ── Product card ── */
+.product-card {
+  background: var(--bg-dark);
+  display: flex;
+  flex-direction: column;
+  transition-delay: var(--delay, 0ms);
+}
+
+.product-card__link {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: var(--bg-surface);
+  position: relative;
+}
+
+/* Image crossfade */
+.product-card__images {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.product-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 400ms var(--ease-precision);
+}
+
+.product-card__img--primary {
+  opacity: 1;
+  z-index: 1;
+}
+
+.product-card__img--hover {
+  opacity: 0;
+  z-index: 2;
+}
+
+.product-card__link:hover .product-card__img--hover {
+  opacity: 1;
+}
+
+.product-card__img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-surface);
+}
+
+/* Product info */
+.product-card__info {
+  padding: 20px 20px 8px;
+  flex: 1;
+}
+
+.product-card__title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.03em;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.product-card__price {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.product-card__finishes {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.product-card__cta {
+  margin: 12px 20px 20px;
+  display: block;
+  text-align: center;
+  font-size: 12px;
+}
+
+/* Mobile filter bar */
+.collection-page__mobile-filter-bar {
+  display: none;
+  position: sticky;
+  top: 70px;
+  z-index: 10;
+  background: var(--bg-dark);
+  border-bottom: 1px solid var(--rule);
+  padding: 12px var(--section-pad-h);
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.collection-page__filter-toggle {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  border: 1px solid var(--rule);
+  padding: 8px 16px;
+  background: none;
+  cursor: pointer;
+  transition: border-color var(--duration-hover);
+}
+
+.collection-page__filter-toggle:hover {
+  border-color: var(--text-secondary);
+}
+
+.collection-page__mobile-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms var(--ease-precision);
+}
+
+.collection-page__mobile-drawer.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.collection-page__mobile-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.65);
+}
+
+.collection-page__mobile-panel {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: min(92vw, 420px);
+  background: var(--bg-deep);
+  border-left: 1px solid var(--rule);
+  padding: 28px 24px 36px;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 300ms var(--ease-precision);
+}
+
+.collection-page__mobile-drawer.is-open .collection-page__mobile-panel {
+  transform: translateX(0);
+}
+
+.collection-page__mobile-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.collection-page__mobile-close {
+  color: var(--text-secondary);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.collection-page__mobile-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .collection-page__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .collection-page__sidebar {
+    display: none; /* Hidden on mobile — replaced by top drawer */
+  }
+
+  .collection-page__mobile-filter-bar {
+    display: flex;
+  }
+
+  .collection-page {
+    padding-top: 80px;
+  }
+}
+
+@media (max-width: 640px) {
+  .collection-page__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .product-card__info {
+    padding: 14px 14px 6px;
+  }
+
+  .product-card__cta {
+    margin: 8px 14px 14px;
+    font-size: 11px;
+    padding: 10px 16px;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Collection Main",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "overline",
+      "label": "Overline",
+      "default": "All Wheels"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Main"
+    }
+  ]
+}
+{% endschema %}
