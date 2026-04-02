@@ -82,7 +82,7 @@
 
           <a class="product-card__link" href="{{ product.url }}" aria-label="{{ product.title }}">
 
-            <!-- Image with crossfade on hover -->
+            <!-- Images -->
             <div class="product-card__images">
               {% if product.images.size > 0 %}
                 {{ product.images[0] | image_url: width: 700 | image_tag:
@@ -94,7 +94,7 @@
                   {{ product.images[1] | image_url: width: 700 | image_tag:
                     loading: 'lazy',
                     class: 'product-card__img product-card__img--hover',
-                    alt: product.title | append: ' — side view'
+                    alt: product.title | append: ' — alternate view'
                   }}
                 {% endif %}
               {% else %}
@@ -102,23 +102,20 @@
               {% endif %}
             </div>
 
-          </a>
+            <!-- Gradient scrim -->
+            <div class="product-card__scrim" aria-hidden="true"></div>
 
-          <!-- Product info -->
-          <div class="product-card__info">
-            <h2 class="product-card__title">{{ product.title }}</h2>
-            <p class="product-card__price">
-              From {{ product.price_min | money }} / set
-            </p>
-            {% assign finish_count = product.metafields.wheel.finish_options.value | default: '' %}
-            {% if finish_count != blank %}
-              <p class="product-card__finishes">{{ finish_count | size }} Finishes Available</p>
-            {% else %}
+            <!-- Product info overlay -->
+            <div class="product-card__info">
+              <h2 class="product-card__title">{{ product.title }}</h2>
+              <p class="product-card__price">From {{ product.price_min | money }} / set</p>
               <p class="product-card__finishes">Multiple Finishes Available</p>
-            {% endif %}
-          </div>
+            </div>
 
-          <a class="btn-ghost product-card__cta" href="{{ product.url }}">Configure</a>
+            <!-- Hover CTA -->
+            <span class="product-card__cta" aria-hidden="true">Configure &rarr;</span>
+
+          </a>
 
         </article>
       {% else %}
@@ -296,7 +293,7 @@
 /* ── Product grid ── */
 .collection-page__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2px;
 }
 
@@ -308,23 +305,27 @@
 
 /* ── Product card ── */
 .product-card {
-  background: var(--bg-dark);
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  background: var(--bg-surface);
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  display: block;
+  cursor: pointer;
   transition-delay: var(--delay, 0ms);
 }
 
 .product-card__link {
   display: block;
-  overflow: hidden;
-  aspect-ratio: 1;
-  background: var(--bg-surface);
+  width: 100%;
+  height: 100%;
   position: relative;
+  text-decoration: none;
 }
 
-/* Image crossfade */
+/* Full-bleed image */
 .product-card__images {
-  position: relative;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
 }
@@ -336,67 +337,124 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: opacity 400ms var(--ease-precision);
+  transition:
+    opacity 450ms var(--ease-precision),
+    transform 600ms var(--ease-precision);
 }
 
 .product-card__img--primary {
   opacity: 1;
   z-index: 1;
+  transform: scale(1);
+}
+
+.product-card:hover .product-card__img--primary {
+  transform: scale(1.04);
 }
 
 .product-card__img--hover {
   opacity: 0;
   z-index: 2;
+  transform: scale(1.04);
 }
 
-.product-card__link:hover .product-card__img--hover {
+.product-card:hover .product-card__img--hover {
   opacity: 1;
 }
 
 .product-card__img-placeholder {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  inset: 0;
   background: var(--bg-surface);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 12px,
+    rgba(255,255,255,0.012) 12px,
+    rgba(255,255,255,0.012) 24px
+  );
 }
 
-/* Product info */
+/* Gradient scrim for legibility */
+.product-card__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 10, 0.88) 0%,
+    rgba(10, 10, 10, 0.4) 35%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+/* Info — pinned to bottom */
 .product-card__info {
-  padding: 20px 20px 8px;
-  flex: 1;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  padding: 24px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: none;
 }
 
 .product-card__title {
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 16px;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   color: var(--text-primary);
-  margin-bottom: 6px;
+  text-transform: uppercase;
 }
 
 .product-card__price {
   font-family: var(--font-body);
   font-weight: 300;
-  font-size: 14px;
-  letter-spacing: 0.05em;
+  font-size: 13px;
+  letter-spacing: 0.08em;
   color: var(--text-secondary);
-  margin-bottom: 4px;
 }
 
 .product-card__finishes {
   font-family: var(--font-body);
   font-weight: 300;
-  font-size: 11px;
-  letter-spacing: 0.1em;
+  font-size: 10px;
+  letter-spacing: 0.18em;
   color: var(--text-muted);
   text-transform: uppercase;
 }
 
+/* CTA — reveals on hover */
 .product-card__cta {
-  margin: 12px 20px 20px;
-  display: block;
-  text-align: center;
-  font-size: 12px;
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  z-index: 5;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(175, 175, 173, 0.3);
+  padding-bottom: 2px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 300ms var(--ease-precision),
+    transform 300ms var(--ease-precision),
+    color var(--duration-hover) var(--ease-precision);
+}
+
+.product-card:hover .product-card__cta {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Mobile filter bar */
@@ -514,13 +572,17 @@
   }
 
   .product-card__info {
-    padding: 14px 14px 6px;
+    padding: 16px 16px 14px;
+  }
+
+  .product-card__title {
+    font-size: 13px;
   }
 
   .product-card__cta {
-    margin: 8px 14px 14px;
-    font-size: 11px;
-    padding: 10px 16px;
+    bottom: 14px;
+    right: 16px;
+    font-size: 9px;
   }
 }
 {% endstylesheet %}

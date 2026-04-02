@@ -4,6 +4,10 @@
       "type": "hero",
       "settings": {}
     },
+    "marquee-strip": {
+      "type": "marquee-strip",
+      "settings": {}
+    },
     "product-intro": {
       "type": "product-intro",
       "settings": {
@@ -45,6 +49,7 @@
   },
   "order": [
     "hero",
+    "marquee-strip",
     "product-intro",
     "configurator-cta",
     "gallery"

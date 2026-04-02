@@ -1,99 +1,136 @@
 {% comment %}
-  MNW — Global Footer
-  - Dark background, minimal, centred
-  - N glyph mark, nav links, legal
+  MNW — Global Footer (v2)
+  3-column grid: left brand / centre nav / right social+legal
 {% endcomment %}
 
 <footer class="site-footer" role="contentinfo">
-  <div class="site-footer__inner container">
 
-    <!-- N glyph mark -->
-    <div class="site-footer__mark" aria-hidden="true">
-      <svg class="mnw-glyph" viewBox="0 0 48 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="MNW">
-        <!-- Left vertical bar -->
-        <rect x="0" y="0" width="8" height="64" fill="#F5F5F3"/>
-        <!-- Right vertical bar -->
-        <rect x="40" y="0" width="8" height="64" fill="#F5F5F3"/>
-        <!-- Diagonal stroke -->
-        <polygon points="0,0 8,0 48,64 40,64" fill="#F5F5F3"/>
-        <!-- Precision hairline at vertical midpoint -->
-        <rect x="0" y="31" width="48" height="1" fill="#7A7A78" opacity="0.6"/>
-      </svg>
+  <div class="site-footer__top container">
+
+    <!-- Left: brand -->
+    <div class="site-footer__brand">
+      <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}" class="site-footer__logo-link">
+        <svg class="mnw-glyph" viewBox="0 0 48 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="0" y="0" width="8" height="64" fill="#F5F5F3"/>
+          <rect x="40" y="0" width="8" height="64" fill="#F5F5F3"/>
+          <polygon points="0,0 8,0 48,64 40,64" fill="#F5F5F3"/>
+        </svg>
+      </a>
+      <p class="site-footer__tagline">
+        Cold forged monoblock wheels.<br>
+        Made to order. Brisbane, Australia.
+      </p>
     </div>
 
-    <!-- Primary nav -->
-    <nav class="site-footer__nav" aria-label="Footer navigation">
-      <a class="site-footer__nav-link" href="{{ routes.all_products_collection_url }}">Shop</a>
-      <span class="site-footer__sep" aria-hidden="true">&middot;</span>
-      <a class="site-footer__nav-link" href="{{ routes.root_url }}pages/fitment-guide">Fitment Guide</a>
-      <span class="site-footer__sep" aria-hidden="true">&middot;</span>
-      <a class="site-footer__nav-link" href="{{ routes.root_url }}pages/about">About</a>
-      <span class="site-footer__sep" aria-hidden="true">&middot;</span>
-      <a class="site-footer__nav-link" href="{{ routes.root_url }}pages/contact">Contact</a>
-      <span class="site-footer__sep" aria-hidden="true">&middot;</span>
-      <a class="site-footer__nav-link" href="{{ routes.root_url }}pages/faq">FAQ</a>
+    <!-- Centre: navigation -->
+    <nav class="site-footer__nav-primary" aria-label="Footer primary navigation">
+      <p class="label site-footer__nav-label">Navigate</p>
+      <ul class="site-footer__nav-list">
+        <li><a class="site-footer__nav-link" href="{{ routes.all_products_collection_url }}">Shop</a></li>
+        <li><a class="site-footer__nav-link" href="{{ routes.root_url }}pages/fitment-guide">Fitment Guide</a></li>
+        <li><a class="site-footer__nav-link" href="{{ routes.root_url }}pages/about">About</a></li>
+        <li><a class="site-footer__nav-link" href="{{ routes.root_url }}pages/contact">Contact</a></li>
+        <li><a class="site-footer__nav-link" href="{{ routes.root_url }}pages/faq">FAQ</a></li>
+      </ul>
     </nav>
 
-    <!-- Secondary nav -->
-    <nav class="site-footer__nav site-footer__nav--secondary" aria-label="Footer secondary navigation">
-      <a class="site-footer__nav-link" href="https://instagram.com/mnwwheels" target="_blank" rel="noopener">Instagram</a>
-      <span class="site-footer__sep" aria-hidden="true">&middot;</span>
-      <a class="site-footer__nav-link" href="{{ routes.root_url }}pages/shipping">Returns Policy</a>
-      <span class="site-footer__sep" aria-hidden="true">&middot;</span>
-      <a class="site-footer__nav-link" href="{{ routes.root_url }}policies/privacy-policy">Privacy Policy</a>
-    </nav>
+    <!-- Right: social + legal -->
+    <div class="site-footer__right">
+      <p class="label site-footer__nav-label">Follow</p>
+      <ul class="site-footer__nav-list">
+        <li>
+          <a class="site-footer__nav-link" href="https://instagram.com/mnwwheels" target="_blank" rel="noopener noreferrer">
+            Instagram
+            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" aria-hidden="true" style="display:inline-block;margin-left:5px;vertical-align:middle;opacity:0.4">
+              <path d="M1 7L7 1M7 1H3M7 1v4" stroke="currentColor" stroke-width="1" stroke-linecap="square"/>
+            </svg>
+          </a>
+        </li>
+      </ul>
 
-    <hr class="rule site-footer__rule">
-
-    <!-- Legal -->
-    <p class="site-footer__legal">
-      &copy; {{ 'now' | date: '%Y' }} MNW Pty Ltd &middot; Brisbane, Australia &middot; All rights reserved
-    </p>
+      <div class="site-footer__policy-links">
+        <a class="site-footer__policy-link" href="{{ routes.root_url }}pages/shipping">Shipping &amp; Returns</a>
+        <a class="site-footer__policy-link" href="{{ routes.root_url }}policies/privacy-policy">Privacy Policy</a>
+      </div>
+    </div>
 
   </div>
+
+  <div class="site-footer__bottom container">
+    <hr class="rule site-footer__rule">
+    <div class="site-footer__legal-row">
+      <p class="site-footer__legal">
+        &copy; {{ 'now' | date: '%Y' }} MNW Pty Ltd. All rights reserved.
+      </p>
+      <p class="site-footer__abn">
+        ABN available on invoice
+      </p>
+    </div>
+  </div>
+
 </footer>
 
 {% stylesheet %}
 .site-footer {
   background: var(--bg-deep);
-  padding: 80px 0 48px;
+  padding-top: 72px;
+  padding-bottom: 40px;
+  border-top: 1px solid var(--rule);
 }
 
-.site-footer__inner {
+/* ── Top: 3-column grid ── */
+.site-footer__top {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 64px;
+}
+
+/* Left: brand */
+.site-footer__brand {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 32px;
+  gap: 24px;
 }
 
-/* N glyph */
-.site-footer__mark {
-  margin-bottom: 8px;
+.site-footer__logo-link {
+  display: inline-block;
+  width: fit-content;
 }
 
 .mnw-glyph {
-  width: 48px;
+  width: 32px;
   height: auto;
   display: block;
-  opacity: 0.85;
+  opacity: 0.8;
 }
 
-/* Nav rows */
-.site-footer__nav {
+.site-footer__tagline {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* Centre / Right: nav columns */
+.site-footer__nav-label {
+  margin-bottom: 20px;
+}
+
+.site-footer__nav-list {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px 4px;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .site-footer__nav-link {
   font-family: var(--font-body);
   font-weight: 300;
-  font-size: 12px;
-  letter-spacing: 0.3em;
+  font-size: 13px;
+  letter-spacing: 0.06em;
   color: var(--text-secondary);
-  text-transform: uppercase;
   text-decoration: none;
   transition: color var(--duration-hover) var(--ease-precision);
 }
@@ -102,27 +139,88 @@
   color: var(--text-primary);
 }
 
-.site-footer__sep {
-  font-size: 12px;
-  color: var(--rule);
-  user-select: none;
+/* Right column extras */
+.site-footer__right {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-.site-footer__nav--secondary .site-footer__nav-link {
-  color: var(--text-muted);
+.site-footer__right .site-footer__nav-list {
+  margin-bottom: 32px;
 }
 
-.site-footer__rule {
-  margin: 8px 0;
+.site-footer__policy-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
 }
 
-.site-footer__legal {
+.site-footer__policy-link {
   font-family: var(--font-body);
   font-weight: 300;
   font-size: 11px;
-  letter-spacing: 0.2em;
-  color: #5A5A58;
-  text-align: center;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--duration-hover) var(--ease-precision);
+}
+
+.site-footer__policy-link:hover {
+  color: var(--text-secondary);
+}
+
+/* ── Bottom legal row ── */
+.site-footer__rule {
+  margin-bottom: 24px;
+}
+
+.site-footer__legal-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.site-footer__legal,
+.site-footer__abn {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: #4A4A48;
+}
+
+/* ── Mobile ── */
+@media (max-width: 900px) {
+  .site-footer__top {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .site-footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .site-footer__top {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .site-footer__brand {
+    grid-column: auto;
+  }
+
+  .site-footer__legal-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
 }
 {% endstylesheet %}
 

@@ -1,85 +1,90 @@
 {% comment %}
-  MNW — Hero Section
-  Full-screen animated hero. Wheel reveal with CSS animation.
-  Supports video loop or image fallback.
-  prefers-reduced-motion: static only.
+  MNW — Hero Section (v2)
+  Full-screen: brand bar top / wheel centre / oversized headline bottom.
+  Grid: auto / 1fr / auto.
+  prefers-reduced-motion: all animation disabled, elements visible.
 {% endcomment %}
 
-<section class="hero" aria-label="MNW hero">
+<section class="hero" aria-label="MNW — Forged Wheels">
 
-  <!-- Background texture overlay -->
   <div class="hero__texture" aria-hidden="true"></div>
 
-  <!-- Wheel visual: video or image -->
-  <div class="hero__wheel-wrap" aria-hidden="true">
-    {% if section.settings.hero_video != blank %}
-      <video
-        class="hero__video"
-        src="{{ section.settings.hero_video }}"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="none"
-        poster="{{ section.settings.hero_image | image_url: width: 1400 }}"
-      ></video>
-    {% elsif section.settings.hero_image != blank %}
-      <div class="hero__wheel hero__wheel--image">
+  <!-- Top: brand identifier -->
+  <div class="hero__header">
+    <span class="hero__brand-id">MNW</span>
+    <span class="hero__brand-rule" aria-hidden="true"></span>
+    <span class="hero__brand-sub">Forged Wheels &nbsp;&middot;&nbsp; Brisbane, Australia</span>
+  </div>
+
+  <!-- Centre: wheel visual -->
+  <div class="hero__visual" aria-hidden="true">
+    <div class="hero__glow"></div>
+    <div class="hero__wheel-wrap">
+      {% if section.settings.hero_video != blank %}
+        <video
+          class="hero__media"
+          src="{{ section.settings.hero_video }}"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="none"
+          poster="{{ section.settings.hero_image | image_url: width: 1400 }}"
+        ></video>
+      {% elsif section.settings.hero_image != blank %}
         {{ section.settings.hero_image | image_url: width: 1400 | image_tag:
           loading: 'eager',
           fetchpriority: 'high',
-          class: 'hero__img',
+          class: 'hero__media',
           alt: 'MNW forged wheel'
         }}
-      </div>
-    {% else %}
-      <!-- Placeholder wheel SVG — replace with product image -->
-      <div class="hero__wheel hero__wheel--placeholder" aria-hidden="true">
-        <svg class="hero__wheel-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Outer rim -->
-          <circle cx="200" cy="200" r="190" stroke="#3A3A38" stroke-width="2"/>
-          <!-- Tyre profile -->
-          <circle cx="200" cy="200" r="175" stroke="#2A2A2A" stroke-width="12" stroke-dasharray="4 4"/>
-          <!-- Wheel face ring -->
-          <circle cx="200" cy="200" r="155" stroke="#4A4A48" stroke-width="1.5"/>
-          <!-- Spokes (5-spoke) -->
-          <line x1="200" y1="200" x2="200" y2="50" stroke="#5A5A58" stroke-width="18" stroke-linecap="round"/>
-          <line x1="200" y1="200" x2="347" y2="147" stroke="#5A5A58" stroke-width="18" stroke-linecap="round"/>
-          <line x1="200" y1="200" x2="291" y2="326" stroke="#5A5A58" stroke-width="18" stroke-linecap="round"/>
-          <line x1="200" y1="200" x2="109" y2="326" stroke="#5A5A58" stroke-width="18" stroke-linecap="round"/>
-          <line x1="200" y1="200" x2="53" y2="147" stroke="#5A5A58" stroke-width="18" stroke-linecap="round"/>
-          <!-- Hub -->
-          <circle cx="200" cy="200" r="32" stroke="#4A4A48" stroke-width="2" fill="#1A1A18"/>
-          <circle cx="200" cy="200" r="14" fill="#2A2A28"/>
-          <!-- Specular highlight -->
-          <ellipse cx="155" cy="130" rx="30" ry="18" fill="white" opacity="0.04" transform="rotate(-30 155 130)"/>
-        </svg>
-      </div>
-    {% endif %}
+      {% else %}
+        <div class="hero__placeholder">
+          <svg class="hero__wheel-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="200" cy="200" r="194" stroke="#222220" stroke-width="1"/>
+            <circle cx="200" cy="200" r="186" stroke="#1E1E1C" stroke-width="16"/>
+            <circle cx="200" cy="200" r="170" stroke="#3A3A38" stroke-width="1.5"/>
+            <circle cx="200" cy="200" r="160" stroke="#2A2A28" stroke-width="1" stroke-dasharray="3 6"/>
+            <circle cx="200" cy="200" r="148" stroke="#2E2E2C" stroke-width="1"/>
+            <path d="M200 200 L200 58" stroke="#4A4A48" stroke-width="26" stroke-linecap="round"/>
+            <path d="M200 200 L351 143" stroke="#4A4A48" stroke-width="26" stroke-linecap="round"/>
+            <path d="M200 200 L294 331" stroke="#4A4A48" stroke-width="26" stroke-linecap="round"/>
+            <path d="M200 200 L106 331" stroke="#4A4A48" stroke-width="26" stroke-linecap="round"/>
+            <path d="M200 200 L49 143" stroke="#4A4A48" stroke-width="26" stroke-linecap="round"/>
+            <circle cx="200" cy="200" r="38" stroke="#3A3A38" stroke-width="2" fill="#131311"/>
+            <circle cx="200" cy="200" r="17" fill="#1A1A18" stroke="#2E2E2C" stroke-width="1"/>
+            <circle cx="200" cy="163" r="4" fill="#0F0F0E" stroke="#2A2A28" stroke-width="1"/>
+            <circle cx="233" cy="174" r="4" fill="#0F0F0E" stroke="#2A2A28" stroke-width="1"/>
+            <circle cx="220" cy="210" r="4" fill="#0F0F0E" stroke="#2A2A28" stroke-width="1"/>
+            <circle cx="180" cy="210" r="4" fill="#0F0F0E" stroke="#2A2A28" stroke-width="1"/>
+            <circle cx="167" cy="174" r="4" fill="#0F0F0E" stroke="#2A2A28" stroke-width="1"/>
+            <ellipse cx="145" cy="115" rx="38" ry="22" fill="white" opacity="0.022" transform="rotate(-35 145 115)"/>
+          </svg>
+        </div>
+      {% endif %}
+    </div>
   </div>
 
-  <!-- Typography overlay -->
-  <div class="hero__overlay">
+  <!-- Bottom: headline + actions -->
+  <div class="hero__footer">
 
-    <!-- Top-left brand mark -->
-    <div class="hero__brand-mark">
-      <span class="hero__wordmark">MNW</span>
-      <span class="hero__submark">Forged Wheels &nbsp;/&nbsp; Australia</span>
+    <div class="hero__headline-block">
+      <h1 class="hero__headline" aria-label="{{ section.settings.headline_line1 | default: 'Forged.' }} {{ section.settings.headline_line2 | default: 'Not cast.' }}">
+        <span class="hero__line"><span>{{ section.settings.headline_line1 | default: 'Forged.' }}</span></span>
+        <span class="hero__line"><span>{{ section.settings.headline_line2 | default: 'Not cast.' }}</span></span>
+      </h1>
     </div>
 
-    <!-- Centre headline -->
-    <div class="hero__headline-wrap">
-      <p class="hero__headline" aria-label="Forged. Not cast.">
-        <span class="hero__headline-word" data-word="1">Forged.</span>
-        <span class="hero__headline-word" data-word="2">Not cast.</span>
-      </p>
-    </div>
-
-    <!-- Scroll chevron -->
-    <div class="hero__scroll-cue" aria-hidden="true">
-      <svg width="16" height="24" viewBox="0 0 16 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M8 0v20M1 14l7 7 7-7" stroke="#7A7A78" stroke-width="1" stroke-linecap="square"/>
-      </svg>
+    <div class="hero__actions">
+      <a class="btn-ghost hero__cta" href="{{ routes.all_products_collection_url }}">
+        Configure Your Set
+      </a>
+      <div class="hero__scroll-cue" aria-hidden="true">
+        <svg width="1" height="36" viewBox="0 0 1 36" fill="none">
+          <line x1="0.5" y1="0" x2="0.5" y2="36" stroke="#3A3A38" stroke-width="1"/>
+        </svg>
+        <span class="hero__scroll-text">Scroll</span>
+      </div>
     </div>
 
   </div>
@@ -87,206 +92,218 @@
 </section>
 
 {% stylesheet %}
-/* ── Hero ── */
 .hero {
   position: relative;
   width: 100%;
   height: 100dvh;
-  min-height: 600px;
+  min-height: 640px;
   background: var(--bg-deep);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 28px var(--section-pad-h) 52px;
   overflow: hidden;
 }
 
-/* Brushed aluminium texture — CSS noise via SVG filter */
 .hero__texture {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 0;
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
   background-repeat: repeat;
   opacity: 0.035;
 }
 
-@media (max-width: 768px) {
-  .hero__texture {
-    display: none; /* Performance on mobile */
-  }
+/* ── Top brand bar ── */
+.hero__header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  animation: hero-fade-in 600ms var(--ease-precision) 1.4s forwards;
 }
 
-/* ── Wheel container ── */
-.hero__wheel-wrap {
-  position: absolute;
-  inset: 0;
+.hero__brand-id {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+.hero__brand-rule {
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: var(--rule);
+  flex-shrink: 0;
+}
+
+.hero__brand-sub {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 9px;
+  letter-spacing: 0.38em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* ── Wheel visual ── */
+.hero__visual {
+  position: relative;
   z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* CSS animation: wheel reveal */
-.hero__wheel,
-.hero__wheel-svg,
-.hero__video {
+.hero__glow {
+  position: absolute;
+  width: min(60vw, 640px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.025) 0%,
+    rgba(255, 255, 255, 0.006) 45%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.hero__wheel-wrap {
+  position: relative;
+  width: min(52vw, 560px);
+  aspect-ratio: 1;
   animation:
-    wheel-reveal 1.8s var(--ease-precision) forwards,
-    wheel-drift 20s linear 1.8s infinite;
+    hero-wheel-reveal 1.8s var(--ease-precision) forwards,
+    hero-wheel-drift 22s ease-in-out 1.8s infinite;
   transform-origin: center;
   will-change: transform, opacity, filter;
 }
 
-.hero__wheel--image,
-.hero__wheel--placeholder {
-  width: min(70vw, 560px);
-  aspect-ratio: 1;
-}
-
-.hero__img {
+.hero__media {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
+.hero__placeholder,
 .hero__wheel-svg {
   width: 100%;
   height: 100%;
+  display: block;
 }
 
-.hero__video {
-  width: min(70vw, 560px);
-  aspect-ratio: 1;
-  object-fit: contain;
-}
-
-/* Wheel reveal keyframes */
-@keyframes wheel-reveal {
-  0% {
-    transform: scale(1.1) rotate(0deg);
-    filter: saturate(0.1) brightness(0.6);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(0.9) rotate(-2deg);
-    filter: saturate(1) brightness(1);
-    opacity: 1;
-  }
-}
-
-/* Imperceptible drift after settle */
-@keyframes wheel-drift {
-  0%   { transform: scale(0.9) rotate(-2deg); }
-  50%  { transform: scale(0.9) rotate(-2.3deg); }
-  100% { transform: scale(0.9) rotate(-2deg); }
-}
-
-/* Parallax on scroll — driven by JS if needed, or CSS scroll-timeline */
-
-/* ── Overlay typography ── */
-.hero__overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  padding: 120px var(--section-pad-h) 60px;
+/* ── Bottom: headline + actions ── */
+.hero__footer {
+  position: relative;
+  z-index: 2;
   display: flex;
-  flex-direction: column;
+  align-items: flex-end;
   justify-content: space-between;
-}
-
-/* Brand mark top-left */
-.hero__brand-mark {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  opacity: 0;
-  animation: fade-in-up 500ms var(--ease-precision) 2s forwards;
-}
-
-.hero__wordmark {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  line-height: 1;
-}
-
-.hero__submark {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-size: 9px;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  line-height: 1;
-}
-
-/* Centre headline */
-.hero__headline-wrap {
-  position: absolute;
-  bottom: 22%;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  white-space: nowrap;
+  gap: 32px;
 }
 
 .hero__headline {
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: clamp(22px, 2.5vw, 32px);
-  letter-spacing: 0.15em;
-  color: var(--accent);
-  text-transform: none;
-  line-height: 1.2;
+  font-size: clamp(56px, 8.5vw, 108px);
+  letter-spacing: 0.01em;
+  line-height: 0.95;
+  color: var(--text-primary);
 }
 
-.hero__headline-word {
-  display: inline-block;
+/* Curtain reveal: overflow:hidden clips inner span animating from below */
+.hero__line {
+  display: block;
+  overflow: hidden;
+  line-height: 1.05;
+}
+
+.hero__line span {
+  display: block;
   opacity: 0;
+  transform: translateY(70%);
 }
 
-.hero__headline-word[data-word="1"] {
-  animation: fade-in-up 500ms var(--ease-precision) 2s forwards;
+.hero__line:nth-child(1) span {
+  animation: hero-text-reveal 700ms var(--ease-precision) 1.7s forwards;
 }
 
-.hero__headline-word[data-word="2"] {
-  animation: fade-in-up 500ms var(--ease-precision) 2.3s forwards;
-  margin-left: 0.4em;
+.hero__line:nth-child(2) span {
+  animation: hero-text-reveal 700ms var(--ease-precision) 1.95s forwards;
 }
 
-/* Scroll chevron */
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  padding-bottom: 6px;
+  flex-shrink: 0;
+}
+
+.hero__cta {
+  opacity: 0;
+  animation: hero-fade-in-up 500ms var(--ease-precision) 2.35s forwards;
+  cursor: pointer;
+}
+
 .hero__scroll-cue {
   display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   opacity: 0;
-  animation: fade-in-up 500ms var(--ease-precision) 2.5s forwards;
+  animation: hero-fade-in 500ms var(--ease-precision) 2.6s forwards;
 }
 
-/* Shared entrance keyframe */
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.hero__scroll-text {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 8px;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ── Keyframes ── */
+@keyframes hero-wheel-reveal {
+  0%   { transform: scale(1.08) rotate(0deg); filter: brightness(0.45); opacity: 0.5; }
+  100% { transform: scale(1) rotate(-2deg);   filter: brightness(1);    opacity: 1;   }
+}
+
+@keyframes hero-wheel-drift {
+  0%, 100% { transform: scale(1) rotate(-2deg); }
+  50%       { transform: scale(1) rotate(-2.5deg) translateY(-5px); }
+}
+
+@keyframes hero-text-reveal {
+  from { opacity: 0; transform: translateY(70%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes hero-fade-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  .hero__wheel,
-  .hero__wheel-svg,
-  .hero__video,
-  .hero__brand-mark,
-  .hero__headline-word,
+  .hero__wheel-wrap,
+  .hero__header,
+  .hero__line span,
+  .hero__cta,
   .hero__scroll-cue {
     animation: none !important;
     opacity: 1 !important;
@@ -297,18 +314,22 @@
 
 /* ── Mobile ── */
 @media (max-width: 768px) {
-  .hero__wheel--image,
-  .hero__wheel--placeholder,
-  .hero__video {
-    width: min(85vw, 340px);
-  }
+  .hero { padding: 24px 24px 40px; }
+  .hero__wheel-wrap { width: min(76vw, 340px); }
+  .hero__headline { font-size: clamp(44px, 12vw, 72px); }
+}
 
-  .hero__headline {
-    font-size: clamp(18px, 5vw, 24px);
+@media (max-width: 480px) {
+  .hero__footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
   }
-
-  .hero__overlay {
-    padding: 100px 24px 40px;
+  .hero__actions {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
   }
 }
 {% endstylesheet %}
@@ -319,22 +340,30 @@
   "tag": "section",
   "settings": [
     {
+      "type": "text",
+      "id": "headline_line1",
+      "label": "Headline — Line 1",
+      "default": "Forged."
+    },
+    {
+      "type": "text",
+      "id": "headline_line2",
+      "label": "Headline — Line 2",
+      "default": "Not cast."
+    },
+    {
       "type": "image_picker",
       "id": "hero_image",
-      "label": "Hero wheel image",
-      "info": "Used as fallback if no video. Recommended: 1400×1400px, PNG on transparent or dark background."
+      "label": "Wheel image",
+      "info": "Recommended: 1200×1200px PNG on transparent or dark background."
     },
     {
       "type": "url",
       "id": "hero_video",
-      "label": "Hero video URL",
-      "info": "WebM or MP4. 6–8 second loop of wheel slowly rotating on dark surface. Muted, autoplay."
+      "label": "Video URL",
+      "info": "WebM or MP4. 6–8 second loop. Muted autoplay."
     }
   ],
-  "presets": [
-    {
-      "name": "Hero"
-    }
-  ]
+  "presets": [{ "name": "Hero" }]
 }
 {% endschema %}

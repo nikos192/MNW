@@ -1,0 +1,58 @@
+{% comment %}
+  MNW — Marquee Spec Ticker
+  Continuous CSS-animated horizontal strip with key brand specs.
+  aria-hidden: decorative element, no semantic content.
+{% endcomment %}
+
+<div class="marquee-strip" aria-hidden="true" role="presentation">
+  <div class="marquee-strip__track">
+    {%- assign item = "COLD FORGED MONOBLOCK &nbsp;&nbsp;&middot;&nbsp;&nbsp; 6061-T6 ALUMINIUM BILLET &nbsp;&nbsp;&middot;&nbsp;&nbsp; &plusmn;0.01mm MACHINING TOLERANCE &nbsp;&nbsp;&middot;&nbsp;&nbsp; MADE TO ORDER &nbsp;&nbsp;&middot;&nbsp;&nbsp; BRISBANE, AUSTRALIA &nbsp;&nbsp;&middot;&nbsp;&nbsp; 19&ndash;22 INCH DIAMETER &nbsp;&nbsp;&middot;&nbsp;&nbsp; 8&ndash;12 WEEK LEAD TIME &nbsp;&nbsp;&middot;&nbsp;&nbsp; " -%}
+    <span class="marquee-strip__segment">{{ item }}</span>
+    <span class="marquee-strip__segment" aria-hidden="true">{{ item }}</span>
+    <span class="marquee-strip__segment" aria-hidden="true">{{ item }}</span>
+  </div>
+</div>
+
+{% stylesheet %}
+.marquee-strip {
+  background: var(--bg-surface);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  overflow: hidden;
+  padding: 13px 0;
+}
+
+.marquee-strip__track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 55s linear infinite;
+}
+
+.marquee-strip__segment {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 9px;
+  letter-spacing: 0.32em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-strip__track { animation: none; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Marquee Strip",
+  "tag": "div",
+  "settings": [],
+  "presets": [{ "name": "Marquee Strip" }]
+}
+{% endschema %}
