@@ -19,21 +19,16 @@ export function DesignBaseCard({
     <article className={styles.card} data-tone={tone}>
       <div className={styles.visual} data-tone={tone}>
         <div className={styles.visualHead}>
-          <span className={styles.serial}>Design Base</span>
+          <span className={styles.serial}>{item.name}</span>
           <span className={styles.profileTag}>{item.profile}</span>
         </div>
         <div className={styles.wheelField}>
           <div className={styles.wheel} />
         </div>
-        <div className={styles.visualFoot}>
-          <span>Fitment-led machining</span>
-          <span>Finish tailored on approval</span>
-        </div>
       </div>
       <div className={styles.body}>
         <div className={styles.heading}>
           <div>
-            <span className={styles.eyebrow}>MNW atelier spec</span>
             <h3 className={styles.title}>{item.name}</h3>
           </div>
           {item.price ? <div className={styles.price}>From {item.price} / set</div> : null}

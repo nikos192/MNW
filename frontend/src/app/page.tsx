@@ -17,11 +17,6 @@ export default async function Home() {
         <SiteHeader />
 
         <div className={styles.heroGrid}>
-          <div className={styles.heroMeta}>
-            <span className={styles.kicker}>Custom Forged Wheels</span>
-            <p className={styles.metaCopy}>Built to the car, not picked from a shelf.</p>
-          </div>
-
           <div className={styles.heroStage}>
             <video
               className={styles.heroVideo}
@@ -37,17 +32,8 @@ export default async function Home() {
             <div className={styles.heroVideoShade} aria-hidden="true" />
             <div className={styles.heroVideoGlow} aria-hidden="true" />
 
-            <div className={styles.heroStageTop}>
-              <span className={styles.heroStageChip}>Hero Motion</span>
-              <span className={styles.heroStageChip}>Forged Multi-Spoke</span>
-            </div>
-
             <div className={styles.heroStageBottom}>
-              <span className={styles.heroStageEyebrow}>MNW motion study</span>
-              <p>
-                Real light, real reflection, and spoke depth that reads closer to a
-                finished wheel than a static render ever can.
-              </p>
+              <span className={styles.heroStageEyebrow}>Cold forged monoblock</span>
             </div>
           </div>
 
@@ -85,24 +71,6 @@ export default async function Home() {
             <strong>Delivered proof</strong>
             <span>Real finished sets become the photo engine over time.</span>
           </div>
-        </div>
-      </section>
-
-      <section className={styles.metrics}>
-        <div className={styles.metricCard}>
-          <span>Made to order</span>
-          <strong>Exact fitment</strong>
-          <p>Widths, offsets, bores, and brake clearance resolved around the chassis.</p>
-        </div>
-        <div className={styles.metricCard}>
-          <span>Cold forged</span>
-          <strong>6061-T6 aluminium</strong>
-          <p>Strength, finish quality, and clean spoke geometry without cast compromise.</p>
-        </div>
-        <div className={styles.metricCard}>
-          <span>Built with intent</span>
-          <strong>Finish led</strong>
-          <p>Brushed, machined, painted, or custom finishes tailored to the overall build.</p>
         </div>
       </section>
 

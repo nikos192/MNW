@@ -30,22 +30,13 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(12rem, 0.8fr) minmax(22rem, 1.15fr) minmax(18rem, 0.9fr);
+  grid-template-columns: minmax(22rem, 1.15fr) minmax(18rem, 0.9fr);
   align-items: end;
   gap: clamp(1.25rem, 3vw, 2.5rem);
   min-height: calc(100svh - 9rem);
   padding: 3rem 0 2rem;
 }
 
-.heroMeta {
-  align-self: center;
-  display: grid;
-  gap: 1rem;
-  padding: 1.4rem;
-  border: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
-  backdrop-filter: blur(18px);
-}
 
 .kicker {
   display: inline-flex;
@@ -72,24 +63,13 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   min-height: 72svh;
   padding: 1.25rem;
   border: 1px solid var(--line);
-  border-radius: 1.75rem;
   background: #08090b;
   box-shadow: var(--shadow);
   isolation: isolate;
-}
-
-.heroStage::before {
-  content: "";
-  position: absolute;
-  inset: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 1.15rem;
-  z-index: 3;
-  pointer-events: none;
 }
 
 .heroVideo {
@@ -125,54 +105,23 @@
     radial-gradient(circle at 52% 50%, rgba(255, 255, 255, 0.08), transparent 12%);
 }
 
-.heroStageTop,
 .heroStageBottom {
   position: relative;
   z-index: 4;
 }
 
-.heroStageTop {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.85rem;
-  flex-wrap: wrap;
-}
-
-.heroStageChip,
 .heroStageEyebrow {
   display: inline-flex;
   align-items: center;
-  width: fit-content;
-  min-height: 2.1rem;
-  padding: 0 0.95rem;
+  min-height: 2rem;
+  padding: 0 0.9rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-  background: rgba(7, 8, 11, 0.48);
+  background: rgba(7, 8, 11, 0.52);
   backdrop-filter: blur(14px);
-  color: var(--warm);
-  font-size: 0.66rem;
-  letter-spacing: 0.22em;
+  color: var(--text-muted);
+  font-size: 0.64rem;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-}
-
-.heroStageBottom {
-  align-self: flex-start;
-  display: grid;
-  gap: 0.9rem;
-  max-width: 21rem;
-  padding: 1.2rem;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 1.2rem;
-  background:
-    linear-gradient(180deg, rgba(9, 10, 13, 0.58), rgba(9, 10, 13, 0.34)),
-    rgba(9, 10, 13, 0.18);
-  backdrop-filter: blur(16px);
-}
-
-.heroStageBottom p {
-  color: rgba(245, 239, 227, 0.78);
-  line-height: 1.75;
-  font-size: 0.92rem;
 }
 
 .heroCopy {
@@ -211,8 +160,7 @@
   align-items: center;
   justify-content: center;
   min-height: 3.25rem;
-  padding: 0 1.35rem;
-  border-radius: 999px;
+  padding: 0 1.6rem;
   font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -290,19 +238,6 @@
   padding: clamp(4rem, 8vw, 7.5rem) clamp(1.25rem, 3vw, 2.5rem);
 }
 
-.metrics {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 80%);
-}
-
-.metricCard {
-  position: relative;
-  padding: 1.5rem;
-}
-
-.metricCard::before,
 .processCard::before,
 .briefPanel::before {
   content: "";
@@ -314,29 +249,8 @@
   background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
 }
 
-.metricCard span,
-.briefActions p,
-.metricCard p {
+.briefActions p {
   color: var(--text-muted);
-}
-
-.metricCard span {
-  display: inline-flex;
-  margin-bottom: 0.95rem;
-  font-size: 0.68rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-}
-
-.metricCard strong {
-  display: block;
-  margin-bottom: 0.65rem;
-  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
-  line-height: 1.05;
-}
-
-.metricCard p {
-  line-height: 1.7;
 }
 
 .section,
@@ -437,24 +351,16 @@
     min-height: auto;
   }
 
-  .heroMeta {
-    order: 2;
-    max-width: 28rem;
-  }
-
   .heroStage {
-    order: 1;
     min-height: 58svh;
   }
 
   .heroCopy {
-    order: 3;
     padding-left: 0;
     padding-right: 0;
   }
 
   .heroRail,
-  .metrics,
   .processGrid,
   .libraryGrid,
   .deliveredGrid,

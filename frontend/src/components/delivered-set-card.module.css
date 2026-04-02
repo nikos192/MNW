@@ -2,7 +2,7 @@
   position: relative;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 1.65rem;
+  border-radius: 0;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.012)),
     var(--panel);
@@ -32,7 +32,7 @@
   position: absolute;
   inset: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 1.1rem;
+  border-radius: 0;
 }
 
 .badge {
@@ -43,7 +43,7 @@
   min-height: 2rem;
   padding: 0 0.85rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 999px;
+  border-radius: 2px;
   background: rgba(9, 10, 13, 0.54);
   color: var(--warm);
   font-size: 0.64rem;
@@ -174,7 +174,7 @@
   width: fit-content;
   padding: 0.55rem 0.8rem;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 2px;
   color: var(--warm);
   background: rgba(255, 255, 255, 0.025);
   font-size: 0.66rem;

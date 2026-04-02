@@ -15,7 +15,6 @@ export function DeliveredSetCard({ item }: DeliveredSetCardProps) {
         <div className={styles.wheelRight} />
       </div>
       <div className={styles.body}>
-        <span className={styles.eyebrow}>Real chassis reference</span>
         <h3 className={styles.title}>{item.chassis}</h3>
         <div className={styles.specs}>
           <p className={styles.fitment}>{item.fitment}</p>
