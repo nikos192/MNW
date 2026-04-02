@@ -70,17 +70,16 @@
 
 .heroStage {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   min-height: 72svh;
-  padding: 2rem;
+  padding: 1.25rem;
   border: 1px solid var(--line);
   border-radius: 1.75rem;
-  background:
-    radial-gradient(circle at center, rgba(217, 185, 129, 0.12), transparent 42%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01)),
-    var(--panel);
+  background: #08090b;
   box-shadow: var(--shadow);
+  isolation: isolate;
 }
 
 .heroStage::before {
@@ -89,91 +88,91 @@
   inset: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 1.15rem;
+  z-index: 3;
+  pointer-events: none;
 }
 
-.heroAura {
+.heroVideo {
   position: absolute;
-  width: min(42rem, 64vw);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(217, 185, 129, 0.32), transparent 64%);
-  filter: blur(44px);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.86) contrast(1.08) brightness(0.62);
+  transform: scale(1.04);
 }
 
-.heroWheel {
+.heroVideoShade,
+.heroVideoGlow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.heroVideoShade {
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(4, 5, 8, 0.18), rgba(4, 5, 8, 0.72)),
+    radial-gradient(circle at 50% 38%, transparent 0, rgba(6, 7, 10, 0.14) 42%, rgba(6, 7, 10, 0.86) 100%),
+    linear-gradient(90deg, rgba(5, 6, 9, 0.72), transparent 35%, transparent 65%, rgba(5, 6, 9, 0.62));
+}
+
+.heroVideoGlow {
+  z-index: 2;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(217, 185, 129, 0.16), transparent 24%),
+    radial-gradient(circle at 52% 50%, rgba(255, 255, 255, 0.08), transparent 12%);
+}
+
+.heroStageTop,
+.heroStageBottom {
   position: relative;
-  width: min(34rem, 48vw);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  transform: rotate(-14deg);
+  z-index: 4;
+}
+
+.heroStageTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.heroStageChip,
+.heroStageEyebrow {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 2.1rem;
+  padding: 0 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  background: rgba(7, 8, 11, 0.48);
+  backdrop-filter: blur(14px);
+  color: var(--warm);
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.heroStageBottom {
+  align-self: flex-start;
+  display: grid;
+  gap: 0.9rem;
+  max-width: 21rem;
+  padding: 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 1.2rem;
   background:
-    radial-gradient(circle at 26% 21%, rgba(255, 255, 255, 0.3), transparent 15%),
-    radial-gradient(circle at center, #6d655b 0 6%, #101216 6% 11%, #92897e 11% 14%, transparent 14%),
-    conic-gradient(
-      from 0deg,
-      #7f796f 0deg 14deg,
-      #111318 14deg 40deg,
-      #59544d 40deg 58deg,
-      #111318 58deg 84deg,
-      #8d8579 84deg 102deg,
-      #111318 102deg 128deg,
-      #5e5952 128deg 146deg,
-      #111318 146deg 172deg,
-      #93897f 172deg 190deg,
-      #111318 190deg 216deg,
-      #5c5750 216deg 234deg,
-      #111318 234deg 260deg,
-      #8b8377 260deg 278deg,
-      #111318 278deg 304deg,
-      #5b564f 304deg 322deg,
-      #111318 322deg 360deg
-    );
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 0 0 24px rgba(255, 255, 255, 0.015),
-    0 48px 120px rgba(0, 0, 0, 0.5);
+    linear-gradient(180deg, rgba(9, 10, 13, 0.58), rgba(9, 10, 13, 0.34)),
+    rgba(9, 10, 13, 0.18);
+  backdrop-filter: blur(16px);
 }
 
-.heroWheel::before {
-  content: "";
-  position: absolute;
-  inset: 11%;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at center, rgba(0, 0, 0, 0.9) 0 11%, transparent 11%),
-    conic-gradient(
-      from 0deg,
-      rgba(255, 255, 255, 0.14) 0deg 10deg,
-      transparent 10deg 45deg,
-      rgba(255, 255, 255, 0.08) 45deg 55deg,
-      transparent 55deg 90deg,
-      rgba(255, 255, 255, 0.12) 90deg 100deg,
-      transparent 100deg 135deg,
-      rgba(255, 255, 255, 0.08) 135deg 145deg,
-      transparent 145deg 180deg,
-      rgba(255, 255, 255, 0.12) 180deg 190deg,
-      transparent 190deg 225deg,
-      rgba(255, 255, 255, 0.08) 225deg 235deg,
-      transparent 235deg 270deg,
-      rgba(255, 255, 255, 0.12) 270deg 280deg,
-      transparent 280deg 315deg,
-      rgba(255, 255, 255, 0.08) 315deg 325deg,
-      transparent 325deg 360deg
-    );
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-}
-
-.heroWheel::after {
-  content: "";
-  position: absolute;
-  inset: 39%;
-  border-radius: 50%;
-  background: radial-gradient(circle, #0c0e11 0, #191d23 100%);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-}
-
-.heroWheelCore {
-  display: none;
+.heroStageBottom p {
+  color: rgba(245, 239, 227, 0.78);
+  line-height: 1.75;
+  font-size: 0.92rem;
 }
 
 .heroCopy {
@@ -478,7 +477,7 @@
     font-size: clamp(3.6rem, 18vw, 5.8rem);
   }
 
-  .heroWheel {
-    width: min(82vw, 21rem);
+  .heroStageBottom {
+    max-width: 100%;
   }
 }

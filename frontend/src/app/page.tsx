@@ -22,10 +22,32 @@ export default async function Home() {
             <p className={styles.metaCopy}>Built to the car, not picked from a shelf.</p>
           </div>
 
-          <div className={styles.heroStage} aria-hidden="true">
-            <div className={styles.heroAura} />
-            <div className={styles.heroWheel}>
-              <div className={styles.heroWheelCore} />
+          <div className={styles.heroStage}>
+            <video
+              className={styles.heroVideo}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              poster="/media/hero-wheel-poster.jpg"
+            >
+              <source src="/media/hero-wheel.mp4" type="video/mp4" />
+            </video>
+            <div className={styles.heroVideoShade} aria-hidden="true" />
+            <div className={styles.heroVideoGlow} aria-hidden="true" />
+
+            <div className={styles.heroStageTop}>
+              <span className={styles.heroStageChip}>Hero Motion</span>
+              <span className={styles.heroStageChip}>Forged Multi-Spoke</span>
+            </div>
+
+            <div className={styles.heroStageBottom}>
+              <span className={styles.heroStageEyebrow}>MNW motion study</span>
+              <p>
+                Real light, real reflection, and spoke depth that reads closer to a
+                finished wheel than a static render ever can.
+              </p>
             </div>
           </div>
 
