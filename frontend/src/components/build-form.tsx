@@ -5,6 +5,7 @@ import styles from "./build-form.module.css";
 
 type BuildFormProps = {
   email: string;
+  initialNotes?: string;
 };
 
 const fields = [
@@ -18,8 +19,8 @@ const fields = [
   { id: "references", label: "Reference links", type: "text", placeholder: "Instagram, Pinterest, or car photos" },
 ] as const;
 
-export function BuildForm({ email }: BuildFormProps) {
-  const [notes, setNotes] = useState("");
+export function BuildForm({ email, initialNotes = "" }: BuildFormProps) {
+  const [notes, setNotes] = useState(initialNotes);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -57,10 +58,10 @@ export function BuildForm({ email }: BuildFormProps) {
         </label>
       </div>
       <button className={styles.button} type="submit">
-        Send Build Brief
+        Request a Quote
       </button>
       <p className={styles.help}>
-        This opens your email app with the brief pre-filled so you can send it straight to MNW.
+        This opens your email app with the build brief pre-filled so you can send it straight to MNW.
       </p>
     </form>
   );

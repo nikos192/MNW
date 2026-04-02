@@ -1,0 +1,109 @@
+.page {
+  background: var(--bg-dark);
+}
+
+.hero {
+  padding: 136px 0 40px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.title {
+  max-width: 900px;
+  margin: 16px 0;
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 700;
+  line-height: 1.02;
+  color: var(--text-primary);
+}
+
+.copy,
+.selection,
+.card p,
+.makeCard li {
+  font-family: var(--font-body), sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.selection {
+  margin-top: 20px;
+}
+
+.section {
+  padding: 40px 0 var(--section-pad-v);
+}
+
+.principles,
+.makeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.card,
+.makeCard {
+  border: 1px solid var(--rule);
+  padding: 28px;
+  background: var(--bg-surface);
+}
+
+.card h2,
+.sectionHeading,
+.makeCard h3 {
+  font-family: var(--font-heading), sans-serif;
+  color: var(--text-primary);
+}
+
+.card h2,
+.makeCard h3 {
+  margin-bottom: 12px;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.sectionIntro {
+  margin-bottom: 32px;
+}
+
+.sectionHeading {
+  margin-top: 14px;
+  font-size: clamp(30px, 5vw, 56px);
+  font-weight: 700;
+  line-height: 1.02;
+}
+
+.makeCard ul {
+  display: grid;
+  gap: 12px;
+}
+
+.ctaSection {
+  padding: 0 0 var(--section-pad-v);
+}
+
+.ctaPanel {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  border-top: 1px solid var(--rule);
+  padding-top: 32px;
+}
+
+@media (max-width: 1024px) {
+  .principles,
+  .makeGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .ctaPanel {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

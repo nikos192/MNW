@@ -1,10 +1,30 @@
-export type DesignBase = {
+export type CatalogImage = {
+  url: string;
+  alt: string;
+};
+
+export type WheelFinish = {
   name: string;
-  profile: string;
-  note: string;
+  swatch: string;
+};
+
+export type WheelSpec = {
+  label: string;
+  value: string;
+};
+
+export type CatalogProduct = {
+  id: string;
+  handle: string;
+  title: string;
+  series: string;
+  shortDescription: string;
   description: string;
-  fitmentFocus: string;
-  finishDirection: string;
+  price: string;
+  leadTime: string;
+  images: CatalogImage[];
+  finishes: WheelFinish[];
+  specs: WheelSpec[];
 };
 
 export type DeliveredSet = {
@@ -12,68 +32,133 @@ export type DeliveredSet = {
   fitment: string;
   finish: string;
   note: string;
+  image: string;
 };
 
-export type ProcessStep = {
-  step: string;
-  title: string;
-  copy: string;
+export const vehicleData: Record<string, Record<string, number[]>> = {
+  BMW: {
+    "G80 M3": [2021, 2022, 2023, 2024],
+    "G82 M4": [2021, 2022, 2023, 2024],
+    "G87 M2": [2023, 2024],
+    "G20 3 Series": [2019, 2020, 2021, 2022, 2023, 2024],
+  },
+  Porsche: {
+    "992 Carrera": [2020, 2021, 2022, 2023, 2024],
+    "718 Cayman": [2020, 2021, 2022, 2023, 2024],
+    Macan: [2020, 2021, 2022, 2023, 2024],
+  },
+  Audi: {
+    "RS3 8Y": [2022, 2023, 2024],
+    "RS5 B9": [2020, 2021, 2022, 2023, 2024],
+    "R8 V10": [2020, 2021, 2022, 2023],
+  },
+  Mercedes: {
+    "AMG GT": [2021, 2022, 2023, 2024],
+    "C63 S": [2021, 2022, 2023, 2024],
+    "A45 S": [2021, 2022, 2023, 2024],
+  },
+  Volkswagen: {
+    "Golf R": [2022, 2023, 2024],
+    "Golf GTI": [2022, 2023, 2024],
+    Arteon: [2022, 2023, 2024],
+  },
 };
 
-export const designBases: DesignBase[] = [
+const fallbackImage = "/media/hero-wheel-poster.jpg";
+
+export const fallbackProducts: CatalogProduct[] = [
   {
-    name: "MNW-01",
-    profile: "Monoblock / precision spoke",
-    note: "For sedans and coupes that need a calm surface with exact brake clearance.",
-    description:
+    id: "mnw-01",
+    handle: "mnw-01",
+    title: "MNW-01",
+    series: "Series 01",
+    shortDescription:
       "A measured face with enough edge definition to carry luxury and performance builds without visual noise.",
-    fitmentFocus: "BMW G-series and modern Porsche street fitments",
-    finishDirection: "Brushed clear, satin graphite, or machine-face programs",
+    description:
+      "MNW-01 is the calmest entry in the range. It suits sedans and coupes that need a deliberate surface, exact brake clearance, and a finish program that stays restrained rather than loud.",
+    price: "$4,500",
+    leadTime: "8–12 weeks",
+    images: [
+      { url: fallbackImage, alt: "MNW-01 forged wheel" },
+      { url: fallbackImage, alt: "MNW-01 alternate angle" },
+      { url: fallbackImage, alt: "MNW-01 profile" },
+      { url: fallbackImage, alt: "MNW-01 detail" },
+    ],
+    finishes: [
+      { name: "Brushed clear", swatch: "#AFAFAD" },
+      { name: "Satin graphite", swatch: "#2A2A2A" },
+      { name: "Gloss black", swatch: "#0F0F0F" },
+    ],
+    specs: [
+      { label: "Construction", value: "Forged monoblock" },
+      { label: "Material", value: "6061-T6 aluminium billet" },
+      { label: "Diameter", value: "19, 20, 21" },
+      { label: "Width", value: "9.0 to 12.0" },
+      { label: "PCD", value: "5x112, 5x114.3, 5x120, centre lock by brief" },
+      { label: "Offset", value: "Resolved per chassis" },
+    ],
   },
   {
-    name: "MNW-02",
-    profile: "Split spoke / motorsport edge",
-    note: "Built around aggressive brake packages, staggered fitment, and lighter visual mass.",
-    description:
+    id: "mnw-02",
+    handle: "mnw-02",
+    title: "MNW-02",
+    series: "Series 01",
+    shortDescription:
       "Sharper spoke architecture for builds that need obvious brake presence and more motorsport tension in the face.",
-    fitmentFocus: "Track-focused sedans, RS models, AMG and M cars",
-    finishDirection: "Gloss black, dark metallics, and contrast hardware",
+    description:
+      "MNW-02 pushes the spoke architecture harder. It works best around aggressive brake packages, staggered fitment, and projects where the wheel needs more tension without tipping into visual clutter.",
+    price: "$4,900",
+    leadTime: "8–12 weeks",
+    images: [
+      { url: fallbackImage, alt: "MNW-02 forged wheel" },
+      { url: fallbackImage, alt: "MNW-02 alternate angle" },
+      { url: fallbackImage, alt: "MNW-02 profile" },
+      { url: fallbackImage, alt: "MNW-02 detail" },
+    ],
+    finishes: [
+      { name: "Gloss black", swatch: "#0F0F0F" },
+      { name: "Machine face", swatch: "#F5F5F3" },
+      { name: "Satin graphite", swatch: "#2A2A2A" },
+    ],
+    specs: [
+      { label: "Construction", value: "Forged monoblock" },
+      { label: "Material", value: "6061-T6 aluminium billet" },
+      { label: "Diameter", value: "19, 20, 21" },
+      { label: "Width", value: "9.5 to 12.5" },
+      { label: "PCD", value: "5x112, 5x114.3, 5x120" },
+      { label: "Offset", value: "Brake package dependent" },
+    ],
   },
   {
-    name: "MNW-03",
-    profile: "Deep concave / custom finish brief",
-    note: "Best used when the face is only the beginning and the finish program carries the identity.",
-    description:
+    id: "mnw-03",
+    handle: "mnw-03",
+    title: "MNW-03",
+    series: "Series 01",
+    shortDescription:
       "A stronger concave language suited to hero builds where the wheel is part of the car's visual signature.",
-    fitmentFocus: "Rear-drive staggered setups and statement street builds",
-    finishDirection: "Two-tone brushed, custom paint, or hidden-hardware finishes",
-  },
-  {
-    name: "MNW-04",
-    profile: "Technical mesh / brake-forward",
-    note: "A denser face designed for chassis that need both depth and confidence around large calipers.",
     description:
-      "Tighter spoke frequency without tipping into clutter, ideal for a more engineered and technical read.",
-    fitmentFocus: "Porsche, Audi RS, and larger brake clearances",
-    finishDirection: "Satin metallics, machine detail, subtle contrast caps",
-  },
-  {
-    name: "MNW-05",
-    profile: "Five spoke / strong negative space",
-    note: "A simpler face where proportion, offset, and finish do most of the work.",
-    description:
-      "Minimal on paper but extremely dependent on exact width, concavity, and stance to feel correct.",
-    fitmentFocus: "Coupe and GT platforms that suit cleaner spoke architecture",
-    finishDirection: "Machine-face, brushed smoke, or painted solid colors",
-  },
-  {
-    name: "MNW-06",
-    profile: "Complex spoke / show build base",
-    note: "Used when the brief wants movement, reflection, and more visual detail up close.",
-    description:
-      "A stronger styling-led direction that still needs proper fitment discipline to avoid feeling generic.",
-    fitmentFocus: "Show-oriented builds, larger diameters, and custom finish briefs",
-    finishDirection: "Custom paint, polished sections, or special finish programs",
+      "MNW-03 is the deeper, more dramatic base. It is best when the brief wants stronger rear architecture, more negative space, and a finish program that becomes part of the car's identity.",
+    price: "$5,200",
+    leadTime: "8–12 weeks",
+    images: [
+      { url: fallbackImage, alt: "MNW-03 forged wheel" },
+      { url: fallbackImage, alt: "MNW-03 alternate angle" },
+      { url: fallbackImage, alt: "MNW-03 profile" },
+      { url: fallbackImage, alt: "MNW-03 detail" },
+    ],
+    finishes: [
+      { name: "Brushed clear", swatch: "#AFAFAD" },
+      { name: "Machine face", swatch: "#F5F5F3" },
+      { name: "Gloss black", swatch: "#0F0F0F" },
+    ],
+    specs: [
+      { label: "Construction", value: "Forged monoblock" },
+      { label: "Material", value: "6061-T6 aluminium billet" },
+      { label: "Diameter", value: "20, 21, 22" },
+      { label: "Width", value: "9.5 to 13.0" },
+      { label: "PCD", value: "5x112, 5x114.3, 5x120" },
+      { label: "Offset", value: "Statement staggered fitment" },
+    ],
   },
 ];
 
@@ -83,44 +168,50 @@ export const deliveredSets: DeliveredSet[] = [
     fitment: "19x9.5 / 20x10.5",
     finish: "Brushed clear with machined cap",
     note: "Reference build for a restrained staggered street setup.",
+    image: fallbackImage,
   },
   {
     chassis: "Porsche 992 Carrera",
     fitment: "20x9 / 21x11.5",
     finish: "Satin graphite with hidden hardware",
     note: "Illustrates how the same face tightens up when the rear architecture gets more aggressive.",
+    image: fallbackImage,
   },
   {
     chassis: "Audi RS3 8Y",
     fitment: "19x9 square",
     finish: "Gloss black with machine lip",
     note: "Proof point for a compact chassis with brake-clearance priorities.",
-  },
-  {
-    chassis: "Mercedes-AMG GT",
-    fitment: "20x10 / 21x12",
-    finish: "Tinted brushed bronze",
-    note: "A finish-led build where the wheel reads differently in motion and sunlight.",
+    image: fallbackImage,
   },
 ];
 
-export const processSteps: ProcessStep[] = [
+export const fitmentPrinciples = [
   {
-    step: "01",
-    title: "Choose a face",
-    copy:
-      "Start from a design base, previous build, or a new direction built with us from reference images and sketches.",
+    title: "Chassis first",
+    copy: "Width, offset, bore, and brake clearance are resolved around the exact vehicle before the wheel moves into production.",
   },
   {
-    step: "02",
-    title: "Resolve the chassis",
-    copy:
-      "We lock brake clearance, ride height, widths, offsets, centre bore, and hardware around the exact car.",
+    title: "No shelf offsets",
+    copy: "The catalogue is a design direction, not a locked inventory system. Final geometry is approved as part of the brief.",
   },
   {
-    step: "03",
-    title: "Approve and build",
-    copy:
-      "Once the spec and finish are signed off, the set moves into machining, finishing, validation, and final photography.",
+    title: "Made to order",
+    copy: "Each set moves into machining, finishing, and final approval only after the vehicle and finish direction are signed off.",
+  },
+];
+
+export const aboutStatements = [
+  {
+    title: "Designed in Australia",
+    copy: "MNW is built around a simple idea: the wheel should feel native to the chassis rather than adapted after the fact.",
+  },
+  {
+    title: "Forged, not generic",
+    copy: "Every program starts from a forged blank and ends with a fitment, face, and finish combination approved for the exact build.",
+  },
+  {
+    title: "Quote-first process",
+    copy: "This is a configure-to-order product. The right outcome comes from the brief, not from forcing a generic cart flow onto a custom part.",
   },
 ];

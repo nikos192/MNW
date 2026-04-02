@@ -1,23 +1,30 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Space_Grotesk } from "next/font/google";
+import { Jura, Work_Sans } from "next/font/google";
+import { SiteEffects } from "@/components/site-effects";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 
-const headingFont = Cormorant_Garamond({
+const headingFont = Work_Sans({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["500", "700"],
 });
 
-const bodyFont = Space_Grotesk({
+const bodyFont = Jura({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["300"],
 });
 
 export const metadata: Metadata = {
-  title: "MNW | Custom Forged Wheels",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  title: {
+    default: "MNW | Forged Wheels Australia",
+    template: "%s | MNW",
+  },
   description:
-    "Custom forged wheels built around the exact chassis, fitment, and finish direction of your car.",
+    "Premium forged wheels machined to order in Australia, with fitment, offset, finish, and brake clearance resolved around the exact chassis.",
 };
 
 export default function RootLayout({
@@ -27,7 +34,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${headingFont.variable} ${bodyFont.variable}`}>
-      <body>{children}</body>
+      <body>
+        <SiteEffects />
+        <SiteHeader />
+        <main id="main-content">{children}</main>
+        <SiteFooter />
+      </body>
     </html>
   );
 }

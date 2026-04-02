@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { DeliveredSet } from "@/lib/mnw-data";
 import styles from "./delivered-set-card.module.css";
 
@@ -9,10 +10,15 @@ export function DeliveredSetCard({ item }: DeliveredSetCardProps) {
   return (
     <article className={styles.card}>
       <div className={styles.media}>
-        <span className={styles.badge}>Delivered Set</span>
-        <div className={styles.axle} />
-        <div className={styles.wheelLeft} />
-        <div className={styles.wheelRight} />
+        <Image
+          alt={item.chassis}
+          className={styles.image}
+          loading="lazy"
+          src={item.image}
+          sizes="(max-width: 1024px) 50vw, 33vw"
+          width={1200}
+          height={1200}
+        />
       </div>
       <div className={styles.body}>
         <h3 className={styles.title}>{item.chassis}</h3>

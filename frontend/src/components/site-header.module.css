@@ -1,80 +1,176 @@
 .header {
-  position: sticky;
-  top: 0;
-  z-index: 30;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 60;
+  padding: 26px 0;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  transition:
+    background var(--duration-hover) var(--ease-precision),
+    border-color var(--duration-hover) var(--ease-precision),
+    padding var(--duration-hover) var(--ease-precision);
+}
+
+.scrolled {
+  padding: 18px 0;
+  background: rgba(14, 14, 14, 0.95);
+  border-bottom-color: var(--rule);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.inner {
+  display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding: 1rem 0;
+  justify-content: space-between;
+  gap: 24px;
 }
 
 .wordmark {
-  font-size: 1rem;
-  letter-spacing: 0.55em;
+  font-family: var(--font-heading), sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  line-height: 1;
   text-transform: uppercase;
-  color: var(--text);
+  color: var(--text-primary);
 }
 
 .nav {
-  justify-self: center;
+  margin-left: auto;
+}
+
+.navList {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 0.75rem;
-  border: 1px solid var(--line);
-  background: rgba(10, 12, 15, 0.72);
-  backdrop-filter: blur(16px);
+  gap: 16px;
 }
 
-.nav a {
-  padding: 0.7rem 1rem;
-  color: var(--text-muted);
-  font-size: 0.73rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  transition:
-    color 180ms ease,
-    background-color 180ms ease,
-    transform 180ms ease;
-}
-
-.nav a:hover {
-  color: var(--text);
-  transform: translateY(-1px);
-}
-
-.cta {
-  display: inline-flex;
+.navItem {
+  display: flex;
   align-items: center;
-  min-height: 3rem;
-  padding: 0 1.35rem;
-  border: 1px solid var(--line-strong);
-  background: linear-gradient(180deg, rgba(217, 185, 129, 0.2), rgba(217, 185, 129, 0.08));
-  color: var(--warm);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
+  gap: 16px;
+}
+
+.navItem + .navItem::before {
+  content: "·";
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1;
+}
+
+.navLink {
+  position: relative;
+  padding-bottom: 3px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  line-height: 1.5;
   text-transform: uppercase;
-  transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    background-color 180ms ease;
+  color: var(--text-muted);
 }
 
-.cta:hover {
-  transform: translateY(-1px);
-  border-color: rgba(223, 189, 135, 0.4);
+.navLink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--text-muted);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 200ms var(--ease-precision);
 }
 
-@media (max-width: 920px) {
-  .header {
-    grid-template-columns: 1fr;
-    justify-items: start;
+.navLink:hover::after,
+.navLink:focus-visible::after,
+.active::after {
+  transform: scaleX(1);
+}
+
+.toggle {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+  color: var(--text-muted);
+}
+
+.toggle span {
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  background: rgba(14, 14, 14, 0.98);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms var(--ease-precision);
+}
+
+.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.close {
+  position: absolute;
+  top: 24px;
+  right: var(--section-pad-h);
+  font-family: var(--font-body), sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.overlayNav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.overlayLink {
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(30px, 8vw, 54px);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--text-primary);
+}
+
+.overlayMeta {
+  position: absolute;
+  bottom: 32px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+@media (max-width: 840px) {
+  .nav {
+    display: none;
   }
 
-  .nav {
-    justify-self: start;
-    overflow-x: auto;
-    max-width: 100%;
+  .toggle {
+    display: inline-flex;
   }
 }

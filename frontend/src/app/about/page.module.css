@@ -1,0 +1,132 @@
+.page {
+  background: var(--bg-dark);
+}
+
+.hero {
+  padding: 136px 0 48px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.title,
+.sectionHeading,
+.card h2 {
+  font-family: var(--font-heading), sans-serif;
+  color: var(--text-primary);
+}
+
+.title {
+  max-width: 980px;
+  margin: 16px 0;
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 700;
+  line-height: 1.02;
+}
+
+.copy,
+.card p,
+.processItem p {
+  font-family: var(--font-body), sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.statementSection,
+.processSection {
+  padding: 40px 0 var(--section-pad-v);
+}
+
+.statementGrid,
+.processGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.card,
+.processList {
+  border: 1px solid var(--rule);
+  padding: 28px;
+  background: var(--bg-surface);
+}
+
+.card h2 {
+  margin-bottom: 12px;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.processCopy {
+  max-width: 420px;
+}
+
+.sectionHeading {
+  margin-top: 14px;
+  font-size: clamp(30px, 5vw, 56px);
+  font-weight: 700;
+  line-height: 1.02;
+}
+
+.processList {
+  grid-column: span 2;
+}
+
+.processItem {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.processItem:last-child {
+  border-bottom: 0;
+}
+
+.processItem span {
+  font-family: var(--font-body), sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.ctaSection {
+  padding: 0 0 var(--section-pad-v);
+}
+
+.ctaPanel {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  border-top: 1px solid var(--rule);
+  padding-top: 32px;
+}
+
+@media (max-width: 1024px) {
+  .statementGrid,
+  .processGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .processList {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .ctaPanel {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .processItem {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
