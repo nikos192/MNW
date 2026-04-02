@@ -32,18 +32,21 @@ export default async function Home() {
           </div>
 
           <div className={styles.heroStage}>
-            <video
-              className={styles.heroVideo}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
-              poster="/media/hero-wheel-poster.jpg"
-            >
-              <source src="/media/hero-wheel.mp4" type="video/mp4" />
-            </video>
-            <div className={styles.heroVideoShade} aria-hidden="true" />
+            <div className={styles.heroStageGlow} aria-hidden="true" />
+            <div className={styles.heroStageViewport}>
+              <video
+                className={styles.heroVideo}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="metadata"
+                poster="/media/hero-wheel-poster.jpg"
+              >
+                <source src="/media/hero-wheel.mp4" type="video/mp4" />
+              </video>
+              <div className={styles.heroVideoShade} aria-hidden="true" />
+            </div>
           </div>
         </div>
       </section>

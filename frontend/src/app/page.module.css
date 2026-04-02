@@ -6,7 +6,20 @@
   position: relative;
   min-height: 100svh;
   overflow: hidden;
-  background: var(--bg-deep);
+  background:
+    radial-gradient(circle at 78% 34%, rgba(245, 245, 243, 0.08), transparent 20%),
+    linear-gradient(180deg, #111110 0%, #151513 56%, #191917 100%);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(96px, 14vw, 180px);
+  background: linear-gradient(180deg, rgba(25, 25, 23, 0) 0%, rgba(250, 250, 248, 0.18) 100%);
+  pointer-events: none;
 }
 
 .heroMedia {
@@ -22,7 +35,9 @@
 }
 
 .heroMediaShade {
-  background: linear-gradient(180deg, rgba(15, 15, 15, 0.42), rgba(15, 15, 15, 0.82));
+  background:
+    linear-gradient(180deg, rgba(15, 15, 15, 0.32), rgba(15, 15, 15, 0.68)),
+    radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.04), transparent 24%);
 }
 
 .heroMediaGrain {
@@ -76,8 +91,35 @@
 
 .heroStage {
   position: relative;
-  min-height: min(76svh, 820px);
-  border: 1px solid rgba(245, 245, 243, 0.08);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  justify-self: end;
+  width: min(100%, 640px);
+}
+
+.heroStageGlow {
+  position: absolute;
+  inset: 8% 10%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 245, 243, 0.12) 0%, rgba(245, 245, 243, 0.03) 38%, transparent 68%);
+  filter: blur(20px);
+  transform: translate3d(0, 0, 0);
+}
+
+.heroStageViewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  min-height: min(72svh, 640px);
+  background:
+    radial-gradient(circle at 50% 36%, rgba(255, 255, 255, 0.05), transparent 44%),
+    #050505;
+  border: 1px solid rgba(245, 245, 243, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 28px 80px rgba(0, 0, 0, 0.38);
   overflow: hidden;
 }
 
@@ -86,15 +128,19 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
-  filter: grayscale(1) contrast(1.08) brightness(0.66);
+  filter: contrast(1.02) brightness(0.98);
+  transform: scale(1.01);
 }
 
 .heroVideoShade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(15, 15, 15, 0.12), rgba(15, 15, 15, 0.6));
+  background:
+    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 58%, rgba(0, 0, 0, 0.24) 100%),
+    linear-gradient(180deg, rgba(15, 15, 15, 0.08), rgba(15, 15, 15, 0.28));
+  pointer-events: none;
 }
 
 .introSection,
@@ -239,7 +285,8 @@
   }
 
   .heroStage {
-    min-height: 56svh;
+    justify-self: start;
+    width: min(100%, 560px);
   }
 
   .quoteAction {
@@ -261,7 +308,7 @@
     font-size: clamp(48px, 18vw, 80px);
   }
 
-  .heroStage,
+  .heroStageViewport,
   .introMedia,
   .introImage,
   .introPlaceholder {
