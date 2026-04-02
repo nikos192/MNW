@@ -17,8 +17,18 @@ const bodyFont = Jura({
   weight: ["300"],
 });
 
+function resolveMetadataBase(): URL {
+  const configuredSiteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ?? process.env.VERCEL_URL ?? "http://localhost:3000";
+  const normalizedSiteUrl = /^https?:\/\//i.test(configuredSiteUrl)
+    ? configuredSiteUrl
+    : `https://${configuredSiteUrl}`;
+
+  return new URL(normalizedSiteUrl);
+}
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: resolveMetadataBase(),
   title: {
     default: "MNW | Forged Wheels Australia",
     template: "%s | MNW",
