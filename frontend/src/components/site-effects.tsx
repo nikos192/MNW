@@ -1,8 +1,18 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
+function isWithinRevealZone(element: HTMLElement) {
+  const rect = element.getBoundingClientRect();
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+  return rect.top <= viewportHeight - 48 && rect.bottom >= 0;
+}
+
 export function SiteEffects() {
+  const pathname = usePathname();
+
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isMobile = window.matchMedia("(max-width: 767px)").matches;
@@ -20,6 +30,8 @@ export function SiteEffects() {
       });
       return;
     }
+
+    let frameId = 0;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -39,10 +51,22 @@ export function SiteEffects() {
       },
     );
 
-    revealItems.forEach((item) => observer.observe(item));
+    frameId = window.requestAnimationFrame(() => {
+      revealItems.forEach((item) => {
+        if (item.dataset.visible === "true" || isWithinRevealZone(item)) {
+          item.dataset.visible = "true";
+          return;
+        }
 
-    return () => observer.disconnect();
-  }, []);
+        observer.observe(item);
+      });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      observer.disconnect();
+    };
+  }, [pathname]);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -84,7 +108,7 @@ export function SiteEffects() {
       window.removeEventListener("scroll", requestTick);
       window.removeEventListener("resize", requestTick);
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }
