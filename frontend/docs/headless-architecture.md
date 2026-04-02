@@ -39,31 +39,33 @@ Build a premium custom-wheel frontend that feels like a design studio and intake
 - Stripe gives more flexible payment timing than a normal cart-first storefront.
 - The business is custom-build heavy, so the site should qualify leads and capture project detail before payment.
 
-## Recommended website structure
+## Website structure
 
-### Public pages
+### Current public pages
 
 - `/`
   - brand story
-  - custom build process
-  - featured design bases
+  - featured wheel range
+  - fitment entry
   - delivered-set gallery
-- `/design-library`
-  - all wheel-face references and delivered examples
-- `/design-library/[handle]`
-  - single design page
-  - quality proof
+- `/shop`
+  - all wheel references and product cards
+- `/shop/[handle]`
+  - single wheel page
   - finish direction
-  - delivered build examples
-  - start-build CTA
-- `/delivered-sets`
-  - on-car galleries and completed projects
-- `/build`
-  - custom intake flow
+  - fitment/spec summary
+  - quote CTA
+- `/fitment`
+  - vehicle and chassis guidance
 - `/about`
   - philosophy, quality, process
 - `/contact`
   - lower-friction direct inquiry path
+
+Legacy routes:
+
+- `/build` redirects to `/contact`
+- `/design-library` redirects to `/shop`
 
 ## Shopify data model
 
@@ -141,15 +143,15 @@ Payment:
 
 ### Phase 1
 
-- launch custom frontend
-- static design-library content
-- intake CTA routes to contact / simple form
+- launch custom frontend shell
+- ship core routes and product storytelling
+- use quote CTA routes into contact flow
 
 ### Phase 2
 
 - connect Shopify Storefront API
 - render products, media, and delivered sets dynamically
-- add CMS-backed content sections
+- expand CMS-backed content sections and metafields
 
 ### Phase 3
 
