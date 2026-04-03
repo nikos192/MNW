@@ -3,7 +3,7 @@
 }
 
 .hero {
-  padding: calc(var(--nav-height) + 56px) 0 56px;
+  padding: calc(var(--nav-height) + var(--hero-offset)) 0 var(--section-pad-v-compact);
   border-bottom: 1px solid var(--rule);
   background:
     radial-gradient(circle at top right, rgba(200, 29, 37, 0.12), transparent 24%),
@@ -12,7 +12,7 @@
 
 .heroInner {
   display: grid;
-  gap: 16px;
+  gap: var(--section-gap-lg);
   max-width: 780px;
 }
 
@@ -41,7 +41,7 @@
 .section,
 .sectionAlt,
 .ctaSection {
-  padding: 80px 0;
+  padding: var(--section-pad-v) 0;
 }
 
 .sectionAlt {
@@ -52,7 +52,7 @@
   display: grid;
   gap: 14px;
   max-width: 720px;
-  margin-bottom: 32px;
+  margin-bottom: var(--section-gap-lg);
 }
 
 .sectionTitle {
@@ -74,7 +74,7 @@
 .collectionGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2px;
+  gap: clamp(18px, 2vw, 24px);
 }
 
 .card,
@@ -88,7 +88,7 @@
 .card {
   display: grid;
   gap: 16px;
-  padding: 28px;
+  padding: clamp(24px, 3vw, 30px);
 }
 
 .cardOverline,
@@ -168,7 +168,7 @@
 .collectionBody {
   display: grid;
   gap: 12px;
-  padding: 24px;
+  padding: clamp(20px, 3vw, 24px);
 }
 
 .collectionMeta {
@@ -182,7 +182,7 @@
   grid-template-columns: 1fr auto;
   align-items: end;
   gap: 24px;
-  padding-top: 32px;
+  padding-top: var(--section-gap-lg);
   border-top: 1px solid var(--rule);
 }
 
@@ -195,14 +195,14 @@
 
 @media (max-width: 767px) {
   .hero {
-    padding-top: calc(var(--nav-height) + 40px);
-    padding-bottom: 40px;
+    padding-top: calc(var(--nav-height) + var(--hero-offset));
+    padding-bottom: var(--section-pad-v-compact);
   }
 
   .section,
   .sectionAlt,
   .ctaSection {
-    padding: 60px 0;
+    padding: var(--section-pad-v) 0;
   }
 
   .cardGrid,

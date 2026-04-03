@@ -1,12 +1,12 @@
 .footer {
   border-top: 1px solid var(--rule);
   background: linear-gradient(180deg, rgba(255, 249, 242, 0.9) 0%, var(--bg-deep) 100%);
-  padding: 64px 0 40px;
+  padding: var(--section-pad-v-compact) 0 32px;
 }
 
 .inner {
   display: grid;
-  gap: 56px;
+  gap: var(--section-gap-xl);
 }
 
 .topRow {
@@ -69,7 +69,7 @@
 .middleRow {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 32px;
+  gap: clamp(24px, 3vw, 32px);
 }
 
 .columnTitle,
@@ -113,7 +113,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding-top: 24px;
+  padding-top: var(--section-gap-lg);
   border-top: 1px solid var(--rule);
 }
 
@@ -124,9 +124,14 @@
 }
 
 @media (max-width: 767px) {
+  .inner {
+    gap: var(--section-gap-lg);
+  }
+
   .topRow {
     grid-template-columns: 1fr;
     justify-items: start;
+    gap: 20px;
   }
 
   .logoLink {
@@ -137,8 +142,13 @@
     justify-content: flex-start;
   }
 
+  .middleRow {
+    gap: 20px;
+  }
+
   .bottomRow {
     flex-direction: column;
     align-items: flex-start;
+    gap: 10px;
   }
 }

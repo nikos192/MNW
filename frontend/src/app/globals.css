@@ -31,7 +31,11 @@
   --utility-height: 36px;
   --primary-nav-height: 68px;
   --nav-height: calc(var(--utility-height) + var(--primary-nav-height));
-  --section-pad-v: 100px;
+  --hero-offset: clamp(28px, 5vw, 48px);
+  --section-pad-v: clamp(72px, 8vw, 96px);
+  --section-pad-v-compact: clamp(56px, 6vw, 72px);
+  --section-gap-lg: clamp(24px, 3vw, 40px);
+  --section-gap-xl: clamp(32px, 4vw, 56px);
   --section-pad-h: clamp(24px, 5vw, 80px);
   --container-max: 1520px;
   --background: oklch(1 0 0);
@@ -317,6 +321,15 @@ h6 {
 [data-reveal][data-visible="true"] {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (max-width: 767px) {
+  :root {
+    --section-pad-v: 60px;
+    --section-pad-v-compact: 44px;
+    --section-pad-h: 20px;
+    --hero-offset: 24px;
+  }
 }
 
 @media (max-width: 767px) {

@@ -3,7 +3,7 @@
 }
 
 .hero {
-  padding: clamp(128px, 14vw, 152px) 0 56px;
+  padding: calc(var(--nav-height) + var(--hero-offset)) 0 var(--section-pad-v-compact);
   border-bottom: 1px solid var(--rule);
 }
 
@@ -33,13 +33,13 @@
 }
 
 .formSection {
-  padding: 56px 0 var(--section-pad-v);
+  padding: var(--section-pad-v-compact) 0 var(--section-pad-v);
 }
 
 .grid {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
-  gap: 40px;
+  gap: var(--section-gap-xl);
 }
 
 .formPanel,

@@ -56,7 +56,7 @@
 .storySection,
 .tierSection,
 .gallerySection {
-  padding: 100px 0;
+  padding: var(--section-pad-v) 0;
 }
 
 .storySection {
@@ -66,7 +66,7 @@
 .storyGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 80px;
+  gap: var(--section-gap-xl);
   align-items: center;
 }
 
@@ -130,7 +130,7 @@
 
 .tierInner {
   display: grid;
-  gap: 56px;
+  gap: var(--section-gap-xl);
 }
 
 .tierHeader {
@@ -156,7 +156,7 @@
 .tierGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  gap: clamp(18px, 2vw, 24px);
 }
 
 .tierTile {
@@ -198,7 +198,7 @@
   bottom: 28px;
   z-index: 1;
   display: grid;
-  gap: 6px;
+  gap: 8px;
 }
 
 .tierLabel {
@@ -239,7 +239,7 @@
 
 .galleryInner {
   display: grid;
-  gap: 24px;
+  gap: var(--section-gap-lg);
 }
 
 .galleryHeader {
@@ -468,7 +468,7 @@
   .storySection,
   .tierSection,
   .gallerySection {
-    padding: 60px 0;
+    padding: var(--section-pad-v) 0;
   }
 
   .storyGrid,
@@ -483,7 +483,7 @@
   }
 
   .tierInner {
-    gap: 40px;
+    gap: var(--section-gap-lg);
   }
 
   .tierMeta {

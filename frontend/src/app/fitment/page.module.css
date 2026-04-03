@@ -3,7 +3,7 @@
 }
 
 .hero {
-  padding: clamp(128px, 14vw, 152px) 0 56px;
+  padding: calc(var(--nav-height) + var(--hero-offset)) 0 var(--section-pad-v-compact);
   border-bottom: 1px solid var(--rule);
 }
 
@@ -33,20 +33,20 @@
 }
 
 .section {
-  padding: 56px 0 var(--section-pad-v);
+  padding: var(--section-pad-v-compact) 0 var(--section-pad-v);
 }
 
 .principles,
 .makeGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
+  gap: clamp(18px, 2vw, 24px);
 }
 
 .card,
 .makeCard {
   border: 1px solid var(--rule);
-  padding: 28px;
+  padding: clamp(24px, 3vw, 30px);
   background: var(--bg-surface);
 }
 
@@ -91,7 +91,7 @@
   gap: 24px;
   align-items: center;
   border-top: 1px solid var(--rule);
-  padding-top: 40px;
+  padding-top: var(--section-gap-lg);
 }
 
 @media (max-width: 1024px) {
