@@ -8,7 +8,9 @@
 .utilityBar {
   height: var(--utility-height);
   background: var(--bg-utility);
-  border-bottom: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
 }
 
 .utilityInner {
@@ -56,7 +58,7 @@
 .overlaySmallLink:focus-visible,
 .overlayMeta a:hover,
 .overlayMeta a:focus-visible {
-  color: var(--text-primary);
+  color: var(--accent-red);
 }
 
 .utilityIconLink {
@@ -85,18 +87,20 @@
   border-bottom: 1px solid transparent;
   transition:
     background 400ms ease,
-    border-color 400ms ease;
+    border-color 400ms ease,
+    box-shadow 400ms ease;
 }
 
 .transparent .primaryBar {
-  background: transparent;
+  background: linear-gradient(180deg, rgba(255, 250, 245, 0.94) 0%, rgba(255, 250, 245, 0.76) 72%, rgba(255, 250, 245, 0) 100%);
 }
 
 .solid .primaryBar {
-  background: rgba(15, 15, 15, 0.96);
-  border-bottom-color: var(--rule);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 250, 245, 0.92);
+  border-bottom-color: var(--rule-strong);
+  box-shadow: 0 12px 32px rgba(54, 34, 24, 0.08);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
 }
 
 .navSlot {
@@ -130,7 +134,7 @@
   letter-spacing: 0.14em;
   line-height: 1.5;
   text-transform: uppercase;
-  color: rgba(250, 250, 248, 0.76);
+  color: rgba(18, 18, 18, 0.68);
 }
 
 .navLink::after {
@@ -149,7 +153,7 @@
 .navLink:hover,
 .navLink:focus-visible,
 .active {
-  color: var(--text-primary);
+  color: var(--accent-red);
 }
 
 .navLink:hover::after,
@@ -163,12 +167,57 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 12px;
   color: var(--text-primary);
 }
 
 .logoMark {
   width: 40px;
   height: 40px;
+  color: var(--ink);
+}
+
+.wordmark {
+  display: grid;
+  gap: 2px;
+}
+
+.wordmarkName {
+  position: relative;
+  width: fit-content;
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(18px, 1.7vw, 23px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--accent-red-strong) 0%, var(--accent-red) 56%, #ef4444 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 8px 20px rgba(200, 29, 37, 0.12);
+}
+
+.wordmarkName::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 10px);
+  width: 28px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent-red), rgba(200, 29, 37, 0));
+  transform: translateY(-50%);
+}
+
+.wordmarkTag {
+  font-family: var(--font-body), sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--text-secondary);
 }
 
 .mobileToggle,
@@ -178,7 +227,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .menuIcon {
@@ -190,7 +239,9 @@
   position: fixed;
   inset: 0;
   z-index: 90;
-  background: rgba(15, 15, 15, 0.98);
+  background:
+    radial-gradient(circle at top right, rgba(200, 29, 37, 0.14), transparent 22%),
+    linear-gradient(180deg, rgba(255, 251, 246, 0.98) 0%, rgba(247, 237, 228, 0.98) 100%);
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--duration-hover) var(--ease-precision);
@@ -222,6 +273,7 @@
 .overlayLogoMark {
   width: 36px;
   height: 36px;
+  color: var(--ink);
 }
 
 .overlayNav {
@@ -237,11 +289,11 @@
   line-height: 1.05;
   letter-spacing: 0.01em;
   text-transform: uppercase;
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .overlayLinkActive {
-  color: var(--text-secondary);
+  color: var(--accent-red);
 }
 
 .overlayUtility {
@@ -269,6 +321,14 @@
     font-size: 11px;
     letter-spacing: 0.12em;
   }
+
+  .wordmarkName {
+    font-size: 18px;
+  }
+
+  .wordmarkName::after {
+    width: 18px;
+  }
 }
 
 @media (max-width: 767px) {
@@ -288,5 +348,19 @@
   .logoMark {
     width: 32px;
     height: 32px;
+  }
+
+  .wordmark {
+    gap: 0;
+  }
+
+  .wordmarkName {
+    font-size: 16px;
+    letter-spacing: 0.06em;
+  }
+
+  .wordmarkName::after,
+  .wordmarkTag {
+    display: none;
   }
 }

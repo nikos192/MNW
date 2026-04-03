@@ -5,7 +5,9 @@
 .hero {
   padding: calc(var(--nav-height) + 56px) 0 56px;
   border-bottom: 1px solid var(--rule);
-  background: linear-gradient(180deg, #121212 0%, #0f0f0f 100%);
+  background:
+    radial-gradient(circle at top right, rgba(200, 29, 37, 0.12), transparent 24%),
+    linear-gradient(180deg, #fffaf5 0%, #f5ebe2 100%);
 }
 
 .heroInner {
@@ -79,7 +81,8 @@
 .collectionCard {
   min-height: 100%;
   border: 1px solid var(--rule);
-  background: var(--bg-card);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-soft);
 }
 
 .card {
@@ -99,7 +102,7 @@
 }
 
 .cardOverline {
-  color: var(--text-secondary);
+  color: var(--accent-red);
 }
 
 .cardTitle,
@@ -120,7 +123,7 @@
 }
 
 .cardMeta {
-  color: var(--text-primary);
+  color: var(--accent-red);
 }
 
 .inlineLink {

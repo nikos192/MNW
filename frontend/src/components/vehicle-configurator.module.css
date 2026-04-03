@@ -2,6 +2,7 @@
   border: 1px solid var(--rule);
   padding: clamp(32px, 5vw, 56px);
   background: var(--bg-surface);
+  box-shadow: var(--shadow-soft);
 }
 
 .label {
@@ -35,7 +36,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
-  background: var(--rule);
+  background: var(--rule-strong);
 }
 
 .select {
@@ -43,7 +44,7 @@
   padding: 0 18px;
   -webkit-appearance: none;
   appearance: none;
-  background: var(--bg-dark);
+  background: var(--bg-surface);
   font-family: var(--font-body), sans-serif;
   font-size: 12px;
   font-weight: 300;
@@ -53,7 +54,8 @@
 }
 
 .select:focus {
-  outline: none;
+  outline: 1px solid var(--accent-red);
+  outline-offset: -1px;
 }
 
 .select:disabled {
@@ -85,7 +87,7 @@
 }
 
 .note a {
-  border-bottom: 1px solid var(--text-muted);
+  border-bottom: 1px solid var(--accent-red);
 }
 
 @media (max-width: 900px) {

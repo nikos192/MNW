@@ -8,7 +8,9 @@
   padding: 0;
   gap: 0;
   border-radius: 26px;
-  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--rule);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: var(--shadow-soft);
 }
 
 .media {

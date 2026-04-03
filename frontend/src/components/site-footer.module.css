@@ -1,6 +1,6 @@
 .footer {
   border-top: 1px solid var(--rule);
-  background: var(--bg-deep);
+  background: linear-gradient(180deg, rgba(255, 249, 242, 0.9) 0%, var(--bg-deep) 100%);
   padding: 64px 0 40px;
 }
 
@@ -40,13 +40,13 @@
 
 .socialLink:hover,
 .socialLink:focus-visible {
-  color: var(--text-primary);
+  color: var(--accent-red);
 }
 
 .logoLink {
   justify-self: center;
   display: inline-flex;
-  color: var(--text-primary);
+  color: var(--accent-red);
 }
 
 .logoMark {
@@ -102,6 +102,7 @@
 .columnLink:hover,
 .columnLink:focus-visible {
   opacity: 1;
+  color: var(--accent-red);
 }
 
 .bottomRow {

@@ -134,6 +134,10 @@ export function SiteHeader() {
 
           <Link aria-label={`${BRAND_NAME} homepage`} className={styles.logoLink} href="/">
             <MonzaDiamondMark className={styles.logoMark} title={BRAND_NAME} />
+            <span className={styles.wordmark}>
+              <span className={styles.wordmarkName}>{BRAND_NAME}</span>
+              <span className={styles.wordmarkTag}>Forged in Brisbane</span>
+            </span>
           </Link>
 
           <div className={`${styles.navSlot} ${styles.navSlotRight}`}>
@@ -182,6 +186,10 @@ export function SiteHeader() {
           <div className={styles.overlayHeader}>
             <Link aria-label={`${BRAND_NAME} homepage`} className={styles.overlayLogo} href="/" onClick={closeMenu}>
               <MonzaDiamondMark className={styles.overlayLogoMark} title={BRAND_NAME} />
+              <span className={styles.wordmark}>
+                <span className={styles.wordmarkName}>{BRAND_NAME}</span>
+                <span className={styles.wordmarkTag}>Forged in Brisbane</span>
+              </span>
             </Link>
 
             <button

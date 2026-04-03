@@ -29,7 +29,7 @@
   width: 100%;
   min-height: 52px;
   border: 1px solid var(--rule);
-  background: var(--bg-dark);
+  background: var(--bg-surface);
   color: var(--text-primary);
   padding: 0 16px;
   font-size: 16px;
@@ -48,7 +48,8 @@
 .field input:focus,
 .fieldWide textarea:focus {
   outline: none;
-  border-color: var(--text-primary);
+  border-color: var(--accent-red);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 .fieldWide {
@@ -67,9 +68,9 @@
   justify-content: center;
   min-height: 52px;
   width: 100%;
-  border: 1px solid var(--text-primary);
-  background: transparent;
-  color: var(--text-primary);
+  border: 1px solid var(--accent-red);
+  background: var(--accent-red);
+  color: var(--off-white);
   font-family: var(--font-heading), sans-serif;
   font-size: 12px;
   font-weight: 500;
@@ -77,12 +78,14 @@
   text-transform: uppercase;
   transition:
     background 300ms var(--ease-precision),
-    color 300ms var(--ease-precision);
+    color 300ms var(--ease-precision),
+    border-color 300ms var(--ease-precision);
 }
 
 .button:hover {
-  background: var(--text-primary);
-  color: var(--ink);
+  background: var(--accent-red-strong);
+  border-color: var(--accent-red-strong);
+  color: var(--off-white);
 }
 
 .help {
