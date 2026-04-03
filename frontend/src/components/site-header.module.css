@@ -79,16 +79,21 @@
 }
 
 .primaryBar {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: center;
-  gap: 24px;
+  width: 100%;
   height: var(--primary-nav-height);
   border-bottom: 1px solid transparent;
   transition:
     background 400ms ease,
     border-color 400ms ease,
     box-shadow 400ms ease;
+}
+
+.primaryInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  height: 100%;
 }
 
 .transparent .primaryBar {
@@ -339,6 +344,10 @@
   }
 
   .primaryBar {
+    height: var(--primary-nav-height);
+  }
+
+  .primaryInner {
     gap: 16px;
   }
 

@@ -109,64 +109,66 @@ export function SiteHeader() {
           </div>
         </div>
 
-        <div className={`${styles.primaryBar} container`}>
-          <div className={styles.navSlot}>
-            <nav className={`${styles.primaryNav} ${styles.primaryNavLeft}`} aria-label="Primary navigation left">
-              <ul className={styles.navList}>
-                {leftLinks.map((link) => {
-                  const isActive = isActivePath(pathname, link.href);
+        <div className={styles.primaryBar}>
+          <div className={`${styles.primaryInner} container`}>
+            <div className={styles.navSlot}>
+              <nav className={`${styles.primaryNav} ${styles.primaryNavLeft}`} aria-label="Primary navigation left">
+                <ul className={styles.navList}>
+                  {leftLinks.map((link) => {
+                    const isActive = isActivePath(pathname, link.href);
 
-                  return (
-                    <li key={link.href}>
-                      <Link
-                        className={`${styles.navLink} ${isActive ? styles.active : ""}`}
-                        href={link.href}
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
-          </div>
+                    return (
+                      <li key={link.href}>
+                        <Link
+                          className={`${styles.navLink} ${isActive ? styles.active : ""}`}
+                          href={link.href}
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </nav>
+            </div>
 
-          <Link aria-label={`${BRAND_NAME} homepage`} className={styles.logoLink} href="/">
-            <span className={styles.wordmark}>
-              <span className={styles.wordmarkBadge}>Monza</span>
-              <span className={styles.wordmarkText}>Wheels</span>
-            </span>
-          </Link>
+            <Link aria-label={`${BRAND_NAME} homepage`} className={styles.logoLink} href="/">
+              <span className={styles.wordmark}>
+                <span className={styles.wordmarkBadge}>Monza</span>
+                <span className={styles.wordmarkText}>Wheels</span>
+              </span>
+            </Link>
 
-          <div className={`${styles.navSlot} ${styles.navSlotRight}`}>
-            <nav className={`${styles.primaryNav} ${styles.primaryNavRight}`} aria-label="Primary navigation right">
-              <ul className={styles.navList}>
-                {rightLinks.map((link) => {
-                  const isActive = isActivePath(pathname, link.href);
+            <div className={`${styles.navSlot} ${styles.navSlotRight}`}>
+              <nav className={`${styles.primaryNav} ${styles.primaryNavRight}`} aria-label="Primary navigation right">
+                <ul className={styles.navList}>
+                  {rightLinks.map((link) => {
+                    const isActive = isActivePath(pathname, link.href);
 
-                  return (
-                    <li key={link.href}>
-                      <Link
-                        className={`${styles.navLink} ${isActive ? styles.active : ""}`}
-                        href={link.href}
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
+                    return (
+                      <li key={link.href}>
+                        <Link
+                          className={`${styles.navLink} ${isActive ? styles.active : ""}`}
+                          href={link.href}
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </nav>
 
-            <button
-              aria-controls="site-menu"
-              aria-label={isOpen ? "Close navigation" : "Open navigation"}
-              className={styles.mobileToggle}
-              onClick={toggleMenu}
-              type="button"
-            >
-              <Menu className={styles.menuIcon} size={20} strokeWidth={1.5} />
-            </button>
+              <button
+                aria-controls="site-menu"
+                aria-label={isOpen ? "Close navigation" : "Open navigation"}
+                className={styles.mobileToggle}
+                onClick={toggleMenu}
+                type="button"
+              >
+                <Menu className={styles.menuIcon} size={20} strokeWidth={1.5} />
+              </button>
+            </div>
           </div>
         </div>
       </header>
