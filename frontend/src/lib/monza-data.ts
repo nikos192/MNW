@@ -1,3 +1,5 @@
+import { BRAND_EMAIL } from "@/lib/brand";
+
 export type CatalogImage = {
   url: string;
   alt: string;
@@ -304,19 +306,19 @@ export const dealerRegions: DealerRegion[] = [
     region: "Australia",
     city: "Brisbane",
     note: "Direct quoting, chassis reviews, and finish consultations from the MonzaWheels workshop.",
-    contact: "hello@monzawheels.com.au",
+    contact: BRAND_EMAIL,
   },
   {
     region: "Europe",
     city: "Partner network forming",
     note: "Send the vehicle brief and we will route the project to the closest fitment partner as the network expands.",
-    contact: "hello@monzawheels.com.au",
+    contact: BRAND_EMAIL,
   },
   {
     region: "Asia Pacific",
     city: "By appointment",
     note: "Remote quoting and logistics support for projects outside Brisbane while the dealer footprint grows.",
-    contact: "hello@monzawheels.com.au",
+    contact: BRAND_EMAIL,
   },
 ];
 

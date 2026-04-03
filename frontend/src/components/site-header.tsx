@@ -88,7 +88,13 @@ export function SiteHeader() {
       >
         <div className={styles.utilityBar}>
           <div className={`${styles.utilityInner} container`}>
-            <p className={styles.utilityText}>{`Brisbane, Australia · ${BRAND_EMAIL}`}</p>
+            <p className={styles.utilityText}>
+              <span>Brisbane, Australia</span>
+              <span className={styles.utilityDivider}>·</span>
+              <a className={styles.utilityEmailLink} href={`mailto:${BRAND_EMAIL}`}>
+                {BRAND_EMAIL}
+              </a>
+            </p>
 
             <div className={styles.utilityNav}>
               <a
@@ -163,7 +169,6 @@ export function SiteHeader() {
 
               <button
                 aria-controls="site-menu"
-                aria-expanded={isOpen ? "true" : "false"}
                 aria-label={isOpen ? "Close navigation" : "Open navigation"}
                 className={styles.mobileToggle}
                 onClick={toggleMenu}
@@ -177,7 +182,6 @@ export function SiteHeader() {
       </header>
 
       <div
-        aria-hidden={isOpen ? "false" : "true"}
         className={`${styles.overlay} ${isOpen ? styles.open : ""}`}
         id="site-menu"
         onClick={(event) => {
