@@ -15,6 +15,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [activeDiameter, setActiveDiameter] = useState(product.diameterOptions[0] ?? "");
   const [activeWidth, setActiveWidth] = useState(product.widthOptions[0] ?? "");
   const [activePcd, setActivePcd] = useState(product.pcdOptions[0] ?? "");
+  const [activeOffset, setActiveOffset] = useState("");
+  const [activeCentrebore, setActiveCentrebore] = useState(product.centreboreOptions[0] ?? "");
 
   const activeImage = product.images[activeImageIndex] ?? product.images[0];
 
@@ -35,21 +37,33 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     const params = new URLSearchParams({
       product: product.handle,
       title: product.title,
+      startingPrice: product.price,
     });
     if (activeDiameter) params.set("diameter", activeDiameter);
     if (activeWidth) params.set("width", activeWidth);
     if (activePcd) params.set("pcd", activePcd);
+    if (activeOffset) params.set("offset", activeOffset);
+    if (activeCentrebore) params.set("centrebore", activeCentrebore);
     if (activeFinish) params.set("finish", activeFinish);
     return `/contact?${params.toString()}`;
   }
 
-  const configSummary = [activeDiameter, activeWidth, activePcd, activeFinish]
-    .filter(Boolean)
-    .join(" · ");
+  const configParts = [
+    activeDiameter,
+    activeWidth && `W${activeWidth}`,
+    activePcd,
+    activeOffset && `ET${activeOffset}`,
+    activeCentrebore && `CB ${activeCentrebore}`,
+    activeFinish,
+  ].filter(Boolean);
+
+  const configSummary = configParts.join(" · ");
 
   return (
     <section className={styles.page}>
       <div className={`${styles.grid} container`}>
+
+        {/* ── Gallery ── */}
         <div className={styles.gallery}>
           <div className={styles.primaryMedia}>
             {activeImage ? (
@@ -67,13 +81,12 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             )}
           </div>
 
-          {product.images.length > 0 ? (
+          {product.images.length > 1 ? (
             <div className={styles.thumbs} role="group" aria-label="Product gallery">
-              {product.images.slice(0, 4).map((image, index) => (
+              {product.images.slice(0, 8).map((image, index) => (
                 <button
                   key={`${image.url}-${index}`}
                   aria-label={`Show image ${index + 1}`}
-                  aria-pressed={index === activeImageIndex ? "true" : "false"}
                   className={`${styles.thumb} ${index === activeImageIndex ? styles.thumbActive : ""}`}
                   onClick={() => setActiveImageIndex(index)}
                   type="button"
@@ -82,9 +95,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                     alt=""
                     className={styles.thumbImage}
                     src={image.url}
-                    sizes="(max-width: 767px) 50vw, 120px"
-                    width={480}
-                    height={480}
+                    sizes="80px"
+                    width={320}
+                    height={320}
                   />
                 </button>
               ))}
@@ -92,12 +105,14 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
           ) : null}
         </div>
 
+        {/* ── Detail ── */}
         <div className={styles.detailColumn}>
           <div className={styles.detailPanel}>
+
             <div className={styles.detailHead}>
               <p className={`label ${styles.series}`}>{product.series}</p>
               <h1 className={styles.title}>{product.title}</h1>
-              <p className={styles.price}>From {product.price} / set</p>
+              <p className={styles.price}>Starting at {product.price}</p>
             </div>
 
             <div className={styles.description}>
@@ -109,9 +124,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               <div className={styles.optionGroup}>
                 <div className={styles.optionHeader}>
                   <p className={`label ${styles.optionLabel}`}>Diameter</p>
-                  {activeDiameter && (
-                    <span className={styles.optionSelected}>{activeDiameter}</span>
-                  )}
+                  {activeDiameter && <span className={styles.optionSelected}>{activeDiameter}</span>}
                 </div>
                 <div className={styles.pills} role="radiogroup" aria-label="Diameter">
                   {product.diameterOptions.map((opt) => (
@@ -139,9 +152,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               <div className={styles.optionGroup}>
                 <div className={styles.optionHeader}>
                   <p className={`label ${styles.optionLabel}`}>Width</p>
-                  {activeWidth && (
-                    <span className={styles.optionSelected}>{activeWidth}</span>
-                  )}
+                  {activeWidth && <span className={styles.optionSelected}>{activeWidth}</span>}
                 </div>
                 <div className={styles.pills} role="radiogroup" aria-label="Width">
                   {product.widthOptions.map((opt) => (
@@ -169,9 +180,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               <div className={styles.optionGroup}>
                 <div className={styles.optionHeader}>
                   <p className={`label ${styles.optionLabel}`}>PCD</p>
-                  {activePcd && (
-                    <span className={styles.optionSelected}>{activePcd}</span>
-                  )}
+                  {activePcd && <span className={styles.optionSelected}>{activePcd}</span>}
                 </div>
                 <div className={styles.pills} role="radiogroup" aria-label="PCD">
                   {product.pcdOptions.map((opt) => (
@@ -194,14 +203,69 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               </div>
             )}
 
+            {/* ── Offset ── */}
+            <div className={styles.optionGroup}>
+              <div className={styles.optionHeader}>
+                <p className={`label ${styles.optionLabel}`}>Offset (ET)</p>
+                {product.offsetRange && (
+                  <span className={styles.optionHint}>Range: {product.offsetRange}</span>
+                )}
+              </div>
+              <div className={styles.offsetWrap}>
+                <span className={styles.offsetPrefix}>ET</span>
+                <input
+                  aria-label="Offset (ET value)"
+                  className={styles.offsetInput}
+                  inputMode="decimal"
+                  name="offset"
+                  onChange={(e) => setActiveOffset(e.target.value)}
+                  placeholder="e.g. 35 or F 20 / R 35"
+                  type="text"
+                  value={activeOffset}
+                />
+              </div>
+              <p className={styles.offsetNote}>
+                Leave blank — offset is confirmed per chassis after the quote.
+              </p>
+            </div>
+
+            {/* ── Centre bore ── */}
+            {product.centreboreOptions.length > 0 && (
+              <div className={styles.optionGroup}>
+                <div className={styles.optionHeader}>
+                  <p className={`label ${styles.optionLabel}`}>Centre Bore</p>
+                  {activeCentrebore && <span className={styles.optionSelected}>{activeCentrebore}</span>}
+                </div>
+                <div className={styles.pills} role="radiogroup" aria-label="Centre bore">
+                  {product.centreboreOptions.map((opt) => (
+                    <label key={opt} className={styles.pillItem}>
+                      <input
+                        aria-label={opt}
+                        checked={activeCentrebore === opt}
+                        className="visually-hidden"
+                        name="centrebore"
+                        onChange={() => setActiveCentrebore(opt)}
+                        type="radio"
+                        value={opt}
+                      />
+                      <span className={`${styles.pill} ${activeCentrebore === opt ? styles.pillActive : ""}`}>
+                        {opt}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+                <p className={styles.offsetNote}>
+                  Hub rings supplied where required at no extra charge.
+                </p>
+              </div>
+            )}
+
             {/* ── Finish ── */}
             {product.finishes.length > 0 && (
               <div className={styles.optionGroup}>
                 <div className={styles.optionHeader}>
                   <p className={`label ${styles.optionLabel}`}>Finish</p>
-                  {activeFinish && (
-                    <span className={styles.optionSelected}>{activeFinish}</span>
-                  )}
+                  {activeFinish && <span className={styles.optionSelected}>{activeFinish}</span>}
                 </div>
                 <div className={styles.swatches} role="radiogroup" aria-label="Finish">
                   {product.finishes.map((finish) => (
@@ -230,11 +294,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               <div className={styles.configSummary}>
                 <p className={styles.configLabel}>Your configuration</p>
                 <p className={styles.configValue}>{configSummary}</p>
-                {product.offsetRange && (
-                  <p className={styles.configNote}>
-                    Offset resolved per chassis after the brief.
-                  </p>
-                )}
+                <p className={styles.configNote}>
+                  Final pricing and fitment are confirmed after chassis review.
+                </p>
               </div>
             )}
 
@@ -256,6 +318,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                 Lead time {product.leadTime} &nbsp;·&nbsp; Made to order
               </p>
             </div>
+
           </div>
         </div>
       </div>

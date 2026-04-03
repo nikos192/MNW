@@ -40,6 +40,12 @@
     background-color var(--duration-hover) var(--ease-precision);
 }
 
+.field input:disabled,
+.fieldWide textarea:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+}
+
 .field input::placeholder,
 .fieldWide textarea::placeholder {
   color: var(--text-muted);
@@ -86,6 +92,24 @@
   background: var(--accent-red-strong);
   border-color: var(--accent-red-strong);
   color: var(--off-white);
+}
+
+.button:disabled {
+  opacity: 0.72;
+  cursor: wait;
+}
+
+.status {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.statusSuccess {
+  color: #b7d8be;
+}
+
+.statusError {
+  color: #f3a3a3;
 }
 
 .help {

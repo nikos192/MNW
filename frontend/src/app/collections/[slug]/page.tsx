@@ -94,7 +94,7 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
                   <h2 className={styles.collectionTitle}>{product.title}</h2>
                   <p className={styles.collectionCopy}>{product.shortDescription}</p>
                   <div className={styles.collectionMeta}>
-                    <span className={styles.cardMeta}>{product.price}</span>
+                    <span className={styles.cardMeta}>Starting at {product.price}</span>
                     <span className={styles.cardMeta}>{product.leadTime}</span>
                   </div>
                   <Link className={styles.inlineLink} href={`/shop/${product.handle}`}>

@@ -152,6 +152,14 @@
   color: var(--text-primary);
 }
 
+.optionHint {
+  font-family: var(--font-body), sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
 /* ── Pills ── */
 
 .pills {
@@ -195,6 +203,65 @@
   border-color: var(--accent-red);
   background: var(--accent-red);
   color: var(--off-white);
+}
+
+/* ── Offset input ── */
+
+.offsetWrap {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--rule);
+  background: var(--bg-surface);
+  overflow: hidden;
+  transition: border-color 220ms var(--ease-precision);
+}
+
+.offsetWrap:focus-within {
+  border-color: var(--accent-red);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.offsetPrefix {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  background: var(--bg-card);
+  border-right: 1px solid var(--rule);
+  font-family: var(--font-body), sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.offsetInput {
+  flex: 1;
+  min-height: 44px;
+  padding: 0 14px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-primary);
+  background: transparent;
+  border: 0;
+  outline: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.offsetInput::-webkit-outer-spin-button,
+.offsetInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.offsetNote {
+  font-family: var(--font-body), sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-secondary);
 }
 
 /* ── Finish swatches ── */

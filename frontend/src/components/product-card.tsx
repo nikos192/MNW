@@ -47,7 +47,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
           <div className={styles.meta}>
             <h3 className={styles.title}>{product.title}</h3>
-            <p className={styles.price}>From {product.price} / set</p>
+            <p className={styles.price}>Starting at {product.price}</p>
             <p className={styles.finishes}>{finishCount} {finishCount === 1 ? "finish" : "finishes"}</p>
           </div>
         </Link>

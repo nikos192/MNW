@@ -32,3 +32,11 @@ Open `http://localhost:3000`.
 ## Environment
 
 Copy `.env.example` to `.env.local` when we begin wiring real services.
+
+For quote requests sent through Resend, configure:
+
+- `RESEND_KEY`
+- `RESEND_FROM_EMAIL`
+- `BUILD_INTAKE_EMAIL`
+
+The quote form posts to `/api/quote`, which sends the request to `BUILD_INTAKE_EMAIL` and uses the customer's email as the reply-to address.

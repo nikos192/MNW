@@ -29,6 +29,7 @@ export type CatalogProduct = {
   widthOptions: string[];
   pcdOptions: string[];
   offsetRange: string;
+  centreboreOptions: string[];
 };
 
 export type DeliveredSet = {
@@ -106,7 +107,7 @@ export const fallbackProducts: CatalogProduct[] = [
       "A measured face with enough edge definition to carry luxury and performance builds without visual noise.",
     description:
       "MonzaWheels-01 is the calmest entry in the range. It suits sedans and coupes that need a deliberate surface, exact brake clearance, and a finish program that stays restrained rather than loud.",
-    price: "$4,500",
+    price: "$588",
     leadTime: "8–12 weeks",
     images: [
       { url: defaultMediaImage, alt: "MonzaWheels-01 forged wheel" },
@@ -131,6 +132,7 @@ export const fallbackProducts: CatalogProduct[] = [
     widthOptions: ["9.0\"", "9.5\"", "10.0\"", "10.5\"", "11.0\"", "11.5\"", "12.0\""],
     pcdOptions: ["5x112", "5x114.3", "5x120"],
     offsetRange: "Resolved per chassis",
+    centreboreOptions: ["57.1mm", "60.1mm", "66.6mm", "72.6mm", "73.1mm", "74.1mm", "77.0mm"],
   },
   {
     id: "mnw-02",
@@ -141,7 +143,7 @@ export const fallbackProducts: CatalogProduct[] = [
       "Sharper spoke architecture for builds that need obvious brake presence and more motorsport tension in the face.",
     description:
       "MonzaWheels-02 pushes the spoke architecture harder. It works best around aggressive brake packages, staggered fitment, and projects where the wheel needs more tension without tipping into visual clutter.",
-    price: "$4,900",
+    price: "$588",
     leadTime: "8–12 weeks",
     images: [
       { url: defaultMediaImage, alt: "MonzaWheels-02 forged wheel" },
@@ -166,6 +168,7 @@ export const fallbackProducts: CatalogProduct[] = [
     widthOptions: ["9.5\"", "10.0\"", "10.5\"", "11.0\"", "11.5\"", "12.0\"", "12.5\""],
     pcdOptions: ["5x112", "5x114.3", "5x120"],
     offsetRange: "Brake package dependent",
+    centreboreOptions: ["57.1mm", "60.1mm", "66.6mm", "72.6mm", "73.1mm", "74.1mm", "77.0mm"],
   },
   {
     id: "mnw-03",
@@ -176,7 +179,7 @@ export const fallbackProducts: CatalogProduct[] = [
       "A stronger concave language suited to hero builds where the wheel is part of the car's visual signature.",
     description:
       "MonzaWheels-03 is the deeper, more dramatic base. It is best when the brief wants stronger rear architecture, more negative space, and a finish program that becomes part of the car's identity.",
-    price: "$5,200",
+    price: "$630",
     leadTime: "8–12 weeks",
     images: [
       { url: defaultMediaImage, alt: "MonzaWheels-03 forged wheel" },
@@ -201,6 +204,7 @@ export const fallbackProducts: CatalogProduct[] = [
     widthOptions: ["9.5\"", "10.0\"", "10.5\"", "11.0\"", "11.5\"", "12.0\"", "12.5\"", "13.0\""],
     pcdOptions: ["5x112", "5x114.3", "5x120"],
     offsetRange: "Statement staggered fitment",
+    centreboreOptions: ["57.1mm", "60.1mm", "66.6mm", "72.6mm", "73.1mm", "74.1mm", "77.0mm"],
   },
 ];
 

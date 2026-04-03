@@ -79,7 +79,7 @@ const PRODUCT_FIELDS = /* GraphQL */ `
     url
     altText
   }
-  images(first: 5) {
+  images(first: 10) {
     edges {
       node {
         url
@@ -309,6 +309,7 @@ function mapProduct(node: ShopifyProductNode): CatalogProduct {
   const rawDiameters = parseListValue(node.diameterOptions?.value);
   const rawWidths = parseListValue(node.widthOptions?.value);
   const rawPcds = parseListValue(node.pcdOptions?.value);
+  const rawCentrebores = parseListValue(node.centreBore?.value);
 
   const diameterOptions = rawDiameters.length
     ? formatDiameterOptions(rawDiameters)
@@ -321,6 +322,15 @@ function mapProduct(node: ShopifyProductNode): CatalogProduct {
   const pcdOptions = rawPcds.length
     ? rawPcds
     : ["5x112", "5x114.3", "5x120"];
+
+  // Centre bore: if Shopify gives a single value (e.g. "72.6") treat it as
+  // a label/hint. If it gives a list, show as selectable options.
+  const centreboreOptions = rawCentrebores.length
+    ? rawCentrebores.map((v) => {
+        const n = v.trim().replace(/mm$/i, "");
+        return n ? `${n}mm` : v.trim();
+      })
+    : ["57.1mm", "60.1mm", "66.6mm", "72.6mm", "73.1mm", "74.1mm", "77.0mm"];
 
   return {
     id: node.id,
@@ -343,6 +353,7 @@ function mapProduct(node: ShopifyProductNode): CatalogProduct {
     widthOptions,
     pcdOptions,
     offsetRange: node.offsetRange?.value || "Resolved per chassis",
+    centreboreOptions,
   };
 }
 

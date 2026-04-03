@@ -1,4 +1,4 @@
-import { BRAND_EMAIL, BRAND_NAME } from "@/lib/brand";
+import { BRAND_NAME } from "@/lib/brand";
 import { BuildForm } from "@/components/build-form";
 import styles from "./page.module.css";
 
@@ -6,12 +6,15 @@ type ContactPageProps = {
   searchParams: Promise<{
     product?: string;
     title?: string;
+    startingPrice?: string;
     make?: string;
     model?: string;
     year?: string;
     diameter?: string;
     width?: string;
     pcd?: string;
+    offset?: string;
+    centrebore?: string;
     finish?: string;
   }>;
 };
@@ -24,16 +27,18 @@ export const metadata = {
 
 export default async function ContactPage({ searchParams }: ContactPageProps) {
   const params = await searchParams;
-  const email = process.env.BUILD_INTAKE_EMAIL ?? BRAND_EMAIL;
 
   const contextLines = [
     params.title ? `Product: ${params.title}` : "",
+    params.startingPrice ? `Starting price: ${params.startingPrice}` : "",
     params.make ? `Make: ${params.make}` : "",
     params.model ? `Model: ${params.model}` : "",
     params.year ? `Year: ${params.year}` : "",
     params.diameter ? `Diameter: ${params.diameter}` : "",
     params.width ? `Width: ${params.width}` : "",
     params.pcd ? `PCD: ${params.pcd}` : "",
+    params.offset ? `Offset: ${params.offset}` : "",
+    params.centrebore ? `Centre bore: ${params.centrebore}` : "",
     params.finish ? `Finish: ${params.finish}` : "",
   ].filter(Boolean);
 
@@ -42,10 +47,22 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
     model: params.model,
     year: params.year,
     diameter: params.diameter,
+    width: params.width,
+    pcd: params.pcd,
+    offset: params.offset,
+    centrebore: params.centrebore,
     finish: params.finish,
   };
 
-  const hasConfig = params.diameter || params.width || params.pcd || params.finish;
+  const hasConfig =
+    params.title ||
+    params.startingPrice ||
+    params.diameter ||
+    params.width ||
+    params.pcd ||
+    params.offset ||
+    params.centrebore ||
+    params.finish;
 
   return (
     <main className={styles.page}>
@@ -67,9 +84,12 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
         <div className={`${styles.grid} container`}>
           <div className={styles.formPanel} data-reveal>
             <BuildForm
-              email={email}
-              initialNotes={contextLines.join("\n")}
               initialValues={initialValues}
+              quoteContext={{
+                productHandle: params.product,
+                productTitle: params.title,
+                startingPrice: params.startingPrice,
+              }}
             />
           </div>
 
