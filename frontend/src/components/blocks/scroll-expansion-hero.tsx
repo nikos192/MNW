@@ -17,7 +17,7 @@ interface ScrollExpandMediaProps {
 }
 
 const ScrollExpandMedia = ({
-  mediaType = 'video',
+  mediaType = "video",
   mediaSrc,
   posterSrc,
   bgImageSrc,
@@ -109,13 +109,7 @@ const ScrollExpandMedia = ({
               alt="Background"
               width={1920}
               height={1080}
-              className="h-screen w-screen"
-              style={{
-                objectFit: "cover",
-                objectPosition: "center",
-                filter: "grayscale(1) blur(14px)",
-                transform: "scale(1.1)",
-              }}
+              className="h-screen w-screen object-cover object-center grayscale blur-[14px] scale-110"
               priority
             />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,15,15,0.58),rgba(15,15,15,0.78))]" />
@@ -123,16 +117,15 @@ const ScrollExpandMedia = ({
 
           <div className="container relative z-10 mx-auto flex h-[100dvh] flex-col items-center justify-center">
             <div className="relative flex h-[100dvh] w-full flex-col items-center justify-center">
-              <div
-                className="absolute top-1/2 left-1/2 z-0 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[28px] border border-white/12 bg-[#050505] transition-none"
-                style={{
+              <motion.div
+                initial={false}
+                animate={{
                   width: `${mediaWidth}vw`,
                   height: `${mediaHeight}vh`,
-                  maxWidth: "95vw",
-                  maxHeight: "88vh",
-                  boxShadow: "0 32px 90px rgba(0, 0, 0, 0.42)",
-                  borderRadius: `${28 - scrollProgress * 18}px`,
+                  borderRadius: 28 - scrollProgress * 18,
                 }}
+                transition={{ duration: 0.1, ease: "linear" }}
+                className="absolute top-1/2 left-1/2 z-0 max-h-[88vh] max-w-[95vw] -translate-x-1/2 -translate-y-1/2 overflow-hidden border border-white/12 bg-[#050505] shadow-[0_32px_90px_rgba(0,0,0,0.42)] transition-none"
               >
                 {mediaType === "video" ? (
                   mediaSrc.includes("youtube.com") ? (
@@ -155,10 +148,7 @@ const ScrollExpandMedia = ({
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
                       />
-                      <div
-                        className="absolute inset-0 z-10"
-                        style={{ pointerEvents: "none" }}
-                      ></div>
+                      <div className="pointer-events-none absolute inset-0 z-10"></div>
 
                       <motion.div className="absolute inset-0 rounded-xl bg-black/30" initial={{ opacity: 0.7 }} animate={{ opacity: 0.38 - scrollProgress * 0.18 }} transition={{ duration: 0.2 }} />
                     </div>
@@ -177,10 +167,7 @@ const ScrollExpandMedia = ({
                         disablePictureInPicture
                         disableRemotePlayback
                       />
-                      <div
-                        className="absolute inset-0 z-10"
-                        style={{ pointerEvents: "none" }}
-                      ></div>
+                      <div className="pointer-events-none absolute inset-0 z-10"></div>
 
                       <motion.div className="absolute inset-0 rounded-xl bg-black/24" initial={{ opacity: 0.62 }} animate={{ opacity: 0.34 - scrollProgress * 0.14 }} transition={{ duration: 0.2 }} />
                     </div>
@@ -201,43 +188,53 @@ const ScrollExpandMedia = ({
 
                 <div className="absolute inset-x-0 top-0 z-10 flex flex-col items-center pt-8 text-center transition-none md:pt-10">
                   {date && (
-                    <p
+                    <motion.p
+                      initial={false}
+                      animate={{ x: `-${textTranslateX}vw`, opacity: headingOpacity }}
+                      transition={{ duration: 0.1, ease: "linear" }}
                       className="text-[11px] font-light uppercase tracking-[0.42em] text-[#afafad]"
-                      style={{ transform: `translateX(-${textTranslateX}vw)`, opacity: headingOpacity }}
                     >
                       {date}
-                    </p>
+                    </motion.p>
                   )}
                 </div>
-              </div>
+              </motion.div>
 
-              <div
+              <motion.div
+                initial={false}
+                animate={{ opacity: headingOpacity }}
+                transition={{ duration: 0.1, ease: "linear" }}
                 className={`relative z-10 flex w-full flex-col items-center justify-center gap-3 text-center transition-none ${
                   textBlend ? "mix-blend-difference" : "mix-blend-normal"
                 }`}
-                style={{ opacity: headingOpacity }}
               >
                 <motion.h2
+                  initial={false}
+                  animate={{ x: `-${textTranslateX}vw` }}
+                  transition={{ duration: 0.1, ease: "linear" }}
                   className="max-w-[10ch] text-4xl font-bold leading-[0.9] tracking-[-0.06em] text-[#f5f5f3] transition-none md:text-6xl lg:text-7xl"
-                  style={{ transform: `translateX(-${textTranslateX}vw)` }}
                 >
                   {firstWord}
                 </motion.h2>
                 <motion.h2
+                  initial={false}
+                  animate={{ x: `${textTranslateX}vw` }}
+                  transition={{ duration: 0.1, ease: "linear" }}
                   className="max-w-[10ch] text-center text-4xl font-bold leading-[0.9] tracking-[-0.06em] text-[#f5f5f3] transition-none md:text-6xl lg:text-7xl"
-                  style={{ transform: `translateX(${textTranslateX}vw)` }}
                 >
                   {restOfTitle}
                 </motion.h2>
                 {scrollToExpand && (
                   <motion.p
+                    initial={false}
+                    animate={{ y: scrollProgress * 18 }}
+                    transition={{ duration: 0.1, ease: "linear" }}
                     className="mt-4 text-[11px] font-light uppercase tracking-[0.32em] text-[#afafad]"
-                    style={{ transform: `translateY(${scrollProgress * 18}px)` }}
                   >
                     {scrollToExpand}
                   </motion.p>
                 )}
-              </div>
+              </motion.div>
             </div>
 
             <motion.section
