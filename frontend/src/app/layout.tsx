@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Jura, Work_Sans } from "next/font/google";
+import { Cormorant_Garamond, Jura, Work_Sans } from "next/font/google";
 import { BRAND_NAME } from "@/lib/brand";
 import { SiteEffects } from "@/components/site-effects";
 import { SiteFooter } from "@/components/site-footer";
@@ -16,6 +16,12 @@ const bodyFont = Jura({
   variable: "--font-body",
   subsets: ["latin"],
   weight: ["300"],
+});
+
+const wordmarkFont = Cormorant_Garamond({
+  variable: "--font-wordmark",
+  subsets: ["latin"],
+  weight: ["600", "700"],
 });
 
 function resolveMetadataBase(): URL {
@@ -44,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${headingFont.variable} ${bodyFont.variable}`}>
+    <html lang="en" className={`${headingFont.variable} ${bodyFont.variable} ${wordmarkFont.variable}`}>
       <body>
         <SiteEffects />
         <SiteHeader />
