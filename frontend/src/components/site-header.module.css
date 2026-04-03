@@ -45,32 +45,53 @@
   gap: 18px;
 }
 
+.utilityLink,
+.utilityIconLink {
+  color: var(--text-secondary);
+}
+
+.utilityLink:hover,
 .utilityLink:focus-visible,
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
+.utilityIconLink:hover,
+.utilityIconLink:focus-visible,
 .overlaySmallLink:hover,
 .overlaySmallLink:focus-visible,
-  .wordmarkBadge,
-  .wordmarkText {
+.overlayMeta a:hover,
+.overlayMeta a:focus-visible {
+  color: var(--accent-red);
 }
-    font-size: clamp(18px, 1.7vw, 23px);
+
 .utilityIconLink {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+.utilityMonogram {
   font-family: var(--font-body), sans-serif;
   font-size: 10px;
-  .wordmarkBadge {
-    padding: 8px 12px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, var(--accent-red-strong) 0%, var(--accent-red) 100%);
-    color: var(--off-white);
-    box-shadow: 0 12px 24px rgba(200, 29, 37, 0.18);
-  }
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-transform: uppercase;
+}
 
-  .wordmarkText {
-    color: var(--accent-red);
+.primaryBar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  height: var(--primary-nav-height);
+  border-bottom: 1px solid transparent;
+  transition:
+    background 400ms ease,
+    border-color 400ms ease,
+    box-shadow 400ms ease;
+}
+
+.transparent .primaryBar {
   background: transparent;
 }
 
@@ -87,6 +108,14 @@
 .transparent .navLink,
 .transparent .mobileToggle {
   color: rgba(255, 250, 245, 0.84);
+}
+
+.transparent .wordmarkBadge {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+
+.transparent .wordmarkText {
+  color: var(--off-white);
 }
 
 .solid .primaryBar {
@@ -165,61 +194,32 @@
   color: var(--text-primary);
 }
 
-.logoMark {
-  width: 40px;
-  height: 40px;
-  color: var(--ink);
-}
-
-.transparent .wordmarkBadge {
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
-}
-
-.transparent .wordmarkText {
-  color: var(--off-white);
-}
-
 .wordmark {
-  display: grid;
-  gap: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.wordmarkName {
-  position: relative;
-  width: fit-content;
+.wordmarkBadge,
+.wordmarkText {
   font-family: var(--font-heading), sans-serif;
   font-size: clamp(18px, 1.7vw, 23px);
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  background: linear-gradient(135deg, var(--accent-red-strong) 0%, var(--accent-red) 56%, #ef4444 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 8px 20px rgba(200, 29, 37, 0.12);
 }
 
-.wordmarkName::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: calc(100% + 10px);
-  width: 28px;
-  height: 2px;
+.wordmarkBadge {
+  padding: 8px 12px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--accent-red), rgba(200, 29, 37, 0));
-  transform: translateY(-50%);
+  background: linear-gradient(135deg, var(--accent-red-strong) 0%, var(--accent-red) 100%);
+  color: var(--off-white);
+  box-shadow: 0 12px 24px rgba(200, 29, 37, 0.18);
 }
 
-.wordmarkTag {
-  font-family: var(--font-body), sans-serif;
-  font-size: 9px;
-  font-weight: 300;
-  letter-spacing: 0.28em;
-  line-height: 1.5;
-  text-transform: uppercase;
-  color: var(--text-secondary);
+.wordmarkText {
+  color: var(--accent-red);
 }
 
 .mobileToggle,
@@ -336,11 +336,6 @@
 
   .primaryBar {
     gap: 16px;
-  }
-
-  .logoMark {
-    width: 32px;
-    height: 32px;
   }
 
   .wordmark {
