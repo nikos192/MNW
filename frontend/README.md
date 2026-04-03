@@ -39,4 +39,4 @@ For quote requests sent through Resend, configure:
 - `RESEND_FROM_EMAIL`
 - `BUILD_INTAKE_EMAIL`
 
-The quote form posts to `/api/quote`, which sends the request to `BUILD_INTAKE_EMAIL` and uses the customer's email as the reply-to address.
+The quote form posts to `/api/quote`, which sends a formatted internal enquiry email to `BUILD_INTAKE_EMAIL`, sends a confirmation email back to the customer, and uses reply-to so each side can answer directly.

@@ -1,45 +1,18 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { BRAND_EMAIL, BRAND_NAME } from "@/lib/brand";
+import {
+  buildCustomerConfirmationEmail,
+  buildIntakeEmail,
+  type QuoteEmailPayload,
+} from "@/lib/quote-email";
 
 export const runtime = "nodejs";
 
-type QuoteRequestBody = {
-  quoteContext?: {
-    productHandle?: string;
-    productTitle?: string;
-    startingPrice?: string;
-  };
-  customer?: {
-    name?: string;
-    email?: string;
-    phone?: string;
-  };
-  vehicle?: {
-    make?: string;
-    model?: string;
-    year?: string;
-    brakes?: string;
-    suspension?: string;
-  };
-  wheel?: {
-    diameter?: string;
-    width?: string;
-    pcd?: string;
-    offset?: string;
-    centrebore?: string;
-    finish?: string;
-    references?: string;
-  };
-  notes?: string;
-};
+type QuoteRequestBody = QuoteEmailPayload;
 
 function clean(value?: string) {
   return value?.trim() || "";
-}
-
-function formatLine(label: string, value?: string) {
-  return `${label}: ${clean(value) || "Not provided"}`;
 }
 
 function isValidEmail(value: string) {
@@ -83,53 +56,30 @@ export async function POST(request: Request) {
     );
   }
 
-  const subject = clean(body.quoteContext?.productTitle)
-    ? `${BRAND_NAME} Quote Request - ${clean(body.quoteContext?.productTitle)}`
-    : `${BRAND_NAME} Quote Request`;
-
-  const text = [
-    `${BRAND_NAME} Quote Request`,
-    "",
-    "Customer:",
-    formatLine("Name", customerName),
-    formatLine("Email", customerEmail),
-    formatLine("Phone", body.customer?.phone),
-    "",
-    "Product context:",
-    formatLine("Product", body.quoteContext?.productTitle),
-    formatLine("Product handle", body.quoteContext?.productHandle),
-    formatLine("Starting price shown", body.quoteContext?.startingPrice),
-    "",
-    "Vehicle details:",
-    formatLine("Vehicle make", body.vehicle?.make),
-    formatLine("Vehicle model", body.vehicle?.model),
-    formatLine("Vehicle year", body.vehicle?.year),
-    formatLine("Brake package", body.vehicle?.brakes),
-    formatLine("Suspension / ride height", body.vehicle?.suspension),
-    "",
-    "Wheel brief:",
-    formatLine("Preferred diameter", body.wheel?.diameter),
-    formatLine("Preferred width", body.wheel?.width),
-    formatLine("PCD", body.wheel?.pcd),
-    formatLine("Offset (ET)", body.wheel?.offset),
-    formatLine("Centre bore", body.wheel?.centrebore),
-    formatLine("Finish direction", body.wheel?.finish),
-    formatLine("Reference links", body.wheel?.references),
-    "",
-    "Project notes:",
-    clean(body.notes) || "Not provided",
-  ].join("\n");
+  const intakeEmailContent = buildIntakeEmail(body);
+  const customerConfirmation = buildCustomerConfirmationEmail(body);
 
   try {
     const resend = new Resend(resendKey);
 
-    await resend.emails.send({
-      from: fromEmail,
-      to: [intakeEmail],
-      replyTo: customerEmail,
-      subject,
-      text,
-    });
+    await Promise.all([
+      resend.emails.send({
+        from: fromEmail,
+        to: [intakeEmail],
+        replyTo: customerEmail,
+        subject: intakeEmailContent.subject,
+        text: intakeEmailContent.text,
+        html: intakeEmailContent.html,
+      }),
+      resend.emails.send({
+        from: fromEmail,
+        to: [customerEmail],
+        replyTo: intakeEmail,
+        subject: customerConfirmation.subject,
+        text: customerConfirmation.text,
+        html: customerConfirmation.html,
+      }),
+    ]);
 
     return NextResponse.json({ ok: true });
   } catch (error) {
