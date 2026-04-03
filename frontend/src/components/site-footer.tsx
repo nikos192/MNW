@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BRAND_FACEBOOK_URL, BRAND_INSTAGRAM_URL, BRAND_LEGAL_NAME, BRAND_NAME } from "@/lib/brand";
-import { MonzaDiamondMark } from "@/components/monza-diamond-mark";
+import { MonzaLogo } from "@/components/monza-logo";
 import styles from "./site-footer.module.css";
 
 const footerColumns = [
@@ -65,7 +65,7 @@ export function SiteFooter() {
           </div>
 
           <Link aria-label={`${BRAND_NAME} homepage`} className={styles.logoLink} href="/">
-            <MonzaDiamondMark className={styles.logoMark} title={BRAND_NAME} />
+            <MonzaLogo className={styles.logoMark} primaryColor="#cf0000" title={BRAND_NAME} />
           </Link>
 
           <div className={styles.ctaWrap}>

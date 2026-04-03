@@ -46,12 +46,11 @@
 .logoLink {
   justify-self: center;
   display: inline-flex;
-  color: var(--accent-red);
 }
 
 .logoMark {
-  width: 40px;
-  height: 40px;
+  width: min(220px, 34vw);
+  height: auto;
 }
 
 .ctaWrap {

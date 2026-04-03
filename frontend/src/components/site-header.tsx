@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BRAND_EMAIL, BRAND_INSTAGRAM_URL, BRAND_NAME } from "@/lib/brand";
+import { MonzaLogo } from "@/components/monza-logo";
 import styles from "./site-header.module.css";
 
 const leftLinks = [
@@ -40,6 +41,7 @@ export function SiteHeader() {
   const [openPathname, setOpenPathname] = useState<string | null>(null);
   const isHome = pathname === "/";
   const isOpen = openPathname === pathname;
+  const usesTransparentHeader = isHome && !isScrolled;
 
   function closeMenu() {
     setOpenPathname(null);
@@ -133,10 +135,12 @@ export function SiteHeader() {
             </div>
 
             <Link aria-label={`${BRAND_NAME} homepage`} className={styles.logoLink} href="/">
-              <span className={styles.wordmark}>
-                <span className={styles.wordmarkBadge}>Monza</span>
-                <span className={styles.wordmarkText}>Wheels</span>
-              </span>
+              <MonzaLogo
+                className={styles.brandLogo}
+                primaryColor="#cf0000"
+                secondaryColor={usesTransparentHeader ? "#fffaf5" : undefined}
+                title={BRAND_NAME}
+              />
             </Link>
 
             <div className={`${styles.navSlot} ${styles.navSlotRight}`}>
@@ -185,10 +189,7 @@ export function SiteHeader() {
         <div className={`${styles.overlayInner} container`}>
           <div className={styles.overlayHeader}>
             <Link aria-label={`${BRAND_NAME} homepage`} className={styles.overlayLogo} href="/" onClick={closeMenu}>
-              <span className={styles.wordmark}>
-                <span className={styles.wordmarkBadge}>Monza</span>
-                <span className={styles.wordmarkText}>Wheels</span>
-              </span>
+              <MonzaLogo className={styles.brandLogo} primaryColor="#cf0000" title={BRAND_NAME} />
             </Link>
 
             <button

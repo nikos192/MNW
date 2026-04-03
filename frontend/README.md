@@ -32,11 +32,3 @@ Open `http://localhost:3000`.
 ## Environment
 
 Copy `.env.example` to `.env.local` when we begin wiring real services.
-
-## Next steps
-
-1. Add a real quote submission endpoint and admin handling for build briefs.
-2. Expand Shopify metafields and delivered-set content so more of the product detail surface is CMS-driven.
-3. Add Stripe for deposit collection after spec approval.
-
-See [docs/headless-architecture.md](./docs/headless-architecture.md) for the production direction.

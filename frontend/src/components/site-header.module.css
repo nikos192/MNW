@@ -115,14 +115,6 @@
   color: rgba(255, 250, 245, 0.84);
 }
 
-.transparent .wordmarkBadge {
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
-}
-
-.transparent .wordmarkText {
-  color: var(--off-white);
-}
-
 .solid .primaryBar {
   background: rgba(255, 250, 245, 0.92);
   border-bottom-color: var(--rule-strong);
@@ -195,40 +187,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
   color: var(--text-primary);
 }
 
-.wordmark {
-  display: inline-flex;
-  align-items: center;
-  gap: 0;
-}
-
-.wordmarkBadge,
-.wordmarkText {
-  font-family: var(--font-wordmark), serif;
-  font-size: clamp(24px, 2vw, 31px);
-  font-weight: 600;
-  line-height: 0.88;
-  letter-spacing: 0.01em;
-  text-transform: none;
-}
-
-.wordmarkBadge {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 4px 4px;
-  border-radius: 0;
-  background: linear-gradient(135deg, var(--accent-red-strong) 0%, var(--accent-red) 100%);
-  color: var(--off-white);
-  box-shadow: 0 12px 24px rgba(200, 29, 37, 0.18);
-}
-
-.wordmarkText {
-  color: var(--accent-red);
-  font-style: italic;
-  margin-left: -2px;
+.brandLogo {
+  width: clamp(176px, 16vw, 220px);
+  height: auto;
+  overflow: visible;
 }
 
 .mobileToggle,
@@ -327,9 +292,8 @@
     letter-spacing: 0.12em;
   }
 
-  .wordmarkBadge,
-  .wordmarkText {
-    font-size: 27px;
+  .brandLogo {
+    width: 188px;
   }
 }
 
@@ -347,26 +311,7 @@
     height: var(--primary-nav-height);
   }
 
-  .primaryInner {
-    gap: 16px;
-  }
-
-  .wordmark {
-    gap: 0;
-  }
-
-  .wordmarkBadge,
-  .wordmarkText {
-    font-size: 22px;
-    letter-spacing: 0;
-  }
-
-  .wordmarkBadge {
-    padding: 2px 3px 4px;
-    border-radius: 0;
-  }
-
-  .wordmarkText {
-    margin-left: -2px;
+  .brandLogo {
+    width: 148px;
   }
 }
