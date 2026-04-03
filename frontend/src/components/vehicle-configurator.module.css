@@ -18,7 +18,7 @@
 
 .copy {
   max-width: 620px;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
   font-family: var(--font-body), sans-serif;
   font-size: 16px;
   font-weight: 300;
@@ -28,7 +28,7 @@
 
 .form {
   display: grid;
-  gap: 20px;
+  gap: 24px;
 }
 
 .fields {
@@ -50,6 +50,10 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--text-primary);
+}
+
+.select:focus {
+  outline: none;
 }
 
 .select:disabled {

@@ -1,6 +1,6 @@
 .form {
   display: grid;
-  gap: 1.5rem;
+  gap: 1.75rem;
 }
 
 .grid {
@@ -29,7 +29,7 @@
   width: 100%;
   min-height: 52px;
   border: 1px solid var(--rule);
-  background: var(--bg-surface);
+  background: var(--bg-dark);
   color: var(--text-primary);
   padding: 0 16px;
   font-size: 16px;
@@ -102,9 +102,7 @@
   .fieldWide {
     grid-column: auto;
   }
-}
 
-@media (max-width: 900px) {
   .button {
     width: 100%;
   }

@@ -60,8 +60,8 @@
   align-items: center;
   gap: clamp(32px, 5vw, 64px);
   min-height: 100svh;
-  padding-top: calc(var(--nav-height) + 48px);
-  padding-bottom: clamp(120px, 16vw, 220px);
+  padding-top: calc(var(--nav-height) + clamp(28px, 4vw, 48px));
+  padding-bottom: clamp(96px, 12vw, 180px);
 }
 
 .heroCopy {
@@ -305,7 +305,7 @@
 
 .sectionIntro {
   max-width: 720px;
-  margin-bottom: 40px;
+  margin-bottom: clamp(32px, 4vw, 48px);
 }
 
 .sectionHeading {
@@ -375,7 +375,8 @@
 
 @media (max-width: 767px) {
   .heroInner {
-    align-items: end;
+    align-items: center;
+    gap: 24px;
     padding-bottom: 32px;
   }
 
@@ -397,6 +398,10 @@
 
   .heroStageViewport {
     min-height: 420px;
+  }
+
+  .sectionIntro {
+    margin-bottom: 28px;
   }
 
   .expansionMeta,

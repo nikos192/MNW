@@ -18,6 +18,7 @@
   --ease-precision: cubic-bezier(0.22, 0.61, 0.36, 1);
   --duration-hover: 280ms;
   --duration-enter: 320ms;
+  --nav-height: 92px;
   --section-pad-v: 120px;
   --section-pad-h: clamp(20px, 4vw, 56px);
   --container-max: 1520px;
@@ -287,7 +288,8 @@ h6 {
 
 @media (max-width: 767px) {
   :root {
-    --section-pad-v: 64px;
+    --nav-height: 74px;
+    --section-pad-v: 72px;
   }
 
   [data-reveal] {

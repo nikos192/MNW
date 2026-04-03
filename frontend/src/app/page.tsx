@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import ScrollExpandMedia from "@/components/blocks/scroll-expansion-hero";
 import { DeliveredSetCard } from "@/components/delivered-set-card";

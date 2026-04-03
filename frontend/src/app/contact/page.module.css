@@ -3,7 +3,7 @@
 }
 
 .hero {
-  padding: 136px 0 40px;
+  padding: clamp(128px, 14vw, 152px) 0 56px;
   border-bottom: 1px solid var(--rule);
 }
 
@@ -33,7 +33,7 @@
 }
 
 .formSection {
-  padding: 40px 0 var(--section-pad-v);
+  padding: 56px 0 var(--section-pad-v);
 }
 
 .grid {

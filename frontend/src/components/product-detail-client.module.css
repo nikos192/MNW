@@ -1,25 +1,26 @@
 .page {
   background: var(--bg-dark);
   min-height: 100vh;
-  padding: 128px 0 var(--section-pad-v);
+  padding: calc(var(--nav-height) + 40px) 0 var(--section-pad-v);
 }
 
 .grid {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
-  gap: 48px;
+  gap: clamp(32px, 4vw, 48px);
   align-items: start;
 }
 
 .gallery {
   display: grid;
-  gap: 12px;
+  gap: 16px;
 }
 
 .primaryMedia {
   position: relative;
   min-height: 640px;
   background: var(--bg-surface);
+  border: 1px solid var(--rule);
 }
 
 .primaryImage,
@@ -69,6 +70,8 @@
 .detailPanel {
   position: sticky;
   top: 104px;
+  display: grid;
+  gap: 28px;
 }
 
 .series {
@@ -85,7 +88,7 @@
 }
 
 .price {
-  margin-bottom: 24px;
+  margin-bottom: 0;
   font-family: var(--font-body), sans-serif;
   font-size: 18px;
   font-weight: 300;
@@ -94,7 +97,7 @@
 }
 
 .description {
-  margin-bottom: 32px;
+  margin-bottom: 0;
 }
 
 .description p {
@@ -106,7 +109,7 @@
 }
 
 .finishGroup {
-  margin-bottom: 32px;
+  margin-bottom: 0;
 }
 
 .finishLabel {
@@ -176,7 +179,8 @@
 }
 
 .specs {
-  margin-bottom: 32px;
+  margin-bottom: 0;
+  border-top: 1px solid var(--rule);
 }
 
 .specRow {
@@ -250,7 +254,7 @@
 
 @media (max-width: 767px) {
   .page {
-    padding-top: 112px;
+    padding-top: calc(var(--nav-height) + 24px);
   }
 
   .primaryMedia,
