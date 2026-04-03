@@ -68,6 +68,10 @@
   object-fit: cover;
 }
 
+.detailColumn {
+  min-width: 0;
+}
+
 .detailPanel {
   position: sticky;
   top: 104px;

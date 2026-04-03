@@ -95,6 +95,16 @@
 }
 
 @media (max-width: 1024px) {
+  .principles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .makeGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
   .principles,
   .makeGrid {
     grid-template-columns: 1fr;

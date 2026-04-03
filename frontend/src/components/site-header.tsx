@@ -163,6 +163,7 @@ export function SiteHeader() {
 
               <button
                 aria-controls="site-menu"
+                aria-expanded={isOpen ? "true" : "false"}
                 aria-label={isOpen ? "Close navigation" : "Open navigation"}
                 className={styles.mobileToggle}
                 onClick={toggleMenu}
@@ -176,6 +177,7 @@ export function SiteHeader() {
       </header>
 
       <div
+        aria-hidden={isOpen ? "false" : "true"}
         className={`${styles.overlay} ${isOpen ? styles.open : ""}`}
         id="site-menu"
         onClick={(event) => {

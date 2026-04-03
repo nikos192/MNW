@@ -109,13 +109,22 @@
 }
 
 @media (max-width: 1024px) {
-  .statementGrid,
+  .statementGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .processGrid {
     grid-template-columns: 1fr;
   }
 
   .processList {
     grid-column: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .statementGrid {
+    grid-template-columns: 1fr;
   }
 }
 

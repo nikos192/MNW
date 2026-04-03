@@ -33,7 +33,7 @@ export function BuildForm({ email, initialNotes = "" }: BuildFormProps) {
     });
 
     const body = `${lines.join("\n")}\n\nProject notes:\n${notes || "Not provided"}`;
-  const subject = `${BRAND_NAME} Build Brief`;
+    const subject = `${BRAND_NAME} Build Brief`;
 
     window.location.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }

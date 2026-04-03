@@ -3,8 +3,11 @@
 }
 
 .hero {
-  padding: clamp(128px, 14vw, 152px) 0 56px;
+  padding: calc(var(--nav-height) + var(--hero-offset)) 0 var(--section-pad-v-compact);
   border-bottom: 1px solid var(--rule);
+  background:
+    radial-gradient(circle at top right, rgba(200, 29, 37, 0.12), transparent 24%),
+    linear-gradient(180deg, #fffaf5 0%, #f5ebe2 100%);
 }
 
 .title {
