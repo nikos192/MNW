@@ -205,7 +205,7 @@
   font-family: var(--font-wordmark), serif;
   font-size: clamp(24px, 2vw, 31px);
   font-weight: 600;
-  line-height: 0.92;
+  line-height: 0.88;
   letter-spacing: 0.01em;
   text-transform: none;
 }
@@ -213,8 +213,8 @@
 .wordmarkBadge {
   display: inline-flex;
   align-items: center;
-  padding: 4px 8px 6px;
-  border-radius: 6px;
+  padding: 2px 5px 4px;
+  border-radius: 0;
   background: linear-gradient(135deg, var(--accent-red-strong) 0%, var(--accent-red) 100%);
   color: var(--off-white);
   box-shadow: 0 12px 24px rgba(200, 29, 37, 0.18);
@@ -223,7 +223,7 @@
 .wordmarkText {
   color: var(--accent-red);
   font-style: italic;
-  margin-left: -6px;
+  margin-left: -8px;
 }
 
 .mobileToggle,
@@ -353,11 +353,11 @@
   }
 
   .wordmarkBadge {
-    padding: 4px 7px 6px;
-    border-radius: 5px;
+    padding: 2px 4px 4px;
+    border-radius: 0;
   }
 
   .wordmarkText {
-    margin-left: -5px;
+    margin-left: -7px;
   }
 }
