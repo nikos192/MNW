@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { fitmentPrinciples, processSteps } from "@/lib/mnw-data";
+import { fitmentPrinciples, processSteps } from "@/lib/monza-data";
 import styles from "../page-shell.module.css";
 
 export const metadata = {
   title: "Engineering",
   description:
-    "See how MNW resolves forged wheel geometry, brake clearance, and finish around the exact vehicle.",
+    "See how MonzaWheels resolves forged wheel geometry, brake clearance, and finish around the exact vehicle.",
 };
 
 export default function EngineeringPage() {
@@ -16,7 +16,7 @@ export default function EngineeringPage() {
           <p className="label">Engineering</p>
           <h1 className={styles.heroTitle}>Every wheel program starts with the chassis.</h1>
           <p className={styles.heroCopy}>
-            MNW resolves diameter, width, offset, brake clearance, and finish as
+            MonzaWheels resolves diameter, width, offset, brake clearance, and finish as
             one system around the exact car. The wheel face is only the
             starting point.
           </p>
@@ -41,7 +41,7 @@ export default function EngineeringPage() {
           <div className={styles.cardGrid}>
             {processSteps.map((step) => (
               <article key={step.title} className={styles.card} data-reveal>
-                <p className={styles.cardOverline}>MNW Process</p>
+                <p className={styles.cardOverline}>MonzaWheels Process</p>
                 <h3 className={styles.cardTitle}>{step.title}</h3>
                 <p className={styles.cardCopy}>{step.copy}</p>
               </article>

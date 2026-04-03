@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { vehicleData } from "@/lib/mnw-data";
+import { vehicleData } from "@/lib/monza-data";
 import styles from "./vehicle-configurator.module.css";
 
 export function VehicleConfigurator() {

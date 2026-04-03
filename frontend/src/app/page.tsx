@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { GallerySwitcher } from "@/components/gallery-switcher";
-import { collectionSummaries } from "@/lib/mnw-data";
+import { collectionSummaries } from "@/lib/monza-data";
 import { getCatalogData } from "@/lib/catalog";
 import styles from "./page.module.css";
 
@@ -58,7 +58,7 @@ export default async function Home() {
 
           <div className={styles.storyMedia} data-reveal>
             <Image
-              alt="MNW forged wheel detail"
+              alt="MonzaWheels forged wheel detail"
               className={styles.storyImage}
               height={1200}
               priority
@@ -75,7 +75,7 @@ export default async function Home() {
           <div className={styles.tierHeader} data-reveal>
             <h2 className={styles.sectionHeading}>Two lines. One standard.</h2>
             <p className={styles.sectionBody}>
-              Every MNW wheel begins as a single billet of 6061-T6 aluminium.
+              Every MonzaWheels wheel begins as a single billet of 6061-T6 aluminium.
               What separates them is the finish.
             </p>
           </div>
@@ -83,7 +83,7 @@ export default async function Home() {
           <div className={styles.tierGrid}>
             <Link className={styles.tierTile} href="/collections/monoblock">
               <Image
-                alt="MNW monoblock forged collection"
+                alt="MonzaWheels monoblock forged collection"
                 className={styles.tierImage}
                 height={1200}
                 sizes="(max-width: 767px) 100vw, 50vw"
@@ -102,7 +102,7 @@ export default async function Home() {
 
             <Link className={styles.tierTile} href="/collections/multi-piece">
               <Image
-                alt="MNW multi-piece forged collection"
+                alt="MonzaWheels multi-piece forged collection"
                 className={styles.tierImage}
                 height={1200}
                 sizes="(max-width: 767px) 100vw, 50vw"

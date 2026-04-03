@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { MnwDiamondMark } from "@/components/mnw-diamond-mark";
+import { BRAND_EMAIL, BRAND_INSTAGRAM_URL, BRAND_NAME } from "@/lib/brand";
+import { MonzaDiamondMark } from "@/components/monza-diamond-mark";
 import styles from "./site-header.module.css";
 
 const leftLinks = [
@@ -87,13 +88,13 @@ export function SiteHeader() {
       >
         <div className={styles.utilityBar}>
           <div className={`${styles.utilityInner} container`}>
-            <p className={styles.utilityText}>Brisbane, Australia · hello@mnwheels.com.au</p>
+            <p className={styles.utilityText}>{`Brisbane, Australia · ${BRAND_EMAIL}`}</p>
 
             <div className={styles.utilityNav}>
               <a
-                aria-label="MNW Instagram"
+                aria-label={`${BRAND_NAME} Instagram`}
                 className={styles.utilityIconLink}
-                href="https://instagram.com/mnwwheels"
+                href={BRAND_INSTAGRAM_URL}
                 rel="noreferrer noopener"
                 target="_blank"
               >
@@ -131,8 +132,8 @@ export function SiteHeader() {
             </nav>
           </div>
 
-          <Link aria-label="MNW homepage" className={styles.logoLink} href="/">
-            <MnwDiamondMark className={styles.logoMark} title="MNW" />
+          <Link aria-label={`${BRAND_NAME} homepage`} className={styles.logoLink} href="/">
+            <MonzaDiamondMark className={styles.logoMark} title={BRAND_NAME} />
           </Link>
 
           <div className={`${styles.navSlot} ${styles.navSlotRight}`}>
@@ -179,8 +180,8 @@ export function SiteHeader() {
       >
         <div className={`${styles.overlayInner} container`}>
           <div className={styles.overlayHeader}>
-            <Link aria-label="MNW homepage" className={styles.overlayLogo} href="/" onClick={closeMenu}>
-              <MnwDiamondMark className={styles.overlayLogoMark} title="MNW" />
+            <Link aria-label={`${BRAND_NAME} homepage`} className={styles.overlayLogo} href="/" onClick={closeMenu}>
+              <MonzaDiamondMark className={styles.overlayLogoMark} title={BRAND_NAME} />
             </Link>
 
             <button
@@ -213,7 +214,7 @@ export function SiteHeader() {
           <div className={styles.overlayUtility}>
             <a
               className={styles.overlaySmallLink}
-              href="https://instagram.com/mnwwheels"
+              href={BRAND_INSTAGRAM_URL}
               rel="noreferrer noopener"
               target="_blank"
             >
@@ -229,7 +230,7 @@ export function SiteHeader() {
 
           <div className={styles.overlayMeta}>
             <p>Brisbane, Australia</p>
-            <a href="mailto:hello@mnwheels.com.au">hello@mnwheels.com.au</a>
+            <a href={`mailto:${BRAND_EMAIL}`}>{BRAND_EMAIL}</a>
           </div>
         </div>
       </div>

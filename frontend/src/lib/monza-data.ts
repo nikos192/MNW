@@ -96,19 +96,19 @@ export const fallbackProducts: CatalogProduct[] = [
   {
     id: "mnw-01",
     handle: "mnw-01",
-    title: "MNW-01",
+    title: "MonzaWheels-01",
     series: "Series 01",
     shortDescription:
       "A measured face with enough edge definition to carry luxury and performance builds without visual noise.",
     description:
-      "MNW-01 is the calmest entry in the range. It suits sedans and coupes that need a deliberate surface, exact brake clearance, and a finish program that stays restrained rather than loud.",
+      "MonzaWheels-01 is the calmest entry in the range. It suits sedans and coupes that need a deliberate surface, exact brake clearance, and a finish program that stays restrained rather than loud.",
     price: "$4,500",
     leadTime: "8–12 weeks",
     images: [
-      { url: defaultMediaImage, alt: "MNW-01 forged wheel" },
-      { url: defaultMediaImage, alt: "MNW-01 alternate angle" },
-      { url: defaultMediaImage, alt: "MNW-01 profile" },
-      { url: defaultMediaImage, alt: "MNW-01 detail" },
+      { url: defaultMediaImage, alt: "MonzaWheels-01 forged wheel" },
+      { url: defaultMediaImage, alt: "MonzaWheels-01 alternate angle" },
+      { url: defaultMediaImage, alt: "MonzaWheels-01 profile" },
+      { url: defaultMediaImage, alt: "MonzaWheels-01 detail" },
     ],
     finishes: [
       { name: "Brushed clear", swatch: "#AFAFAD" },
@@ -127,19 +127,19 @@ export const fallbackProducts: CatalogProduct[] = [
   {
     id: "mnw-02",
     handle: "mnw-02",
-    title: "MNW-02",
+    title: "MonzaWheels-02",
     series: "Series 01",
     shortDescription:
       "Sharper spoke architecture for builds that need obvious brake presence and more motorsport tension in the face.",
     description:
-      "MNW-02 pushes the spoke architecture harder. It works best around aggressive brake packages, staggered fitment, and projects where the wheel needs more tension without tipping into visual clutter.",
+      "MonzaWheels-02 pushes the spoke architecture harder. It works best around aggressive brake packages, staggered fitment, and projects where the wheel needs more tension without tipping into visual clutter.",
     price: "$4,900",
     leadTime: "8–12 weeks",
     images: [
-      { url: defaultMediaImage, alt: "MNW-02 forged wheel" },
-      { url: defaultMediaImage, alt: "MNW-02 alternate angle" },
-      { url: defaultMediaImage, alt: "MNW-02 profile" },
-      { url: defaultMediaImage, alt: "MNW-02 detail" },
+      { url: defaultMediaImage, alt: "MonzaWheels-02 forged wheel" },
+      { url: defaultMediaImage, alt: "MonzaWheels-02 alternate angle" },
+      { url: defaultMediaImage, alt: "MonzaWheels-02 profile" },
+      { url: defaultMediaImage, alt: "MonzaWheels-02 detail" },
     ],
     finishes: [
       { name: "Gloss black", swatch: "#0F0F0F" },
@@ -158,19 +158,19 @@ export const fallbackProducts: CatalogProduct[] = [
   {
     id: "mnw-03",
     handle: "mnw-03",
-    title: "MNW-03",
+    title: "MonzaWheels-03",
     series: "Series 01",
     shortDescription:
       "A stronger concave language suited to hero builds where the wheel is part of the car's visual signature.",
     description:
-      "MNW-03 is the deeper, more dramatic base. It is best when the brief wants stronger rear architecture, more negative space, and a finish program that becomes part of the car's identity.",
+      "MonzaWheels-03 is the deeper, more dramatic base. It is best when the brief wants stronger rear architecture, more negative space, and a finish program that becomes part of the car's identity.",
     price: "$5,200",
     leadTime: "8–12 weeks",
     images: [
-      { url: defaultMediaImage, alt: "MNW-03 forged wheel" },
-      { url: defaultMediaImage, alt: "MNW-03 alternate angle" },
-      { url: defaultMediaImage, alt: "MNW-03 profile" },
-      { url: defaultMediaImage, alt: "MNW-03 detail" },
+      { url: defaultMediaImage, alt: "MonzaWheels-03 forged wheel" },
+      { url: defaultMediaImage, alt: "MonzaWheels-03 alternate angle" },
+      { url: defaultMediaImage, alt: "MonzaWheels-03 profile" },
+      { url: defaultMediaImage, alt: "MonzaWheels-03 detail" },
     ],
     finishes: [
       { name: "Brushed clear", swatch: "#AFAFAD" },
@@ -230,7 +230,7 @@ export const fitmentPrinciples = [
 export const aboutStatements = [
   {
     title: "Designed in Australia",
-    copy: "MNW is built around a simple idea: the wheel should feel native to the chassis rather than adapted after the fact.",
+    copy: "MonzaWheels is built around a simple idea: the wheel should feel native to the chassis rather than adapted after the fact.",
   },
   {
     title: "Forged, not generic",
@@ -283,20 +283,20 @@ export const dealerRegions: DealerRegion[] = [
   {
     region: "Australia",
     city: "Brisbane",
-    note: "Direct quoting, chassis reviews, and finish consultations from the MNW workshop.",
-    contact: "hello@mnwheels.com.au",
+    note: "Direct quoting, chassis reviews, and finish consultations from the MonzaWheels workshop.",
+    contact: "hello@monzawheels.com.au",
   },
   {
     region: "Europe",
     city: "Partner network forming",
     note: "Send the vehicle brief and we will route the project to the closest fitment partner as the network expands.",
-    contact: "hello@mnwheels.com.au",
+    contact: "hello@monzawheels.com.au",
   },
   {
     region: "Asia Pacific",
     city: "By appointment",
     note: "Remote quoting and logistics support for projects outside Brisbane while the dealer footprint grows.",
-    contact: "hello@mnwheels.com.au",
+    contact: "hello@monzawheels.com.au",
   },
 ];
 

@@ -1,4 +1,4 @@
-# MNW Headless Architecture
+# MonzaWheels Headless Architecture
 
 ## Goal
 
@@ -32,7 +32,7 @@ Build a premium custom-wheel frontend that feels like a design studio and intake
   - final balance collection
   - optional payment links or Checkout for low-friction payment capture
 
-## Why this split works for MNW
+## Why this split works for MonzaWheels
 
 - The frontend can be far more distinctive than a standard theme.
 - Shopify still handles product and content admin so you do not rebuild merchant tooling from scratch.
@@ -74,6 +74,8 @@ Legacy routes:
 Use products as design bases or delivered-set anchors rather than pretending every listing is a stocked SKU.
 
 Suggested product metafields:
+
+These currently remain under the `mnw.*` namespace for Shopify compatibility until the data model is migrated.
 
 - `mnw.design_family`
 - `mnw.construction`

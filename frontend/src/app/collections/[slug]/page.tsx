@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { collectionSummaries, defaultMediaImage } from "@/lib/mnw-data";
+import { collectionSummaries, defaultMediaImage } from "@/lib/monza-data";
 import { getCatalogData } from "@/lib/catalog";
 import styles from "../../page-shell.module.css";
 

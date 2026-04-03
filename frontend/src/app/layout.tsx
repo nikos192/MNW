@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Jura, Work_Sans } from "next/font/google";
+import { BRAND_NAME } from "@/lib/brand";
 import { SiteEffects } from "@/components/site-effects";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -30,8 +31,8 @@ function resolveMetadataBase(): URL {
 export const metadata: Metadata = {
   metadataBase: resolveMetadataBase(),
   title: {
-    default: "MNW | Forged Wheels Australia",
-    template: "%s | MNW",
+    default: `${BRAND_NAME} | Forged Wheels Australia`,
+    template: `%s | ${BRAND_NAME}`,
   },
   description:
     "Premium forged wheels machined to order in Australia, with fitment, offset, finish, and brake clearance resolved around the exact chassis.",

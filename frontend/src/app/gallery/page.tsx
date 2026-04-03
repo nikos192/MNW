@@ -6,7 +6,7 @@ import styles from "../page-shell.module.css";
 export const metadata = {
   title: "Gallery",
   description:
-    "Browse MNW builds by vehicle and wheel model, with placeholders preserved where gallery assets are still being assembled.",
+    "Browse MonzaWheels builds by vehicle and wheel model, with placeholders preserved where gallery assets are still being assembled.",
 };
 
 export default async function GalleryPage() {

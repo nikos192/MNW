@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { GlowCard } from "@/components/ui/spotlight-card";
-import type { DeliveredSet } from "@/lib/mnw-data";
+import type { DeliveredSet } from "@/lib/monza-data";
 import styles from "./delivered-set-card.module.css";
 
 type DeliveredSetCardProps = {

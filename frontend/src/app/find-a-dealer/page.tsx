@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { dealerRegions } from "@/lib/mnw-data";
+import { dealerRegions } from "@/lib/monza-data";
 import styles from "../page-shell.module.css";
 
 export const metadata = {
   title: "Find a Dealer",
   description:
-    "See where MNW currently supports dealer and direct-fitment enquiries from Brisbane outward.",
+    "See where MonzaWheels currently supports dealer and direct-fitment enquiries from Brisbane outward.",
 };
 
 export default function FindDealerPage() {
@@ -16,7 +16,7 @@ export default function FindDealerPage() {
           <p className="label">Find a Dealer</p>
           <h1 className={styles.heroTitle}>Dealer support is expanding from Brisbane outward.</h1>
           <p className={styles.heroCopy}>
-            MNW quotes directly today and can route future projects through the
+            MonzaWheels quotes directly today and can route future projects through the
             nearest partner as the network develops.
           </p>
         </div>
@@ -49,7 +49,7 @@ export default function FindDealerPage() {
           <div>
             <p className="label">Direct Enquiry</p>
             <h2 className={styles.sectionTitle}>Don’t see your region yet?</h2>
-            <p className={styles.note}>Send the brief directly and MNW will handle the first response from Brisbane.</p>
+            <p className={styles.note}>Send the brief directly and MonzaWheels will handle the first response from Brisbane.</p>
           </div>
           <Link className="button-outline" href="/contact">
             Request a Quote

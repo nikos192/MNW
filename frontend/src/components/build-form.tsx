@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { BRAND_NAME } from "@/lib/brand";
 import styles from "./build-form.module.css";
 
 type BuildFormProps = {
@@ -32,7 +33,7 @@ export function BuildForm({ email, initialNotes = "" }: BuildFormProps) {
     });
 
     const body = `${lines.join("\n")}\n\nProject notes:\n${notes || "Not provided"}`;
-    const subject = "MNW Build Brief";
+  const subject = `${BRAND_NAME} Build Brief`;
 
     window.location.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
@@ -61,7 +62,7 @@ export function BuildForm({ email, initialNotes = "" }: BuildFormProps) {
         Request a Quote
       </button>
       <p className={styles.help}>
-        This opens your email app with the build brief pre-filled so you can send it straight to MNW.
+        {`This opens your email app with the build brief pre-filled so you can send it straight to ${BRAND_NAME}.`}
       </p>
     </form>
   );

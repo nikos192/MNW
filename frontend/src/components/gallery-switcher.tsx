@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useTransition } from "react";
-import { defaultMediaImage, type CatalogProduct, type DeliveredSet } from "@/lib/mnw-data";
+import { defaultMediaImage, type CatalogProduct, type DeliveredSet } from "@/lib/monza-data";
 import styles from "./gallery-switcher.module.css";
 
 type GallerySwitcherProps = {

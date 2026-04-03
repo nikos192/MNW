@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { MnwDiamondMark } from "@/components/mnw-diamond-mark";
+import { BRAND_FACEBOOK_URL, BRAND_INSTAGRAM_URL, BRAND_LEGAL_NAME, BRAND_NAME } from "@/lib/brand";
+import { MonzaDiamondMark } from "@/components/monza-diamond-mark";
 import styles from "./site-footer.module.css";
 
 const footerColumns = [
@@ -22,7 +23,7 @@ const footerColumns = [
   {
     title: "Company",
     links: [
-      { href: "/about", label: "About MNW" },
+      { href: "/about", label: `About ${BRAND_NAME}` },
       { href: "/engineering", label: "Our Process" },
       { href: "/find-a-dealer", label: "Find a Dealer" },
     ],
@@ -44,18 +45,18 @@ export function SiteFooter() {
         <div className={styles.topRow}>
           <div className={styles.socials}>
             <a
-              aria-label="MNW Instagram"
+              aria-label={`${BRAND_NAME} Instagram`}
               className={styles.socialLink}
-              href="https://instagram.com/mnwwheels"
+              href={BRAND_INSTAGRAM_URL}
               rel="noreferrer noopener"
               target="_blank"
             >
               <span className={styles.socialMonogram}>IG</span>
             </a>
             <a
-              aria-label="MNW Facebook"
+              aria-label={`${BRAND_NAME} Facebook`}
               className={styles.socialLink}
-              href="https://facebook.com"
+              href={BRAND_FACEBOOK_URL}
               rel="noreferrer noopener"
               target="_blank"
             >
@@ -63,8 +64,8 @@ export function SiteFooter() {
             </a>
           </div>
 
-          <Link aria-label="MNW homepage" className={styles.logoLink} href="/">
-            <MnwDiamondMark className={styles.logoMark} title="MNW" />
+          <Link aria-label={`${BRAND_NAME} homepage`} className={styles.logoLink} href="/">
+            <MonzaDiamondMark className={styles.logoMark} title={BRAND_NAME} />
           </Link>
 
           <div className={styles.ctaWrap}>
@@ -90,7 +91,7 @@ export function SiteFooter() {
         </div>
 
         <div className={styles.bottomRow}>
-          <p className={styles.meta}>© 2024 MNW Wheels. All rights reserved.</p>
+          <p className={styles.meta}>{`© ${new Date().getFullYear()} ${BRAND_LEGAL_NAME}. All rights reserved.`}</p>
           <p className={styles.meta}>Made in Brisbane, Australia</p>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { BRAND_EMAIL, BRAND_NAME } from "@/lib/brand";
 import { BuildForm } from "@/components/build-form";
 import styles from "./page.module.css";
 
@@ -14,12 +15,12 @@ type ContactPageProps = {
 export const metadata = {
   title: "Contact",
   description:
-    "Request a quote for an MNW forged wheel set. Share the chassis, finish direction, and build notes and MNW will respond with the right program.",
+    `Request a quote for a ${BRAND_NAME} forged wheel set. Share the chassis, finish direction, and build notes and ${BRAND_NAME} will respond with the right program.`,
 };
 
 export default async function ContactPage({ searchParams }: ContactPageProps) {
   const params = await searchParams;
-  const email = process.env.BUILD_INTAKE_EMAIL ?? "hello@mnw.au";
+  const email = process.env.BUILD_INTAKE_EMAIL ?? BRAND_EMAIL;
   const contextLines = [
     params.title ? `Product: ${params.title}` : "",
     params.make ? `Make: ${params.make}` : "",
@@ -37,7 +38,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
           </h1>
           <p className={styles.copy}>
             Tell us the car, the fitment brief, the finish direction, and any
-            references that matter. MNW will come back with the correct forged
+            references that matter. {BRAND_NAME} will come back with the correct forged
             solution rather than pushing you through a generic cart flow.
           </p>
         </div>
@@ -73,7 +74,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             <div className={styles.sideBlock}>
               <h3>Outcome</h3>
               <p>
-                MNW confirms the correct wheel base, fitment, lead time, and
+                {BRAND_NAME} confirms the correct wheel base, fitment, lead time, and
                 finish path.
               </p>
             </div>

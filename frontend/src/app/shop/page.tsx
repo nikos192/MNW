@@ -5,7 +5,7 @@ import styles from "./page.module.css";
 export const metadata = {
   title: "Shop",
   description:
-    "Browse the MNW forged wheel range. Final fitment and finish are quoted around the exact vehicle.",
+    "Browse the MonzaWheels forged wheel range. Final fitment and finish are quoted around the exact vehicle.",
 };
 
 export default async function ShopPage() {

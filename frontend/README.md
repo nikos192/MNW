@@ -1,6 +1,6 @@
-# MNW Frontend
+# MonzaWheels Frontend
 
-This app is the headless MNW storefront: a custom `Next.js` frontend built for a quote-first wheel business, deployed independently from Shopify theme code.
+This app is the headless MonzaWheels storefront: a custom `Next.js` frontend built for a quote-first wheel business, deployed independently from Shopify theme code.
 
 ## Current direction
 

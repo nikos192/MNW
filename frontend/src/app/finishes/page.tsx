@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { finishPrograms } from "@/lib/mnw-data";
+import { finishPrograms } from "@/lib/monza-data";
 import styles from "../page-shell.module.css";
 
 export const metadata = {
   title: "Finishes",
   description:
-    "Browse the core MNW finish programs used to tune the final visual read of each forged wheel set.",
+    "Browse the core MonzaWheels finish programs used to tune the final visual read of each forged wheel set.",
 };
 
 export default function FinishesPage() {

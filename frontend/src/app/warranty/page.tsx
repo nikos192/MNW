@@ -4,7 +4,7 @@ import styles from "../page-shell.module.css";
 const warrantyPoints = [
   {
     title: "Structural Review",
-    copy: "Every wheel program is checked before dispatch. If there is a structural concern, MNW reviews it against the original brief and production data.",
+    copy: "Every wheel program is checked before dispatch. If there is a structural concern, MonzaWheels reviews it against the original brief and production data.",
   },
   {
     title: "Finish Inspection",
@@ -19,7 +19,7 @@ const warrantyPoints = [
 export const metadata = {
   title: "Warranty",
   description:
-    "Understand the support process around MNW forged wheel programs, from pre-dispatch checks to post-delivery review.",
+    "Understand the support process around MonzaWheels forged wheel programs, from pre-dispatch checks to post-delivery review.",
 };
 
 export default function WarrantyPage() {
@@ -30,7 +30,7 @@ export default function WarrantyPage() {
           <p className="label">Warranty</p>
           <h1 className={styles.heroTitle}>A clear support process for a made-to-order product.</h1>
           <p className={styles.heroCopy}>
-            Every set is reviewed before dispatch. If something is off, MNW
+            Every set is reviewed before dispatch. If something is off, MonzaWheels
             handles it through the same quote-first process that built the
             wheel.
           </p>

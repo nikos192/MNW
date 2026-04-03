@@ -5,7 +5,7 @@ import {
   type DeliveredSet,
   type WheelFinish,
   type WheelSpec,
-} from "@/lib/mnw-data";
+} from "@/lib/monza-data";
 import { hasShopifyStorefrontConfig, shopifyFetch } from "@/lib/shopify";
 
 type ShopifyProductNode = {

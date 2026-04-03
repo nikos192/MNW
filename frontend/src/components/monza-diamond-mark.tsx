@@ -1,9 +1,9 @@
-type MnwDiamondMarkProps = {
+type MonzaDiamondMarkProps = {
   className?: string;
   title?: string;
 };
 
-export function MnwDiamondMark({ className, title }: MnwDiamondMarkProps) {
+export function MonzaDiamondMark({ className, title }: MonzaDiamondMarkProps) {
   const labelled = Boolean(title);
   const accessibilityProps = labelled
     ? ({ role: "img", "aria-label": title } as const)

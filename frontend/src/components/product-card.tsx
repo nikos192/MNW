@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { GlowCard } from "@/components/ui/spotlight-card";
-import type { CatalogProduct } from "@/lib/mnw-data";
+import type { CatalogProduct } from "@/lib/monza-data";
 import styles from "./product-card.module.css";
 
 type ProductCardProps = {

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { fitmentPrinciples, vehicleData } from "@/lib/mnw-data";
+import { fitmentPrinciples, vehicleData } from "@/lib/monza-data";
 import styles from "./page.module.css";
 
 type FitmentPageProps = {
@@ -13,7 +13,7 @@ type FitmentPageProps = {
 export const metadata = {
   title: "Fitment",
   description:
-    "See the vehicle platforms and fitment process MNW uses to quote forged wheel sets around each chassis.",
+    "See the vehicle platforms and fitment process MonzaWheels uses to quote forged wheel sets around each chassis.",
 };
 
 export default async function FitmentPage({ searchParams }: FitmentPageProps) {

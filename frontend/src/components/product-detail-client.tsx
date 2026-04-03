@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import type { CatalogProduct } from "@/lib/mnw-data";
+import type { CatalogProduct } from "@/lib/monza-data";
 import styles from "./product-detail-client.module.css";
 
 type ProductDetailClientProps = {

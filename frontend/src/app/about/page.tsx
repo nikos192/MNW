@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { aboutStatements } from "@/lib/mnw-data";
+import { aboutStatements } from "@/lib/monza-data";
 import styles from "./page.module.css";
 
 const process = [
@@ -11,7 +11,7 @@ const process = [
 export const metadata = {
   title: "About",
   description:
-    "MNW is a forged wheel brand built around fitment-led quoting, restrained design, and made-to-order delivery.",
+    "MonzaWheels is a forged wheel brand built around fitment-led quoting, restrained design, and made-to-order delivery.",
 };
 
 export default function AboutPage() {
@@ -24,7 +24,7 @@ export default function AboutPage() {
             A forged wheel brand built around restraint and exactness.
           </h1>
           <p className={styles.copy}>
-            MNW is not a catalogue of generic inventory. The wheel, the
+            MonzaWheels is not a catalogue of generic inventory. The wheel, the
             fitment, and the finish are resolved together so the final set
             feels native to the car.
           </p>
