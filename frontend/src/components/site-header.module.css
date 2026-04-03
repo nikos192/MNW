@@ -45,54 +45,48 @@
   gap: 18px;
 }
 
-.utilityLink,
-.utilityIconLink {
-  color: var(--text-secondary);
-}
-
-.utilityLink:hover,
 .utilityLink:focus-visible,
-.utilityIconLink:hover,
-.utilityIconLink:focus-visible,
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
 .overlaySmallLink:hover,
 .overlaySmallLink:focus-visible,
-.overlayMeta a:hover,
-.overlayMeta a:focus-visible {
-  color: var(--accent-red);
+  .wordmarkBadge,
+  .wordmarkText {
 }
-
+    font-size: clamp(18px, 1.7vw, 23px);
 .utilityIconLink {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
-}
-
-.utilityMonogram {
   font-family: var(--font-body), sans-serif;
   font-size: 10px;
-  font-weight: 300;
-  letter-spacing: 0.14em;
-  line-height: 1;
-  text-transform: uppercase;
+  .wordmarkBadge {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--accent-red-strong) 0%, var(--accent-red) 100%);
+    color: var(--off-white);
+    box-shadow: 0 12px 24px rgba(200, 29, 37, 0.18);
+  }
+
+  .wordmarkText {
+    color: var(--accent-red);
+  background: transparent;
 }
 
-.primaryBar {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: center;
-  gap: 24px;
-  height: var(--primary-nav-height);
-  border-bottom: 1px solid transparent;
-  transition:
-    background 400ms ease,
-    border-color 400ms ease,
-    box-shadow 400ms ease;
+.transparent .utilityBar {
+  background: transparent;
+  border-bottom-color: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
-.transparent .primaryBar {
-  background: linear-gradient(180deg, rgba(255, 250, 245, 0.94) 0%, rgba(255, 250, 245, 0.76) 72%, rgba(255, 250, 245, 0) 100%);
+.transparent .utilityText,
+.transparent .utilityLink,
+.transparent .utilityIconLink,
+.transparent .navLink,
+.transparent .mobileToggle {
+  color: rgba(255, 250, 245, 0.84);
 }
 
 .solid .primaryBar {
@@ -175,6 +169,14 @@
   width: 40px;
   height: 40px;
   color: var(--ink);
+}
+
+.transparent .wordmarkBadge {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+
+.transparent .wordmarkText {
+  color: var(--off-white);
 }
 
 .wordmark {
@@ -270,12 +272,6 @@
   display: inline-flex;
 }
 
-.overlayLogoMark {
-  width: 36px;
-  height: 36px;
-  color: var(--ink);
-}
-
 .overlayNav {
   display: grid;
   gap: 16px;
@@ -322,12 +318,9 @@
     letter-spacing: 0.12em;
   }
 
-  .wordmarkName {
+  .wordmarkBadge,
+  .wordmarkText {
     font-size: 18px;
-  }
-
-  .wordmarkName::after {
-    width: 18px;
   }
 }
 
@@ -351,16 +344,16 @@
   }
 
   .wordmark {
-    gap: 0;
+    gap: 8px;
   }
 
-  .wordmarkName {
+  .wordmarkBadge,
+  .wordmarkText {
     font-size: 16px;
     letter-spacing: 0.06em;
   }
 
-  .wordmarkName::after,
-  .wordmarkTag {
-    display: none;
+  .wordmarkBadge {
+    padding: 7px 10px;
   }
 }

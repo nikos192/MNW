@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BRAND_EMAIL, BRAND_INSTAGRAM_URL, BRAND_NAME } from "@/lib/brand";
-import { MonzaDiamondMark } from "@/components/monza-diamond-mark";
 import styles from "./site-header.module.css";
 
 const leftLinks = [
@@ -133,10 +132,9 @@ export function SiteHeader() {
           </div>
 
           <Link aria-label={`${BRAND_NAME} homepage`} className={styles.logoLink} href="/">
-            <MonzaDiamondMark className={styles.logoMark} title={BRAND_NAME} />
             <span className={styles.wordmark}>
-              <span className={styles.wordmarkName}>{BRAND_NAME}</span>
-              <span className={styles.wordmarkTag}>Forged in Brisbane</span>
+              <span className={styles.wordmarkBadge}>Monza</span>
+              <span className={styles.wordmarkText}>Wheels</span>
             </span>
           </Link>
 
@@ -185,10 +183,9 @@ export function SiteHeader() {
         <div className={`${styles.overlayInner} container`}>
           <div className={styles.overlayHeader}>
             <Link aria-label={`${BRAND_NAME} homepage`} className={styles.overlayLogo} href="/" onClick={closeMenu}>
-              <MonzaDiamondMark className={styles.overlayLogoMark} title={BRAND_NAME} />
               <span className={styles.wordmark}>
-                <span className={styles.wordmarkName}>{BRAND_NAME}</span>
-                <span className={styles.wordmarkTag}>Forged in Brisbane</span>
+                <span className={styles.wordmarkBadge}>Monza</span>
+                <span className={styles.wordmarkText}>Wheels</span>
               </span>
             </Link>
 
