@@ -100,16 +100,33 @@
 }
 
 .status {
-  font-size: 12px;
-  line-height: 1.6;
+  padding: 16px 18px;
+  border: 1px solid var(--rule);
+  font-size: 13px;
+  line-height: 1.75;
+  background: #131313;
+  box-shadow: var(--shadow-soft);
+}
+
+.statusLabel {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
 }
 
 .statusSuccess {
-  color: #b7d8be;
+  border-color: rgba(120, 180, 136, 0.45);
+  background: rgba(18, 52, 28, 0.36);
+  color: #d7f0dd;
 }
 
 .statusError {
-  color: #f3a3a3;
+  border-color: rgba(198, 88, 88, 0.5);
+  background: rgba(78, 18, 18, 0.42);
+  color: #ffd0d0;
 }
 
 .help {

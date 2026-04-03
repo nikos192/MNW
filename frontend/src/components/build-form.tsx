@@ -140,7 +140,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
       setNotes(initialNotes);
       setSubmitState({
         status: "success",
-        message: `Quote request sent. ${BRAND_NAME} will get back to you shortly.`,
+        message: `Quote request sent. ${BRAND_NAME} will get back to you shortly. A confirmation email is on its way now, so please check your junk mail if you do not see it in your inbox.`,
       });
     } catch (error) {
       setSubmitState({
@@ -191,6 +191,9 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
           }`}
           role="status"
         >
+          <span className={styles.statusLabel}>
+            {submitState.status === "success" ? "Quote request sent" : "Quote request failed"}
+          </span>
           {submitState.message}
         </p>
       ) : null}
