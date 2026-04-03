@@ -35,6 +35,32 @@ export type DeliveredSet = {
   image: string;
 };
 
+export type ProcessStep = {
+  title: string;
+  copy: string;
+};
+
+export type FinishProgram = {
+  title: string;
+  overline: string;
+  copy: string;
+};
+
+export type DealerRegion = {
+  region: string;
+  city: string;
+  note: string;
+  contact: string;
+};
+
+export type CollectionSummary = {
+  slug: "monoblock" | "multi-piece";
+  label: string;
+  title: string;
+  description: string;
+  handles: string[];
+};
+
 export const vehicleData: Record<string, Record<string, number[]>> = {
   BMW: {
     "G80 M3": [2021, 2022, 2023, 2024],
@@ -64,7 +90,7 @@ export const vehicleData: Record<string, Record<string, number[]>> = {
   },
 };
 
-const fallbackImage = "/media/hero-wheel-poster.jpg";
+export const defaultMediaImage = "/media/hero-wheel-poster.jpg";
 
 export const fallbackProducts: CatalogProduct[] = [
   {
@@ -79,10 +105,10 @@ export const fallbackProducts: CatalogProduct[] = [
     price: "$4,500",
     leadTime: "8–12 weeks",
     images: [
-      { url: fallbackImage, alt: "MNW-01 forged wheel" },
-      { url: fallbackImage, alt: "MNW-01 alternate angle" },
-      { url: fallbackImage, alt: "MNW-01 profile" },
-      { url: fallbackImage, alt: "MNW-01 detail" },
+      { url: defaultMediaImage, alt: "MNW-01 forged wheel" },
+      { url: defaultMediaImage, alt: "MNW-01 alternate angle" },
+      { url: defaultMediaImage, alt: "MNW-01 profile" },
+      { url: defaultMediaImage, alt: "MNW-01 detail" },
     ],
     finishes: [
       { name: "Brushed clear", swatch: "#AFAFAD" },
@@ -110,10 +136,10 @@ export const fallbackProducts: CatalogProduct[] = [
     price: "$4,900",
     leadTime: "8–12 weeks",
     images: [
-      { url: fallbackImage, alt: "MNW-02 forged wheel" },
-      { url: fallbackImage, alt: "MNW-02 alternate angle" },
-      { url: fallbackImage, alt: "MNW-02 profile" },
-      { url: fallbackImage, alt: "MNW-02 detail" },
+      { url: defaultMediaImage, alt: "MNW-02 forged wheel" },
+      { url: defaultMediaImage, alt: "MNW-02 alternate angle" },
+      { url: defaultMediaImage, alt: "MNW-02 profile" },
+      { url: defaultMediaImage, alt: "MNW-02 detail" },
     ],
     finishes: [
       { name: "Gloss black", swatch: "#0F0F0F" },
@@ -141,10 +167,10 @@ export const fallbackProducts: CatalogProduct[] = [
     price: "$5,200",
     leadTime: "8–12 weeks",
     images: [
-      { url: fallbackImage, alt: "MNW-03 forged wheel" },
-      { url: fallbackImage, alt: "MNW-03 alternate angle" },
-      { url: fallbackImage, alt: "MNW-03 profile" },
-      { url: fallbackImage, alt: "MNW-03 detail" },
+      { url: defaultMediaImage, alt: "MNW-03 forged wheel" },
+      { url: defaultMediaImage, alt: "MNW-03 alternate angle" },
+      { url: defaultMediaImage, alt: "MNW-03 profile" },
+      { url: defaultMediaImage, alt: "MNW-03 detail" },
     ],
     finishes: [
       { name: "Brushed clear", swatch: "#AFAFAD" },
@@ -168,21 +194,21 @@ export const deliveredSets: DeliveredSet[] = [
     fitment: "19x9.5 / 20x10.5",
     finish: "Brushed clear with machined cap",
     note: "Reference build for a restrained staggered street setup.",
-    image: fallbackImage,
+    image: defaultMediaImage,
   },
   {
     chassis: "Porsche 992 Carrera",
     fitment: "20x9 / 21x11.5",
     finish: "Satin graphite with hidden hardware",
     note: "Illustrates how the same face tightens up when the rear architecture gets more aggressive.",
-    image: fallbackImage,
+    image: defaultMediaImage,
   },
   {
     chassis: "Audi RS3 8Y",
     fitment: "19x9 square",
     finish: "Gloss black with machine lip",
     note: "Proof point for a compact chassis with brake-clearance priorities.",
-    image: fallbackImage,
+    image: defaultMediaImage,
   },
 ];
 
@@ -213,5 +239,80 @@ export const aboutStatements = [
   {
     title: "Quote-first process",
     copy: "This is a configure-to-order product. The right outcome comes from the brief, not from forcing a generic cart flow onto a custom part.",
+  },
+];
+
+export const processSteps: ProcessStep[] = [
+  {
+    title: "Brief",
+    copy: "Vehicle, brake package, ride height, and finish direction are locked before geometry is approved.",
+  },
+  {
+    title: "Engineering",
+    copy: "Offsets, bores, spoke clearance, and load path are resolved around the exact chassis rather than a generic shelf fitment.",
+  },
+  {
+    title: "Machining",
+    copy: "Each face starts from a forged 6061-T6 billet and moves through machining only after the brief is signed off.",
+  },
+  {
+    title: "Finish",
+    copy: "Surface treatment and final detailing are chosen as part of the same program, not added as an afterthought.",
+  },
+];
+
+export const finishPrograms: FinishProgram[] = [
+  {
+    title: "Brushed Clear",
+    overline: "Finish Program 01",
+    copy: "A cool silver read that keeps spoke geometry crisp without pulling attention away from the chassis.",
+  },
+  {
+    title: "Satin Graphite",
+    overline: "Finish Program 02",
+    copy: "The most restrained surface in the range. It works when the wheel needs to sit inside the car rather than on top of it.",
+  },
+  {
+    title: "Gloss Black",
+    overline: "Finish Program 03",
+    copy: "High contrast and deliberate. Best used where negative space and brake presence are part of the visual brief.",
+  },
+];
+
+export const dealerRegions: DealerRegion[] = [
+  {
+    region: "Australia",
+    city: "Brisbane",
+    note: "Direct quoting, chassis reviews, and finish consultations from the MNW workshop.",
+    contact: "hello@mnwheels.com.au",
+  },
+  {
+    region: "Europe",
+    city: "Partner network forming",
+    note: "Send the vehicle brief and we will route the project to the closest fitment partner as the network expands.",
+    contact: "hello@mnwheels.com.au",
+  },
+  {
+    region: "Asia Pacific",
+    city: "By appointment",
+    note: "Remote quoting and logistics support for projects outside Brisbane while the dealer footprint grows.",
+    contact: "hello@mnwheels.com.au",
+  },
+];
+
+export const collectionSummaries: CollectionSummary[] = [
+  {
+    slug: "monoblock",
+    label: "Forged Series",
+    title: "Monoblock",
+    description: "Single-piece forged faces for cleaner chassis, tighter proportions, and the most direct visual read.",
+    handles: ["mnw-01", "mnw-02"],
+  },
+  {
+    slug: "multi-piece",
+    label: "Forged Series",
+    title: "Multi-Piece",
+    description: "More layered architecture, deeper hardware presence, and a stronger statement for hero builds.",
+    handles: ["mnw-03"],
   },
 ];

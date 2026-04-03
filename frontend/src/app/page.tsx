@@ -1,163 +1,140 @@
+import Image from "next/image";
 import Link from "next/link";
-import ScrollExpandMedia from "@/components/blocks/scroll-expansion-hero";
-import { DeliveredSetCard } from "@/components/delivered-set-card";
-import { ProductCard } from "@/components/product-card";
-import { BackgroundPaths } from "@/components/ui/background-paths";
-import { VehicleConfigurator } from "@/components/vehicle-configurator";
+import { ChevronDown } from "lucide-react";
+import { GallerySwitcher } from "@/components/gallery-switcher";
+import { collectionSummaries } from "@/lib/mnw-data";
 import { getCatalogData } from "@/lib/catalog";
 import styles from "./page.module.css";
 
 export default async function Home() {
-  const { products, deliveredSets } = await getCatalogData();
-  const heroProduct = products[0];
+  const { deliveredSets, products } = await getCatalogData();
+
+  const monoblockCollection = collectionSummaries.find((collection) => collection.slug === "monoblock");
+  const multiPieceCollection = collectionSummaries.find((collection) => collection.slug === "multi-piece");
+  const monoblockProduct =
+    products.find((product) => monoblockCollection?.handles.includes(product.handle)) ?? products[0];
+  const multiPieceProduct =
+    products.find((product) => multiPieceCollection?.handles.includes(product.handle)) ??
+    products[products.length - 1] ??
+    products[0];
 
   return (
     <main className={styles.page}>
       <section className={styles.hero} data-hero-section>
-        <BackgroundPaths className={styles.heroPaths} />
-        <div className={styles.heroMedia} aria-hidden="true">
-          <div className={styles.heroMediaShade} />
-          <div className={styles.heroMediaGrain} />
-        </div>
+        <video
+          autoPlay
+          className={styles.heroVideo}
+          loop
+          muted
+          playsInline
+          poster="/media/hero-wheel-poster.jpg"
+          preload="metadata"
+        >
+          <source src="/media/hero-wheel.mp4" type="video/mp4" />
+        </video>
+        <div className={styles.heroOverlay} />
 
         <div className={`${styles.heroInner} container`}>
-          <div className={styles.heroCopy} data-hero-copy>
-            <p className={`label ${styles.eyebrow}`}>Forged wheel systems</p>
-            <h1 className={styles.heroTitle}>
-              <span>Forged.</span>
-              <span>Not cast.</span>
+          <div className={styles.heroCue}>
+            <span className={styles.heroCueLine} />
+            <ChevronDown size={16} strokeWidth={1.5} />
+            <span className="visually-hidden">Scroll to explore the homepage</span>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.storySection}>
+        <div className={`${styles.storyGrid} container`}>
+          <div className={styles.storyCopy} data-reveal>
+            <p className="label">Our Process</p>
+            <h1 className={styles.storyHeading}>
+              <span>Forged in Australia.</span>
+              <span>Engineered for Europe.</span>
             </h1>
-            <p className={styles.heroText}>
-              Built around the exact chassis, brake package, ride height, and
-              finish brief. This is a quote-first product, not a generic cart.
-            </p>
+            <Link className={styles.editorialLink} href="/engineering">
+              How we build them →
+            </Link>
           </div>
 
-          <div className={styles.heroStage}>
-            <div className={styles.heroStageGlow} aria-hidden="true" />
-            <div className={styles.heroStageViewport}>
-              <video
-                className={styles.heroVideo}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="metadata"
-                poster="/media/hero-wheel-poster.jpg"
-              >
-                <source src="/media/hero-wheel.mp4" type="video/mp4" />
-              </video>
-              <div className={styles.heroVideoShade} aria-hidden="true" />
-            </div>
+          <div className={styles.storyMedia} data-reveal>
+            <Image
+              alt="MNW forged wheel detail"
+              className={styles.storyImage}
+              height={1200}
+              priority
+              sizes="(max-width: 767px) 100vw, 50vw"
+              src="/media/hero-wheel-poster.jpg"
+              width={1600}
+            />
           </div>
         </div>
       </section>
 
-      <ScrollExpandMedia
-        bgImageSrc={heroProduct?.images[0]?.url || "/media/hero-wheel-poster.jpg"}
-        date="Process"
-        mediaSrc={heroProduct?.images[0]?.url || "/media/hero-wheel-poster.jpg"}
-        mediaType="image"
-        scrollToExpand="Scroll through the build brief"
-        title="Chassis-first design"
-      >
-        <div className={styles.expansionContent}>
-          <div className={styles.expansionIntro}>
-            <p className={`label ${styles.expansionLabel}`}>Product</p>
-            <h2 className={styles.expansionHeading}>
-              Premium forged wheels, resolved through fitment first.
-            </h2>
-            <p className={styles.expansionText}>
-              The catalogue gives you the design base. Final diameter, width,
-              offset, and finish are confirmed only after the car is known.
+      <section className={styles.tierSection}>
+        <div className={`${styles.tierInner} container`}>
+          <div className={styles.tierHeader} data-reveal>
+            <h2 className={styles.sectionHeading}>Two lines. One standard.</h2>
+            <p className={styles.sectionBody}>
+              Every MNW wheel begins as a single billet of 6061-T6 aluminium.
+              What separates them is the finish.
             </p>
           </div>
 
-          <div className={styles.expansionMeta}>
-            <div>
-              <span className={styles.expansionMetaLabel}>Process</span>
-              <p>Quote, approval, machining, finishing, delivery.</p>
-            </div>
-            <div>
-              <span className={styles.expansionMetaLabel}>Lead time</span>
-              <p>{heroProduct?.leadTime || "8–12 weeks"}</p>
-            </div>
-            <div>
-              <span className={styles.expansionMetaLabel}>Program</span>
-              <p>Made-to-order geometry, finish, and brake clearance.</p>
-            </div>
+          <div className={styles.tierGrid}>
+            <Link className={styles.tierTile} href="/collections/monoblock">
+              <Image
+                alt="MNW monoblock forged collection"
+                className={styles.tierImage}
+                height={1200}
+                sizes="(max-width: 767px) 100vw, 50vw"
+                src={monoblockProduct?.images[0]?.url || "/media/hero-wheel-poster.jpg"}
+                width={1800}
+              />
+              <div className={styles.tierOverlay} />
+              <div className={styles.tierMeta}>
+                <p className={styles.tierLabel}>{monoblockCollection?.label || "Forged Series"}</p>
+                <h3 className={styles.tierTitle}>{monoblockCollection?.title || "Monoblock"}</h3>
+                <p className={styles.tierPrice}>
+                  From AUD {monoblockProduct?.price.replace(/^[^\d]+/, "") || "4,500"}
+                </p>
+              </div>
+            </Link>
+
+            <Link className={styles.tierTile} href="/collections/multi-piece">
+              <Image
+                alt="MNW multi-piece forged collection"
+                className={styles.tierImage}
+                height={1200}
+                sizes="(max-width: 767px) 100vw, 50vw"
+                src={multiPieceProduct?.images[0]?.url || "/media/hero-wheel-poster.jpg"}
+                width={1800}
+              />
+              <div className={styles.tierOverlay} />
+              <div className={styles.tierMeta}>
+                <p className={styles.tierLabel}>{multiPieceCollection?.label || "Forged Series"}</p>
+                <h3 className={styles.tierTitle}>{multiPieceCollection?.title || "Multi-Piece"}</h3>
+                <p className={styles.tierPrice}>
+                  From AUD {multiPieceProduct?.price.replace(/^[^\d]+/, "") || "5,200"}
+                </p>
+              </div>
+            </Link>
           </div>
 
-          <div className={styles.expansionAction}>
+          <div className={styles.tierAction} data-reveal>
             <Link className="button-outline" href="/shop">
-              Explore the collection
+              Explore all wheels
             </Link>
           </div>
         </div>
-      </ScrollExpandMedia>
-
-      <section className={`${styles.featuredSection} page-section`}>
-        <div className="container">
-          <div className={styles.sectionIntro} data-reveal>
-            <p className="label">Collection</p>
-            <h2 className={styles.sectionHeading}>Choose the face. We resolve the rest.</h2>
-            <p className={styles.sectionText}>
-              A forged range built to be quoted around the vehicle rather than
-              sold as fixed stock.
-            </p>
-          </div>
-
-          <div className={styles.productGrid}>
-            {products.slice(0, 3).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </div>
       </section>
 
-      <section className={`${styles.configuratorSection} page-section`}>
-        <div className="container">
-          <VehicleConfigurator />
-        </div>
-      </section>
-
-      <section className={`${styles.gallerySection} page-section`}>
-        <div className="container">
-          <div className={styles.sectionIntro} data-reveal>
-            <p className="label">Delivered sets</p>
-            <h2 className={styles.sectionHeading}>
-              Real cars. Real fitment. Real finish programs.
-            </h2>
-            <p className={styles.sectionText}>
-              The gallery grows through completed builds rather than stock-photo
-              moodboards.
-            </p>
+      <section className={styles.gallerySection}>
+        <div className={`${styles.galleryInner} container`}>
+          <div className={styles.galleryHeader} data-reveal>
+            <h2 className={styles.galleryHeading}>Gallery</h2>
           </div>
 
-          <div className={styles.galleryGrid}>
-            {deliveredSets.map((item) => (
-              <DeliveredSetCard key={item.chassis} item={item} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.quoteSection}>
-        <div className={`${styles.quoteGrid} container`}>
-          <div className={styles.quoteCopy} data-reveal>
-            <p className={`label ${styles.darkLabel}`}>Quote</p>
-            <h2 className={styles.darkHeading}>No checkout theatre. Start with the right brief.</h2>
-            <p className={styles.darkText}>
-              If you know the car and the direction, we can quote the correct
-              wheel program from there.
-            </p>
-          </div>
-
-          <div className={styles.quoteAction} data-reveal>
-            <Link className="button-outline-dark" href="/contact">
-              Request a quote
-            </Link>
-          </div>
+          <GallerySwitcher deliveredSets={deliveredSets} products={products} />
         </div>
       </section>
     </main>
