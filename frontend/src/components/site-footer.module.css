@@ -49,8 +49,12 @@
 }
 
 .logoMark {
-  width: min(220px, 34vw);
-  height: auto;
+  --logo-scale: 1.28;
+  --logo-shift: -6px;
+  display: block;
+  width: min(240px, 36vw);
+  height: 56px;
+  overflow: hidden;
 }
 
 .ctaWrap {

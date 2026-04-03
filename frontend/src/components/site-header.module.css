@@ -7,10 +7,17 @@
 
 .utilityBar {
   height: var(--utility-height);
+  max-height: var(--utility-height);
+  overflow: hidden;
   background: var(--bg-utility);
   border-bottom: 1px solid var(--rule);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
+  transition:
+    max-height 280ms ease,
+    opacity 240ms ease,
+    border-color 280ms ease,
+    background 400ms ease;
 }
 
 .utilityInner {
@@ -83,6 +90,7 @@
   height: var(--primary-nav-height);
   border-bottom: 1px solid transparent;
   transition:
+    height 280ms ease,
     background 400ms ease,
     border-color 400ms ease,
     box-shadow 400ms ease;
@@ -113,6 +121,16 @@
 .transparent .navLink,
 .transparent .mobileToggle {
   color: rgba(255, 250, 245, 0.84);
+}
+
+.scrolled .utilityBar {
+  max-height: 0;
+  opacity: 0;
+  border-bottom-color: transparent;
+}
+
+.scrolled .primaryBar {
+  height: 60px;
 }
 
 .solid .primaryBar {
@@ -187,13 +205,22 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  line-height: 0;
   color: var(--text-primary);
 }
 
 .brandLogo {
-  width: clamp(176px, 16vw, 220px);
-  height: auto;
-  overflow: visible;
+  --logo-scale: 1.34;
+  --logo-shift: -7px;
+  display: block;
+  width: clamp(188px, 17vw, 236px);
+  height: 44px;
+  overflow: hidden;
+}
+
+.scrolled .brandLogo {
+  --logo-shift: -6px;
+  height: 40px;
 }
 
 .mobileToggle,
@@ -293,7 +320,8 @@
   }
 
   .brandLogo {
-    width: 188px;
+    width: 204px;
+    height: 42px;
   }
 }
 
@@ -311,7 +339,14 @@
     height: var(--primary-nav-height);
   }
 
+  .scrolled .primaryBar {
+    height: 56px;
+  }
+
   .brandLogo {
-    width: 148px;
+    --logo-scale: 1.32;
+    --logo-shift: -5px;
+    width: 170px;
+    height: 34px;
   }
 }

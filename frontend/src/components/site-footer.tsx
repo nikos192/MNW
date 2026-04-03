@@ -65,7 +65,7 @@ export function SiteFooter() {
           </div>
 
           <Link aria-label={`${BRAND_NAME} homepage`} className={styles.logoLink} href="/">
-            <MonzaLogo className={styles.logoMark} primaryColor="#cf0000" title={BRAND_NAME} />
+            <MonzaLogo className={styles.logoMark} title={BRAND_NAME} />
           </Link>
 
           <div className={styles.ctaWrap}>

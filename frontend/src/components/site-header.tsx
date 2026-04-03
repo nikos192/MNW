@@ -41,7 +41,6 @@ export function SiteHeader() {
   const [openPathname, setOpenPathname] = useState<string | null>(null);
   const isHome = pathname === "/";
   const isOpen = openPathname === pathname;
-  const usesTransparentHeader = isHome && !isScrolled;
 
   function closeMenu() {
     setOpenPathname(null);
@@ -85,7 +84,7 @@ export function SiteHeader() {
   return (
     <>
       <header
-        className={`${styles.header} ${isHome && !isScrolled ? styles.transparent : styles.solid}`}
+        className={`${styles.header} ${isScrolled ? styles.scrolled : ""} ${isHome && !isScrolled ? styles.transparent : styles.solid}`}
       >
         <div className={styles.utilityBar}>
           <div className={`${styles.utilityInner} container`}>
@@ -137,8 +136,7 @@ export function SiteHeader() {
             <Link aria-label={`${BRAND_NAME} homepage`} className={styles.logoLink} href="/">
               <MonzaLogo
                 className={styles.brandLogo}
-                primaryColor="#cf0000"
-                secondaryColor={usesTransparentHeader ? "#fffaf5" : undefined}
+                priority
                 title={BRAND_NAME}
               />
             </Link>
@@ -189,7 +187,7 @@ export function SiteHeader() {
         <div className={`${styles.overlayInner} container`}>
           <div className={styles.overlayHeader}>
             <Link aria-label={`${BRAND_NAME} homepage`} className={styles.overlayLogo} href="/" onClick={closeMenu}>
-              <MonzaLogo className={styles.brandLogo} primaryColor="#cf0000" title={BRAND_NAME} />
+              <MonzaLogo className={styles.brandLogo} title={BRAND_NAME} />
             </Link>
 
             <button
