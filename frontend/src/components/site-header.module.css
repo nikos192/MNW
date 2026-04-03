@@ -219,7 +219,7 @@
 }
 
 .scrolled .brandLogo {
-  --logo-shift: -2px;
+  --logo-shift: 2px;
   height: 40px;
 }
 
