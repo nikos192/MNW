@@ -211,7 +211,9 @@
 }
 
 .wordmarkBadge {
-  padding: 6px 11px 8px;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px 6px;
   border-radius: 6px;
   background: linear-gradient(135deg, var(--accent-red-strong) 0%, var(--accent-red) 100%);
   color: var(--off-white);
@@ -221,7 +223,7 @@
 .wordmarkText {
   color: var(--accent-red);
   font-style: italic;
-  margin-left: -4px;
+  margin-left: -6px;
 }
 
 .mobileToggle,
@@ -351,11 +353,11 @@
   }
 
   .wordmarkBadge {
-    padding: 5px 9px 7px;
+    padding: 4px 7px 6px;
     border-radius: 5px;
   }
 
   .wordmarkText {
-    margin-left: -3px;
+    margin-left: -5px;
   }
 }
