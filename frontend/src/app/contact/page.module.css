@@ -73,8 +73,20 @@
 }
 
 .contextBox {
-  padding-top: 24px;
-  border-top: 1px solid var(--rule);
+  padding: 16px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent-red);
+  display: grid;
+  gap: 6px;
+}
+
+.contextLine {
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-primary);
 }
 
 @media (max-width: 1024px) {

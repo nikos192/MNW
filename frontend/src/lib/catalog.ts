@@ -279,6 +279,20 @@ function buildSpecs(product: ShopifyProductNode) {
   return specs;
 }
 
+function formatDiameterOptions(values: string[]) {
+  return values.map((v) => {
+    const n = v.trim().replace(/['"]/g, "");
+    return n ? `${n}"` : v.trim();
+  });
+}
+
+function formatWidthOptions(values: string[]) {
+  return values.map((v) => {
+    const n = v.trim().replace(/['"]/g, "");
+    return n ? `${n}"` : v.trim();
+  });
+}
+
 function mapProduct(node: ShopifyProductNode): CatalogProduct {
   const images = node.images.edges.map((edge) => ({
     url: edge.node.url,
@@ -291,6 +305,22 @@ function mapProduct(node: ShopifyProductNode): CatalogProduct {
       alt: node.featuredImage.altText || node.title,
     });
   }
+
+  const rawDiameters = parseListValue(node.diameterOptions?.value);
+  const rawWidths = parseListValue(node.widthOptions?.value);
+  const rawPcds = parseListValue(node.pcdOptions?.value);
+
+  const diameterOptions = rawDiameters.length
+    ? formatDiameterOptions(rawDiameters)
+    : ["19\"", "20\"", "21\""];
+
+  const widthOptions = rawWidths.length
+    ? formatWidthOptions(rawWidths)
+    : ["9.0\"", "9.5\"", "10.0\"", "10.5\"", "11.0\"", "11.5\""];
+
+  const pcdOptions = rawPcds.length
+    ? rawPcds
+    : ["5x112", "5x114.3", "5x120"];
 
   return {
     id: node.id,
@@ -309,6 +339,10 @@ function mapProduct(node: ShopifyProductNode): CatalogProduct {
     images,
     finishes: parseFinishOptions(node.finishOptions?.value, node.options),
     specs: buildSpecs(node),
+    diameterOptions,
+    widthOptions,
+    pcdOptions,
+    offsetRange: node.offsetRange?.value || "Resolved per chassis",
   };
 }
 

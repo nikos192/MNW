@@ -25,6 +25,10 @@ export type CatalogProduct = {
   images: CatalogImage[];
   finishes: WheelFinish[];
   specs: WheelSpec[];
+  diameterOptions: string[];
+  widthOptions: string[];
+  pcdOptions: string[];
+  offsetRange: string;
 };
 
 export type DeliveredSet = {
@@ -123,6 +127,10 @@ export const fallbackProducts: CatalogProduct[] = [
       { label: "PCD", value: "5x112, 5x114.3, 5x120, centre lock by brief" },
       { label: "Offset", value: "Resolved per chassis" },
     ],
+    diameterOptions: ["19\"", "20\"", "21\""],
+    widthOptions: ["9.0\"", "9.5\"", "10.0\"", "10.5\"", "11.0\"", "11.5\"", "12.0\""],
+    pcdOptions: ["5x112", "5x114.3", "5x120"],
+    offsetRange: "Resolved per chassis",
   },
   {
     id: "mnw-02",
@@ -154,6 +162,10 @@ export const fallbackProducts: CatalogProduct[] = [
       { label: "PCD", value: "5x112, 5x114.3, 5x120" },
       { label: "Offset", value: "Brake package dependent" },
     ],
+    diameterOptions: ["19\"", "20\"", "21\""],
+    widthOptions: ["9.5\"", "10.0\"", "10.5\"", "11.0\"", "11.5\"", "12.0\"", "12.5\""],
+    pcdOptions: ["5x112", "5x114.3", "5x120"],
+    offsetRange: "Brake package dependent",
   },
   {
     id: "mnw-03",
@@ -185,6 +197,10 @@ export const fallbackProducts: CatalogProduct[] = [
       { label: "PCD", value: "5x112, 5x114.3, 5x120" },
       { label: "Offset", value: "Statement staggered fitment" },
     ],
+    diameterOptions: ["20\"", "21\"", "22\""],
+    widthOptions: ["9.5\"", "10.0\"", "10.5\"", "11.0\"", "11.5\"", "12.0\"", "12.5\"", "13.0\""],
+    pcdOptions: ["5x112", "5x114.3", "5x120"],
+    offsetRange: "Statement staggered fitment",
   },
 ];
 

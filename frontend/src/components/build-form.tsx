@@ -4,9 +4,18 @@ import { FormEvent, useState } from "react";
 import { BRAND_NAME } from "@/lib/brand";
 import styles from "./build-form.module.css";
 
+type InitialValues = {
+  make?: string;
+  model?: string;
+  year?: string;
+  diameter?: string;
+  finish?: string;
+};
+
 type BuildFormProps = {
   email: string;
   initialNotes?: string;
+  initialValues?: InitialValues;
 };
 
 const fields = [
@@ -20,8 +29,19 @@ const fields = [
   { id: "references", label: "Reference links", type: "text", placeholder: "Instagram, Pinterest, or car photos" },
 ] as const;
 
-export function BuildForm({ email, initialNotes = "" }: BuildFormProps) {
+export function BuildForm({ email, initialNotes = "", initialValues = {} }: BuildFormProps) {
   const [notes, setNotes] = useState(initialNotes);
+
+  function getDefaultValue(id: string): string {
+    switch (id) {
+      case "make": return initialValues.make ?? "";
+      case "model": return initialValues.model ?? "";
+      case "year": return initialValues.year ?? "";
+      case "diameter": return initialValues.diameter ?? "";
+      case "finish": return initialValues.finish ?? "";
+      default: return "";
+    }
+  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -44,7 +64,12 @@ export function BuildForm({ email, initialNotes = "" }: BuildFormProps) {
         {fields.map((field) => (
           <label key={field.id} className={styles.field}>
             <span>{field.label}</span>
-            <input name={field.id} type={field.type} placeholder={field.placeholder} />
+            <input
+              name={field.id}
+              type={field.type}
+              placeholder={field.placeholder}
+              defaultValue={getDefaultValue(field.id)}
+            />
           </label>
         ))}
         <label className={styles.fieldWide}>

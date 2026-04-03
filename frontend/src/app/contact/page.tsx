@@ -9,6 +9,10 @@ type ContactPageProps = {
     make?: string;
     model?: string;
     year?: string;
+    diameter?: string;
+    width?: string;
+    pcd?: string;
+    finish?: string;
   }>;
 };
 
@@ -21,12 +25,27 @@ export const metadata = {
 export default async function ContactPage({ searchParams }: ContactPageProps) {
   const params = await searchParams;
   const email = process.env.BUILD_INTAKE_EMAIL ?? BRAND_EMAIL;
+
   const contextLines = [
     params.title ? `Product: ${params.title}` : "",
     params.make ? `Make: ${params.make}` : "",
     params.model ? `Model: ${params.model}` : "",
     params.year ? `Year: ${params.year}` : "",
+    params.diameter ? `Diameter: ${params.diameter}` : "",
+    params.width ? `Width: ${params.width}` : "",
+    params.pcd ? `PCD: ${params.pcd}` : "",
+    params.finish ? `Finish: ${params.finish}` : "",
   ].filter(Boolean);
+
+  const initialValues = {
+    make: params.make,
+    model: params.model,
+    year: params.year,
+    diameter: params.diameter,
+    finish: params.finish,
+  };
+
+  const hasConfig = params.diameter || params.width || params.pcd || params.finish;
 
   return (
     <main className={styles.page}>
@@ -47,7 +66,11 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
       <section className={styles.formSection}>
         <div className={`${styles.grid} container`}>
           <div className={styles.formPanel} data-reveal>
-            <BuildForm email={email} initialNotes={contextLines.join("\n")} />
+            <BuildForm
+              email={email}
+              initialNotes={contextLines.join("\n")}
+              initialValues={initialValues}
+            />
           </div>
 
           <aside className={styles.sidePanel} data-reveal>
@@ -79,11 +102,11 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               </p>
             </div>
 
-            {contextLines.length ? (
+            {hasConfig && contextLines.length ? (
               <div className={styles.contextBox}>
-                <p className="label">Current context</p>
+                <p className="label">Selected configuration</p>
                 {contextLines.map((line) => (
-                  <p key={line}>{line}</p>
+                  <p key={line} className={styles.contextLine}>{line}</p>
                 ))}
               </div>
             ) : null}
