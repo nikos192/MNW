@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import type { CatalogProduct } from "@/lib/monza-data";
+import { vehicleData } from "@/lib/monza-data";
 import styles from "./product-detail-client.module.css";
 
 type ProductDetailClientProps = {
@@ -14,9 +15,32 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [activeFinish, setActiveFinish] = useState(product.finishes[0]?.name ?? "");
   const [activeDiameter, setActiveDiameter] = useState(product.diameterOptions[0] ?? "");
   const [activeWidth, setActiveWidth] = useState(product.widthOptions[0] ?? "");
-  const [activePcd, setActivePcd] = useState(product.pcdOptions[0] ?? "");
+  // PCD, CB, and offset are optional — start unselected so customer can skip
+  const [activePcd, setActivePcd] = useState("");
   const [activeOffset, setActiveOffset] = useState("");
-  const [activeCentrebore, setActiveCentrebore] = useState(product.centreboreOptions[0] ?? "");
+  const [activeCentrebore, setActiveCentrebore] = useState("");
+
+  // Car selection
+  const [carMake, setCarMake] = useState("");
+  const [carModel, setCarModel] = useState("");
+  const [carYear, setCarYear] = useState("");
+
+  const carModels = carMake && carMake !== "Other" ? Object.keys(vehicleData[carMake] ?? {}) : [];
+  const carYears =
+    carMake && carModel && carMake !== "Other" && carModel !== "Other"
+      ? (vehicleData[carMake]?.[carModel] ?? [])
+      : [];
+
+  function handleMakeChange(make: string) {
+    setCarMake(make);
+    setCarModel("");
+    setCarYear("");
+  }
+
+  function handleModelChange(model: string) {
+    setCarModel(model);
+    setCarYear("");
+  }
 
   const activeImage = product.images[activeImageIndex] ?? product.images[0];
 
@@ -28,6 +52,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
         return styles.swatchGraphite;
       case "#afafad":
         return styles.swatchSilver;
+      case "#b08b57":
+        return styles.swatchGold;
       default:
         return styles.swatchLight;
     }
@@ -39,6 +65,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       title: product.title,
       startingPrice: product.price,
     });
+    if (carMake) params.set("make", carMake);
+    if (carModel) params.set("model", carModel);
+    if (carYear) params.set("year", carYear);
     if (activeDiameter) params.set("diameter", activeDiameter);
     if (activeWidth) params.set("width", activeWidth);
     if (activePcd) params.set("pcd", activePcd);
@@ -48,7 +77,10 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     return `/contact?${params.toString()}`;
   }
 
+  const carLabel = [carMake, carModel, carYear].filter(Boolean).join(" ");
+
   const configParts = [
+    carLabel,
     activeDiameter,
     activeWidth && `W${activeWidth}`,
     activePcd,
@@ -112,11 +144,65 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             <div className={styles.detailHead}>
               <p className={`label ${styles.series}`}>{product.series}</p>
               <h1 className={styles.title}>{product.title}</h1>
-              <p className={styles.price}>Starting at {product.price}</p>
+              <p className={styles.price}>{product.price}</p>
             </div>
 
             <div className={styles.description}>
               <p>{product.description}</p>
+            </div>
+
+            {/* ── Your Vehicle ── */}
+            <div className={styles.optionGroup}>
+              <div className={styles.optionHeader}>
+                <p className={`label ${styles.optionLabel}`}>Your Vehicle</p>
+                {carLabel && <span className={styles.optionSelected}>{carLabel}</span>}
+              </div>
+              <div className={styles.vehicleSelects}>
+                <select
+                  aria-label="Vehicle make"
+                  className={styles.vehicleSelect}
+                  value={carMake}
+                  onChange={(e) => handleMakeChange(e.target.value)}
+                >
+                  <option value="">Select make</option>
+                  {Object.keys(vehicleData).map((make) => (
+                    <option key={make} value={make}>{make}</option>
+                  ))}
+                  <option value="Other">Other (add in notes)</option>
+                </select>
+
+                {carMake && carMake !== "Other" && (
+                  <select
+                    aria-label="Vehicle model"
+                    className={styles.vehicleSelect}
+                    value={carModel}
+                    onChange={(e) => handleModelChange(e.target.value)}
+                  >
+                    <option value="">Select model</option>
+                    {carModels.map((model) => (
+                      <option key={model} value={model}>{model}</option>
+                    ))}
+                    <option value="Other">Other model</option>
+                  </select>
+                )}
+
+                {carModel && carModel !== "Other" && carYears.length > 0 && (
+                  <select
+                    aria-label="Vehicle year"
+                    className={styles.vehicleSelect}
+                    value={carYear}
+                    onChange={(e) => setCarYear(e.target.value)}
+                  >
+                    <option value="">Select year</option>
+                    {carYears.map((year) => (
+                      <option key={year} value={String(year)}>{year}</option>
+                    ))}
+                  </select>
+                )}
+              </div>
+              <p className={styles.offsetNote}>
+                PCD, offset, and centre bore will be matched to your vehicle — no need to specify unless you have a preference.
+              </p>
             </div>
 
             {/* ── Diameter ── */}
@@ -175,91 +261,6 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               </div>
             )}
 
-            {/* ── PCD ── */}
-            {product.pcdOptions.length > 0 && (
-              <div className={styles.optionGroup}>
-                <div className={styles.optionHeader}>
-                  <p className={`label ${styles.optionLabel}`}>PCD</p>
-                  {activePcd && <span className={styles.optionSelected}>{activePcd}</span>}
-                </div>
-                <div className={styles.pills} role="radiogroup" aria-label="PCD">
-                  {product.pcdOptions.map((opt) => (
-                    <label key={opt} className={styles.pillItem}>
-                      <input
-                        aria-label={opt}
-                        checked={activePcd === opt}
-                        className="visually-hidden"
-                        name="pcd"
-                        onChange={() => setActivePcd(opt)}
-                        type="radio"
-                        value={opt}
-                      />
-                      <span className={`${styles.pill} ${activePcd === opt ? styles.pillActive : ""}`}>
-                        {opt}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* ── Offset ── */}
-            <div className={styles.optionGroup}>
-              <div className={styles.optionHeader}>
-                <p className={`label ${styles.optionLabel}`}>Offset (ET)</p>
-                {product.offsetRange && (
-                  <span className={styles.optionHint}>Range: {product.offsetRange}</span>
-                )}
-              </div>
-              <div className={styles.offsetWrap}>
-                <span className={styles.offsetPrefix}>ET</span>
-                <input
-                  aria-label="Offset (ET value)"
-                  className={styles.offsetInput}
-                  inputMode="decimal"
-                  name="offset"
-                  onChange={(e) => setActiveOffset(e.target.value)}
-                  placeholder="e.g. 35 or F 20 / R 35"
-                  type="text"
-                  value={activeOffset}
-                />
-              </div>
-              <p className={styles.offsetNote}>
-                Leave blank — offset is confirmed per chassis after the quote.
-              </p>
-            </div>
-
-            {/* ── Centre bore ── */}
-            {product.centreboreOptions.length > 0 && (
-              <div className={styles.optionGroup}>
-                <div className={styles.optionHeader}>
-                  <p className={`label ${styles.optionLabel}`}>Centre Bore</p>
-                  {activeCentrebore && <span className={styles.optionSelected}>{activeCentrebore}</span>}
-                </div>
-                <div className={styles.pills} role="radiogroup" aria-label="Centre bore">
-                  {product.centreboreOptions.map((opt) => (
-                    <label key={opt} className={styles.pillItem}>
-                      <input
-                        aria-label={opt}
-                        checked={activeCentrebore === opt}
-                        className="visually-hidden"
-                        name="centrebore"
-                        onChange={() => setActiveCentrebore(opt)}
-                        type="radio"
-                        value={opt}
-                      />
-                      <span className={`${styles.pill} ${activeCentrebore === opt ? styles.pillActive : ""}`}>
-                        {opt}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-                <p className={styles.offsetNote}>
-                  Hub rings supplied where required at no extra charge.
-                </p>
-              </div>
-            )}
-
             {/* ── Finish ── */}
             {product.finishes.length > 0 && (
               <div className={styles.optionGroup}>
@@ -286,6 +287,94 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                     </label>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* ── PCD (optional) ── */}
+            {product.pcdOptions.length > 0 && (
+              <div className={styles.optionGroup}>
+                <div className={styles.optionHeader}>
+                  <p className={`label ${styles.optionLabel}`}>PCD <span className={styles.optionalTag}>optional</span></p>
+                  {activePcd && <span className={styles.optionSelected}>{activePcd}</span>}
+                </div>
+                <div className={styles.pills} role="radiogroup" aria-label="PCD">
+                  {product.pcdOptions.map((opt) => (
+                    <label key={opt} className={styles.pillItem}>
+                      <input
+                        aria-label={opt}
+                        checked={activePcd === opt}
+                        className="visually-hidden"
+                        name="pcd"
+                        onChange={() => setActivePcd(activePcd === opt ? "" : opt)}
+                        type="radio"
+                        value={opt}
+                      />
+                      <span className={`${styles.pill} ${activePcd === opt ? styles.pillActive : ""}`}>
+                        {opt}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+                <p className={styles.offsetNote}>
+                  {carLabel ? `We'll match PCD to your ${carLabel}.` : "Leave blank — we match PCD to your vehicle after the quote."}
+                </p>
+              </div>
+            )}
+
+            {/* ── Offset (optional) ── */}
+            <div className={styles.optionGroup}>
+              <div className={styles.optionHeader}>
+                <p className={`label ${styles.optionLabel}`}>Offset (ET) <span className={styles.optionalTag}>optional</span></p>
+                {product.offsetRange && (
+                  <span className={styles.optionHint}>{product.offsetRange}</span>
+                )}
+              </div>
+              <div className={styles.offsetWrap}>
+                <span className={styles.offsetPrefix}>ET</span>
+                <input
+                  aria-label="Offset (ET value)"
+                  className={styles.offsetInput}
+                  inputMode="decimal"
+                  name="offset"
+                  onChange={(e) => setActiveOffset(e.target.value)}
+                  placeholder="e.g. 35 or F 20 / R 35"
+                  type="text"
+                  value={activeOffset}
+                />
+              </div>
+              <p className={styles.offsetNote}>
+                {carLabel ? `Offset confirmed to your ${carLabel} after chassis review.` : "Leave blank — offset is confirmed per chassis after the quote."}
+              </p>
+            </div>
+
+            {/* ── Centre bore (optional) ── */}
+            {product.centreboreOptions.length > 0 && (
+              <div className={styles.optionGroup}>
+                <div className={styles.optionHeader}>
+                  <p className={`label ${styles.optionLabel}`}>Centre Bore <span className={styles.optionalTag}>optional</span></p>
+                  {activeCentrebore && <span className={styles.optionSelected}>{activeCentrebore}</span>}
+                </div>
+                <div className={styles.pills} role="radiogroup" aria-label="Centre bore">
+                  {product.centreboreOptions.map((opt) => (
+                    <label key={opt} className={styles.pillItem}>
+                      <input
+                        aria-label={opt}
+                        checked={activeCentrebore === opt}
+                        className="visually-hidden"
+                        name="centrebore"
+                        onChange={() => setActiveCentrebore(activeCentrebore === opt ? "" : opt)}
+                        type="radio"
+                        value={opt}
+                      />
+                      <span className={`${styles.pill} ${activeCentrebore === opt ? styles.pillActive : ""}`}>
+                        {opt}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+                <p className={styles.offsetNote}>
+                  {carLabel ? `We'll match centre bore to your ${carLabel}. Hub rings supplied where required.` : "Leave blank — matched to your vehicle. Hub rings supplied where required."}
+                </p>
               </div>
             )}
 

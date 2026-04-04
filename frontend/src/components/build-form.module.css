@@ -1,6 +1,31 @@
 .form {
   display: grid;
-  gap: 1.75rem;
+  gap: 2rem;
+}
+
+/* ── Section ── */
+
+.section {
+  display: grid;
+  gap: 1rem;
+}
+
+.sectionLabel {
+  color: var(--accent-red);
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* ── Optional tag ── */
+
+.optionalTag {
+  color: var(--text-secondary);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .grid {
@@ -25,6 +50,7 @@
 }
 
 .field input,
+.select,
 .fieldWide textarea {
   width: 100%;
   min-height: 52px;
@@ -40,7 +66,22 @@
     background-color var(--duration-hover) var(--ease-precision);
 }
 
+.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238d8d8d' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+.select option {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
 .field input:disabled,
+.field select:disabled,
 .fieldWide textarea:disabled {
   opacity: 0.72;
   cursor: not-allowed;
@@ -51,7 +92,13 @@
   color: var(--text-muted);
 }
 
+.select:invalid,
+.select option[value=""] {
+  color: var(--text-muted);
+}
+
 .field input:focus,
+.select:focus,
 .fieldWide textarea:focus {
   outline: none;
   border-color: var(--accent-red);

@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { BRAND_NAME } from "@/lib/brand";
+import { vehicleData } from "@/lib/monza-data";
 import styles from "./build-form.module.css";
 
 type InitialValues = {
@@ -35,25 +36,29 @@ type FormField = {
   placeholder: string;
   required?: boolean;
   autoComplete?: string;
+  optional?: boolean;
 };
 
-const fields: FormField[] = [
+const contactFields: FormField[] = [
   { id: "name", label: "Your name", type: "text", placeholder: "Alex Morgan", required: true, autoComplete: "name" },
   { id: "email", label: "Your email", type: "email", placeholder: "alex@example.com", required: true, autoComplete: "email" },
   { id: "phone", label: "Phone number", type: "tel", placeholder: "+61 4xx xxx xxx", autoComplete: "tel" },
-  { id: "make", label: "Vehicle make", type: "text", placeholder: "BMW" },
-  { id: "model", label: "Vehicle model", type: "text", placeholder: "G80 M3" },
-  { id: "year", label: "Vehicle year", type: "text", placeholder: "2024" },
+];
+
+const vehicleDetailFields: FormField[] = [
   { id: "brakes", label: "Brake package", type: "text", placeholder: "Carbon ceramics / factory steel / big brake kit" },
   { id: "suspension", label: "Suspension / ride height", type: "text", placeholder: "Factory, lowered, or coilovers" },
+];
+
+const wheelFields: FormField[] = [
   { id: "diameter", label: "Preferred diameter", type: "text", placeholder: "19 / 20 / open to guidance" },
   { id: "width", label: "Preferred width", type: "text", placeholder: "9.5 / 10.5 or staggered" },
-  { id: "pcd", label: "PCD", type: "text", placeholder: "5x112 / 5x114.3 / centre lock" },
-  { id: "offset", label: "Offset (ET)", type: "text", placeholder: "ET35 or F ET20 / R ET35" },
-  { id: "centrebore", label: "Centre bore", type: "text", placeholder: "66.6mm / 72.6mm" },
+  { id: "pcd", label: "PCD", type: "text", placeholder: "5x112 / 5x114.3 — leave blank to match vehicle", optional: true },
+  { id: "offset", label: "Offset (ET)", type: "text", placeholder: "ET35 or F ET20 / R ET35 — leave blank to match vehicle", optional: true },
+  { id: "centrebore", label: "Centre bore", type: "text", placeholder: "66.6mm / 72.6mm — leave blank to match vehicle", optional: true },
   { id: "finish", label: "Finish direction", type: "text", placeholder: "Brushed clear / satin graphite / bronze" },
   { id: "references", label: "Reference links", type: "text", placeholder: "Instagram, Pinterest, or car photos" },
-] as const;
+];
 
 type SubmitState = {
   status: "idle" | "success" | "error";
@@ -68,11 +73,31 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
     message: "",
   });
 
+  // Cascading car selection — initialise from URL params if present
+  const initialMake = initialValues.make && vehicleData[initialValues.make] ? initialValues.make : (initialValues.make ? "Other" : "");
+  const [carMake, setCarMake] = useState(initialMake);
+  const [carModel, setCarModel] = useState(initialValues.model ?? "");
+  const [carYear, setCarYear] = useState(initialValues.year ?? "");
+
+  const carModels = carMake && carMake !== "Other" ? Object.keys(vehicleData[carMake] ?? {}) : [];
+  const carYears =
+    carMake && carModel && carMake !== "Other" && carModel !== "Other"
+      ? (vehicleData[carMake]?.[carModel] ?? [])
+      : [];
+
+  function handleMakeChange(make: string) {
+    setCarMake(make);
+    setCarModel("");
+    setCarYear("");
+  }
+
+  function handleModelChange(model: string) {
+    setCarModel(model);
+    setCarYear("");
+  }
+
   function getDefaultValue(id: string): string {
     switch (id) {
-      case "make": return initialValues.make ?? "";
-      case "model": return initialValues.model ?? "";
-      case "year": return initialValues.year ?? "";
       case "diameter": return initialValues.diameter ?? "";
       case "width": return initialValues.width ?? "";
       case "pcd": return initialValues.pcd ?? "";
@@ -111,9 +136,9 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
             phone: valueFor("phone"),
           },
           vehicle: {
-            make: valueFor("make"),
-            model: valueFor("model"),
-            year: valueFor("year"),
+            make: carMake === "Other" ? (carModel || "Other") : carMake,
+            model: carMake === "Other" ? "" : carModel,
+            year: carYear,
             brakes: valueFor("brakes"),
             suspension: valueFor("suspension"),
           },
@@ -138,6 +163,9 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
 
       form.reset();
       setNotes(initialNotes);
+      setCarMake("");
+      setCarModel("");
+      setCarYear("");
       setSubmitState({
         status: "success",
         message: `Quote request sent. ${BRAND_NAME} will get back to you shortly. A confirmation email is on its way now, so please check your junk mail if you do not see it in your inbox.`,
@@ -154,36 +182,160 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <div className={styles.grid}>
-        {fields.map((field) => (
-          <label key={field.id} className={styles.field}>
-            <span>{field.label}</span>
-            <input
-              autoComplete={field.autoComplete}
+
+      {/* ── Contact details ── */}
+      <div className={styles.section}>
+        <p className={styles.sectionLabel}>Contact</p>
+        <div className={styles.grid}>
+          {contactFields.map((field) => (
+            <label key={field.id} className={styles.field}>
+              <span>{field.label}</span>
+              <input
+                autoComplete={field.autoComplete}
+                disabled={isSubmitting}
+                name={field.id}
+                type={field.type}
+                placeholder={field.placeholder}
+                required={field.required}
+              />
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Vehicle ── */}
+      <div className={styles.section}>
+        <p className={styles.sectionLabel}>Your Vehicle</p>
+        <div className={styles.grid}>
+          <label className={styles.field}>
+            <span>Make</span>
+            <select
+              className={styles.select}
               disabled={isSubmitting}
-              name={field.id}
-              type={field.type}
-              placeholder={field.placeholder}
-              defaultValue={getDefaultValue(field.id)}
-              required={field.required}
+              value={carMake}
+              onChange={(e) => handleMakeChange(e.target.value)}
+              aria-label="Vehicle make"
+            >
+              <option value="">Select make</option>
+              {Object.keys(vehicleData).map((make) => (
+                <option key={make} value={make}>{make}</option>
+              ))}
+              <option value="Other">Other (add in notes)</option>
+            </select>
+          </label>
+
+          {carMake && carMake !== "Other" ? (
+            <label className={styles.field}>
+              <span>Model</span>
+              <select
+                className={styles.select}
+                disabled={isSubmitting}
+                value={carModel}
+                onChange={(e) => handleModelChange(e.target.value)}
+                aria-label="Vehicle model"
+              >
+                <option value="">Select model</option>
+                {carModels.map((model) => (
+                  <option key={model} value={model}>{model}</option>
+                ))}
+                <option value="Other">Other model</option>
+              </select>
+            </label>
+          ) : (
+            <label className={styles.field}>
+              <span>Model</span>
+              <input
+                disabled={isSubmitting}
+                name="model_other"
+                type="text"
+                placeholder="Enter model"
+                value={carModel}
+                onChange={(e) => setCarModel(e.target.value)}
+              />
+            </label>
+          )}
+
+          {carModel && carModel !== "Other" && carYears.length > 0 ? (
+            <label className={styles.field}>
+              <span>Year</span>
+              <select
+                className={styles.select}
+                disabled={isSubmitting}
+                value={carYear}
+                onChange={(e) => setCarYear(e.target.value)}
+                aria-label="Vehicle year"
+              >
+                <option value="">Select year</option>
+                {carYears.map((year) => (
+                  <option key={year} value={String(year)}>{year}</option>
+                ))}
+              </select>
+            </label>
+          ) : (
+            <label className={styles.field}>
+              <span>Year</span>
+              <input
+                disabled={isSubmitting}
+                name="year_other"
+                type="text"
+                placeholder="e.g. 2023"
+                value={carYear}
+                onChange={(e) => setCarYear(e.target.value)}
+              />
+            </label>
+          )}
+
+          {vehicleDetailFields.map((field) => (
+            <label key={field.id} className={styles.field}>
+              <span>{field.label}</span>
+              <input
+                disabled={isSubmitting}
+                name={field.id}
+                type={field.type}
+                placeholder={field.placeholder}
+              />
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Wheel brief ── */}
+      <div className={styles.section}>
+        <p className={styles.sectionLabel}>Wheel Brief</p>
+        <div className={styles.grid}>
+          {wheelFields.map((field) => (
+            <label key={field.id} className={styles.field}>
+              <span>
+                {field.label}
+                {field.optional && <span className={styles.optionalTag}> — optional</span>}
+              </span>
+              <input
+                disabled={isSubmitting}
+                name={field.id}
+                type={field.type}
+                placeholder={field.placeholder}
+                defaultValue={getDefaultValue(field.id)}
+              />
+            </label>
+          ))}
+          <label className={styles.fieldWide}>
+            <span>Project notes</span>
+            <textarea
+              disabled={isSubmitting}
+              name="notes"
+              rows={6}
+              value={notes}
+              onChange={(event) => setNotes(event.target.value)}
+              placeholder="Tell us about the look you want, wheel style preferences, and anything important about the car."
             />
           </label>
-        ))}
-        <label className={styles.fieldWide}>
-          <span>Project notes</span>
-          <textarea
-            disabled={isSubmitting}
-            name="notes"
-            rows={6}
-            value={notes}
-            onChange={(event) => setNotes(event.target.value)}
-            placeholder="Tell us about the look you want, wheel style preferences, and anything important about the car."
-          />
-        </label>
+        </div>
       </div>
+
       <button className={styles.button} disabled={isSubmitting} type="submit">
         {isSubmitting ? "Sending Quote Request..." : "Request a Quote"}
       </button>
+
       {submitState.status !== "idle" ? (
         <p
           className={`${styles.status} ${
@@ -197,6 +349,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
           {submitState.message}
         </p>
       ) : null}
+
       <p className={styles.help}>
         {`Quote requests are sent directly to ${BRAND_NAME}, and replies go back to the email address you provide above.`}
       </p>
