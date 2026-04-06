@@ -122,14 +122,14 @@
 }
 
 .transparent .primaryBar {
-  background: transparent;
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0.34), rgba(10, 10, 10, 0.08));
 }
 
 .transparent .utilityBar {
-  background: transparent;
-  border-bottom-color: transparent;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0.42), rgba(10, 10, 10, 0.12));
+  border-bottom-color: rgba(255, 250, 245, 0.08);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
 }
 
 .transparent .utilityText,
@@ -137,7 +137,8 @@
 .transparent .utilityIconLink,
 .transparent .navLink,
 .transparent .mobileToggle {
-  color: rgba(255, 250, 245, 0.84);
+  color: rgba(255, 250, 245, 0.92);
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.22);
 }
 
 .scrolled .utilityBar {
@@ -248,6 +249,8 @@
   width: 44px;
   height: 44px;
   color: var(--ink);
+  border: 1px solid rgba(18, 18, 18, 0.1);
+  background: rgba(255, 250, 245, 0.84);
 }
 
 .menuIcon {
@@ -262,14 +265,7 @@
   background:
     radial-gradient(circle at top right, rgba(200, 29, 37, 0.14), transparent 22%),
     linear-gradient(180deg, rgba(255, 251, 246, 0.98) 0%, rgba(247, 237, 228, 0.98) 100%);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--duration-hover) var(--ease-precision);
-}
-
-.open {
-  opacity: 1;
-  pointer-events: auto;
+  animation: overlayEnter 220ms ease;
 }
 
 .overlayInner {
@@ -307,6 +303,11 @@
 }
 
 .overlayLinkActive {
+  color: var(--accent-red);
+}
+
+.overlayLink:hover,
+.overlayLink:focus-visible {
   color: var(--accent-red);
 }
 
@@ -350,6 +351,7 @@
 
   .mobileToggle {
     display: inline-flex;
+    justify-self: end;
   }
 
   .primaryBar {
@@ -365,5 +367,15 @@
     --logo-shift: -5px;
     width: 170px;
     height: 34px;
+  }
+}
+
+@keyframes overlayEnter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

@@ -12,8 +12,8 @@
 
 .sectionLabel {
   color: var(--accent-red);
-  font-size: 10px;
-  letter-spacing: 0.35em;
+  font-size: 11px;
+  letter-spacing: 0.26em;
   line-height: 1.5;
   text-transform: uppercase;
   margin: 0;
@@ -43,8 +43,8 @@
 .field span,
 .fieldWide span {
   color: var(--text-muted);
-  font-size: 10px;
-  letter-spacing: 0.35em;
+  font-size: 11px;
+  letter-spacing: 0.2em;
   line-height: 1.5;
   text-transform: uppercase;
 }
@@ -55,12 +55,13 @@
   width: 100%;
   min-height: 52px;
   border: 1px solid var(--rule);
-  background: var(--bg-surface);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(246, 238, 232, 0.66));
   color: var(--text-primary);
   padding: 0 16px;
   font-size: 16px;
   font-weight: 300;
   line-height: 1.7;
+  box-shadow: 0 10px 24px rgba(54, 34, 24, 0.04);
   transition:
     border-color var(--duration-hover) var(--ease-precision),
     background-color var(--duration-hover) var(--ease-precision);
@@ -179,8 +180,8 @@
 .help {
   max-width: 38rem;
   color: var(--text-muted);
-  font-size: 10px;
-  letter-spacing: 0.28em;
+  font-size: 11px;
+  letter-spacing: 0.2em;
   line-height: 1.5;
   text-transform: uppercase;
 }

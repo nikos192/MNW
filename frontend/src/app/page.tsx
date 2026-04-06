@@ -17,6 +17,7 @@ export default async function Home() {
     products.find((product) => multiPieceCollection?.handles.includes(product.handle)) ??
     products[products.length - 1] ??
     products[0];
+  const finishCount = monoblockProduct?.finishes.length ?? products[0]?.finishes.length ?? 24;
 
   return (
     <main className={styles.page}>
@@ -35,6 +36,41 @@ export default async function Home() {
         <div className={styles.heroOverlay} />
 
         <div className={`${styles.heroInner} container`}>
+          <div className={styles.heroCopy} data-hero-copy>
+            <p className={styles.heroLabel}>Forged Wheel Programs</p>
+            <h1 className={styles.heroHeading}>
+              Built around the car, not pulled from a shelf.
+            </h1>
+            <p className={styles.heroBody}>
+              MonzaWheels machines forged wheels to order for the exact chassis, brake package, and finish brief.
+              Browse the design range, compare fitment, and request a quote without losing the bespoke process.
+            </p>
+
+            <div className={styles.heroActions}>
+              <Link className="button-primary" href="/shop">
+                Explore the Range
+              </Link>
+              <Link className="button-outline-dark" href="/fitment-tool">
+                Compare Fitment
+              </Link>
+            </div>
+
+            <div className={styles.heroFacts}>
+              <div className={styles.heroFact}>
+                <span className={styles.heroFactValue}>{products.length}</span>
+                <span className={styles.heroFactLabel}>forged wheel families</span>
+              </div>
+              <div className={styles.heroFact}>
+                <span className={styles.heroFactValue}>{finishCount}+</span>
+                <span className={styles.heroFactLabel}>finish directions</span>
+              </div>
+              <div className={styles.heroFact}>
+                <span className={styles.heroFactValue}>{deliveredSets.length}</span>
+                <span className={styles.heroFactLabel}>reference builds mapped</span>
+              </div>
+            </div>
+          </div>
+
           <div className={styles.heroCue}>
             <span className={styles.heroCueLine} />
             <ChevronDown size={16} strokeWidth={1.5} />
@@ -131,7 +167,12 @@ export default async function Home() {
       <section className={styles.gallerySection}>
         <div className={`${styles.galleryInner} container`}>
           <div className={styles.galleryHeader} data-reveal>
-            <h2 className={styles.galleryHeading}>Gallery</h2>
+            <div className={styles.galleryTitleWrap}>
+              <h2 className={styles.galleryHeading}>Gallery</h2>
+              <p className={styles.galleryCopy}>
+                See the range by delivered chassis or by wheel face. Where photography is still coming in, we show the fitment brief instead of leaving dead space.
+              </p>
+            </div>
           </div>
 
           <GallerySwitcher deliveredSets={deliveredSets} products={products} />

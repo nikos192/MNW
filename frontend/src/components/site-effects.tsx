@@ -14,6 +14,8 @@ export function SiteEffects() {
   const pathname = usePathname();
 
   useEffect(() => {
+    document.body.dataset.jsReady = "true";
+
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isMobile = window.matchMedia("(max-width: 767px)").matches;
     const revealItems = Array.from(

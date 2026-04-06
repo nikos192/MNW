@@ -44,6 +44,18 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
   const activeImage = product.images[activeImageIndex] ?? product.images[0];
   const activeFinishData = product.finishes.find((finish) => finish.name === activeFinish) ?? product.finishes[0];
+  const displayPrice = product.price.replace(/^From\s*/i, "");
+  const quickFacts = [
+    { label: "Starting point", value: displayPrice },
+    { label: "Lead time", value: product.leadTime },
+    {
+      label: "Available diameters",
+      value: product.diameterOptions.length
+        ? `${product.diameterOptions[0]} to ${product.diameterOptions[product.diameterOptions.length - 1]}`
+        : "Built to brief",
+    },
+    { label: "Finish library", value: `${product.finishes.length} finish directions` },
+  ];
 
   function getSwatchTone(swatch: string) {
     switch (swatch.toLowerCase()) {
@@ -145,11 +157,28 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             <div className={styles.detailHead}>
               <p className={`label ${styles.series}`}>{product.series}</p>
               <h1 className={styles.title}>{product.title}</h1>
-              <p className={styles.price}>{product.price}</p>
+              <p className={styles.price}>From {displayPrice}</p>
             </div>
 
             <div className={styles.description}>
               <p>{product.description}</p>
+            </div>
+
+            <div className={styles.factGrid}>
+              {quickFacts.map((fact) => (
+                <div key={fact.label} className={styles.factCard}>
+                  <p className={styles.factLabel}>{fact.label}</p>
+                  <p className={styles.factValue}>{fact.value}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className={styles.selectionGuide}>
+              <p className={styles.selectionGuideTitle}>How this page works</p>
+              <p className={styles.selectionGuideCopy}>
+                Pick the car, choose the wheel direction, and leave any chassis-specific numbers blank if you want us to resolve them.
+                The quote stays bespoke even when you start from a catalogue face.
+              </p>
             </div>
 
             {/* ── Your Vehicle ── */}

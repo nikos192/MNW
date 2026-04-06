@@ -76,6 +76,17 @@
   padding: 20px 20px 22px;
 }
 
+.series {
+  margin-bottom: 8px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--accent-red);
+}
+
 .title {
   margin-bottom: 8px;
   font-family: var(--font-heading), sans-serif;
@@ -86,12 +97,19 @@
 }
 
 .price {
-  margin-bottom: 8px;
+  margin-bottom: 14px;
   font-family: var(--font-body), sans-serif;
   font-size: 13px;
   font-weight: 300;
   line-height: 1.6;
   color: var(--text-muted);
+}
+
+.metaFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .finishes {
@@ -102,4 +120,12 @@
   line-height: 1.5;
   text-transform: uppercase;
   color: var(--text-secondary);
+}
+
+.ctaHint {
+  font-family: var(--font-body), sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--text-primary);
 }

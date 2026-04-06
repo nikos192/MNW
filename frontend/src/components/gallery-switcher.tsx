@@ -11,8 +11,6 @@ type GallerySwitcherProps = {
   products: CatalogProduct[];
 };
 
-const placeholderTiles = Array.from({ length: 8 }, (_, index) => index);
-
 export function GallerySwitcher({ deliveredSets, products }: GallerySwitcherProps) {
   const [activeTab, setActiveTab] = useState<"vehicle" | "wheel">("vehicle");
   const [, startTransition] = useTransition();
@@ -34,7 +32,8 @@ export function GallerySwitcher({ deliveredSets, products }: GallerySwitcherProp
   const hasVehicleImages = vehicleItems.some((item) => item.image !== defaultMediaImage);
   const hasWheelImages = wheelItems.some((item) => item.image !== defaultMediaImage);
   const activeItems = activeTab === "vehicle" ? vehicleItems : wheelItems;
-  const showPlaceholders = activeTab === "vehicle" ? !hasVehicleImages : !hasWheelImages;
+  const showVehicleBriefs = activeTab === "vehicle" && !hasVehicleImages;
+  const showWheelBriefs = activeTab === "wheel" && !hasWheelImages;
 
   return (
     <div className={styles.shell}>
@@ -64,28 +63,41 @@ export function GallerySwitcher({ deliveredSets, products }: GallerySwitcherProp
       </div>
 
       <div key={activeTab} className={styles.grid}>
-        {showPlaceholders
-          ? placeholderTiles.map((item) => (
-              <div key={item} className={styles.placeholderTile}>
-                <span>Coming soon</span>
-              </div>
+        {showVehicleBriefs
+          ? deliveredSets.map((item) => (
+              <article key={`${item.chassis}-${item.fitment}`} className={styles.briefTile}>
+                <p className={styles.briefEyebrow}>Delivered fitment brief</p>
+                <h3 className={styles.briefTitle}>{item.chassis}</h3>
+                <p className={styles.briefSpec}>{item.fitment}</p>
+                <p className={styles.briefFinish}>{item.finish}</p>
+                <p className={styles.briefNote}>{item.note}</p>
+              </article>
             ))
-          : activeItems.map((item) => (
-              <Link key={`${activeTab}-${item.eyebrow}-${item.title}`} className={styles.tile} href={item.href}>
-                <Image
-                  alt={item.title}
-                  className={styles.tileImage}
-                  height={900}
-                  sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 25vw"
-                  src={item.image}
-                  width={1400}
-                />
-                <div className={styles.overlay}>
-                  <p className={styles.overlayEyebrow}>{item.eyebrow}</p>
-                  <p className={styles.overlayTitle}>{item.title}</p>
-                </div>
-              </Link>
-            ))}
+          : showWheelBriefs
+            ? products.map((product) => (
+                <article key={product.handle} className={styles.briefTile}>
+                  <p className={styles.briefEyebrow}>{product.series}</p>
+                  <h3 className={styles.briefTitle}>{product.title}</h3>
+                  <p className={styles.briefSpec}>{product.price}</p>
+                  <p className={styles.briefNote}>{product.shortDescription}</p>
+                </article>
+              ))
+            : activeItems.map((item) => (
+                <Link key={`${activeTab}-${item.eyebrow}-${item.title}`} className={styles.tile} href={item.href}>
+                  <Image
+                    alt={item.title}
+                    className={styles.tileImage}
+                    height={900}
+                    sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 25vw"
+                    src={item.image}
+                    width={1400}
+                  />
+                  <div className={styles.overlay}>
+                    <p className={styles.overlayEyebrow}>{item.eyebrow}</p>
+                    <p className={styles.overlayTitle}>{item.title}</p>
+                  </div>
+                </Link>
+              ))}
       </div>
 
       <div className={styles.footerRow}>

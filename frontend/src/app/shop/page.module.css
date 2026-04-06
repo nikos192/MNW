@@ -10,6 +10,17 @@
     linear-gradient(180deg, #fffaf5 0%, #f5ebe2 100%);
 }
 
+.heroInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: end;
+}
+
+.heroCopy {
+  max-width: 900px;
+}
+
 .title {
   max-width: 900px;
   margin: 16px 0;
@@ -27,6 +38,39 @@
   font-weight: 300;
   line-height: 1.7;
   color: var(--text-muted);
+}
+
+.heroMeta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.heroMetric {
+  display: grid;
+  gap: 8px;
+  padding: 18px 16px;
+  border: 1px solid rgba(18, 18, 18, 0.08);
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: var(--shadow-soft);
+}
+
+.heroMetricValue {
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.heroMetricLabel {
+  font-family: var(--font-body), sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--text-secondary);
 }
 
 .gridSection {
@@ -82,7 +126,9 @@
 
 .filterMeta {
   display: grid;
-  gap: 6px;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
 }
 
 .filterLead {
@@ -126,6 +172,10 @@
 }
 
 @media (max-width: 1024px) {
+  .heroInner {
+    grid-template-columns: 1fr;
+  }
+
   .filterBar {
     width: 100%;
   }
@@ -141,6 +191,10 @@
 }
 
 @media (max-width: 767px) {
+  .heroMeta {
+    grid-template-columns: 1fr;
+  }
+
   .filterBar {
     flex-direction: column;
     align-items: stretch;

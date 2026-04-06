@@ -12,6 +12,7 @@ type ProductCardProps = {
 export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps) {
   const finishCount = product.finishes.length || 1;
   const secondaryImage = product.images[1]?.url || product.images[0]?.url;
+  const displayPrice = product.price.replace(/^From\s*/i, "");
 
   return (
     <article className={styles.card} data-reveal>
@@ -47,9 +48,13 @@ export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps
           </div>
 
           <div className={styles.meta}>
+            <p className={styles.series}>{product.series}</p>
             <h3 className={styles.title}>{product.title}</h3>
-            <p className={styles.price}>Starting at {product.price}</p>
-            <p className={styles.finishes}>{finishCount} {finishCount === 1 ? "finish" : "finishes"}</p>
+            <p className={styles.price}>From {displayPrice}</p>
+            <div className={styles.metaFooter}>
+              <p className={styles.finishes}>{finishCount} {finishCount === 1 ? "finish" : "finishes"}</p>
+              <span className={styles.ctaHint}>View build options</span>
+            </div>
           </div>
         </Link>
       </GlowCard>

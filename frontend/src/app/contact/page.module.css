@@ -49,7 +49,10 @@
 .sidePanel {
   border: 1px solid var(--rule);
   padding: clamp(28px, 4vw, 40px);
-  background: var(--bg-surface);
+  background:
+    radial-gradient(circle at top right, rgba(200, 29, 37, 0.06), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 241, 234, 0.94));
+  box-shadow: var(--shadow-soft);
 }
 
 .sidePanel {
@@ -67,7 +70,7 @@
 
 .sideBlock h3 {
   margin-bottom: 8px;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 500;
   line-height: 1.1;
 }

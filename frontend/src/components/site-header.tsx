@@ -23,8 +23,9 @@ const rightLinks = [
 
 const mobileLinks = [
   ...leftLinks,
-  ...rightLinks,
   { href: "/fitment-tool", label: "Fitment Calculator" },
+  { href: "/finishes", label: "Finishes" },
+  { href: "/about", label: "About" },
   { href: "/find-a-dealer", label: "Find a Dealer" },
   { href: "/contact", label: "Request a Quote" },
 ];
@@ -171,6 +172,7 @@ export function SiteHeader() {
 
               <button
                 aria-controls="site-menu"
+                aria-expanded={isOpen}
                 aria-label={isOpen ? "Close navigation" : "Open navigation"}
                 className={styles.mobileToggle}
                 onClick={toggleMenu}
@@ -183,71 +185,73 @@ export function SiteHeader() {
         </div>
       </header>
 
-      <div
-        className={`${styles.overlay} ${isOpen ? styles.open : ""}`}
-        id="site-menu"
-        onClick={(event) => {
-          if (event.target === event.currentTarget) {
-            closeMenu();
-          }
-        }}
-      >
-        <div className={`${styles.overlayInner} container`}>
-          <div className={styles.overlayHeader}>
-            <Link aria-label={`${BRAND_NAME} homepage`} className={styles.overlayLogo} href="/" onClick={closeMenu}>
-              <MonzaLogo className={styles.brandLogo} title={BRAND_NAME} />
-            </Link>
+      {isOpen ? (
+        <div
+          className={`${styles.overlay} ${styles.open}`}
+          id="site-menu"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              closeMenu();
+            }
+          }}
+        >
+          <div className={`${styles.overlayInner} container`}>
+            <div className={styles.overlayHeader}>
+              <Link aria-label={`${BRAND_NAME} homepage`} className={styles.overlayLogo} href="/" onClick={closeMenu}>
+                <MonzaLogo className={styles.brandLogo} title={BRAND_NAME} />
+              </Link>
 
-            <button
-              aria-label="Close navigation"
-              className={styles.overlayClose}
-              onClick={closeMenu}
-              type="button"
-            >
-              <X size={18} strokeWidth={1.5} />
-            </button>
-          </div>
+              <button
+                aria-label="Close navigation"
+                className={styles.overlayClose}
+                onClick={closeMenu}
+                type="button"
+              >
+                <X size={18} strokeWidth={1.5} />
+              </button>
+            </div>
 
-          <nav className={styles.overlayNav} aria-label="Mobile navigation">
-            {mobileLinks.map((link) => {
-              const isActive = isActivePath(pathname, link.href);
+            <nav className={styles.overlayNav} aria-label="Mobile navigation">
+              {mobileLinks.map((link) => {
+                const isActive = isActivePath(pathname, link.href);
 
-              return (
-                <Link
-                  key={link.href}
-                  className={`${styles.overlayLink} ${isActive ? styles.overlayLinkActive : ""}`}
-                  href={link.href}
-                  onClick={closeMenu}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-          </nav>
+                return (
+                  <Link
+                    key={`${link.href}-${link.label}`}
+                    className={`${styles.overlayLink} ${isActive ? styles.overlayLinkActive : ""}`}
+                    href={link.href}
+                    onClick={closeMenu}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </nav>
 
-          <div className={styles.overlayUtility}>
-            <a
-              className={styles.overlaySmallLink}
-              href={BRAND_INSTAGRAM_URL}
-              rel="noreferrer noopener"
-              target="_blank"
-            >
-              Instagram
-            </a>
-            <Link className={styles.overlaySmallLink} href="/find-a-dealer" onClick={closeMenu}>
-              Find a Dealer
-            </Link>
-            <Link className={styles.overlaySmallLink} href="/contact" onClick={closeMenu}>
-              Request a Quote
-            </Link>
-          </div>
+            <div className={styles.overlayUtility}>
+              <a
+                className={styles.overlaySmallLink}
+                href={BRAND_INSTAGRAM_URL}
+                rel="noreferrer noopener"
+                target="_blank"
+              >
+                Instagram
+              </a>
+              <Link className={styles.overlaySmallLink} href="/find-a-dealer" onClick={closeMenu}>
+                Find a Dealer
+              </Link>
+              <Link className={styles.overlaySmallLink} href="/contact" onClick={closeMenu}>
+                Request a Quote
+              </Link>
+            </div>
 
-          <div className={styles.overlayMeta}>
-            <p>Brisbane, Australia</p>
-            <a href={`mailto:${BRAND_EMAIL}`}>{BRAND_EMAIL}</a>
+            <div className={styles.overlayMeta}>
+              <p>Brisbane, Australia</p>
+              <a href={`mailto:${BRAND_EMAIL}`}>{BRAND_EMAIL}</a>
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
     </>
   );
 }

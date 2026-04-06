@@ -52,6 +52,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${headingFont.variable} ${bodyFont.variable} ${wordmarkFont.variable}`}>
       <body>
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
         <SiteEffects />
         <SiteHeader />
         <div id="main-content">{children}</div>
