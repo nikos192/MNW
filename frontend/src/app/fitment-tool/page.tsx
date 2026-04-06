@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { BRAND_NAME } from "@/lib/brand";
 import { FitmentToolClient } from "./FitmentToolClient";
 import styles from "./page.module.css";
 
@@ -28,11 +27,11 @@ export default function FitmentToolPage() {
         </div>
       </section>
 
-      <section style={{ padding: "clamp(48px, 6vw, 72px) 0", borderTop: "1px solid var(--rule)" }}>
-        <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "24px", flexWrap: "wrap" }}>
+      <section className={styles.ctaSection}>
+        <div className={`${styles.ctaInner} container`}>
           <div>
             <p className="label">Next step</p>
-            <p style={{ fontSize: "clamp(18px, 2.5vw, 24px)", fontWeight: 400, marginTop: "8px", maxWidth: "440px", lineHeight: 1.35 }}>
+            <p className={styles.ctaLabel}>
               Found the right fitment? Get a quote built around your exact chassis.
             </p>
           </div>

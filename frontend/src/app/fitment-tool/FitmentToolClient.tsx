@@ -168,30 +168,30 @@ function Diagram({ cur, nw }: { cur: Calcs; nw: Calcs }) {
       aria-label="Wheel fitment cross-section comparison diagram"
     >
       {/* Background */}
-      <rect width={VW} height={VH} fill="#090909" />
+      <rect width={VW} height={VH} fill="#110f0d" />
 
-      {/* Grid */}
+      {/* Subtle warm grid */}
       {gridX.map((x) => (
-        <line key={`vg${x}`} x1={x} y1={0} x2={x} y2={VH} stroke="rgba(255,255,255,0.025)" strokeWidth={1} />
+        <line key={`vg${x}`} x1={x} y1={0} x2={x} y2={VH} stroke="rgba(230,210,186,0.04)" strokeWidth={1} />
       ))}
       {gridY.map((y) => (
-        <line key={`hg${y}`} x1={0} y1={y} x2={VW} y2={y} stroke="rgba(255,255,255,0.025)" strokeWidth={1} />
+        <line key={`hg${y}`} x1={0} y1={y} x2={VW} y2={y} stroke="rgba(230,210,186,0.04)" strokeWidth={1} />
       ))}
 
       {/* Ground */}
-      <line x1={0} y1={groundY} x2={VW} y2={groundY} stroke="rgba(255,255,255,0.1)" strokeWidth={1.5} />
-      <text x={VW - 12} y={groundY - 6} textAnchor="end" fill="rgba(255,255,255,0.15)" fontSize={9} fontFamily="monospace" letterSpacing={1}>
+      <line x1={0} y1={groundY} x2={VW} y2={groundY} stroke="rgba(230,210,186,0.22)" strokeWidth={1.5} />
+      <text x={VW - 12} y={groundY - 7} textAnchor="end" fill="rgba(230,210,186,0.32)" fontSize={9} fontFamily="monospace" letterSpacing={1}>
         GROUND
       </text>
 
       {/* Axle dashed line */}
-      <line x1={20} y1={HUB_Y} x2={VW - 20} y2={HUB_Y} stroke="rgba(255,255,255,0.14)" strokeWidth={1} strokeDasharray="5 4" />
+      <line x1={20} y1={HUB_Y} x2={VW - 20} y2={HUB_Y} stroke="rgba(230,210,186,0.2)" strokeWidth={1} strokeDasharray="5 4" />
 
       {/* Direction labels */}
-      <text x={VW - 14} y={HUB_Y - 15} textAnchor="end" fill="rgba(255,255,255,0.15)" fontSize={9} fontFamily="monospace" letterSpacing={1}>
+      <text x={VW - 14} y={HUB_Y - 16} textAnchor="end" fill="rgba(230,210,186,0.32)" fontSize={9} fontFamily="monospace" letterSpacing={1}>
         OUTER →
       </text>
-      <text x={14} y={HUB_Y - 15} textAnchor="start" fill="rgba(255,255,255,0.15)" fontSize={9} fontFamily="monospace" letterSpacing={1}>
+      <text x={14} y={HUB_Y - 16} textAnchor="start" fill="rgba(230,210,186,0.32)" fontSize={9} fontFamily="monospace" letterSpacing={1}>
         ← INNER
       </text>
 
@@ -227,11 +227,11 @@ function Diagram({ cur, nw }: { cur: Calcs; nw: Calcs }) {
           <line x1={cg.outerX} y1={HUB_Y - 10} x2={cg.outerX} y2={HUB_Y + 10} stroke={CUR_COLOR} strokeWidth={2.5} />
           <line x1={cg.innerX} y1={HUB_Y - 10} x2={cg.innerX} y2={HUB_Y + 10} stroke={CUR_COLOR} strokeWidth={2.5} />
           {/* Label */}
-          <text x={cg.tyreCX} y={cg.tyreTopY - 9} textAnchor="middle" fill={CUR_COLOR} fontSize={9} fontFamily="monospace" fillOpacity={0.65} letterSpacing={1}>
+          <text x={cg.tyreCX} y={cg.tyreTopY - 9} textAnchor="middle" fill={CUR_COLOR} fontSize={9} fontFamily="monospace" fillOpacity={0.85} letterSpacing={1}>
             CURRENT
           </text>
           {/* Outer lip label */}
-          <text x={cg.outerX + 5} y={HUB_Y + 22} fill={CUR_COLOR} fontSize={8} fontFamily="monospace" fillOpacity={0.55}>
+          <text x={cg.outerX + 5} y={HUB_Y + 22} fill={CUR_COLOR} fontSize={9} fontFamily="monospace" fillOpacity={0.75}>
             {cur.outerFromHub.toFixed(0)}mm
           </text>
         </g>
@@ -269,11 +269,11 @@ function Diagram({ cur, nw }: { cur: Calcs; nw: Calcs }) {
           <line x1={ng.outerX} y1={HUB_Y - 10} x2={ng.outerX} y2={HUB_Y + 10} stroke={NEW_COLOR} strokeWidth={2.5} />
           <line x1={ng.innerX} y1={HUB_Y - 10} x2={ng.innerX} y2={HUB_Y + 10} stroke={NEW_COLOR} strokeWidth={2.5} />
           {/* Label */}
-          <text x={ng.tyreCX} y={ng.tyreTopY - 9} textAnchor="middle" fill={NEW_COLOR} fontSize={9} fontFamily="monospace" fillOpacity={0.65} letterSpacing={1}>
+          <text x={ng.tyreCX} y={ng.tyreTopY - 9} textAnchor="middle" fill={NEW_COLOR} fontSize={9} fontFamily="monospace" fillOpacity={0.85} letterSpacing={1}>
             NEW
           </text>
           {/* Outer lip label */}
-          <text x={ng.outerX + 5} y={HUB_Y + 34} fill={NEW_COLOR} fontSize={8} fontFamily="monospace" fillOpacity={0.55}>
+          <text x={ng.outerX + 5} y={HUB_Y + 34} fill={NEW_COLOR} fontSize={9} fontFamily="monospace" fillOpacity={0.75}>
             {nw.outerFromHub.toFixed(0)}mm
           </text>
         </g>
@@ -284,13 +284,13 @@ function Diagram({ cur, nw }: { cur: Calcs; nw: Calcs }) {
         <>
           <line
             x1={cg.outerX} y1={HUB_Y + 50} x2={ng.outerX} y2={HUB_Y + 50}
-            stroke="rgba(255,255,255,0.28)" strokeWidth={1}
+            stroke="rgba(230,210,186,0.45)" strokeWidth={1}
           />
-          <line x1={cg.outerX} y1={HUB_Y + 44} x2={cg.outerX} y2={HUB_Y + 56} stroke="rgba(255,255,255,0.28)" strokeWidth={1} />
-          <line x1={ng.outerX}  y1={HUB_Y + 44} x2={ng.outerX}  y2={HUB_Y + 56} stroke="rgba(255,255,255,0.28)" strokeWidth={1} />
+          <line x1={cg.outerX} y1={HUB_Y + 44} x2={cg.outerX} y2={HUB_Y + 56} stroke="rgba(230,210,186,0.45)" strokeWidth={1} />
+          <line x1={ng.outerX}  y1={HUB_Y + 44} x2={ng.outerX}  y2={HUB_Y + 56} stroke="rgba(230,210,186,0.45)" strokeWidth={1} />
           <text
             x={(cg.outerX + ng.outerX) / 2} y={HUB_Y + 68}
-            textAnchor="middle" fill="rgba(255,255,255,0.38)"
+            textAnchor="middle" fill="rgba(230,210,186,0.6)"
             fontSize={9} fontFamily="monospace"
           >
             {stanceDiff >= 0 ? `+${stanceDiff.toFixed(1)}` : stanceDiff.toFixed(1)}mm stance
@@ -299,22 +299,22 @@ function Diagram({ cur, nw }: { cur: Calcs; nw: Calcs }) {
       )}
 
       {/* ── Hub centre ── */}
-      <line x1={HUB_X} y1={6} x2={HUB_X} y2={VH - 6} stroke="rgba(255,255,255,0.28)" strokeWidth={1} strokeDasharray="8 5" />
-      <text x={HUB_X} y={18} textAnchor="middle" fill="rgba(255,255,255,0.22)" fontSize={9} fontFamily="monospace" letterSpacing={1}>
+      <line x1={HUB_X} y1={6} x2={HUB_X} y2={VH - 6} stroke="rgba(230,210,186,0.38)" strokeWidth={1} strokeDasharray="8 5" />
+      <text x={HUB_X} y={18} textAnchor="middle" fill="rgba(230,210,186,0.35)" fontSize={9} fontFamily="monospace" letterSpacing={1}>
         HUB
       </text>
 
       {/* Hub bolt graphic */}
-      <circle cx={HUB_X} cy={HUB_Y} r={8} fill="#141414" stroke="rgba(255,255,255,0.38)" strokeWidth={1.5} />
-      <circle cx={HUB_X} cy={HUB_Y} r={3} fill="rgba(255,255,255,0.45)" />
+      <circle cx={HUB_X} cy={HUB_Y} r={8} fill="#1e1a17" stroke="rgba(230,210,186,0.55)" strokeWidth={1.5} />
+      <circle cx={HUB_X} cy={HUB_Y} r={3} fill="rgba(230,210,186,0.65)" />
 
       {/* ── Legend ── */}
-      <rect x={14} y={VH - 28} width={9} height={9} fill={CUR_COLOR} fillOpacity={0.75} />
-      <text x={27} y={VH - 20} fill={CUR_COLOR} fontSize={10} fontFamily="monospace" fillOpacity={0.75}>
+      <rect x={14} y={VH - 28} width={9} height={9} fill={CUR_COLOR} fillOpacity={0.85} />
+      <text x={27} y={VH - 20} fill={CUR_COLOR} fontSize={10} fontFamily="monospace" fillOpacity={0.9}>
         Current
       </text>
-      <rect x={88} y={VH - 28} width={9} height={9} fill={NEW_COLOR} fillOpacity={0.75} />
-      <text x={101} y={VH - 20} fill={NEW_COLOR} fontSize={10} fontFamily="monospace" fillOpacity={0.75}>
+      <rect x={90} y={VH - 28} width={9} height={9} fill={NEW_COLOR} fillOpacity={0.85} />
+      <text x={103} y={VH - 20} fill={NEW_COLOR} fontSize={10} fontFamily="monospace" fillOpacity={0.9}>
         New
       </text>
     </svg>
@@ -364,7 +364,7 @@ function ResultCard({
   return (
     <div className={`${styles.resultCard} ${warn ? styles.resultWarn : ""}`}>
       <p className={styles.resultLabel}>{label}</p>
-      <p className={styles.resultValue}>{value}</p>
+      <p className={`${styles.resultValue} ${warn ? styles.resultValueWarn : ""}`}>{value}</p>
       <p className={styles.resultNote}>{note}</p>
     </div>
   );
