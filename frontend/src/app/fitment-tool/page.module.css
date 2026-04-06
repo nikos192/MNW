@@ -77,6 +77,14 @@
   opacity: 0.85;
 }
 
+.currentToneBg {
+  background: #5b9cf6;
+}
+
+.newToneBg {
+  background: #e03535;
+}
+
 .colTitle {
   font-family: var(--font-body), sans-serif;
   font-size: 10px;
@@ -157,6 +165,7 @@
   text-transform: uppercase;
   color: var(--text-secondary);
   white-space: nowrap;
+  -webkit-user-select: none;
   user-select: none;
   background: var(--bg-card);
 }
@@ -200,6 +209,12 @@
   color: rgba(230, 215, 196, 0.25);
   pointer-events: none;
   z-index: 1;
+}
+
+.diagramSvg {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 /* ─── Results ────────────────────────────────────────────────────────────────── */
@@ -287,6 +302,7 @@
   color: var(--text-muted);
   cursor: pointer;
   list-style: none;
+  -webkit-user-select: none;
   user-select: none;
   transition: color 200ms var(--ease-precision);
 }
@@ -331,6 +347,14 @@ details[open] .breakdownToggle::before {
   text-transform: uppercase;
   font-weight: 400;
   margin-bottom: 4px;
+}
+
+.currentToneText {
+  color: #5b9cf6;
+}
+
+.newToneText {
+  color: #e03535;
 }
 
 /* ─── CTA section ────────────────────────────────────────────────────────────── */

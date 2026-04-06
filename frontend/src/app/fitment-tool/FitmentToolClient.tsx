@@ -164,7 +164,7 @@ function Diagram({ cur, nw }: { cur: Calcs; nw: Calcs }) {
   return (
     <svg
       viewBox={`0 0 ${VW} ${VH}`}
-      style={{ width: "100%", height: "auto", display: "block" }}
+      className={styles.diagramSvg}
       aria-label="Wheel fitment cross-section comparison diagram"
     >
       {/* Background */}
@@ -403,7 +403,7 @@ export function FitmentToolClient() {
         {/* Current column */}
         <div className={styles.col}>
           <div className={styles.colHead}>
-            <span className={styles.colDot} style={{ background: CUR_COLOR }} />
+            <span className={`${styles.colDot} ${styles.currentToneBg}`} />
             <span className={styles.colTitle}>Current Setup</span>
           </div>
           <Field label="Wheel Width"    unit="in"  value={cur.wheelWidth}   onChange={(v) => setCurField("wheelWidth", v)}   placeholder="e.g. 9.5" />
@@ -427,7 +427,7 @@ export function FitmentToolClient() {
         {/* New column */}
         <div className={styles.col}>
           <div className={styles.colHead}>
-            <span className={styles.colDot} style={{ background: NEW_COLOR }} />
+            <span className={`${styles.colDot} ${styles.newToneBg}`} />
             <span className={styles.colTitle}>New Setup</span>
           </div>
           <Field label="Wheel Width"    unit="in"  value={nw.wheelWidth}   onChange={(v) => setNwField("wheelWidth", v)}   placeholder="e.g. 10" />
@@ -504,7 +504,7 @@ export function FitmentToolClient() {
           <summary className={styles.breakdownToggle}>Calculation breakdown</summary>
           <div className={styles.breakdownGrid}>
             <div>
-              <p className={styles.breakdownHead} style={{ color: CUR_COLOR }}>Current</p>
+              <p className={`${styles.breakdownHead} ${styles.currentToneText}`}>Current</p>
               <p>Wheel width: {cCalcs.wheelWidthMm.toFixed(1)} mm</p>
               <p>Wheel diameter: {cCalcs.wheelDiaMm.toFixed(1)} mm</p>
               <p>Sidewall height: {cCalcs.sidewall.toFixed(1)} mm</p>
@@ -514,7 +514,7 @@ export function FitmentToolClient() {
               <p>Inner from hub: {cCalcs.innerFromHub.toFixed(1)} mm</p>
             </div>
             <div>
-              <p className={styles.breakdownHead} style={{ color: NEW_COLOR }}>New</p>
+              <p className={`${styles.breakdownHead} ${styles.newToneText}`}>New</p>
               <p>Wheel width: {nCalcs.wheelWidthMm.toFixed(1)} mm</p>
               <p>Wheel diameter: {nCalcs.wheelDiaMm.toFixed(1)} mm</p>
               <p>Sidewall height: {nCalcs.sidewall.toFixed(1)} mm</p>

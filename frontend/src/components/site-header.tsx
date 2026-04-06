@@ -10,6 +10,7 @@ import styles from "./site-header.module.css";
 
 const leftLinks = [
   { href: "/shop", label: "Wheels" },
+  { href: "/collections/multi-piece", label: "2-Piece" },
   { href: "/gallery", label: "Gallery" },
   { href: "/engineering", label: "Engineering" },
 ];

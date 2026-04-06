@@ -8,6 +8,7 @@ export type CatalogImage = {
 export type WheelFinish = {
   name: string;
   swatch: string;
+  image: string;
 };
 
 export type WheelSpec = {
@@ -506,21 +507,76 @@ const PRODUCT_CODES = [
   "2C2",
 ] as const;
 
-const FINISH_BY_VARIANT: Record<string, WheelFinish> = {
+const FINISH_FILES = [
+  "Brushed Clear  .jpg",
+  "Brushed Dark Clear.jpg",
+  "Frozen Clear  .jpg",
+  "Frozen Stone Bronze  .jpg",
+  "Frozen Stone Champagne  .jpg",
+  "Frozen Stone Dark Clear  .jpg",
+  "Gloss Black.jpg",
+  "Gloss Bronze  .jpg",
+  "Gloss Charcoal.jpg",
+  "Gloss Gold  .jpg",
+  "Gloss Silver.jpg",
+  "Gloss White  .jpg",
+  "Gloss White Gold  .jpg",
+  "Polished Dark Clear  .jpg",
+  "Satin Black.jpg",
+  "Satin Bronze  .jpg",
+  "Satin Charcoal.jpg",
+  "Satin Gold  .jpg",
+  "Satin Silver.jpg",
+  "Satin White Gold  .jpg",
+  "Stone Bronze  .jpg",
+  "Stone Champagne  .jpg",
+  "Stone Dark Clear.jpg",
+  "Textured Black.jpg",
+] as const;
+
+const FINISH_BY_VARIANT: Record<string, { name: string; swatch: string }> = {
   "1": { name: "Silver", swatch: "#AFAFAD" },
   "2": { name: "Gloss black", swatch: "#0F0F0F" },
 };
 
-function buildFallbackProduct(code: (typeof PRODUCT_CODES)[number]): CatalogProduct {
-  const match = code.match(/^([12])([A-Z])([12])$/);
+function formatFinishName(fileName: string) {
+  return fileName.replace(/\.jpg$/i, "").replace(/\s+/g, " ").trim();
+}
+
+function getFinishSwatch(name: string) {
+  const value = name.toLowerCase();
+
+  if (value.includes("black")) return "#0F0F0F";
+  if (value.includes("charcoal") || value.includes("dark")) return "#2A2A2A";
+  if (value.includes("bronze") || value.includes("champagne") || value.includes("gold")) return "#B08B57";
+  if (value.includes("white")) return "#F5F5F3";
+  if (value.includes("silver") || value.includes("clear") || value.includes("polished")) return "#AFAFAD";
+
+  return "#F5F5F3";
+}
+
+export const finishOptions: WheelFinish[] = FINISH_FILES.map((fileName) => {
+  const name = formatFinishName(fileName);
+  return {
+    name,
+    swatch: getFinishSwatch(name),
+    image: `/finishes/${encodeURIComponent(fileName)}`,
+  };
+});
+
+const PRODUCT_FAMILIES = Array.from(
+  new Set(PRODUCT_CODES.map((code) => code.slice(0, 2))),
+).sort() as Array<`${1 | 2}${string}`>;
+
+function buildFallbackProduct(familyCode: (typeof PRODUCT_FAMILIES)[number]): CatalogProduct {
+  const match = familyCode.match(/^([12])([A-Z])$/);
 
   if (!match) {
-    throw new Error(`Unexpected product code: ${code}`);
+    throw new Error(`Unexpected product family: ${familyCode}`);
   }
 
-  const [, pieceCode, wheelCode, variantCode] = match;
+  const [, pieceCode, wheelCode] = match;
   const isOnePiece = pieceCode === "1";
-  const finish = FINISH_BY_VARIANT[variantCode];
   const series = isOnePiece ? "1-Piece Forged" : "2-Piece Forged";
   const leadTime = isOnePiece ? "8-12 weeks" : "10-14 weeks";
   const price = isOnePiece ? "From $588/wheel" : "From $780/wheel";
@@ -530,24 +586,38 @@ function buildFallbackProduct(code: (typeof PRODUCT_CODES)[number]): CatalogProd
   const widthOptions = isOnePiece ? WIDTHS_1PC : WIDTHS_2PC;
   const construction = isOnePiece ? "1-piece forged monoblock" : "2-piece forged";
   const offsetRange = isOnePiece ? "Resolved per chassis" : "Extended range - resolved per chassis";
-  const finishName = finish.name.toLowerCase();
+  const familyImages = PRODUCT_CODES
+    .filter((code) => code.startsWith(familyCode))
+    .map((code) => {
+      const variantCode = code.slice(-1);
+      const variantFinish = FINISH_BY_VARIANT[variantCode];
+      return {
+        url: `/products/${code}.png`,
+        alt: `${familyCode} wheel in ${variantFinish.name.toLowerCase()}`,
+      };
+    });
+  const variantFinishNames = PRODUCT_CODES
+    .filter((code) => code.startsWith(familyCode))
+    .map((code) => FINISH_BY_VARIANT[code.slice(-1)]?.name.toLowerCase())
+    .filter(Boolean)
+    .join(" and ");
 
   return {
-    id: `wheel-${code.toLowerCase()}`,
-    handle: code,
-    title: code,
+    id: `wheel-${familyCode.toLowerCase()}`,
+    handle: familyCode,
+    title: familyCode,
     series,
-    shortDescription: `${series} wheel ${wheelCode} in ${finishName}.`,
+    shortDescription: `${series} wheel ${wheelCode} shown in ${variantFinishNames}.`,
     description:
-      `${code} is wheel ${wheelCode} in the ${series.toLowerCase()} range, shown in ${finishName}. ` +
+      `${familyCode} is wheel ${wheelCode} in the ${series.toLowerCase()} range, shown here in ${variantFinishNames}. ` +
       "Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.",
     price,
     leadTime,
-    images: [{ url: `/products/${code}.png`, alt: `${code} wheel` }],
-    finishes: [finish],
+    images: familyImages,
+    finishes: finishOptions,
     specs: [
       { label: "Construction", value: construction },
-      { label: "Finish", value: finish.name },
+      { label: "Finish", value: "Multiple finishes available" },
       { label: "Diameter range", value: diameterRange },
       { label: "Width range", value: widthRange },
       { label: "PCD", value: "Matched to vehicle - full range available" },
@@ -561,7 +631,7 @@ function buildFallbackProduct(code: (typeof PRODUCT_CODES)[number]): CatalogProd
   };
 }
 
-export const fallbackProducts: CatalogProduct[] = PRODUCT_CODES.map(buildFallbackProduct);
+export const fallbackProducts: CatalogProduct[] = PRODUCT_FAMILIES.map(buildFallbackProduct);
 
 export const deliveredSets: DeliveredSet[] = [
   {

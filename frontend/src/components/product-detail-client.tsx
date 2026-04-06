@@ -43,6 +43,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   }
 
   const activeImage = product.images[activeImageIndex] ?? product.images[0];
+  const activeFinishData = product.finishes.find((finish) => finish.name === activeFinish) ?? product.finishes[0];
 
   function getSwatchTone(swatch: string) {
     switch (swatch.toLowerCase()) {
@@ -280,13 +281,33 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                         type="radio"
                         value={finish.name}
                       />
-                      <span
-                        className={`${styles.swatch} ${getSwatchTone(finish.swatch)}`}
-                        title={finish.name}
-                      />
+                      <span className={`${styles.finishOption} ${activeFinish === finish.name ? styles.finishOptionActive : ""}`}>
+                        <span className={styles.finishImageWrap}>
+                          <Image
+                            alt={finish.name}
+                            className={styles.finishImage}
+                            src={finish.image}
+                            sizes="(max-width: 767px) 50vw, 180px"
+                            width={320}
+                            height={320}
+                          />
+                        </span>
+                        <span className={styles.finishMeta}>
+                          <span
+                            className={`${styles.swatch} ${getSwatchTone(finish.swatch)}`}
+                            title={finish.name}
+                          />
+                          <span className={styles.finishName}>{finish.name}</span>
+                        </span>
+                      </span>
                     </label>
                   ))}
                 </div>
+                {activeFinishData ? (
+                  <p className={styles.finishNote}>
+                    Selected finish preview: {activeFinishData.name}
+                  </p>
+                ) : null}
               </div>
             )}
 

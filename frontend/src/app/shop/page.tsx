@@ -1,4 +1,5 @@
 import { ProductCard } from "@/components/product-card";
+import Link from "next/link";
 import { getCatalogData } from "@/lib/catalog";
 import styles from "./page.module.css";
 
@@ -24,6 +25,14 @@ export default async function ShopPage() {
             width, offset, finish, and brake clearance are confirmed after the
             brief.
           </p>
+          <div className={styles.collectionLinks}>
+            <Link className={styles.collectionLink} href="/collections/multi-piece">
+              Explore 2-Piece Wheels
+            </Link>
+            <Link className={styles.collectionLink} href="/collections/monoblock">
+              Explore 1-Piece Wheels
+            </Link>
+          </div>
         </div>
       </section>
 

@@ -320,24 +320,85 @@
 /* ── Finish swatches ── */
 
 .swatches {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
 .swatchItem {
-  display: inline-flex;
+  display: flex;
+}
+
+.finishOption {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--rule);
+  background: var(--bg-surface);
+  cursor: pointer;
+  transition:
+    border-color 220ms var(--ease-precision),
+    background 220ms var(--ease-precision),
+    transform 220ms var(--ease-precision);
+}
+
+.finishOption:hover,
+.swatchItem:focus-within .finishOption {
+  border-color: rgba(18, 18, 18, 0.32);
+  transform: translateY(-1px);
+}
+
+.finishOptionActive,
+.swatchItem input:checked + .finishOption {
+  border-color: var(--accent-red);
+  background: rgba(200, 29, 37, 0.04);
+}
+
+.finishImageWrap {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid rgba(18, 18, 18, 0.08);
+}
+
+.finishImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.finishMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
 }
 
 .swatch {
-  width: 32px;
-  height: 32px;
+  width: 16px;
+  height: 16px;
   border-radius: 999px;
   border: 1px solid rgba(18, 18, 18, 0.14);
-  cursor: pointer;
-  transition:
-    opacity 220ms var(--ease-precision),
-    outline-color 220ms var(--ease-precision);
+  flex-shrink: 0;
+}
+
+.finishName {
+  font-family: var(--font-body), sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.45;
+  color: var(--text-primary);
+}
+
+.finishNote {
+  font-family: var(--font-body), sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-top: 2px;
 }
 
 .swatchBlack {
@@ -359,16 +420,6 @@
 .swatchLight {
   background: #f5f5f3;
   border-color: rgba(18, 18, 18, 0.22);
-}
-
-.swatchItem:hover .swatch,
-.swatchItem:focus-within .swatch {
-  opacity: 0.78;
-}
-
-.swatchItem input:checked + .swatch {
-  outline: 2px solid var(--accent-red);
-  outline-offset: 3px;
 }
 
 /* ── Config summary ── */
@@ -512,6 +563,10 @@
 
   .thumb {
     min-height: 64px;
+  }
+
+  .swatches {
+    grid-template-columns: 1fr;
   }
 
   .specRow {
