@@ -485,155 +485,83 @@ const WIDTHS_1PC = ["6.0\"", "6.5\"", "7.0\"", "7.5\"", "8.0\"", "8.5\"", "9.0\"
 const WIDTHS_2PC = ["8.0\"", "8.5\"", "9.0\"", "9.5\"", "10.0\"", "10.5\"", "11.0\"", "11.5\"", "12.0\"", "12.5\"", "13.0\"", "13.5\""];
 const PCDS = ["4x100", "4x108", "5x100", "5x108", "5x112", "5x114.3", "5x120", "5x130", "Centre lock"];
 const CENTREBORES = ["54.1mm", "56.6mm", "57.1mm", "60.1mm", "63.4mm", "66.6mm", "67.1mm", "72.6mm", "73.1mm", "74.1mm", "77.0mm"];
+const PRODUCT_CODES = [
+  "1A1",
+  "1A2",
+  "1B1",
+  "1B2",
+  "1C1",
+  "1C2",
+  "1D1",
+  "1D2",
+  "1E1",
+  "1E2",
+  "1F1",
+  "1F2",
+  "2A1",
+  "2A2",
+  "2B1",
+  "2B2",
+  "2C1",
+  "2C2",
+] as const;
 
-export const fallbackProducts: CatalogProduct[] = [
-  {
-    id: "mnw-01",
-    handle: "mnw-01",
-    title: "MonzaWheels-01",
-    series: "1-Piece Forged",
-    shortDescription:
-      "A measured face with enough edge definition to carry luxury and performance builds without visual noise.",
+const FINISH_BY_VARIANT: Record<string, WheelFinish> = {
+  "1": { name: "Silver", swatch: "#AFAFAD" },
+  "2": { name: "Gloss black", swatch: "#0F0F0F" },
+};
+
+function buildFallbackProduct(code: (typeof PRODUCT_CODES)[number]): CatalogProduct {
+  const match = code.match(/^([12])([A-Z])([12])$/);
+
+  if (!match) {
+    throw new Error(`Unexpected product code: ${code}`);
+  }
+
+  const [, pieceCode, wheelCode, variantCode] = match;
+  const isOnePiece = pieceCode === "1";
+  const finish = FINISH_BY_VARIANT[variantCode];
+  const series = isOnePiece ? "1-Piece Forged" : "2-Piece Forged";
+  const leadTime = isOnePiece ? "8-12 weeks" : "10-14 weeks";
+  const price = isOnePiece ? "From $588/wheel" : "From $780/wheel";
+  const diameterRange = isOnePiece ? "15 to 24 inches" : "18 to 24 inches";
+  const widthRange = isOnePiece ? "6.0 to 12.0 inches" : "8.0 to 13.5 inches";
+  const diameterOptions = isOnePiece ? DIAMETERS_1PC : DIAMETERS_2PC;
+  const widthOptions = isOnePiece ? WIDTHS_1PC : WIDTHS_2PC;
+  const construction = isOnePiece ? "1-piece forged monoblock" : "2-piece forged";
+  const offsetRange = isOnePiece ? "Resolved per chassis" : "Extended range - resolved per chassis";
+  const finishName = finish.name.toLowerCase();
+
+  return {
+    id: `wheel-${code.toLowerCase()}`,
+    handle: code,
+    title: code,
+    series,
+    shortDescription: `${series} wheel ${wheelCode} in ${finishName}.`,
     description:
-      "MonzaWheels-01 is the calmest entry in the range. It suits sedans and coupes that need a deliberate surface, exact brake clearance, and a finish program that stays restrained rather than loud. Available from 15 to 24 inches with fitment resolved per chassis.",
-    price: "From $588/wheel",
-    leadTime: "8–12 weeks",
-    images: [
-      { url: defaultMediaImage, alt: "MonzaWheels-01 forged wheel" },
-      { url: defaultMediaImage, alt: "MonzaWheels-01 alternate angle" },
-      { url: defaultMediaImage, alt: "MonzaWheels-01 profile" },
-      { url: defaultMediaImage, alt: "MonzaWheels-01 detail" },
-    ],
-    finishes: [
-      { name: "Brushed clear", swatch: "#AFAFAD" },
-      { name: "Satin graphite", swatch: "#2A2A2A" },
-      { name: "Gloss black", swatch: "#0F0F0F" },
-    ],
+      `${code} is wheel ${wheelCode} in the ${series.toLowerCase()} range, shown in ${finishName}. ` +
+      "Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.",
+    price,
+    leadTime,
+    images: [{ url: `/products/${code}.png`, alt: `${code} wheel` }],
+    finishes: [finish],
     specs: [
-      { label: "Construction", value: "1-piece forged monoblock" },
-      { label: "Material", value: "6061-T6 aluminium billet" },
-      { label: "Diameter range", value: "15 to 24 inches" },
-      { label: "Width range", value: "6.0 to 12.0 inches" },
-      { label: "PCD", value: "Matched to vehicle — full range available" },
-      { label: "Offset", value: "Resolved per chassis" },
+      { label: "Construction", value: construction },
+      { label: "Finish", value: finish.name },
+      { label: "Diameter range", value: diameterRange },
+      { label: "Width range", value: widthRange },
+      { label: "PCD", value: "Matched to vehicle - full range available" },
+      { label: "Offset", value: offsetRange },
     ],
-    diameterOptions: DIAMETERS_1PC,
-    widthOptions: WIDTHS_1PC,
+    diameterOptions,
+    widthOptions,
     pcdOptions: PCDS,
-    offsetRange: "Resolved per chassis",
+    offsetRange,
     centreboreOptions: CENTREBORES,
-  },
-  {
-    id: "mnw-02",
-    handle: "mnw-02",
-    title: "MonzaWheels-02",
-    series: "1-Piece Forged",
-    shortDescription:
-      "Sharper spoke architecture for builds that need obvious brake presence and more motorsport tension in the face.",
-    description:
-      "MonzaWheels-02 pushes the spoke architecture harder. It works best around aggressive brake packages, staggered fitment, and projects where the wheel needs more tension without tipping into visual clutter. Available from 15 to 24 inches.",
-    price: "From $588/wheel",
-    leadTime: "8–12 weeks",
-    images: [
-      { url: defaultMediaImage, alt: "MonzaWheels-02 forged wheel" },
-      { url: defaultMediaImage, alt: "MonzaWheels-02 alternate angle" },
-      { url: defaultMediaImage, alt: "MonzaWheels-02 profile" },
-      { url: defaultMediaImage, alt: "MonzaWheels-02 detail" },
-    ],
-    finishes: [
-      { name: "Gloss black", swatch: "#0F0F0F" },
-      { name: "Machine face", swatch: "#F5F5F3" },
-      { name: "Satin graphite", swatch: "#2A2A2A" },
-    ],
-    specs: [
-      { label: "Construction", value: "1-piece forged monoblock" },
-      { label: "Material", value: "6061-T6 aluminium billet" },
-      { label: "Diameter range", value: "15 to 24 inches" },
-      { label: "Width range", value: "6.0 to 12.0 inches" },
-      { label: "PCD", value: "Matched to vehicle — full range available" },
-      { label: "Offset", value: "Brake package dependent" },
-    ],
-    diameterOptions: DIAMETERS_1PC,
-    widthOptions: WIDTHS_1PC,
-    pcdOptions: PCDS,
-    offsetRange: "Brake package dependent",
-    centreboreOptions: CENTREBORES,
-  },
-  {
-    id: "mnw-03",
-    handle: "mnw-03",
-    title: "MonzaWheels-03",
-    series: "2-Piece Forged",
-    shortDescription:
-      "A stronger concave language suited to hero builds where the wheel is part of the car's visual signature.",
-    description:
-      "MonzaWheels-03 is the deeper, more dramatic base in a two-piece forged format. The split construction allows the inner barrel to be configured independently, unlocking more aggressive offsets and deeper dish profiles. Available from 18 to 24 inches.",
-    price: "From $780/wheel",
-    leadTime: "10–14 weeks",
-    images: [
-      { url: defaultMediaImage, alt: "MonzaWheels-03 forged wheel" },
-      { url: defaultMediaImage, alt: "MonzaWheels-03 alternate angle" },
-      { url: defaultMediaImage, alt: "MonzaWheels-03 profile" },
-      { url: defaultMediaImage, alt: "MonzaWheels-03 detail" },
-    ],
-    finishes: [
-      { name: "Brushed clear", swatch: "#AFAFAD" },
-      { name: "Machine face", swatch: "#F5F5F3" },
-      { name: "Gloss black", swatch: "#0F0F0F" },
-      { name: "Colour by brief", swatch: "#B08B57" },
-    ],
-    specs: [
-      { label: "Construction", value: "2-piece forged — centre & barrel" },
-      { label: "Material", value: "6061-T6 aluminium billet" },
-      { label: "Diameter range", value: "18 to 24 inches" },
-      { label: "Width range", value: "8.0 to 13.5 inches" },
-      { label: "PCD", value: "Matched to vehicle — full range available" },
-      { label: "Offset", value: "Extended range — resolved per chassis" },
-    ],
-    diameterOptions: DIAMETERS_2PC,
-    widthOptions: WIDTHS_2PC,
-    pcdOptions: PCDS,
-    offsetRange: "Extended range — resolved per chassis",
-    centreboreOptions: CENTREBORES,
-  },
-  {
-    id: "mnw-04",
-    handle: "mnw-04",
-    title: "MonzaWheels-04",
-    series: "2-Piece Forged",
-    shortDescription:
-      "The most aggressive two-piece program — deep dish, bold hardware, and a face built for maximum visual impact.",
-    description:
-      "MonzaWheels-04 is built for the builds that demand the most. The two-piece forged construction goes deeper, hardware is exposed as a design element, and the face is engineered around maximum dish and statement fitment. Available from 18 to 24 inches.",
-    price: "From $840/wheel",
-    leadTime: "10–14 weeks",
-    images: [
-      { url: defaultMediaImage, alt: "MonzaWheels-04 forged wheel" },
-      { url: defaultMediaImage, alt: "MonzaWheels-04 alternate angle" },
-      { url: defaultMediaImage, alt: "MonzaWheels-04 profile" },
-      { url: defaultMediaImage, alt: "MonzaWheels-04 detail" },
-    ],
-    finishes: [
-      { name: "Gloss black", swatch: "#0F0F0F" },
-      { name: "Satin graphite", swatch: "#2A2A2A" },
-      { name: "Brushed clear", swatch: "#AFAFAD" },
-      { name: "Colour by brief", swatch: "#B08B57" },
-    ],
-    specs: [
-      { label: "Construction", value: "2-piece forged — centre & barrel" },
-      { label: "Material", value: "6061-T6 aluminium billet" },
-      { label: "Diameter range", value: "18 to 24 inches" },
-      { label: "Width range", value: "8.0 to 13.5 inches" },
-      { label: "PCD", value: "Matched to vehicle — full range available" },
-      { label: "Offset", value: "Maximum dish — resolved per chassis" },
-    ],
-    diameterOptions: DIAMETERS_2PC,
-    widthOptions: WIDTHS_2PC,
-    pcdOptions: PCDS,
-    offsetRange: "Maximum dish — resolved per chassis",
-    centreboreOptions: CENTREBORES,
-  },
-];
+  };
+}
+
+export const fallbackProducts: CatalogProduct[] = PRODUCT_CODES.map(buildFallbackProduct);
 
 export const deliveredSets: DeliveredSet[] = [
   {
@@ -753,13 +681,17 @@ export const collectionSummaries: CollectionSummary[] = [
     label: "1-Piece Forged",
     title: "Monoblock",
     description: "Single-piece forged faces for cleaner chassis, tighter proportions, and the most direct visual read. Available 15–24 inches.",
-    handles: ["mnw-01", "mnw-02"],
+    handles: fallbackProducts
+      .filter((product) => product.series === "1-Piece Forged")
+      .map((product) => product.handle),
   },
   {
     slug: "multi-piece",
     label: "2-Piece Forged",
     title: "Multi-Piece",
     description: "Two-piece forged construction for deeper dish, extended offsets, and a stronger statement on hero builds. Available 18–24 inches.",
-    handles: ["mnw-03", "mnw-04"],
+    handles: fallbackProducts
+      .filter((product) => product.series === "2-Piece Forged")
+      .map((product) => product.handle),
   },
 ];
