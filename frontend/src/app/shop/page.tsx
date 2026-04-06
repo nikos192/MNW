@@ -1,6 +1,5 @@
-import { ProductCard } from "@/components/product-card";
-import Link from "next/link";
 import { getCatalogData } from "@/lib/catalog";
+import { ShopFilter } from "./shop-filter";
 import styles from "./page.module.css";
 
 export const metadata = {
@@ -25,24 +24,12 @@ export default async function ShopPage() {
             width, offset, finish, and brake clearance are confirmed after the
             brief.
           </p>
-          <div className={styles.collectionLinks}>
-            <Link className={styles.collectionLink} href="/collections/multi-piece">
-              Explore 2-Piece Wheels
-            </Link>
-            <Link className={styles.collectionLink} href="/collections/monoblock">
-              Explore 1-Piece Wheels
-            </Link>
-          </div>
         </div>
       </section>
 
       <section className={styles.gridSection}>
         <div className="container">
-          <div className={styles.grid}>
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          <ShopFilter products={products} />
         </div>
       </section>
     </main>

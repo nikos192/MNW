@@ -29,26 +29,39 @@
   color: var(--text-muted);
 }
 
-.collectionLinks {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 28px;
+.gridSection {
+  padding: 56px 0 var(--section-pad-v);
 }
 
-.collectionLink {
+.filterShell {
+  display: grid;
+  gap: 24px;
+}
+
+.filterBar {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--rule);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.filterButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 42px;
-  padding: 0 18px;
-  border: 1px solid var(--rule-strong);
-  background: rgba(255, 250, 245, 0.72);
-  color: var(--text-primary);
+  min-height: 44px;
+  min-width: 148px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
   font-family: var(--font-body), sans-serif;
   font-size: 11px;
   font-weight: 300;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   transition:
     border-color 220ms var(--ease-precision),
@@ -56,15 +69,46 @@
     color 220ms var(--ease-precision);
 }
 
-.collectionLink:hover,
-.collectionLink:focus-visible {
+.filterButton:hover,
+.filterButton:focus-visible {
+  color: var(--text-primary);
+}
+
+.filterButtonActive {
   border-color: var(--accent-red);
   background: var(--accent-red);
   color: var(--off-white);
 }
 
-.gridSection {
-  padding: 56px 0 var(--section-pad-v);
+.filterMeta {
+  display: grid;
+  gap: 6px;
+}
+
+.filterLead {
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(22px, 2.6vw, 28px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.filterCopy {
+  max-width: 620px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.filterCount {
+  font-family: var(--font-body), sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-red);
 }
 
 .grid {
@@ -74,13 +118,22 @@
 }
 
 @media (max-width: 1024px) {
+  .filterBar {
+    width: 100%;
+  }
+
+  .filterButton {
+    flex: 1;
+    min-width: 0;
+  }
+
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 767px) {
-  .collectionLinks {
+  .filterBar {
     flex-direction: column;
     align-items: stretch;
   }
