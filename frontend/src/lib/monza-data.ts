@@ -578,7 +578,7 @@ function buildFallbackProduct(familyCode: (typeof PRODUCT_FAMILIES)[number]): Ca
   const [, pieceCode, wheelCode] = match;
   const isOnePiece = pieceCode === "1";
   const series = isOnePiece ? "1-Piece Forged" : "2-Piece Forged";
-  const leadTime = isOnePiece ? "8-12 weeks" : "10-14 weeks";
+  const leadTime = isOnePiece ? "roughly 4-6 weeks" : "roughly 5-6 weeks";
   const price = isOnePiece ? "From $588/wheel" : "From $780/wheel";
   const diameterRange = isOnePiece ? "15 to 24 inches" : "18 to 24 inches";
   const widthRange = isOnePiece ? "6.0 to 12.0 inches" : "8.0 to 13.5 inches";
@@ -674,8 +674,8 @@ export const fitmentPrinciples = [
 
 export const aboutStatements = [
   {
-    title: "Designed in Australia",
-    copy: "MonzaWheels is built around a simple idea: the wheel should feel native to the chassis rather than adapted after the fact.",
+    title: "Assembled and tested in Australia",
+    copy: "MonzaWheels is built around a simple idea: the wheel should feel native to the chassis rather than adapted after the fact, with final assembly and testing handled locally.",
   },
   {
     title: "Forged, not generic",
@@ -728,7 +728,7 @@ export const dealerRegions: DealerRegion[] = [
   {
     region: "Australia",
     city: "Brisbane",
-    note: "Direct quoting, chassis reviews, and finish consultations from the MonzaWheels workshop.",
+    note: "Direct quoting, chassis reviews, assembly oversight, and finish consultations from the MonzaWheels workshop.",
     contact: BRAND_EMAIL,
   },
   {

@@ -42,7 +42,8 @@ export default async function Home() {
               Built around the car, not pulled from a shelf.
             </h1>
             <p className={styles.heroBody}>
-              MonzaWheels machines forged wheels to order for the exact chassis, brake package, and finish brief.
+              MonzaWheels develops forged wheel programs around the exact chassis, brake package, and finish brief,
+              with final assembly and testing handled in Australia.
               Browse the design range, compare fitment, and request a quote without losing the bespoke process.
             </p>
 
@@ -84,7 +85,7 @@ export default async function Home() {
           <div className={styles.storyCopy} data-reveal>
             <p className="label">Our Process</p>
             <h1 className={styles.storyHeading}>
-              <span>Forged in Australia.</span>
+              <span>Assembled in Australia.</span>
               <span>Engineered for Europe.</span>
             </h1>
             <Link className={styles.editorialLink} href="/engineering">

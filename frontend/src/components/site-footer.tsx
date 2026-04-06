@@ -91,7 +91,7 @@ export function SiteFooter() {
 
         <div className={styles.bottomRow}>
           <p className={styles.meta}>{`© ${new Date().getFullYear()} ${BRAND_LEGAL_NAME}. All rights reserved.`}</p>
-          <p className={styles.meta}>Made in Brisbane, Australia</p>
+          <p className={styles.meta}>Assembled and tested in Brisbane, Australia</p>
         </div>
       </div>
     </footer>

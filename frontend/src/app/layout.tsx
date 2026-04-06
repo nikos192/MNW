@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     template: `%s | ${BRAND_NAME}`,
   },
   description:
-    "Premium forged wheels machined to order in Australia, with fitment, offset, finish, and brake clearance resolved around the exact chassis.",
+    "Premium forged wheels with fitment, offset, finish, assembly, and testing resolved around the exact chassis in Australia.",
 };
 
 export default function RootLayout({
