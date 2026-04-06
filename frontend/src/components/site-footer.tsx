@@ -8,7 +8,6 @@ const footerColumns = [
     title: "Wheels",
     links: [
       { href: "/shop", label: "All Wheels" },
-      { href: "/finishes", label: "Finishes" },
       { href: "/fitment-tool", label: "Fitment Calculator" },
     ],
   },
@@ -17,7 +16,7 @@ const footerColumns = [
     links: [
       { href: "/gallery", label: "Gallery" },
       { href: "/engineering", label: "Engineering" },
-      { href: "/finishes", label: "Finishes" },
+      { href: "/about", label: `About ${BRAND_NAME}` },
     ],
   },
   {
