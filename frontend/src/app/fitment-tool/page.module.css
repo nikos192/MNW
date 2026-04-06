@@ -1,0 +1,314 @@
+/* ─── Page shell ─────────────────────────────────────────────────────────────── */
+
+.page {
+  background: var(--bg-dark);
+  min-height: 100vh;
+}
+
+/* ─── Hero ───────────────────────────────────────────────────────────────────── */
+
+.hero {
+  padding: calc(var(--nav-height) + clamp(36px, 5vw, 56px)) 0 clamp(40px, 5vw, 56px);
+}
+
+.title {
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin: 10px 0 16px;
+}
+
+.copy {
+  max-width: 560px;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+/* ─── Tool section ───────────────────────────────────────────────────────────── */
+
+.toolSection {
+  padding-bottom: var(--section-pad-v);
+}
+
+/* ─── Tool container ─────────────────────────────────────────────────────────── */
+
+.tool {
+  display: grid;
+  gap: 3px; /* thin hairline seam between panels */
+  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* ─── Input panels ───────────────────────────────────────────────────────────── */
+
+.inputWrap {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  background: #0d0d0d;
+}
+
+.col {
+  padding: clamp(20px, 3vw, 32px) clamp(18px, 3vw, 28px);
+  display: grid;
+  gap: 16px;
+}
+
+.colHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 4px;
+}
+
+.colDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.colTitle {
+  font-family: var(--font-body), sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.divider {
+  background: rgba(255, 255, 255, 0.07);
+  width: 1px;
+}
+
+/* ─── Field ──────────────────────────────────────────────────────────────────── */
+
+.field {
+  display: grid;
+  gap: 7px;
+}
+
+.fieldLabel {
+  font-family: var(--font-body), sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.32);
+}
+
+.fieldRow {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: #080808;
+  transition: border-color 200ms ease;
+}
+
+.fieldRow:focus-within {
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.input {
+  flex: 1;
+  min-height: 44px;
+  padding: 0 14px;
+  background: transparent;
+  color: #f0ece5;
+  font-family: var(--font-body), sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  border: 0;
+  outline: 0;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.16);
+}
+
+.unit {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  border-left: 1px solid rgba(255, 255, 255, 0.07);
+  font-family: var(--font-body), sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.2);
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* mini calc summary under each column */
+.miniCalc {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-family: var(--font-body), monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.22);
+  letter-spacing: 0.06em;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Diagram ────────────────────────────────────────────────────────────────── */
+
+.diagramWrap {
+  background: #090909;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.diagramCaption {
+  padding: 12px 16px 0;
+  font-family: var(--font-body), sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.18);
+}
+
+/* ─── Results ────────────────────────────────────────────────────────────────── */
+
+.results {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.resultCard {
+  background: #0f0f0f;
+  padding: clamp(16px, 2vw, 24px);
+  display: grid;
+  gap: 8px;
+}
+
+.resultWarn {
+  border-top: 2px solid #c81d25;
+}
+
+.resultLabel {
+  font-family: var(--font-body), sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.resultValue {
+  font-family: var(--font-body), monospace;
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-weight: 300;
+  color: #f0ece5;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.resultNote {
+  font-family: var(--font-body), sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ─── Breakdown ──────────────────────────────────────────────────────────────── */
+
+.breakdown {
+  background: #0c0c0c;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.breakdownToggle {
+  padding: 14px 20px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.28);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.breakdownToggle::-webkit-details-marker {
+  display: none;
+}
+
+.breakdownToggle::before {
+  content: "+ ";
+  color: rgba(255, 255, 255, 0.18);
+}
+
+details[open] .breakdownToggle::before {
+  content: "– ";
+}
+
+.breakdownGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 6px 20px 22px;
+  font-family: var(--font-body), monospace;
+  font-size: 12px;
+  line-height: 2;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.breakdownHead {
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .results {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .inputWrap {
+    grid-template-columns: 1fr;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .col:first-child {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .results {
+    grid-template-columns: 1fr;
+  }
+
+  .breakdownGrid {
+    grid-template-columns: 1fr;
+  }
+}
