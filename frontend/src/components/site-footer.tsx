@@ -7,9 +7,9 @@ const footerColumns = [
   {
     title: "Wheels",
     links: [
-      { href: "/collections/monoblock", label: "Monoblock Forged" },
-      { href: "/collections/multi-piece", label: "Multi-Piece Forged" },
-      { href: "/shop", label: "New Releases" },
+      { href: "/shop", label: "All Wheels" },
+      { href: "/finishes", label: "Finishes" },
+      { href: "/fitment-tool", label: "Fitment Calculator" },
     ],
   },
   {

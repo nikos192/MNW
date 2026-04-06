@@ -31,7 +31,11 @@ type ShopFilterProps = {
 export function ShopFilter({ products }: ShopFilterProps) {
   const [activeFilter, setActiveFilter] = useState<PieceFilter>("1-Piece Forged");
   const activeOption = filterOptions.find((option) => option.value === activeFilter) ?? filterOptions[0];
-  const filteredProducts = products.filter((product) => product.series === activeFilter);
+  const groupedProducts = filterOptions.map((option) => ({
+    ...option,
+    products: products.filter((product) => product.series === option.value),
+  }));
+  const activeGroup = groupedProducts.find((group) => group.value === activeFilter) ?? groupedProducts[0];
 
   return (
     <div className={styles.filterShell}>
@@ -53,15 +57,23 @@ export function ShopFilter({ products }: ShopFilterProps) {
         <p className={styles.filterLead}>{activeOption.label} Wheels</p>
         <p className={styles.filterCopy}>{activeOption.copy}</p>
         <p className={styles.filterCount}>
-          Showing {filteredProducts.length} {filteredProducts.length === 1 ? "wheel" : "wheels"}
+          Showing {activeGroup.products.length} {activeGroup.products.length === 1 ? "wheel" : "wheels"}
         </p>
       </div>
 
-      <div className={styles.grid}>
-        {filteredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      {groupedProducts.map((group) => (
+        <div
+          key={group.value}
+          aria-hidden={activeFilter !== group.value}
+          className={`${styles.gridPanel} ${activeFilter === group.value ? "" : styles.gridPanelHidden}`}
+        >
+          <div className={styles.grid}>
+            {group.products.map((product) => (
+              <ProductCard key={product.id} imageLoading="eager" product={product} />
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

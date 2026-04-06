@@ -6,9 +6,10 @@ import styles from "./product-card.module.css";
 
 type ProductCardProps = {
   product: CatalogProduct;
+  imageLoading?: "eager" | "lazy";
 };
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps) {
   const finishCount = product.finishes.length || 1;
   const secondaryImage = product.images[1]?.url || product.images[0]?.url;
 
@@ -22,7 +23,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 <Image
                   alt={product.images[0].alt}
                   className={`${styles.image} ${styles.primary}`}
-                  loading="lazy"
+                  loading={imageLoading}
                   src={product.images[0].url}
                   sizes="(max-width: 1024px) 50vw, 33vw"
                   width={1200}
@@ -32,7 +33,7 @@ export function ProductCard({ product }: ProductCardProps) {
                   <Image
                     alt={product.images[1]?.alt || `${product.title} alternate view`}
                     className={`${styles.image} ${styles.secondary}`}
-                    loading="lazy"
+                    loading={imageLoading}
                     src={secondaryImage}
                     sizes="(max-width: 1024px) 50vw, 33vw"
                     width={1200}

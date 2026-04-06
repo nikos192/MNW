@@ -111,6 +111,14 @@
   color: var(--accent-red);
 }
 
+.gridPanel {
+  display: block;
+}
+
+.gridPanelHidden {
+  display: none;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
