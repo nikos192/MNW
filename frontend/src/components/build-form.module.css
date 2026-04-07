@@ -186,6 +186,46 @@
   text-transform: uppercase;
 }
 
+/* ── Ticker placeholder ── */
+
+.tickerWrap {
+  position: relative;
+}
+
+.tickerOverlay {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.tickerTextStatic,
+.tickerText {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text-muted);
+}
+
+.tickerText {
+  will-change: transform;
+  animation: placeholder-scroll 5s ease-in-out infinite alternate;
+  animation-delay: 1.5s;
+}
+
+@keyframes placeholder-scroll {
+  0%, 15% {
+    transform: translateX(0);
+  }
+  85%, 100% {
+    transform: translateX(calc(-1 * var(--ticker-offset, 0px)));
+  }
+}
+
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: 1fr;

@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useRef, useEffect } from "react";
 import { BRAND_NAME } from "@/lib/brand";
 import { vehicleData } from "@/lib/monza-data";
 import styles from "./build-form.module.css";
@@ -64,6 +64,67 @@ type SubmitState = {
   status: "idle" | "success" | "error";
   message: string;
 };
+
+function TickerInput({
+  placeholder,
+  disabled,
+  ...props
+}: React.InputHTMLAttributes<HTMLInputElement>) {
+  const [hasValue, setHasValue] = useState(!!props.defaultValue);
+  const [focused, setFocused] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const spanRef = useRef<HTMLSpanElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+
+  const showPlaceholder = !hasValue && !focused && !!placeholder;
+
+  useEffect(() => {
+    if (!showPlaceholder) return;
+    function measure() {
+      if (!spanRef.current || !overlayRef.current) return;
+      const spanW = spanRef.current.scrollWidth;
+      const containerW = overlayRef.current.clientWidth;
+      const px = Math.max(0, spanW - containerW + 4);
+      setOffset(px);
+      spanRef.current.style.setProperty("--ticker-offset", `${px}px`);
+    }
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [showPlaceholder]);
+
+  return (
+    <div className={styles.tickerWrap}>
+      <input
+        {...props}
+        disabled={disabled}
+        placeholder=""
+        onChange={(e) => {
+          setHasValue(!!e.target.value);
+          if (props.onChange) props.onChange(e);
+        }}
+        onFocus={(e) => {
+          setFocused(true);
+          if (props.onFocus) props.onFocus(e);
+        }}
+        onBlur={(e) => {
+          setFocused(false);
+          if (props.onBlur) props.onBlur(e);
+        }}
+      />
+      {showPlaceholder && (
+        <div ref={overlayRef} className={styles.tickerOverlay} aria-hidden="true">
+          <span
+            ref={spanRef}
+            className={offset > 0 ? styles.tickerText : styles.tickerTextStatic}
+          >
+            {placeholder}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext }: BuildFormProps) {
   const [notes, setNotes] = useState(initialNotes);
@@ -288,7 +349,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
           {vehicleDetailFields.map((field) => (
             <label key={field.id} className={styles.field}>
               <span>{field.label}</span>
-              <input
+              <TickerInput
                 disabled={isSubmitting}
                 name={field.id}
                 type={field.type}
@@ -309,7 +370,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
                 {field.label}
                 {field.optional && <span className={styles.optionalTag}> — optional</span>}
               </span>
-              <input
+              <TickerInput
                 disabled={isSubmitting}
                 name={field.id}
                 type={field.type}
