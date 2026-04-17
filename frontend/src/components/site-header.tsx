@@ -141,11 +141,7 @@ export function SiteHeader() {
             </div>
 
             <Link aria-label={`${BRAND_NAME} homepage`} className={styles.logoLink} href="/">
-              <MonzaLogo
-                className={styles.brandLogo}
-                priority
-                title={BRAND_NAME}
-              />
+              <span className={styles.brandWordmark}>{BRAND_NAME}</span>
             </Link>
 
             <div className={`${styles.navSlot} ${styles.navSlotRight}`}>
@@ -196,7 +192,7 @@ export function SiteHeader() {
           <div className={`${styles.overlayInner} container`}>
             <div className={styles.overlayHeader}>
               <Link aria-label={`${BRAND_NAME} homepage`} className={styles.overlayLogo} href="/" onClick={closeMenu}>
-                <MonzaLogo className={styles.brandLogo} title={BRAND_NAME} />
+                <MonzaLogo className={styles.overlayLogoMark} title={BRAND_NAME} />
               </Link>
 
               <button

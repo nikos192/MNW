@@ -136,7 +136,8 @@
 .transparent .utilityLink,
 .transparent .utilityIconLink,
 .transparent .navLink,
-.transparent .mobileToggle {
+.transparent .mobileToggle,
+.transparent .brandWordmark {
   color: rgba(255, 250, 245, 0.92);
   text-shadow: 0 1px 16px rgba(0, 0, 0, 0.22);
 }
@@ -227,18 +228,21 @@
   color: var(--text-primary);
 }
 
-.brandLogo {
-  --logo-scale: 1.34;
-  --logo-shift: -7px;
+.brandWordmark {
   display: block;
-  width: clamp(188px, 17vw, 236px);
-  height: 44px;
-  overflow: hidden;
+  font-family: var(--font-wordmark), serif;
+  font-size: clamp(18px, 1.8vw, 22px);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  white-space: nowrap;
+  color: inherit;
 }
 
-.scrolled .brandLogo {
-  --logo-shift: 2px;
-  height: 40px;
+.overlayLogoMark {
+  display: block;
+  width: 44px;
+  height: 44px;
 }
 
 .mobileToggle,
@@ -336,11 +340,6 @@
     font-size: 11px;
     letter-spacing: 0.12em;
   }
-
-  .brandLogo {
-    width: 204px;
-    height: 42px;
-  }
 }
 
 @media (max-width: 767px) {
@@ -362,11 +361,9 @@
     height: 56px;
   }
 
-  .brandLogo {
-    --logo-scale: 1.32;
-    --logo-shift: -5px;
-    width: 170px;
-    height: 34px;
+  .overlayLogoMark {
+    width: 38px;
+    height: 38px;
   }
 }
 
