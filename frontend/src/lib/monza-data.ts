@@ -578,8 +578,8 @@ function buildFallbackProduct(familyCode: (typeof PRODUCT_FAMILIES)[number]): Ca
   const [, pieceCode, wheelCode] = match;
   const isOnePiece = pieceCode === "1";
   const series = isOnePiece ? "1-Piece Forged" : "2-Piece Forged";
-  const leadTime = isOnePiece ? "roughly 4-6 weeks" : "roughly 5-6 weeks";
-  const price = isOnePiece ? "From $588/wheel" : "From $780/wheel";
+  const leadTime = isOnePiece ? "approximately 20 days from order confirmation" : "approximately 25 days from order confirmation";
+  const price = isOnePiece ? "From AUD $504/wheel" : "From AUD $882/wheel";
   const diameterRange = isOnePiece ? "15 to 24 inches" : "18 to 24 inches";
   const widthRange = isOnePiece ? "6.0 to 12.0 inches" : "8.0 to 13.5 inches";
   const diameterOptions = isOnePiece ? DIAMETERS_1PC : DIAMETERS_2PC;
@@ -674,8 +674,8 @@ export const fitmentPrinciples = [
 
 export const aboutStatements = [
   {
-    title: "Assembled and tested in Australia",
-    copy: "MonzaWheels is built around a simple idea: the wheel should feel native to the chassis rather than adapted after the fact, with final assembly and testing handled locally.",
+    title: "Certified to international standards",
+    copy: "Every wheel is JWL certified and tested to an enhanced internal standard that exceeds JWL, SAE, and PCT requirements across bending fatigue, radial fatigue, and impact resistance. Operations are managed from Brisbane.",
   },
   {
     title: "Forged, not generic",
@@ -728,19 +728,7 @@ export const dealerRegions: DealerRegion[] = [
   {
     region: "Australia",
     city: "Brisbane",
-    note: "Direct quoting, chassis reviews, assembly oversight, and finish consultations from the MonzaWheels workshop.",
-    contact: BRAND_EMAIL,
-  },
-  {
-    region: "Europe",
-    city: "Partner network forming",
-    note: "Send the vehicle brief and we will route the project to the closest fitment partner as the network expands.",
-    contact: BRAND_EMAIL,
-  },
-  {
-    region: "Asia Pacific",
-    city: "By appointment",
-    note: "Remote quoting and logistics support for projects outside Brisbane while the dealer footprint grows.",
+    note: "Direct quoting, chassis reviews, and finish consultations managed from Brisbane. All enquiries are handled personally.",
     contact: BRAND_EMAIL,
   },
 ];

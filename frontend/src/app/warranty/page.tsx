@@ -3,16 +3,16 @@ import styles from "../page-shell.module.css";
 
 const warrantyPoints = [
   {
-    title: "Structural Review",
-    copy: "Every wheel program is checked before dispatch. If there is a structural concern, MonzaWheels reviews it against the original brief and production data.",
+    title: "Structural warranty",
+    copy: "Any wheel with a manufacturing defect under normal use and professional installation will be replaced. The structural warranty runs for 5 years from the date of delivery.",
   },
   {
-    title: "Finish Inspection",
-    copy: "Finish quality is inspected before the set leaves the workshop. Any concern should be documented as soon as the wheels are received.",
+    title: "Finish warranty",
+    copy: "Manufacturing defects in the finish are covered by repair or replacement for 5 years from delivery, provided the wheels have been maintained without mechanical damage.",
   },
   {
-    title: "Support Channel",
-    copy: "The same direct channel used for the quote stays open for aftercare, so post-delivery support does not disappear into a generic ticket queue.",
+    title: "What is not covered",
+    copy: "The warranty does not apply to damage from kerb strikes, road hazards, improper installation, or misuse. If in doubt, document the condition as soon as the set is received.",
   },
 ];
 
@@ -28,11 +28,10 @@ export default function WarrantyPage() {
       <section className={styles.hero}>
         <div className={`${styles.heroInner} container`}>
           <p className="label">Warranty</p>
-          <h1 className={styles.heroTitle}>A clear support process for a made-to-order product.</h1>
+          <h1 className={styles.heroTitle}>Five-year warranty on every set.</h1>
           <p className={styles.heroCopy}>
-            Every set is reviewed before dispatch. If something is off, MonzaWheels
-            handles it through the same quote-first process that built the
-            wheel.
+            Every MonzaWheels wheel is covered for 5 years from the date of delivery.
+            Two separate coverages — structural and finish — are included in every program.
           </p>
         </div>
       </section>
@@ -42,7 +41,7 @@ export default function WarrantyPage() {
           <div className={styles.cardGrid}>
             {warrantyPoints.map((item) => (
               <article key={item.title} className={styles.card} data-reveal>
-                <p className={styles.cardOverline}>Support</p>
+                <p className={styles.cardOverline}>Warranty</p>
                 <h2 className={styles.cardTitle}>{item.title}</h2>
                 <p className={styles.cardCopy}>{item.copy}</p>
               </article>

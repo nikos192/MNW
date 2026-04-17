@@ -14,10 +14,10 @@ export default function FindDealerPage() {
       <section className={styles.hero}>
         <div className={`${styles.heroInner} container`}>
           <p className="label">Find a Dealer</p>
-          <h1 className={styles.heroTitle}>Dealer support is expanding from Brisbane outward.</h1>
+          <h1 className={styles.heroTitle}>Quote directly from Brisbane.</h1>
           <p className={styles.heroCopy}>
-            MonzaWheels quotes directly today and can route future projects through the
-            nearest partner as the network develops.
+            All enquiries — regardless of location — are handled directly from Brisbane.
+            There are no intermediaries in the quote process.
           </p>
         </div>
       </section>
@@ -25,8 +25,8 @@ export default function FindDealerPage() {
       <section className={styles.sectionAlt}>
         <div className="container">
           <div className={styles.sectionHeader}>
-            <p className="label">Support Regions</p>
-            <h2 className={styles.sectionTitle}>Current contact points.</h2>
+            <p className="label">Contact</p>
+            <h2 className={styles.sectionTitle}>Direct from Brisbane.</h2>
           </div>
 
           <div className={styles.cardGrid}>
@@ -47,9 +47,9 @@ export default function FindDealerPage() {
       <section className={styles.ctaSection}>
         <div className={`${styles.ctaPanel} container`}>
           <div>
-            <p className="label">Direct Enquiry</p>
-            <h2 className={styles.sectionTitle}>Don’t see your region yet?</h2>
-            <p className={styles.note}>Send the brief directly and MonzaWheels will handle the first response from Brisbane.</p>
+            <p className="label">Outside Australia</p>
+            <h2 className={styles.sectionTitle}>International orders welcome.</h2>
+            <p className={styles.note}>Send the brief directly from anywhere in the world. MonzaWheels manages the quote and logistics from Brisbane.</p>
           </div>
           <Link className="button-outline" href="/contact">
             Request a Quote

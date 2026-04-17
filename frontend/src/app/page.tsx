@@ -42,8 +42,8 @@ export default async function Home() {
               Built around the car, not pulled from a shelf.
             </h1>
             <p className={styles.heroBody}>
-              MonzaWheels develops forged wheel programs around the exact chassis, brake package, and finish brief,
-              with final assembly and testing handled in Australia.
+              MonzaWheels develops forged wheel programs around the exact chassis, brake package, and finish brief.
+              JWL certified and tested to an enhanced standard that exceeds international requirements.
               Browse the design range, compare fitment, and request a quote without losing the bespoke process.
             </p>
 
@@ -66,8 +66,8 @@ export default async function Home() {
                 <span className={styles.heroFactLabel}>finish directions</span>
               </div>
               <div className={styles.heroFact}>
-                <span className={styles.heroFactValue}>{deliveredSets.length}</span>
-                <span className={styles.heroFactLabel}>reference builds mapped</span>
+                <span className={styles.heroFactValue}>5</span>
+                <span className={styles.heroFactLabel}>year warranty</span>
               </div>
             </div>
           </div>
@@ -85,8 +85,8 @@ export default async function Home() {
           <div className={styles.storyCopy} data-reveal>
             <p className="label">Our Process</p>
             <h1 className={styles.storyHeading}>
-              <span>Assembled in Australia.</span>
-              <span>Engineered for Europe.</span>
+              <span>Certified to international standards.</span>
+              <span>Managed from Brisbane.</span>
             </h1>
             <Link className={styles.editorialLink} href="/engineering">
               How we build them →
