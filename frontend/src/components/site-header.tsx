@@ -10,23 +10,47 @@ import styles from "./site-header.module.css";
 
 const leftLinks = [
   { href: "/shop", label: "Wheels" },
+  { href: "/finishes", label: "Finishes" },
   { href: "/gallery", label: "Gallery" },
-  { href: "/engineering", label: "Engineering" },
 ];
 
 const rightLinks = [
-  { href: "/fitment-tool", label: "Fit Calc" },
-  { href: "/about", label: "About" },
+  { href: "/engineering", label: "Engineering" },
+  { href: "/fitment-tool", label: "Fitment" },
   { href: "/contact", label: "Contact" },
 ];
 
 const mobileLinks = [
-  ...leftLinks,
+  { href: "/shop", label: "Wheels" },
+  { href: "/finishes", label: "Finishes" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/engineering", label: "Engineering" },
   { href: "/fitment-tool", label: "Fitment Calculator" },
   { href: "/about", label: "About" },
   { href: "/find-a-dealer", label: "Find a Dealer" },
   { href: "/contact", label: "Request a Quote" },
 ];
+
+function InstagramIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height={size}
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
+    </svg>
+  );
+}
 
 function isActivePath(pathname: string, href: string) {
   if (href === "/") {
@@ -105,7 +129,7 @@ export function SiteHeader() {
                 rel="noreferrer noopener"
                 target="_blank"
               >
-                <span className={styles.utilityMonogram}>IG</span>
+                <InstagramIcon size={16} />
               </a>
               <Link className={styles.utilityLink} href="/find-a-dealer">
                 Find a Dealer
@@ -172,7 +196,11 @@ export function SiteHeader() {
                 onClick={toggleMenu}
                 type="button"
               >
-                <Menu className={styles.menuIcon} size={20} strokeWidth={1.5} />
+                {isOpen ? (
+                  <X className={styles.menuIcon} size={20} strokeWidth={1.5} />
+                ) : (
+                  <Menu className={styles.menuIcon} size={20} strokeWidth={1.5} />
+                )}
               </button>
             </div>
           </div>

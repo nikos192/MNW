@@ -34,14 +34,37 @@ function resolveMetadataBase(): URL {
   return new URL(normalizedSiteUrl);
 }
 
+const SITE_DESCRIPTION =
+  "Premium forged wheels with fitment, offset, finish, assembly, and testing resolved around the exact chassis in Australia.";
+
 export const metadata: Metadata = {
   metadataBase: resolveMetadataBase(),
   title: {
     default: `${BRAND_NAME} | Forged Wheels Australia`,
     template: `%s | ${BRAND_NAME}`,
   },
-  description:
-    "Premium forged wheels with fitment, offset, finish, assembly, and testing resolved around the exact chassis in Australia.",
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    siteName: BRAND_NAME,
+    title: `${BRAND_NAME} | Forged Wheels Australia`,
+    description: SITE_DESCRIPTION,
+    locale: "en_AU",
+    images: [
+      {
+        url: "/media/hero-wheel-poster.jpg",
+        width: 1600,
+        height: 900,
+        alt: `${BRAND_NAME} forged wheels`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${BRAND_NAME} | Forged Wheels Australia`,
+    description: SITE_DESCRIPTION,
+    images: ["/media/hero-wheel-poster.jpg"],
+  },
 };
 
 export default function RootLayout({

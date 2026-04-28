@@ -1,6 +1,46 @@
 import Link from "next/link";
 import { BRAND_FACEBOOK_URL, BRAND_INSTAGRAM_URL, BRAND_LEGAL_NAME, BRAND_NAME } from "@/lib/brand";
 import { MonzaLogo } from "@/components/monza-logo";
+
+function InstagramIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height={size}
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
+    </svg>
+  );
+}
+
+function FacebookIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height={size}
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M14 9h2.5V6H14c-1.66 0-3 1.34-3 3v2H9v3h2v7h3v-7h2.5l.5-3H14V9z" />
+    </svg>
+  );
+}
 import styles from "./site-footer.module.css";
 
 const footerColumns = [
@@ -8,7 +48,9 @@ const footerColumns = [
     title: "Wheels",
     links: [
       { href: "/shop", label: "All Wheels" },
-      { href: "/fitment-tool", label: "Fitment Calculator" },
+      { href: "/collections/monoblock", label: "Monoblock" },
+      { href: "/collections/multi-piece", label: "Multi-Piece" },
+      { href: "/finishes", label: "Finishes" },
     ],
   },
   {
@@ -16,14 +58,13 @@ const footerColumns = [
     links: [
       { href: "/gallery", label: "Gallery" },
       { href: "/engineering", label: "Engineering" },
-      { href: "/about", label: `About ${BRAND_NAME}` },
+      { href: "/fitment-tool", label: "Fitment Calculator" },
     ],
   },
   {
     title: "Company",
     links: [
       { href: "/about", label: `About ${BRAND_NAME}` },
-      { href: "/engineering", label: "Our Process" },
       { href: "/find-a-dealer", label: "Find a Dealer" },
     ],
   },
@@ -31,7 +72,7 @@ const footerColumns = [
     title: "Support",
     links: [
       { href: "/contact", label: "Contact" },
-      { href: "/fitment", label: "Sizing Guide" },
+      { href: "/fitment", label: "Vehicle Guide" },
       { href: "/warranty", label: "Warranty" },
     ],
   },
@@ -50,7 +91,7 @@ export function SiteFooter() {
               rel="noreferrer noopener"
               target="_blank"
             >
-              <span className={styles.socialMonogram}>IG</span>
+              <InstagramIcon size={18} />
             </a>
             <a
               aria-label={`${BRAND_NAME} Facebook`}
@@ -59,7 +100,7 @@ export function SiteFooter() {
               rel="noreferrer noopener"
               target="_blank"
             >
-              <span className={styles.socialMonogram}>FB</span>
+              <FacebookIcon size={18} />
             </a>
           </div>
 
