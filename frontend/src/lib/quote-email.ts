@@ -254,8 +254,7 @@ export function buildCustomerConfirmationEmail(payload: QuoteEmailPayload): Emai
       "We have received your quote request and will review the chassis, fitment direction, and finish brief before coming back with the right forged wheel program.",
     ctaLabel: "Review Product",
     ctaUrl: productUrl,
-    outro:
-      "If you want to add brake photos, fitment notes, or inspiration references, just reply to this email and it will come straight through to us.",
+    outro: `Please do not reply to this email. For any follow-up questions or to add brake photos, fitment notes, or inspiration references, email ${BRAND_EMAIL} directly.`,
     body: [
       `<div style="padding: 18px 20px; background: #111111; border: 1px solid #2a2a2a; color: #f4f1ea; font-size: 14px; line-height: 1.8;">
         We use the submitted spec as a starting point only. Final pricing, offset, centre bore, and chassis-specific details are confirmed during review.
@@ -285,7 +284,7 @@ export function buildCustomerConfirmationEmail(payload: QuoteEmailPayload): Emai
     "Project notes:",
     displayValue(payload.notes),
     "",
-    `Reply to ${BRAND_EMAIL} if you want to add more detail before we come back to you.`,
+    `Please do not reply to this email. For any follow-up questions, email ${BRAND_EMAIL} directly.`,
   ].join("\n");
 
   return { subject, html, text };
