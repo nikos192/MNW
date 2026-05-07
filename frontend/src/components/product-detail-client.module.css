@@ -517,6 +517,48 @@
   margin-top: 2px;
 }
 
+/* ── Auto fitment ── */
+
+.autoFitment {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.autoFitmentItem {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--rule);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.autoFitmentLabel {
+  font-family: var(--font-body), sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-red);
+}
+
+.autoFitmentValue {
+  font-family: var(--font-heading), sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+.autoFitmentNote {
+  grid-column: 1 / -1;
+  font-family: var(--font-body), sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
 /* ── Specs ── */
 
 .specs {

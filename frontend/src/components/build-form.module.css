@@ -186,6 +186,44 @@
   text-transform: uppercase;
 }
 
+/* ── Auto fitment panel ── */
+
+.autoFitment {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 14px 16px;
+  border: 1px solid var(--rule);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.autoFitmentItem {
+  display: grid;
+  gap: 4px;
+}
+
+.autoFitmentLabel {
+  color: var(--accent-red);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.autoFitmentValue {
+  font-family: var(--font-heading), sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.autoFitmentNote {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
 /* ── Ticker placeholder ── */
 
 .tickerWrap {

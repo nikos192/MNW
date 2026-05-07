@@ -1,14 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { CatalogProduct } from "@/lib/monza-data";
-import { vehicleData } from "@/lib/monza-data";
+import { getVehicleFitment, vehicleData } from "@/lib/monza-data";
 import styles from "./product-detail-client.module.css";
 
 type ProductDetailClientProps = {
   product: CatalogProduct;
 };
+
+function diameterToInt(value: string): number {
+  return parseInt(value, 10);
+}
 
 export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -30,6 +34,25 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     carMake && carModel && carMake !== "Other" && carModel !== "Other"
       ? (vehicleData[carMake]?.[carModel] ?? [])
       : [];
+
+  const fitment = getVehicleFitment(carMake, carModel);
+
+  const filteredDiameterOptions = useMemo(() => {
+    if (!fitment) return product.diameterOptions;
+    return product.diameterOptions.filter((opt) => {
+      const num = diameterToInt(opt);
+      return num >= fitment.minDiameter && num <= fitment.maxDiameter;
+    });
+  }, [fitment, product.diameterOptions]);
+
+  // If the active diameter falls outside the chassis range, snap to the first allowed option.
+  useEffect(() => {
+    if (!fitment) return;
+    if (filteredDiameterOptions.length === 0) return;
+    if (!filteredDiameterOptions.includes(activeDiameter)) {
+      setActiveDiameter(filteredDiameterOptions[0]);
+    }
+  }, [fitment, filteredDiameterOptions, activeDiameter]);
 
   function handleMakeChange(make: string) {
     setCarMake(make);
@@ -72,6 +95,10 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     }
   }
 
+  // When fitment is known, prefer the auto-matched values for the quote payload.
+  const resolvedPcd = fitment?.pcd ?? activePcd;
+  const resolvedCentrebore = fitment?.centreBore ?? activeCentrebore;
+
   function buildQuoteUrl() {
     const params = new URLSearchParams({
       product: product.handle,
@@ -83,9 +110,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     if (carYear) params.set("year", carYear);
     if (activeDiameter) params.set("diameter", activeDiameter);
     if (activeWidth) params.set("width", activeWidth);
-    if (activePcd) params.set("pcd", activePcd);
+    if (resolvedPcd) params.set("pcd", resolvedPcd);
     if (activeOffset) params.set("offset", activeOffset);
-    if (activeCentrebore) params.set("centrebore", activeCentrebore);
+    if (resolvedCentrebore) params.set("centrebore", resolvedCentrebore);
     if (activeFinish) params.set("finish", activeFinish);
     return `/contact?${params.toString()}`;
   }
@@ -96,9 +123,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     carLabel,
     activeDiameter,
     activeWidth && `W${activeWidth}`,
-    activePcd,
+    resolvedPcd,
     activeOffset && `ET${activeOffset}`,
-    activeCentrebore && `CB ${activeCentrebore}`,
+    resolvedCentrebore && `CB ${resolvedCentrebore}`,
     activeFinish,
   ].filter(Boolean);
 
@@ -230,20 +257,36 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                   </select>
                 )}
               </div>
-              <p className={styles.offsetNote}>
-                PCD, offset, and centre bore will be matched to your vehicle — no need to specify unless you have a preference.
-              </p>
+              {fitment ? (
+                <div className={styles.autoFitment}>
+                  <div className={styles.autoFitmentItem}>
+                    <span className={styles.autoFitmentLabel}>PCD</span>
+                    <span className={styles.autoFitmentValue}>{fitment.pcd}</span>
+                  </div>
+                  <div className={styles.autoFitmentItem}>
+                    <span className={styles.autoFitmentLabel}>Centre bore</span>
+                    <span className={styles.autoFitmentValue}>{fitment.centreBore}</span>
+                  </div>
+                  <p className={styles.autoFitmentNote}>
+                    Matched to your {carLabel || `${carMake} ${carModel}`.trim()}. Offset is confirmed per build after chassis review.
+                  </p>
+                </div>
+              ) : (
+                <p className={styles.offsetNote}>
+                  PCD, offset, and centre bore will be matched to your vehicle — no need to specify unless you have a preference.
+                </p>
+              )}
             </div>
 
             {/* ── Diameter ── */}
-            {product.diameterOptions.length > 0 && (
+            {filteredDiameterOptions.length > 0 && (
               <div className={styles.optionGroup}>
                 <div className={styles.optionHeader}>
                   <p className={`label ${styles.optionLabel}`}>Diameter</p>
                   {activeDiameter && <span className={styles.optionSelected}>{activeDiameter}</span>}
                 </div>
                 <div className={styles.pills} role="radiogroup" aria-label="Diameter">
-                  {product.diameterOptions.map((opt) => (
+                  {filteredDiameterOptions.map((opt) => (
                     <label key={opt} className={styles.pillItem}>
                       <input
                         aria-label={opt}
@@ -340,8 +383,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               </div>
             )}
 
-            {/* ── PCD (optional) ── */}
-            {product.pcdOptions.length > 0 && (
+            {/* ── PCD (optional) — hidden when fitment is auto-matched ── */}
+            {!fitment && product.pcdOptions.length > 0 && (
               <div className={styles.optionGroup}>
                 <div className={styles.optionHeader}>
                   <p className={`label ${styles.optionLabel}`}>PCD <span className={styles.optionalTag}>optional</span></p>
@@ -397,8 +440,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               </p>
             </div>
 
-            {/* ── Centre bore (optional) ── */}
-            {product.centreboreOptions.length > 0 && (
+            {/* ── Centre bore (optional) — hidden when fitment is auto-matched ── */}
+            {!fitment && product.centreboreOptions.length > 0 && (
               <div className={styles.optionGroup}>
                 <div className={styles.optionHeader}>
                   <p className={`label ${styles.optionLabel}`}>Centre Bore <span className={styles.optionalTag}>optional</span></p>

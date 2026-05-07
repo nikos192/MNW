@@ -2,7 +2,7 @@
 
 import { FormEvent, useState, useRef, useEffect } from "react";
 import { BRAND_NAME } from "@/lib/brand";
-import { vehicleData } from "@/lib/monza-data";
+import { getVehicleFitment, vehicleData } from "@/lib/monza-data";
 import styles from "./build-form.module.css";
 
 type InitialValues = {
@@ -146,6 +146,12 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
       ? (vehicleData[carMake]?.[carModel] ?? [])
       : [];
 
+  const fitment = getVehicleFitment(carMake, carModel);
+  // When a known chassis is picked, hide the PCD/centre bore inputs (we know the values).
+  const visibleWheelFields = fitment
+    ? wheelFields.filter((field) => field.id !== "pcd" && field.id !== "centrebore")
+    : wheelFields;
+
   function handleMakeChange(make: string) {
     setCarMake(make);
     setCarModel("");
@@ -206,9 +212,9 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
           wheel: {
             diameter: valueFor("diameter"),
             width: valueFor("width"),
-            pcd: valueFor("pcd"),
+            pcd: fitment?.pcd ?? valueFor("pcd"),
             offset: valueFor("offset"),
-            centrebore: valueFor("centrebore"),
+            centrebore: fitment?.centreBore ?? valueFor("centrebore"),
             finish: valueFor("finish"),
             references: valueFor("references"),
           },
@@ -364,7 +370,22 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
       <div className={styles.section}>
         <p className={styles.sectionLabel}>Wheel Brief</p>
         <div className={styles.grid}>
-          {wheelFields.map((field) => (
+          {fitment ? (
+            <div className={styles.autoFitment}>
+              <div className={styles.autoFitmentItem}>
+                <span className={styles.autoFitmentLabel}>PCD</span>
+                <span className={styles.autoFitmentValue}>{fitment.pcd}</span>
+              </div>
+              <div className={styles.autoFitmentItem}>
+                <span className={styles.autoFitmentLabel}>Centre bore</span>
+                <span className={styles.autoFitmentValue}>{fitment.centreBore}</span>
+              </div>
+              <p className={styles.autoFitmentNote}>
+                Auto-matched to your {[carMake, carModel].filter(Boolean).join(" ")}. Typical OEM diameter range: {fitment.minDiameter}″–{fitment.maxDiameter}″.
+              </p>
+            </div>
+          ) : null}
+          {visibleWheelFields.map((field) => (
             <label key={field.id} className={styles.field}>
               <span>
                 {field.label}
