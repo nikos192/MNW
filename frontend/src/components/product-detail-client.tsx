@@ -68,14 +68,18 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const activeImage = product.images[activeImageIndex] ?? product.images[0];
   const activeFinishData = product.finishes.find((finish) => finish.name === activeFinish) ?? product.finishes[0];
   const displayPrice = product.price.replace(/^From\s*/i, "");
+  const diameterRangeForFacts =
+    fitment !== null
+      ? `${fitment.minDiameter}" to ${fitment.maxDiameter}"`
+      : product.diameterOptions.length
+        ? `${product.diameterOptions[0]} to ${product.diameterOptions[product.diameterOptions.length - 1]}`
+        : "Built to brief";
   const quickFacts = [
     { label: "Starting point", value: displayPrice },
     { label: "Lead time", value: product.leadTime },
     {
-      label: "Available diameters",
-      value: product.diameterOptions.length
-        ? `${product.diameterOptions[0]} to ${product.diameterOptions[product.diameterOptions.length - 1]}`
-        : "Built to brief",
+      label: fitment ? "Diameters for your chassis" : "Available diameters",
+      value: diameterRangeForFacts,
     },
     { label: "Finish library", value: `${product.finishes.length} finish directions` },
   ];
@@ -484,12 +488,22 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
             {/* ── Specs ── */}
             <div className={styles.specs}>
-              {product.specs.map((spec) => (
-                <div key={spec.label} className={styles.specRow}>
-                  <span className={styles.specKey}>{spec.label}</span>
-                  <span className={styles.specValue}>{spec.value}</span>
-                </div>
-              ))}
+              {product.specs.map((spec) => {
+                let value = spec.value;
+                if (fitment) {
+                  if (spec.label === "Diameter range") {
+                    value = `${fitment.minDiameter}" to ${fitment.maxDiameter}" for ${carLabel || `${carMake} ${carModel}`.trim()}`;
+                  } else if (spec.label === "PCD") {
+                    value = `${fitment.pcd} (matched to your chassis)`;
+                  }
+                }
+                return (
+                  <div key={spec.label} className={styles.specRow}>
+                    <span className={styles.specKey}>{spec.label}</span>
+                    <span className={styles.specValue}>{value}</span>
+                  </div>
+                );
+              })}
             </div>
 
             <div className={styles.cta}>
