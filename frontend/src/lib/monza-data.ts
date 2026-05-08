@@ -1036,6 +1036,15 @@ export function priceRangeForSeries(series: string, minDiameter?: number, maxDia
   return null;
 }
 
+export function priceForDiameter(series: string, diameter: number): number | null {
+  const table = series === "1-Piece Forged" ? pricing1Pc : series === "2-Piece Forged" ? pricing2Pc : null;
+  if (!table) return null;
+  return table.find((row) => row.diameter === diameter)?.priceAudPerWheel ?? null;
+}
+
+export const CENTRE_CAPS_PRICE_AUD = 73.5;
+export const CUSTOM_FINISH_PRICE_AUD_PER_WHEEL = 31.5;
+
 export function formatAud(amount: number): string {
   const hasCents = amount % 1 !== 0;
   return `$${amount.toLocaleString("en-AU", {

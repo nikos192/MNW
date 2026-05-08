@@ -3,7 +3,15 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import type { CatalogProduct } from "@/lib/monza-data";
-import { formatAud, getVehicleFitment, priceRangeForSeries, vehicleData } from "@/lib/monza-data";
+import {
+  CENTRE_CAPS_PRICE_AUD,
+  CUSTOM_FINISH_PRICE_AUD_PER_WHEEL,
+  formatAud,
+  getVehicleFitment,
+  priceForDiameter,
+  priceRangeForSeries,
+  vehicleData,
+} from "@/lib/monza-data";
 import styles from "./product-detail-client.module.css";
 
 type ProductDetailClientProps = {
@@ -28,6 +36,10 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [carMake, setCarMake] = useState("");
   const [carModel, setCarModel] = useState("");
   const [carYear, setCarYear] = useState("");
+
+  // Optional add-ons for the running estimate
+  const [includeCentreCaps, setIncludeCentreCaps] = useState(false);
+  const [includeCustomFinish, setIncludeCustomFinish] = useState(false);
 
   const carModels = carMake && carMake !== "Other" ? Object.keys(vehicleData[carMake] ?? {}) : [];
   const carYears =
@@ -129,9 +141,15 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const resolvedCentrebore = fitment?.centreBore ?? activeCentrebore;
 
   function buildQuoteUrl() {
-    const quotedPrice = formattedActiveRange
-      ? `${formattedActiveRange.set} (${formattedActiveRange.wheel})`
-      : product.price;
+    const estimateExtras = [
+      includeCentreCaps ? "centre caps" : null,
+      includeCustomFinish && isOnePiece ? "custom finish" : null,
+    ].filter(Boolean);
+    const quotedPrice = estimatedTotal !== null
+      ? `Est. AUD ${formatAud(estimatedTotal)} / set${estimateExtras.length ? ` incl. ${estimateExtras.join(" + ")}` : ""}`
+      : formattedActiveRange
+        ? `${formattedActiveRange.set} (${formattedActiveRange.wheel})`
+        : product.price;
     const params = new URLSearchParams({
       product: product.handle,
       title: product.title,
@@ -162,6 +180,17 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   ].filter(Boolean);
 
   const configSummary = configParts.join(" · ");
+
+  // Live estimate based on the customer's current selections.
+  const isOnePiece = product.series === "1-Piece Forged";
+  const diameterNum = activeDiameter ? parseInt(activeDiameter, 10) : NaN;
+  const perWheelPrice = Number.isFinite(diameterNum) ? priceForDiameter(product.series, diameterNum) : null;
+  const wheelSetSubtotal = perWheelPrice !== null ? perWheelPrice * 4 : null;
+  const customFinishSubtotal = includeCustomFinish && isOnePiece ? CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4 : 0;
+  const centreCapsSubtotal = includeCentreCaps ? CENTRE_CAPS_PRICE_AUD : 0;
+  const estimatedTotal = wheelSetSubtotal !== null
+    ? wheelSetSubtotal + customFinishSubtotal + centreCapsSubtotal
+    : null;
 
   return (
     <section className={styles.page}>
@@ -504,16 +533,85 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               </div>
             )}
 
-            {/* ── Config summary ── */}
-            {configSummary && (
-              <div className={styles.configSummary}>
-                <p className={styles.configLabel}>Your configuration</p>
-                <p className={styles.configValue}>{configSummary}</p>
-                <p className={styles.configNote}>
-                  Final pricing and fitment are confirmed after chassis review.
+            {/* ── Estimated quote ── */}
+            <div className={styles.estimatePanel}>
+              <div className={styles.estimateHeader}>
+                <p className={styles.estimateLabel}>Estimated quote</p>
+                <p className={styles.estimateSub}>
+                  Live estimate based on your selections — final quote confirmed after chassis review.
                 </p>
               </div>
-            )}
+
+              {configSummary ? (
+                <p className={styles.estimateConfig}>{configSummary}</p>
+              ) : null}
+
+              <div className={styles.estimateRows}>
+                <div className={styles.estimateRow}>
+                  <span className={styles.estimateRowLabel}>
+                    {wheelSetSubtotal !== null && perWheelPrice !== null
+                      ? `4 × ${activeDiameter} ${product.series}`
+                      : `${product.series} set of 4`}
+                  </span>
+                  <span className={styles.estimateRowValue}>
+                    {wheelSetSubtotal !== null
+                      ? `AUD ${formatAud(wheelSetSubtotal)}`
+                      : "Pick a diameter"}
+                  </span>
+                </div>
+                {perWheelPrice !== null ? (
+                  <p className={styles.estimateRowDetail}>
+                    {`AUD ${formatAud(perWheelPrice)} per wheel`}
+                  </p>
+                ) : null}
+
+                <label className={styles.estimateAddon}>
+                  <input
+                    type="checkbox"
+                    checked={includeCentreCaps}
+                    onChange={(event) => setIncludeCentreCaps(event.target.checked)}
+                  />
+                  <span className={styles.estimateAddonText}>
+                    <span className={styles.estimateAddonLabel}>Centre caps (RA / RF / AF)</span>
+                    <span className={styles.estimateAddonNote}>Set of 4 caps</span>
+                  </span>
+                  <span className={styles.estimateRowValue}>
+                    +AUD {formatAud(CENTRE_CAPS_PRICE_AUD)}
+                  </span>
+                </label>
+
+                {isOnePiece ? (
+                  <label className={styles.estimateAddon}>
+                    <input
+                      type="checkbox"
+                      checked={includeCustomFinish}
+                      onChange={(event) => setIncludeCustomFinish(event.target.checked)}
+                    />
+                    <span className={styles.estimateAddonText}>
+                      <span className={styles.estimateAddonLabel}>Custom off-catalogue finish</span>
+                      <span className={styles.estimateAddonNote}>
+                        For paint outside the standard finish library
+                      </span>
+                    </span>
+                    <span className={styles.estimateRowValue}>
+                      +AUD {formatAud(CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4)}
+                    </span>
+                  </label>
+                ) : null}
+              </div>
+
+              <div className={styles.estimateTotalRow}>
+                <span className={styles.estimateTotalLabel}>Estimated total</span>
+                <span className={styles.estimateTotalValue}>
+                  {estimatedTotal !== null ? `AUD ${formatAud(estimatedTotal)}` : "—"}
+                </span>
+              </div>
+
+              <p className={styles.estimateFinePrint}>
+                Indicative only. Excludes freight, GST, and any chassis-specific
+                machining. Final figure is confirmed after we review the build brief.
+              </p>
+            </div>
 
             {/* ── Specs ── */}
             <div className={styles.specs}>

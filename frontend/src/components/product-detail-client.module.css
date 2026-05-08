@@ -489,18 +489,23 @@
   border-color: rgba(18, 18, 18, 0.22);
 }
 
-/* ── Config summary ── */
+/* ── Estimate panel ── */
 
-.configSummary {
-  padding: 16px 18px;
+.estimatePanel {
+  display: grid;
+  gap: 14px;
+  padding: 18px 20px;
   background: var(--bg-card);
   border: 1px solid var(--rule);
   border-left: 3px solid var(--accent-red);
-  display: grid;
-  gap: 6px;
 }
 
-.configLabel {
+.estimateHeader {
+  display: grid;
+  gap: 4px;
+}
+
+.estimateLabel {
   font-family: var(--font-body), sans-serif;
   font-size: 10px;
   font-weight: 300;
@@ -509,21 +514,152 @@
   color: var(--accent-red);
 }
 
-.configValue {
+.estimateSub {
   font-family: var(--font-body), sans-serif;
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.estimateConfig {
+  font-family: var(--font-body), sans-serif;
+  font-size: 13px;
   font-weight: 300;
   line-height: 1.6;
   color: var(--text-primary);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
 }
 
-.configNote {
+.estimateRows {
+  display: grid;
+  gap: 8px;
+}
+
+.estimateRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.estimateRowLabel {
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-primary);
+}
+
+.estimateRowValue {
+  font-family: var(--font-heading), sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.estimateRowDetail {
+  font-family: var(--font-body), sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--text-muted);
+  margin-top: -4px;
+}
+
+.estimateAddon {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--rule);
+  cursor: pointer;
+}
+
+.estimateAddon input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(18, 18, 18, 0.32);
+  background: var(--bg-surface);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition:
+    border-color 220ms var(--ease-precision),
+    background 220ms var(--ease-precision);
+}
+
+.estimateAddon input[type="checkbox"]:checked {
+  border-color: var(--accent-red);
+  background: var(--accent-red);
+}
+
+.estimateAddon input[type="checkbox"]:checked::after {
+  content: "";
+  width: 8px;
+  height: 4px;
+  border-left: 1.5px solid var(--off-white);
+  border-bottom: 1.5px solid var(--off-white);
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+
+.estimateAddonText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.estimateAddonLabel {
+  font-family: var(--font-body), sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-primary);
+}
+
+.estimateAddonNote {
+  font-family: var(--font-body), sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+.estimateTotalRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+
+.estimateTotalLabel {
+  font-family: var(--font-body), sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.estimateTotalValue {
+  font-family: var(--font-heading), sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.estimateFinePrint {
   font-family: var(--font-body), sans-serif;
   font-size: 11px;
   font-weight: 300;
   line-height: 1.6;
   color: var(--text-muted);
-  margin-top: 2px;
 }
 
 /* ── Auto fitment ── */
