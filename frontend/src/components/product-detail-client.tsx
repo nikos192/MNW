@@ -1,11 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { CatalogProduct } from "@/lib/monza-data";
 import {
   CENTRE_CAPS_INCLUDED_VALUE_AUD,
   CUSTOM_FINISH_PRICE_AUD_PER_WHEEL,
+  customFinishOptions,
   formatAud,
   getVehicleFitment,
   priceForDiameter,
@@ -582,7 +584,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                     <span className={styles.estimateAddonText}>
                       <span className={styles.estimateAddonLabel}>Custom off-catalogue finish</span>
                       <span className={styles.estimateAddonNote}>
-                        For paint outside the standard finish library
+                        Covers {customFinishOptions.map((option) => option.name).join(", ").toLowerCase()}.{" "}
+                        <Link href="/finishes" className={styles.estimateAddonLink}>See examples</Link>
                       </span>
                     </span>
                     <span className={styles.estimateRowValue}>

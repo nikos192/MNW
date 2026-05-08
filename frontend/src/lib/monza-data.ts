@@ -1077,6 +1077,30 @@ export function priceForDiameter(series: string, diameter: number): number | nul
 export const CENTRE_CAPS_INCLUDED_VALUE_AUD = CENTRE_CAPS_RETAIL_PER_SET;
 export const CUSTOM_FINISH_PRICE_AUD_PER_WHEEL = retail(31.5);
 
+// Treatments available under the 1-piece custom appearance surcharge.
+export const customFinishOptions: ReadonlyArray<{ name: string; copy: string }> = [
+  {
+    name: "Dual-tone brushed / polished",
+    copy: "Two surface treatments combined on the same face — brushed centre with polished spokes, or any pairing.",
+  },
+  {
+    name: "Custom paint",
+    copy: "Any paint colour or coat — bring a paint code, sample, or chassis reference and we match it.",
+  },
+  {
+    name: "Centre brushed",
+    copy: "Brushed treatment isolated to the centre of the wheel face.",
+  },
+  {
+    name: "Centre polished",
+    copy: "Mirror-polished centre with the rest of the face left in standard finish.",
+  },
+  {
+    name: "Chrome finish",
+    copy: "Full chrome face for the most reflective, deliberate read.",
+  },
+];
+
 export function formatAud(amount: number): string {
   const hasCents = amount % 1 !== 0;
   return `$${amount.toLocaleString("en-AU", {

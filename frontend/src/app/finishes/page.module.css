@@ -1,0 +1,42 @@
+.optionList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(14px, 2vw, 18px);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.optionItem {
+  display: grid;
+  gap: 8px;
+  padding: clamp(20px, 2.4vw, 26px);
+  border: 1px solid var(--rule);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.optionTitle {
+  font-family: var(--font-heading), sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+.optionCopy {
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.processNote {
+  display: grid;
+  gap: 10px;
+  margin-top: clamp(20px, 2.5vw, 28px);
+  padding: clamp(20px, 2.5vw, 26px);
+  border-left: 3px solid var(--accent-red);
+  background: var(--bg-card);
+}

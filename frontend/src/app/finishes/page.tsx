@@ -1,6 +1,12 @@
 import Link from "next/link";
-import { CUSTOM_FINISH_PRICE_AUD_PER_WHEEL, finishPrograms, formatAud } from "@/lib/monza-data";
+import {
+  CUSTOM_FINISH_PRICE_AUD_PER_WHEEL,
+  customFinishOptions,
+  finishPrograms,
+  formatAud,
+} from "@/lib/monza-data";
 import styles from "../page-shell.module.css";
+import customStyles from "./page.module.css";
 
 export const metadata = {
   title: "Finishes",
@@ -48,42 +54,32 @@ export default function FinishesPage() {
             <p className="label">Beyond the catalogue</p>
             <h2 className={styles.sectionTitle}>Custom off-catalogue finishes.</h2>
             <p className={styles.sectionCopy}>
-              Need a paint colour, candy coat, or surface effect outside the
-              standard library? Custom appearance work is available on the
-              1-piece line as a per-wheel surcharge — bring a paint code or
-              reference and we&apos;ll match it before machining.
+              The custom appearance program covers the treatments below — any
+              one of them is available on the 1-piece line as a per-wheel
+              surcharge. Surcharge: AUD {formatAud(CUSTOM_FINISH_PRICE_AUD_PER_WHEEL)} per wheel
+              (AUD {formatAud(CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4)} per set of 4) on top of the
+              wheel cost.
             </p>
           </div>
 
-          <div className={styles.cardGrid}>
-            <article className={styles.card} data-reveal>
-              <p className={styles.cardOverline}>Custom Program</p>
-              <h3 className={styles.cardTitle}>Off-catalogue paint</h3>
-              <p className={styles.cardCopy}>
-                Any paint colour or coat outside the standard library.
-                Surcharge: AUD {formatAud(CUSTOM_FINISH_PRICE_AUD_PER_WHEEL)} per
-                wheel (AUD {formatAud(CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4)} per
-                set of 4) on top of the wheel cost.
-              </p>
-            </article>
-            <article className={styles.card} data-reveal>
-              <p className={styles.cardOverline}>How it works</p>
-              <h3 className={styles.cardTitle}>Bring the reference, we match it</h3>
-              <p className={styles.cardCopy}>
-                Send a paint code, photo, or chassis reference with the quote
-                request. Approved before machining starts so the finish is
-                locked in by the time the forge moves.
-              </p>
-            </article>
-            <article className={styles.card} data-reveal>
-              <p className={styles.cardOverline}>Where it applies</p>
-              <h3 className={styles.cardTitle}>1-Piece Forged only</h3>
-              <p className={styles.cardCopy}>
-                Custom appearance is offered on the 1-piece line. 2-piece
-                builds use the catalogue programs to keep the disc-and-barrel
-                finish consistent.
-              </p>
-            </article>
+          <ul className={customStyles.optionList} data-reveal>
+            {customFinishOptions.map((option) => (
+              <li key={option.name} className={customStyles.optionItem}>
+                <h3 className={customStyles.optionTitle}>{option.name}</h3>
+                <p className={customStyles.optionCopy}>{option.copy}</p>
+              </li>
+            ))}
+          </ul>
+
+          <div className={customStyles.processNote} data-reveal>
+            <p className={styles.cardOverline}>How it works</p>
+            <p className={styles.cardCopy}>
+              Send a paint code, photo, or chassis reference with the quote
+              request. The finish is approved before machining starts so it is
+              locked in by the time the forge moves. Custom appearance is
+              offered on the 1-piece line; 2-piece builds use the catalogue
+              programs to keep the disc-and-barrel finish consistent.
+            </p>
           </div>
         </div>
       </section>
