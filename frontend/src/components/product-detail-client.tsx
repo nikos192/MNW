@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import type { CatalogProduct } from "@/lib/monza-data";
-import { getVehicleFitment, vehicleData } from "@/lib/monza-data";
+import { formatAud, getVehicleFitment, priceRangeForSeries, vehicleData } from "@/lib/monza-data";
 import styles from "./product-detail-client.module.css";
 
 type ProductDetailClientProps = {
@@ -67,15 +67,40 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
   const activeImage = product.images[activeImageIndex] ?? product.images[0];
   const activeFinishData = product.finishes.find((finish) => finish.name === activeFinish) ?? product.finishes[0];
-  const displayPrice = product.price.replace(/^From\s*/i, "");
+  const tierRange = priceRangeForSeries(product.series);
+  const chassisRange = fitment
+    ? priceRangeForSeries(product.series, fitment.minDiameter, fitment.maxDiameter)
+    : null;
+  const activeRange = chassisRange ?? tierRange;
+  const formatRange = (range: { minPerSet: number; maxPerSet: number; minPerWheel: number; maxPerWheel: number }) => {
+    if (range.minPerSet === range.maxPerSet) {
+      return {
+        set: `AUD ${formatAud(range.minPerSet)} / set`,
+        wheel: `AUD ${formatAud(range.minPerWheel)} per wheel`,
+      };
+    }
+    return {
+      set: `AUD ${formatAud(range.minPerSet)} – ${formatAud(range.maxPerSet)} / set`,
+      wheel: `AUD ${formatAud(range.minPerWheel)} – ${formatAud(range.maxPerWheel)} per wheel`,
+    };
+  };
+  const formattedActiveRange = activeRange ? formatRange(activeRange) : null;
+  const headlinePrice = formattedActiveRange
+    ? chassisRange
+      ? formattedActiveRange.set
+      : `From ${formattedActiveRange.set}`
+    : product.price.replace(/^From\s*/i, "");
+  const headlineSecondary = formattedActiveRange ? formattedActiveRange.wheel : null;
   const diameterRangeForFacts =
     fitment !== null
       ? `${fitment.minDiameter}" to ${fitment.maxDiameter}"`
       : product.diameterOptions.length
         ? `${product.diameterOptions[0]} to ${product.diameterOptions[product.diameterOptions.length - 1]}`
         : "Built to brief";
+  const startingPointLabel = chassisRange ? "For your chassis" : "Starting point";
+  const startingPointValue = formattedActiveRange ? formattedActiveRange.set : product.price.replace(/^From\s*/i, "");
   const quickFacts = [
-    { label: "Starting point", value: displayPrice },
+    { label: startingPointLabel, value: startingPointValue },
     { label: "Lead time", value: product.leadTime },
     {
       label: fitment ? "Diameters for your chassis" : "Available diameters",
@@ -104,10 +129,13 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const resolvedCentrebore = fitment?.centreBore ?? activeCentrebore;
 
   function buildQuoteUrl() {
+    const quotedPrice = formattedActiveRange
+      ? `${formattedActiveRange.set} (${formattedActiveRange.wheel})`
+      : product.price;
     const params = new URLSearchParams({
       product: product.handle,
       title: product.title,
-      startingPrice: product.price,
+      startingPrice: quotedPrice,
     });
     if (carMake) params.set("make", carMake);
     if (carModel) params.set("model", carModel);
@@ -188,7 +216,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             <div className={styles.detailHead}>
               <p className={`label ${styles.series}`}>{product.series}</p>
               <h1 className={styles.title}>{product.title}</h1>
-              <p className={styles.price}>From {displayPrice}</p>
+              <p className={styles.price}>{headlinePrice}</p>
+              {headlineSecondary ? <p className={styles.priceSecondary}>{headlineSecondary}</p> : null}
             </div>
 
             <div className={styles.description}>

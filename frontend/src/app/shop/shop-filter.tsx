@@ -39,7 +39,7 @@ export function ShopFilter({ products }: ShopFilterProps) {
 
   return (
     <div className={styles.filterShell}>
-      <div className={styles.filterBar} aria-label="Wheel construction filter" role="tablist">
+      <div className={styles.filterBar} aria-label="Wheel construction filter" role="group">
         {filterOptions.map((option) => (
           <button
             key={option.value}

@@ -16,7 +16,7 @@ const leftLinks = [
 
 const rightLinks = [
   { href: "/engineering", label: "Engineering" },
-  { href: "/fitment-tool", label: "Fitment" },
+  { href: "/pricing", label: "Pricing" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -25,6 +25,7 @@ const mobileLinks = [
   { href: "/finishes", label: "Finishes" },
   { href: "/gallery", label: "Gallery" },
   { href: "/engineering", label: "Engineering" },
+  { href: "/pricing", label: "Pricing" },
   { href: "/fitment-tool", label: "Fitment Calculator" },
   { href: "/about", label: "About" },
   { href: "/find-a-dealer", label: "Find a Dealer" },

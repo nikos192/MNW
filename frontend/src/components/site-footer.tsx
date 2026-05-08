@@ -72,6 +72,7 @@ const footerColumns = [
     title: "Support",
     links: [
       { href: "/contact", label: "Contact" },
+      { href: "/pricing", label: "Pricing" },
       { href: "/fitment", label: "Vehicle Guide" },
       { href: "/warranty", label: "Warranty" },
     ],

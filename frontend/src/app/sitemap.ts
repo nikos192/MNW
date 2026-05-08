@@ -17,6 +17,7 @@ const staticRoutes = [
   "/engineering",
   "/fitment",
   "/fitment-tool",
+  "/pricing",
   "/about",
   "/find-a-dealer",
   "/warranty",

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { GallerySwitcher } from "@/components/gallery-switcher";
-import { collectionSummaries } from "@/lib/monza-data";
+import { collectionSummaries, formatAud, priceRangeForSeries } from "@/lib/monza-data";
 import { getCatalogData } from "@/lib/catalog";
 import styles from "./page.module.css";
 
@@ -18,6 +18,10 @@ export default async function Home() {
     products[products.length - 1] ??
     products[0];
   const finishCount = monoblockProduct?.finishes.length ?? products[0]?.finishes.length ?? 24;
+  const monoblockRange = priceRangeForSeries("1-Piece Forged");
+  const multiPieceRange = priceRangeForSeries("2-Piece Forged");
+  const monoblockFromSet = monoblockRange ? `AUD ${formatAud(monoblockRange.minPerSet)} / set` : "AUD $1,848 / set";
+  const multiPieceFromSet = multiPieceRange ? `AUD ${formatAud(multiPieceRange.minPerSet)} / set` : "AUD $3,528 / set";
 
   return (
     <main className={styles.page}>
@@ -131,9 +135,7 @@ export default async function Home() {
               <div className={styles.tierMeta}>
                 <p className={styles.tierLabel}>{monoblockCollection?.label || "Forged Series"}</p>
                 <h3 className={styles.tierTitle}>{monoblockCollection?.title || "Monoblock"}</h3>
-                <p className={styles.tierPrice}>
-                  From AUD {monoblockProduct?.price.replace(/^[^\d]+/, "") || "4,500"}
-                </p>
+                <p className={styles.tierPrice}>From {monoblockFromSet}</p>
               </div>
             </Link>
 
@@ -150,9 +152,7 @@ export default async function Home() {
               <div className={styles.tierMeta}>
                 <p className={styles.tierLabel}>{multiPieceCollection?.label || "Forged Series"}</p>
                 <h3 className={styles.tierTitle}>{multiPieceCollection?.title || "Multi-Piece"}</h3>
-                <p className={styles.tierPrice}>
-                  From AUD {multiPieceProduct?.price.replace(/^[^\d]+/, "") || "5,200"}
-                </p>
+                <p className={styles.tierPrice}>From {multiPieceFromSet}</p>
               </div>
             </Link>
           </div>

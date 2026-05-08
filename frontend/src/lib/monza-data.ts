@@ -950,6 +950,100 @@ const PRODUCT_FAMILIES = Array.from(
   new Set(PRODUCT_CODES.map((code) => code.slice(0, 2))),
 ).sort() as Array<`${1 | 2}${string}`>;
 
+// PRICING (per wheel, AUD). Source: forged wheel pricing sheet.
+export type DiameterPrice = {
+  diameter: number;
+  widthRange: string;
+  priceAudPerWheel: number;
+};
+
+export type CarbonPrice = {
+  diameter: number;
+  width: string;
+  priceAudPerWheel: number;
+};
+
+export type AccessoryPrice = {
+  name: string;
+  priceAud: number;
+  unit: string;
+};
+
+export const pricing1Pc: DiameterPrice[] = [
+  { diameter: 15, widthRange: "7J", priceAudPerWheel: 504 },
+  { diameter: 16, widthRange: "5.5J–8J", priceAudPerWheel: 462 },
+  { diameter: 17, widthRange: "7J–10J", priceAudPerWheel: 504 },
+  { diameter: 18, widthRange: "7.5J–13J", priceAudPerWheel: 546 },
+  { diameter: 19, widthRange: "8J–12J", priceAudPerWheel: 588 },
+  { diameter: 20, widthRange: "8J–12.5J", priceAudPerWheel: 630 },
+  { diameter: 21, widthRange: "8.5J–13J", priceAudPerWheel: 693 },
+  { diameter: 22, widthRange: "8.5J–12.5J", priceAudPerWheel: 777 },
+  { diameter: 23, widthRange: "9.5J–13J", priceAudPerWheel: 1050 },
+  { diameter: 24, widthRange: "9.5J–13J", priceAudPerWheel: 1155 },
+];
+
+export const pricing2Pc: DiameterPrice[] = [
+  { diameter: 18, widthRange: "8J–12J", priceAudPerWheel: 882 },
+  { diameter: 19, widthRange: "8.5J–12J", priceAudPerWheel: 924 },
+  { diameter: 20, widthRange: "8.5J–12J", priceAudPerWheel: 987 },
+  { diameter: 21, widthRange: "8.5J–12J", priceAudPerWheel: 1071 },
+  { diameter: 22, widthRange: "8.5J–12J", priceAudPerWheel: 1176 },
+  { diameter: 23, widthRange: "8.5J–12J", priceAudPerWheel: 1302 },
+  { diameter: 24, widthRange: "9J–12J", priceAudPerWheel: 1428 },
+];
+
+export const pricing2PcCarbon: CarbonPrice[] = [
+  { diameter: 19, width: "8.5J", priceAudPerWheel: 3738 },
+  { diameter: 20, width: "8.5J", priceAudPerWheel: 3948 },
+  { diameter: 20, width: "9.5J", priceAudPerWheel: 4158 },
+  { diameter: 20, width: "10.5J", priceAudPerWheel: 4368 },
+  { diameter: 21, width: "9.5J", priceAudPerWheel: 4368 },
+  { diameter: 21, width: "10.5J", priceAudPerWheel: 4578 },
+];
+
+export const accessoryPricing: AccessoryPrice[] = [
+  { name: "Centre caps (RA / RF / AF)", priceAud: 73.5, unit: "per set" },
+  { name: "1-piece custom appearance", priceAud: 31.5, unit: "per wheel" },
+];
+
+export type PriceRange = {
+  minPerWheel: number;
+  maxPerWheel: number;
+  minPerSet: number;
+  maxPerSet: number;
+};
+
+function priceRangeFromTable(table: DiameterPrice[], minDiameter?: number, maxDiameter?: number): PriceRange | null {
+  let entries = table;
+  if (typeof minDiameter === "number" && typeof maxDiameter === "number") {
+    entries = table.filter((row) => row.diameter >= minDiameter && row.diameter <= maxDiameter);
+  }
+  if (entries.length === 0) return null;
+  const prices = entries.map((row) => row.priceAudPerWheel);
+  const minPerWheel = Math.min(...prices);
+  const maxPerWheel = Math.max(...prices);
+  return {
+    minPerWheel,
+    maxPerWheel,
+    minPerSet: minPerWheel * 4,
+    maxPerSet: maxPerWheel * 4,
+  };
+}
+
+export function priceRangeForSeries(series: string, minDiameter?: number, maxDiameter?: number): PriceRange | null {
+  if (series === "1-Piece Forged") return priceRangeFromTable(pricing1Pc, minDiameter, maxDiameter);
+  if (series === "2-Piece Forged") return priceRangeFromTable(pricing2Pc, minDiameter, maxDiameter);
+  return null;
+}
+
+export function formatAud(amount: number): string {
+  const hasCents = amount % 1 !== 0;
+  return `$${amount.toLocaleString("en-AU", {
+    minimumFractionDigits: hasCents ? 2 : 0,
+    maximumFractionDigits: hasCents ? 2 : 0,
+  })}`;
+}
+
 function buildFallbackProduct(familyCode: (typeof PRODUCT_FAMILIES)[number]): CatalogProduct {
   const match = familyCode.match(/^([12])([A-Z])$/);
 
@@ -961,7 +1055,12 @@ function buildFallbackProduct(familyCode: (typeof PRODUCT_FAMILIES)[number]): Ca
   const isOnePiece = pieceCode === "1";
   const series = isOnePiece ? "1-Piece Forged" : "2-Piece Forged";
   const leadTime = isOnePiece ? "approximately 20 days from order confirmation" : "approximately 25 days from order confirmation";
-  const price = isOnePiece ? "From AUD $504/wheel" : "From AUD $882/wheel";
+  const tierRange = priceRangeForSeries(series);
+  const price = tierRange
+    ? `From AUD ${formatAud(tierRange.minPerWheel)}/wheel`
+    : isOnePiece
+      ? "From AUD $462/wheel"
+      : "From AUD $882/wheel";
   const diameterRange = isOnePiece ? "15 to 24 inches" : "18 to 24 inches";
   const widthRange = isOnePiece ? "6.0 to 12.0 inches" : "8.0 to 13.5 inches";
   const diameterOptions = isOnePiece ? DIAMETERS_1PC : DIAMETERS_2PC;

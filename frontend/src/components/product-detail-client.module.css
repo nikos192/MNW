@@ -108,8 +108,17 @@
   font-family: var(--font-body), sans-serif;
   font-size: 18px;
   font-weight: 300;
-  line-height: 1.6;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.priceSecondary {
+  font-family: var(--font-body), sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.5;
   color: var(--text-muted);
+  margin-top: 2px;
 }
 
 /* ── Description ── */

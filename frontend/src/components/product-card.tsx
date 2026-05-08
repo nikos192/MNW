@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { GlowCard } from "@/components/ui/spotlight-card";
-import type { CatalogProduct } from "@/lib/monza-data";
+import { formatAud, priceRangeForSeries, type CatalogProduct } from "@/lib/monza-data";
 import styles from "./product-card.module.css";
 
 type ProductCardProps = {
@@ -12,7 +12,11 @@ type ProductCardProps = {
 export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps) {
   const finishCount = product.finishes.length || 1;
   const secondaryImage = product.images[1]?.url || product.images[0]?.url;
-  const displayPrice = product.price.replace(/^From\s*/i, "");
+  const tierRange = priceRangeForSeries(product.series);
+  const primaryPrice = tierRange
+    ? `From AUD ${formatAud(tierRange.minPerSet)} / set`
+    : product.price.replace(/^From\s*/i, "");
+  const secondaryPrice = tierRange ? `AUD ${formatAud(tierRange.minPerWheel)} per wheel` : null;
 
   return (
     <article className={styles.card} data-reveal>
@@ -50,7 +54,8 @@ export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps
           <div className={styles.meta}>
             <p className={styles.series}>{product.series}</p>
             <h3 className={styles.title}>{product.title}</h3>
-            <p className={styles.price}>From {displayPrice}</p>
+            <p className={styles.price}>{primaryPrice}</p>
+            {secondaryPrice ? <p className={styles.priceSecondary}>{secondaryPrice}</p> : null}
             <div className={styles.metaFooter}>
               <p className={styles.finishes}>{finishCount} {finishCount === 1 ? "finish" : "finishes"}</p>
               <span className={styles.ctaHint}>View build options</span>
