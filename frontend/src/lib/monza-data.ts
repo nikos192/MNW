@@ -1093,7 +1093,7 @@ export const customFinishOptions: ReadonlyArray<{ name: string; copy: string }> 
   },
   {
     name: "Centre polished",
-    copy: "Mirror-polished centre with the rest of the face left in standard finish.",
+    copy: "Mirror-polished finish across the wheel face for the most reflective read.",
   },
   {
     name: "Chrome finish",
