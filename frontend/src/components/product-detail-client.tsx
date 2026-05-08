@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import type { CatalogProduct } from "@/lib/monza-data";
 import {
-  CENTRE_CAPS_PRICE_AUD,
+  CENTRE_CAPS_INCLUDED_VALUE_AUD,
   CUSTOM_FINISH_PRICE_AUD_PER_WHEEL,
   formatAud,
   getVehicleFitment,
@@ -37,8 +37,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [carModel, setCarModel] = useState("");
   const [carYear, setCarYear] = useState("");
 
-  // Optional add-ons for the running estimate
-  const [includeCentreCaps, setIncludeCentreCaps] = useState(false);
+  // Custom finish is the only optional add-on; centre caps come included.
   const [includeCustomFinish, setIncludeCustomFinish] = useState(false);
 
   const carModels = carMake && carMake !== "Other" ? Object.keys(vehicleData[carMake] ?? {}) : [];
@@ -142,11 +141,11 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
   function buildQuoteUrl() {
     const estimateExtras = [
-      includeCentreCaps ? "centre caps" : null,
+      "centre caps incl.",
       includeCustomFinish && isOnePiece ? "custom finish" : null,
     ].filter(Boolean);
     const quotedPrice = estimatedTotal !== null
-      ? `Est. AUD ${formatAud(estimatedTotal)} / set${estimateExtras.length ? ` incl. ${estimateExtras.join(" + ")}` : ""}`
+      ? `Est. AUD ${formatAud(estimatedTotal)} / set (${estimateExtras.join(", ")})`
       : formattedActiveRange
         ? `${formattedActiveRange.set} (${formattedActiveRange.wheel})`
         : product.price;
@@ -182,14 +181,15 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const configSummary = configParts.join(" · ");
 
   // Live estimate based on the customer's current selections.
+  // Centre caps are bundled into every wheel set; only custom finish is an extra.
   const isOnePiece = product.series === "1-Piece Forged";
   const diameterNum = activeDiameter ? parseInt(activeDiameter, 10) : NaN;
   const perWheelPrice = Number.isFinite(diameterNum) ? priceForDiameter(product.series, diameterNum) : null;
-  const wheelSetSubtotal = perWheelPrice !== null ? perWheelPrice * 4 : null;
+  const wheelOnlySubtotal = perWheelPrice !== null ? perWheelPrice * 4 : null;
+  const wheelSetWithCaps = wheelOnlySubtotal !== null ? wheelOnlySubtotal + CENTRE_CAPS_INCLUDED_VALUE_AUD : null;
   const customFinishSubtotal = includeCustomFinish && isOnePiece ? CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4 : 0;
-  const centreCapsSubtotal = includeCentreCaps ? CENTRE_CAPS_PRICE_AUD : 0;
-  const estimatedTotal = wheelSetSubtotal !== null
-    ? wheelSetSubtotal + customFinishSubtotal + centreCapsSubtotal
+  const estimatedTotal = wheelSetWithCaps !== null
+    ? wheelSetWithCaps + customFinishSubtotal
     : null;
 
   return (
@@ -549,13 +549,13 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               <div className={styles.estimateRows}>
                 <div className={styles.estimateRow}>
                   <span className={styles.estimateRowLabel}>
-                    {wheelSetSubtotal !== null && perWheelPrice !== null
+                    {wheelOnlySubtotal !== null && perWheelPrice !== null
                       ? `4 × ${activeDiameter} ${product.series}`
                       : `${product.series} set of 4`}
                   </span>
                   <span className={styles.estimateRowValue}>
-                    {wheelSetSubtotal !== null
-                      ? `AUD ${formatAud(wheelSetSubtotal)}`
+                    {wheelOnlySubtotal !== null
+                      ? `AUD ${formatAud(wheelOnlySubtotal)}`
                       : "Pick a diameter"}
                   </span>
                 </div>
@@ -565,20 +565,12 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                   </p>
                 ) : null}
 
-                <label className={styles.estimateAddon}>
-                  <input
-                    type="checkbox"
-                    checked={includeCentreCaps}
-                    onChange={(event) => setIncludeCentreCaps(event.target.checked)}
-                  />
-                  <span className={styles.estimateAddonText}>
-                    <span className={styles.estimateAddonLabel}>Centre caps (RA / RF / AF)</span>
-                    <span className={styles.estimateAddonNote}>Set of 4 caps</span>
+                <div className={styles.estimateRow}>
+                  <span className={styles.estimateRowLabel}>
+                    Centre caps (RA / RF / AF)
                   </span>
-                  <span className={styles.estimateRowValue}>
-                    +AUD {formatAud(CENTRE_CAPS_PRICE_AUD)}
-                  </span>
-                </label>
+                  <span className={styles.estimateIncluded}>Included</span>
+                </div>
 
                 {isOnePiece ? (
                   <label className={styles.estimateAddon}>

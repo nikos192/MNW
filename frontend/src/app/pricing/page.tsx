@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   accessoryPricing,
+  CENTRE_CAPS_INCLUDED_VALUE_AUD,
   formatAud,
   pricing1Pc,
   pricing2Pc,
@@ -60,7 +61,7 @@ function PriceTable({
             <th>Size</th>
             <th>{detailHeading}</th>
             <th className={styles.numeric}>Per wheel (AUD)</th>
-            <th className={styles.numeric}>Per set of 4 (AUD)</th>
+            <th className={styles.numeric}>Per set of 4 (AUD, incl. caps)</th>
           </tr>
         </thead>
         <tbody>
@@ -69,7 +70,9 @@ function PriceTable({
               <td className={styles.size}>{row.size}</td>
               <td>{row.detail}</td>
               <td className={styles.numeric}>{formatAud(row.perWheel)}</td>
-              <td className={styles.numeric}>{formatAud(row.perWheel * 4)}</td>
+              <td className={styles.numeric}>
+                {formatAud(row.perWheel * 4 + CENTRE_CAPS_INCLUDED_VALUE_AUD)}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -143,8 +146,13 @@ export default function PricingPage() {
       <section className={shellStyles.section}>
         <div className="container">
           <div className={shellStyles.sectionHeader}>
-            <p className="label">Accessories &amp; add-ons</p>
-            <h2 className={shellStyles.sectionTitle}>Caps, custom finishes, and extras.</h2>
+            <p className="label">Included &amp; add-ons</p>
+            <h2 className={shellStyles.sectionTitle}>What comes with the set.</h2>
+            <p className={shellStyles.sectionCopy}>
+              Centre caps (RA / RF / AF) are included with every wheel set.
+              Custom off-catalogue paint is available on the 1-piece line as a
+              per-wheel surcharge.
+            </p>
           </div>
           <div className={styles.tableWrap}>
             <table className={styles.table}>
@@ -156,6 +164,11 @@ export default function PricingPage() {
                 </tr>
               </thead>
               <tbody>
+                <tr>
+                  <td className={styles.size}>Centre caps (RA / RF / AF)</td>
+                  <td className={styles.numeric}>Included</td>
+                  <td>with every wheel set</td>
+                </tr>
                 {accessoryPricing.map((item) => (
                   <tr key={item.name}>
                     <td className={styles.size}>{item.name}</td>

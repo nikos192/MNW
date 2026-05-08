@@ -951,6 +951,8 @@ const PRODUCT_FAMILIES = Array.from(
 ).sort() as Array<`${1 | 2}${string}`>;
 
 // PRICING (per wheel, AUD). Source: forged wheel pricing sheet.
+// Supplier prices are marked up via RETAIL_MARKUP to reach customer-facing pricing.
+// Centre caps are included with every wheel set.
 export type DiameterPrice = {
   diameter: number;
   widthRange: string;
@@ -969,41 +971,68 @@ export type AccessoryPrice = {
   unit: string;
 };
 
-export const pricing1Pc: DiameterPrice[] = [
-  { diameter: 15, widthRange: "7J", priceAudPerWheel: 504 },
-  { diameter: 16, widthRange: "5.5J–8J", priceAudPerWheel: 462 },
-  { diameter: 17, widthRange: "7J–10J", priceAudPerWheel: 504 },
-  { diameter: 18, widthRange: "7.5J–13J", priceAudPerWheel: 546 },
-  { diameter: 19, widthRange: "8J–12J", priceAudPerWheel: 588 },
-  { diameter: 20, widthRange: "8J–12.5J", priceAudPerWheel: 630 },
-  { diameter: 21, widthRange: "8.5J–13J", priceAudPerWheel: 693 },
-  { diameter: 22, widthRange: "8.5J–12.5J", priceAudPerWheel: 777 },
-  { diameter: 23, widthRange: "9.5J–13J", priceAudPerWheel: 1050 },
-  { diameter: 24, widthRange: "9.5J–13J", priceAudPerWheel: 1155 },
+const RETAIL_MARKUP = 1.5;
+
+function retail(supplierAud: number): number {
+  return Math.round(supplierAud * RETAIL_MARKUP);
+}
+
+const supplier1Pc: ReadonlyArray<{ diameter: number; widthRange: string; supplierAud: number }> = [
+  { diameter: 15, widthRange: "7J", supplierAud: 504 },
+  { diameter: 16, widthRange: "5.5J–8J", supplierAud: 462 },
+  { diameter: 17, widthRange: "7J–10J", supplierAud: 504 },
+  { diameter: 18, widthRange: "7.5J–13J", supplierAud: 546 },
+  { diameter: 19, widthRange: "8J–12J", supplierAud: 588 },
+  { diameter: 20, widthRange: "8J–12.5J", supplierAud: 630 },
+  { diameter: 21, widthRange: "8.5J–13J", supplierAud: 693 },
+  { diameter: 22, widthRange: "8.5J–12.5J", supplierAud: 777 },
+  { diameter: 23, widthRange: "9.5J–13J", supplierAud: 1050 },
+  { diameter: 24, widthRange: "9.5J–13J", supplierAud: 1155 },
 ];
 
-export const pricing2Pc: DiameterPrice[] = [
-  { diameter: 18, widthRange: "8J–12J", priceAudPerWheel: 882 },
-  { diameter: 19, widthRange: "8.5J–12J", priceAudPerWheel: 924 },
-  { diameter: 20, widthRange: "8.5J–12J", priceAudPerWheel: 987 },
-  { diameter: 21, widthRange: "8.5J–12J", priceAudPerWheel: 1071 },
-  { diameter: 22, widthRange: "8.5J–12J", priceAudPerWheel: 1176 },
-  { diameter: 23, widthRange: "8.5J–12J", priceAudPerWheel: 1302 },
-  { diameter: 24, widthRange: "9J–12J", priceAudPerWheel: 1428 },
+const supplier2Pc: ReadonlyArray<{ diameter: number; widthRange: string; supplierAud: number }> = [
+  { diameter: 18, widthRange: "8J–12J", supplierAud: 882 },
+  { diameter: 19, widthRange: "8.5J–12J", supplierAud: 924 },
+  { diameter: 20, widthRange: "8.5J–12J", supplierAud: 987 },
+  { diameter: 21, widthRange: "8.5J–12J", supplierAud: 1071 },
+  { diameter: 22, widthRange: "8.5J–12J", supplierAud: 1176 },
+  { diameter: 23, widthRange: "8.5J–12J", supplierAud: 1302 },
+  { diameter: 24, widthRange: "9J–12J", supplierAud: 1428 },
 ];
 
-export const pricing2PcCarbon: CarbonPrice[] = [
-  { diameter: 19, width: "8.5J", priceAudPerWheel: 3738 },
-  { diameter: 20, width: "8.5J", priceAudPerWheel: 3948 },
-  { diameter: 20, width: "9.5J", priceAudPerWheel: 4158 },
-  { diameter: 20, width: "10.5J", priceAudPerWheel: 4368 },
-  { diameter: 21, width: "9.5J", priceAudPerWheel: 4368 },
-  { diameter: 21, width: "10.5J", priceAudPerWheel: 4578 },
+const supplier2PcCarbon: ReadonlyArray<{ diameter: number; width: string; supplierAud: number }> = [
+  { diameter: 19, width: "8.5J", supplierAud: 3738 },
+  { diameter: 20, width: "8.5J", supplierAud: 3948 },
+  { diameter: 20, width: "9.5J", supplierAud: 4158 },
+  { diameter: 20, width: "10.5J", supplierAud: 4368 },
+  { diameter: 21, width: "9.5J", supplierAud: 4368 },
+  { diameter: 21, width: "10.5J", supplierAud: 4578 },
 ];
+
+export const pricing1Pc: DiameterPrice[] = supplier1Pc.map((row) => ({
+  diameter: row.diameter,
+  widthRange: row.widthRange,
+  priceAudPerWheel: retail(row.supplierAud),
+}));
+
+export const pricing2Pc: DiameterPrice[] = supplier2Pc.map((row) => ({
+  diameter: row.diameter,
+  widthRange: row.widthRange,
+  priceAudPerWheel: retail(row.supplierAud),
+}));
+
+export const pricing2PcCarbon: CarbonPrice[] = supplier2PcCarbon.map((row) => ({
+  diameter: row.diameter,
+  width: row.width,
+  priceAudPerWheel: retail(row.supplierAud),
+}));
+
+// Centre caps are included with every wheel set — their retail cost is bundled
+// into the per-set total below rather than offered as a paid extra.
+const CENTRE_CAPS_RETAIL_PER_SET = retail(73.5);
 
 export const accessoryPricing: AccessoryPrice[] = [
-  { name: "Centre caps (RA / RF / AF)", priceAud: 73.5, unit: "per set" },
-  { name: "1-piece custom appearance", priceAud: 31.5, unit: "per wheel" },
+  { name: "Custom off-catalogue finish (1-piece)", priceAud: retail(31.5), unit: "per wheel" },
 ];
 
 export type PriceRange = {
@@ -1022,11 +1051,12 @@ function priceRangeFromTable(table: DiameterPrice[], minDiameter?: number, maxDi
   const prices = entries.map((row) => row.priceAudPerWheel);
   const minPerWheel = Math.min(...prices);
   const maxPerWheel = Math.max(...prices);
+  // Set price = 4 wheels + included centre caps.
   return {
     minPerWheel,
     maxPerWheel,
-    minPerSet: minPerWheel * 4,
-    maxPerSet: maxPerWheel * 4,
+    minPerSet: minPerWheel * 4 + CENTRE_CAPS_RETAIL_PER_SET,
+    maxPerSet: maxPerWheel * 4 + CENTRE_CAPS_RETAIL_PER_SET,
   };
 }
 
@@ -1042,8 +1072,10 @@ export function priceForDiameter(series: string, diameter: number): number | nul
   return table.find((row) => row.diameter === diameter)?.priceAudPerWheel ?? null;
 }
 
-export const CENTRE_CAPS_PRICE_AUD = 73.5;
-export const CUSTOM_FINISH_PRICE_AUD_PER_WHEEL = 31.5;
+// Retail cost of the centre caps that come bundled with every wheel set.
+// Exposed so callers can show "centre caps included (worth $X)" if desired.
+export const CENTRE_CAPS_INCLUDED_VALUE_AUD = CENTRE_CAPS_RETAIL_PER_SET;
+export const CUSTOM_FINISH_PRICE_AUD_PER_WHEEL = retail(31.5);
 
 export function formatAud(amount: number): string {
   const hasCents = amount % 1 !== 0;

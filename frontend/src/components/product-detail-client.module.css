@@ -560,6 +560,16 @@
   white-space: nowrap;
 }
 
+.estimateIncluded {
+  font-family: var(--font-body), sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-red);
+  white-space: nowrap;
+}
+
 .estimateRowDetail {
   font-family: var(--font-body), sans-serif;
   font-size: 11px;
