@@ -1226,10 +1226,10 @@ function buildNamedTwoPieceProduct(args: {
 const namedProducts: CatalogProduct[] = [
   buildNamedTwoPieceProduct({
     handle: "MW-21",
-    title: "MW-21 Ascari",
+    title: 'MW-21 "Ascari"',
     shortDescription: "The first design in the MonzaWheels 2-piece forged library.",
     description:
-      "MW-21 Ascari is the inaugural design in the MonzaWheels 2-piece forged library. Disc and barrel are forged separately and bolted together for deeper dish, extended offsets, and a stronger visual contrast against the chassis. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.",
+      'MW-21 "Ascari" is the inaugural design in the MonzaWheels 2-piece forged library. Disc and barrel are forged separately and bolted together for deeper dish, extended offsets, and a stronger visual contrast against the chassis. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: [
       "MW-21 Ascari 1.png",
       "MW-21 Ascari 2.JPG",

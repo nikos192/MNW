@@ -227,6 +227,86 @@
   color: var(--text-secondary);
 }
 
+/* ── Staggered toggle ── */
+
+.staggeredToggle {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.staggeredToggle input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(18, 18, 18, 0.32);
+  background: var(--bg-surface);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition:
+    border-color 220ms var(--ease-precision),
+    background 220ms var(--ease-precision);
+}
+
+.staggeredToggle input[type="checkbox"]:checked {
+  border-color: var(--accent-red);
+  background: var(--accent-red);
+}
+
+.staggeredToggle input[type="checkbox"]:checked::after {
+  content: "";
+  width: 9px;
+  height: 4.5px;
+  border-left: 1.5px solid var(--off-white);
+  border-bottom: 1.5px solid var(--off-white);
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+
+.staggeredToggleText {
+  display: grid;
+  gap: 2px;
+}
+
+.staggeredToggleLabel {
+  font-family: var(--font-body), sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+}
+
+.staggeredToggleHint {
+  font-family: var(--font-body), sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+/* ── Axle group (staggered selection) ── */
+
+.axleStack {
+  display: grid;
+  gap: 14px;
+}
+
+.axleRow {
+  display: grid;
+  gap: 6px;
+}
+
+.axleLabel {
+  font-family: var(--font-body), sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
 /* ── Pills ── */
 
 .pills {

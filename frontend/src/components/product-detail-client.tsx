@@ -27,12 +27,48 @@ function diameterToInt(value: string): number {
 export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [activeFinish, setActiveFinish] = useState(product.finishes[0]?.name ?? "");
-  const [activeDiameter, setActiveDiameter] = useState(product.diameterOptions[0] ?? "");
-  const [activeWidth, setActiveWidth] = useState(product.widthOptions[0] ?? "");
+  // Diameter / width are tracked per axle so customers can build staggered sets.
+  // When isStaggered is false, only the front picker is shown and we mirror its
+  // value into the rear state on each pick.
+  const [isStaggered, setIsStaggered] = useState(false);
+  const [activeDiameterFront, setActiveDiameterFront] = useState(product.diameterOptions[0] ?? "");
+  const [activeDiameterRear, setActiveDiameterRear] = useState(product.diameterOptions[0] ?? "");
+  const [activeWidthFront, setActiveWidthFront] = useState(product.widthOptions[0] ?? "");
+  const [activeWidthRear, setActiveWidthRear] = useState(product.widthOptions[0] ?? "");
   // PCD, CB, and offset are optional — start unselected so customer can skip
   const [activePcd, setActivePcd] = useState("");
   const [activeOffset, setActiveOffset] = useState("");
   const [activeCentrebore, setActiveCentrebore] = useState("");
+
+  function pickDiameter(value: string, axle: "front" | "rear") {
+    if (isStaggered) {
+      if (axle === "front") setActiveDiameterFront(value);
+      else setActiveDiameterRear(value);
+    } else {
+      setActiveDiameterFront(value);
+      setActiveDiameterRear(value);
+    }
+  }
+
+  function pickWidth(value: string, axle: "front" | "rear") {
+    if (isStaggered) {
+      if (axle === "front") setActiveWidthFront(value);
+      else setActiveWidthRear(value);
+    } else {
+      setActiveWidthFront(value);
+      setActiveWidthRear(value);
+    }
+  }
+
+  function toggleStaggered(next: boolean) {
+    setIsStaggered(next);
+    if (!next) {
+      // Collapsing back to square — sync the rear to the front so the single
+      // picker shows the right value.
+      setActiveDiameterRear(activeDiameterFront);
+      setActiveWidthRear(activeWidthFront);
+    }
+  }
 
   // Car selection
   const [carMake, setCarMake] = useState("");
@@ -62,10 +98,13 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   useEffect(() => {
     if (!fitment) return;
     if (filteredDiameterOptions.length === 0) return;
-    if (!filteredDiameterOptions.includes(activeDiameter)) {
-      setActiveDiameter(filteredDiameterOptions[0]);
+    if (!filteredDiameterOptions.includes(activeDiameterFront)) {
+      setActiveDiameterFront(filteredDiameterOptions[0]);
     }
-  }, [fitment, filteredDiameterOptions, activeDiameter]);
+    if (!filteredDiameterOptions.includes(activeDiameterRear)) {
+      setActiveDiameterRear(filteredDiameterOptions[0]);
+    }
+  }, [fitment, filteredDiameterOptions, activeDiameterFront, activeDiameterRear]);
 
   function handleMakeChange(make: string) {
     setCarMake(make);
@@ -141,9 +180,19 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const resolvedPcd = fitment?.pcd ?? activePcd;
   const resolvedCentrebore = fitment?.centreBore ?? activeCentrebore;
 
+  // Compact display strings — staggered builds collapse to "front / rear",
+  // square builds show a single value.
+  const displayDiameter = isStaggered
+    ? `${activeDiameterFront} F / ${activeDiameterRear} R`
+    : activeDiameterFront;
+  const displayWidth = isStaggered
+    ? `${activeWidthFront} F / ${activeWidthRear} R`
+    : activeWidthFront;
+
   function buildQuoteUrl() {
     const estimateExtras = [
       "centre caps incl.",
+      isStaggered ? "staggered" : null,
       includeCustomFinish && isOnePiece ? "custom finish" : null,
     ].filter(Boolean);
     const quotedPrice = estimatedTotal !== null
@@ -159,8 +208,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     if (carMake) params.set("make", carMake);
     if (carModel) params.set("model", carModel);
     if (carYear) params.set("year", carYear);
-    if (activeDiameter) params.set("diameter", activeDiameter);
-    if (activeWidth) params.set("width", activeWidth);
+    if (displayDiameter) params.set("diameter", displayDiameter);
+    if (displayWidth) params.set("width", displayWidth);
     if (resolvedPcd) params.set("pcd", resolvedPcd);
     if (activeOffset) params.set("offset", activeOffset);
     if (resolvedCentrebore) params.set("centrebore", resolvedCentrebore);
@@ -172,8 +221,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
   const configParts = [
     carLabel,
-    activeDiameter,
-    activeWidth && `W${activeWidth}`,
+    displayDiameter,
+    displayWidth && `W${displayWidth}`,
     resolvedPcd,
     activeOffset && `ET${activeOffset}`,
     resolvedCentrebore && `CB ${resolvedCentrebore}`,
@@ -185,9 +234,20 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   // Live estimate based on the customer's current selections.
   // Centre caps are bundled into every wheel set; only custom finish is an extra.
   const isOnePiece = product.series === "1-Piece Forged";
-  const diameterNum = activeDiameter ? parseInt(activeDiameter, 10) : NaN;
-  const perWheelPrice = Number.isFinite(diameterNum) ? priceForDiameter(product.series, diameterNum) : null;
-  const wheelOnlySubtotal = perWheelPrice !== null ? perWheelPrice * 4 : null;
+  const frontDiameterNum = activeDiameterFront ? parseInt(activeDiameterFront, 10) : NaN;
+  const rearDiameterNum = activeDiameterRear ? parseInt(activeDiameterRear, 10) : NaN;
+  const frontPerWheelPrice = Number.isFinite(frontDiameterNum)
+    ? priceForDiameter(product.series, frontDiameterNum)
+    : null;
+  const rearPerWheelPrice = Number.isFinite(rearDiameterNum)
+    ? priceForDiameter(product.series, rearDiameterNum)
+    : null;
+  // Square fitment uses the front price × 4. Staggered = 2 × front + 2 × rear.
+  const wheelOnlySubtotal = (() => {
+    if (!isStaggered) return frontPerWheelPrice !== null ? frontPerWheelPrice * 4 : null;
+    if (frontPerWheelPrice === null || rearPerWheelPrice === null) return null;
+    return frontPerWheelPrice * 2 + rearPerWheelPrice * 2;
+  })();
   const wheelSetWithCaps = wheelOnlySubtotal !== null ? wheelOnlySubtotal + CENTRE_CAPS_INCLUDED_VALUE_AUD : null;
   const customFinishSubtotal = includeCustomFinish && isOnePiece ? CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4 : 0;
   const estimatedTotal = wheelSetWithCaps !== null
@@ -342,31 +402,95 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               )}
             </div>
 
+            {/* ── Staggered toggle ── */}
+            <div className={styles.optionGroup}>
+              <label className={styles.staggeredToggle}>
+                <input
+                  type="checkbox"
+                  checked={isStaggered}
+                  onChange={(event) => toggleStaggered(event.target.checked)}
+                />
+                <span className={styles.staggeredToggleText}>
+                  <span className={styles.staggeredToggleLabel}>Staggered fitment</span>
+                  <span className={styles.staggeredToggleHint}>
+                    Different sizes front and rear (e.g. 19F / 20R)
+                  </span>
+                </span>
+              </label>
+            </div>
+
             {/* ── Diameter ── */}
             {filteredDiameterOptions.length > 0 && (
               <div className={styles.optionGroup}>
                 <div className={styles.optionHeader}>
                   <p className={`label ${styles.optionLabel}`}>Diameter</p>
-                  {activeDiameter && <span className={styles.optionSelected}>{activeDiameter}</span>}
+                  {displayDiameter && <span className={styles.optionSelected}>{displayDiameter}</span>}
                 </div>
-                <div className={styles.pills} role="radiogroup" aria-label="Diameter">
-                  {filteredDiameterOptions.map((opt) => (
-                    <label key={opt} className={styles.pillItem}>
-                      <input
-                        aria-label={opt}
-                        checked={activeDiameter === opt}
-                        className="visually-hidden"
-                        name="diameter"
-                        onChange={() => setActiveDiameter(opt)}
-                        type="radio"
-                        value={opt}
-                      />
-                      <span className={`${styles.pill} ${activeDiameter === opt ? styles.pillActive : ""}`}>
-                        {opt}
-                      </span>
-                    </label>
-                  ))}
-                </div>
+                {isStaggered ? (
+                  <div className={styles.axleStack}>
+                    <div className={styles.axleRow}>
+                      <span className={styles.axleLabel}>Front</span>
+                      <div className={styles.pills} role="radiogroup" aria-label="Front diameter">
+                        {filteredDiameterOptions.map((opt) => (
+                          <label key={`d-front-${opt}`} className={styles.pillItem}>
+                            <input
+                              aria-label={`Front ${opt}`}
+                              checked={activeDiameterFront === opt}
+                              className="visually-hidden"
+                              name="diameter-front"
+                              onChange={() => pickDiameter(opt, "front")}
+                              type="radio"
+                              value={opt}
+                            />
+                            <span className={`${styles.pill} ${activeDiameterFront === opt ? styles.pillActive : ""}`}>
+                              {opt}
+                            </span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                    <div className={styles.axleRow}>
+                      <span className={styles.axleLabel}>Rear</span>
+                      <div className={styles.pills} role="radiogroup" aria-label="Rear diameter">
+                        {filteredDiameterOptions.map((opt) => (
+                          <label key={`d-rear-${opt}`} className={styles.pillItem}>
+                            <input
+                              aria-label={`Rear ${opt}`}
+                              checked={activeDiameterRear === opt}
+                              className="visually-hidden"
+                              name="diameter-rear"
+                              onChange={() => pickDiameter(opt, "rear")}
+                              type="radio"
+                              value={opt}
+                            />
+                            <span className={`${styles.pill} ${activeDiameterRear === opt ? styles.pillActive : ""}`}>
+                              {opt}
+                            </span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.pills} role="radiogroup" aria-label="Diameter">
+                    {filteredDiameterOptions.map((opt) => (
+                      <label key={opt} className={styles.pillItem}>
+                        <input
+                          aria-label={opt}
+                          checked={activeDiameterFront === opt}
+                          className="visually-hidden"
+                          name="diameter"
+                          onChange={() => pickDiameter(opt, "front")}
+                          type="radio"
+                          value={opt}
+                        />
+                        <span className={`${styles.pill} ${activeDiameterFront === opt ? styles.pillActive : ""}`}>
+                          {opt}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
@@ -375,26 +499,73 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               <div className={styles.optionGroup}>
                 <div className={styles.optionHeader}>
                   <p className={`label ${styles.optionLabel}`}>Width</p>
-                  {activeWidth && <span className={styles.optionSelected}>{activeWidth}</span>}
+                  {displayWidth && <span className={styles.optionSelected}>{displayWidth}</span>}
                 </div>
-                <div className={styles.pills} role="radiogroup" aria-label="Width">
-                  {product.widthOptions.map((opt) => (
-                    <label key={opt} className={styles.pillItem}>
-                      <input
-                        aria-label={opt}
-                        checked={activeWidth === opt}
-                        className="visually-hidden"
-                        name="width"
-                        onChange={() => setActiveWidth(opt)}
-                        type="radio"
-                        value={opt}
-                      />
-                      <span className={`${styles.pill} ${activeWidth === opt ? styles.pillActive : ""}`}>
-                        {opt}
-                      </span>
-                    </label>
-                  ))}
-                </div>
+                {isStaggered ? (
+                  <div className={styles.axleStack}>
+                    <div className={styles.axleRow}>
+                      <span className={styles.axleLabel}>Front</span>
+                      <div className={styles.pills} role="radiogroup" aria-label="Front width">
+                        {product.widthOptions.map((opt) => (
+                          <label key={`w-front-${opt}`} className={styles.pillItem}>
+                            <input
+                              aria-label={`Front ${opt}`}
+                              checked={activeWidthFront === opt}
+                              className="visually-hidden"
+                              name="width-front"
+                              onChange={() => pickWidth(opt, "front")}
+                              type="radio"
+                              value={opt}
+                            />
+                            <span className={`${styles.pill} ${activeWidthFront === opt ? styles.pillActive : ""}`}>
+                              {opt}
+                            </span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                    <div className={styles.axleRow}>
+                      <span className={styles.axleLabel}>Rear</span>
+                      <div className={styles.pills} role="radiogroup" aria-label="Rear width">
+                        {product.widthOptions.map((opt) => (
+                          <label key={`w-rear-${opt}`} className={styles.pillItem}>
+                            <input
+                              aria-label={`Rear ${opt}`}
+                              checked={activeWidthRear === opt}
+                              className="visually-hidden"
+                              name="width-rear"
+                              onChange={() => pickWidth(opt, "rear")}
+                              type="radio"
+                              value={opt}
+                            />
+                            <span className={`${styles.pill} ${activeWidthRear === opt ? styles.pillActive : ""}`}>
+                              {opt}
+                            </span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.pills} role="radiogroup" aria-label="Width">
+                    {product.widthOptions.map((opt) => (
+                      <label key={opt} className={styles.pillItem}>
+                        <input
+                          aria-label={opt}
+                          checked={activeWidthFront === opt}
+                          className="visually-hidden"
+                          name="width"
+                          onChange={() => pickWidth(opt, "front")}
+                          type="radio"
+                          value={opt}
+                        />
+                        <span className={`${styles.pill} ${activeWidthFront === opt ? styles.pillActive : ""}`}>
+                          {opt}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
@@ -551,8 +722,10 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               <div className={styles.estimateRows}>
                 <div className={styles.estimateRow}>
                   <span className={styles.estimateRowLabel}>
-                    {wheelOnlySubtotal !== null && perWheelPrice !== null
-                      ? `4 × ${activeDiameter} ${product.series}`
+                    {wheelOnlySubtotal !== null
+                      ? isStaggered
+                        ? `2 × ${activeDiameterFront} front + 2 × ${activeDiameterRear} rear ${product.series}`
+                        : `4 × ${activeDiameterFront} ${product.series}`
                       : `${product.series} set of 4`}
                   </span>
                   <span className={styles.estimateRowValue}>
@@ -561,9 +734,11 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                       : "Pick a diameter"}
                   </span>
                 </div>
-                {perWheelPrice !== null ? (
+                {frontPerWheelPrice !== null && (!isStaggered || rearPerWheelPrice !== null) ? (
                   <p className={styles.estimateRowDetail}>
-                    {`AUD ${formatAud(perWheelPrice)} per wheel`}
+                    {isStaggered && rearPerWheelPrice !== null && rearPerWheelPrice !== frontPerWheelPrice
+                      ? `AUD ${formatAud(frontPerWheelPrice)} front · AUD ${formatAud(rearPerWheelPrice)} rear per wheel`
+                      : `AUD ${formatAud(frontPerWheelPrice)} per wheel`}
                   </p>
                 ) : null}
 
