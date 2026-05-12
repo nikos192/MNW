@@ -99,12 +99,12 @@ export default async function Home() {
 
           <div className={styles.storyMedia} data-reveal>
             <Image
-              alt="MonzaWheels forged wheel detail"
+              alt='MW-21 "Ascari" forged wheel detail'
               className={styles.storyImage}
               height={1200}
               priority
               sizes="(max-width: 767px) 100vw, 50vw"
-              src="/media/hero-wheel-poster.jpg"
+              src="/products/MW-21%20Ascari%203.JPG"
               width={1600}
             />
           </div>
