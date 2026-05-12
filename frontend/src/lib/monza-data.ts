@@ -1177,7 +1177,71 @@ function buildFallbackProduct(familyCode: (typeof PRODUCT_FAMILIES)[number]): Ca
   };
 }
 
-export const fallbackProducts: CatalogProduct[] = PRODUCT_FAMILIES.map(buildFallbackProduct);
+// Named production wheels live here and take precedence over the placeholder
+// alphabetical families above. Naming convention: MW-XY where X is the piece
+// count (1 = monoblock, 2 = 2-piece) and Y is the sequential design number.
+function buildNamedTwoPieceProduct(args: {
+  handle: string;
+  title: string;
+  shortDescription: string;
+  description: string;
+  imageFileNames: string[];
+}): CatalogProduct {
+  const series = "2-Piece Forged";
+  const tierRange = priceRangeForSeries(series);
+  const price = tierRange
+    ? `From AUD ${formatAud(tierRange.minPerWheel)}/wheel`
+    : "From AUD $1,323/wheel";
+
+  return {
+    id: `wheel-${args.handle.toLowerCase()}`,
+    handle: args.handle,
+    title: args.title,
+    series,
+    shortDescription: args.shortDescription,
+    description: args.description,
+    price,
+    leadTime: "approximately 25 days from order confirmation",
+    images: args.imageFileNames.map((fileName, index) => ({
+      url: `/products/${encodeURIComponent(fileName)}`,
+      alt: `${args.title} forged wheel${index === 0 ? "" : ` — view ${index + 1}`}`,
+    })),
+    finishes: finishOptions,
+    specs: [
+      { label: "Construction", value: "2-piece forged" },
+      { label: "Finish", value: "Multiple finishes available" },
+      { label: "Diameter range", value: "18 to 24 inches" },
+      { label: "Width range", value: "8.0 to 13.5 inches" },
+      { label: "PCD", value: "Matched to vehicle - full range available" },
+      { label: "Offset", value: "Extended range - resolved per chassis" },
+    ],
+    diameterOptions: DIAMETERS_2PC,
+    widthOptions: WIDTHS_2PC,
+    pcdOptions: PCDS,
+    offsetRange: "Extended range - resolved per chassis",
+    centreboreOptions: CENTREBORES,
+  };
+}
+
+const namedProducts: CatalogProduct[] = [
+  buildNamedTwoPieceProduct({
+    handle: "MW-21",
+    title: "MW-21 Ascari",
+    shortDescription: "The first design in the MonzaWheels 2-piece forged library.",
+    description:
+      "MW-21 Ascari is the inaugural design in the MonzaWheels 2-piece forged library. Disc and barrel are forged separately and bolted together for deeper dish, extended offsets, and a stronger visual contrast against the chassis. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.",
+    imageFileNames: [
+      "MW-21 Ascari 1.png",
+      "MW-21 Ascari 2.JPG",
+      "MW-21 Ascari 3.JPG",
+    ],
+  }),
+];
+
+export const fallbackProducts: CatalogProduct[] = [
+  ...namedProducts,
+  ...PRODUCT_FAMILIES.map(buildFallbackProduct),
+];
 
 export const deliveredSets: DeliveredSet[] = [
   {
