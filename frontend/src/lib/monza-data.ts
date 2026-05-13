@@ -883,8 +883,6 @@ const PRODUCT_CODES = [
   "1F2",
   "2A1",
   "2A2",
-  "2B1",
-  "2B2",
   "2C1",
   "2C2",
 ] as const;

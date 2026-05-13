@@ -665,9 +665,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                                 ? "/brand/Logo%20Black.jpg"
                                 : "/brand/Logo%20White.png"
                             }
-                            sizes="120px"
-                            width={240}
-                            height={240}
+                            sizes="48px"
+                            width={96}
+                            height={96}
                           />
                         )}
                       </span>
