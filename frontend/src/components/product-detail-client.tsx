@@ -40,6 +40,10 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [activeOffset, setActiveOffset] = useState("");
   const [activeCentrebore, setActiveCentrebore] = useState("");
 
+  // Centre cap colour — Black/White logos plus a custom text fallback.
+  const [capColour, setCapColour] = useState<"Black" | "White" | "Custom">("Black");
+  const [capColourCustom, setCapColourCustom] = useState("");
+
   function pickDiameter(value: string, axle: "front" | "rear") {
     if (isStaggered) {
       if (axle === "front") setActiveDiameterFront(value);
@@ -188,6 +192,12 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const displayWidth = isStaggered
     ? `${activeWidthFront} F / ${activeWidthRear} R`
     : activeWidthFront;
+  const formattedCapColour =
+    capColour === "Custom"
+      ? capColourCustom.trim()
+        ? `Custom: ${capColourCustom.trim()}`
+        : "Custom (to confirm)"
+      : capColour;
 
   function buildQuoteUrl() {
     const estimateExtras = [
@@ -214,6 +224,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     if (activeOffset) params.set("offset", activeOffset);
     if (resolvedCentrebore) params.set("centrebore", resolvedCentrebore);
     if (activeFinish) params.set("finish", activeFinish);
+    if (formattedCapColour) params.set("capColour", formattedCapColour);
     return `/contact?${params.toString()}`;
   }
 
@@ -227,6 +238,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     activeOffset && `ET${activeOffset}`,
     resolvedCentrebore && `CB ${resolvedCentrebore}`,
     activeFinish,
+    formattedCapColour && `Cap ${formattedCapColour}`,
   ].filter(Boolean);
 
   const configSummary = configParts.join(" · ");
@@ -617,6 +629,64 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                 ) : null}
               </div>
             )}
+
+            {/* ── Centre cap colour ── */}
+            <div className={styles.optionGroup}>
+              <div className={styles.optionHeader}>
+                <p className={`label ${styles.optionLabel}`}>Centre cap colour</p>
+                <span className={styles.optionSelected}>{formattedCapColour}</span>
+              </div>
+              <div className={styles.capColours} role="radiogroup" aria-label="Centre cap colour">
+                {(["Black", "White", "Custom"] as const).map((option) => (
+                  <label key={option} className={styles.capColourItem}>
+                    <input
+                      aria-label={option}
+                      checked={capColour === option}
+                      className="visually-hidden"
+                      name="capColour"
+                      onChange={() => setCapColour(option)}
+                      type="radio"
+                      value={option}
+                    />
+                    <span
+                      className={`${styles.capColourCard} ${capColour === option ? styles.capColourCardActive : ""}`}
+                    >
+                      <span className={styles.capColourImageWrap}>
+                        {option === "Custom" ? (
+                          <span className={styles.capColourCustomMark} aria-hidden="true">
+                            ?
+                          </span>
+                        ) : (
+                          <Image
+                            alt={`${option} centre cap logo`}
+                            className={styles.capColourImage}
+                            src={
+                              option === "Black"
+                                ? "/brand/Logo%20Black.jpg"
+                                : "/brand/Logo%20White.png"
+                            }
+                            sizes="120px"
+                            width={240}
+                            height={240}
+                          />
+                        )}
+                      </span>
+                      <span className={styles.capColourLabel}>{option}</span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+              {capColour === "Custom" ? (
+                <input
+                  className={styles.capColourCustomInput}
+                  type="text"
+                  placeholder="Describe the colour you want (e.g. cherry red, brushed gold)"
+                  value={capColourCustom}
+                  onChange={(event) => setCapColourCustom(event.target.value)}
+                  aria-label="Custom centre cap colour"
+                />
+              ) : null}
+            </div>
 
             {/* ── PCD (optional) — hidden when fitment is auto-matched ── */}
             {!fitment && product.pcdOptions.length > 0 && (

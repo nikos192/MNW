@@ -16,6 +16,7 @@ type ContactPageProps = {
     offset?: string;
     centrebore?: string;
     finish?: string;
+    capColour?: string;
   }>;
 };
 
@@ -40,6 +41,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
     params.offset ? `Offset: ${params.offset}` : "",
     params.centrebore ? `Centre bore: ${params.centrebore}` : "",
     params.finish ? `Finish: ${params.finish}` : "",
+    params.capColour ? `Centre cap colour: ${params.capColour}` : "",
   ].filter(Boolean);
 
   const initialValues = {
@@ -52,6 +54,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
     offset: params.offset,
     centrebore: params.centrebore,
     finish: params.finish,
+    capColour: params.capColour,
   };
 
   const hasConfig =
@@ -62,7 +65,8 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
     params.pcd ||
     params.offset ||
     params.centrebore ||
-    params.finish;
+    params.finish ||
+    params.capColour;
 
   return (
     <main className={styles.page}>

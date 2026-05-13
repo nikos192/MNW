@@ -25,6 +25,7 @@ export type QuoteEmailPayload = {
     offset?: string;
     centrebore?: string;
     finish?: string;
+    capColour?: string;
     references?: string;
   };
   notes?: string;
@@ -104,6 +105,7 @@ function sectionRows(payload: QuoteEmailPayload) {
     { label: "Offset (ET)", value: displayValue(payload.wheel?.offset) },
     { label: "Centre bore", value: displayValue(payload.wheel?.centrebore) },
     { label: "Finish direction", value: displayValue(payload.wheel?.finish) },
+    { label: "Centre cap colour", value: displayValue(payload.wheel?.capColour) },
     { label: "Reference links", value: displayValue(payload.wheel?.references) },
   ];
 

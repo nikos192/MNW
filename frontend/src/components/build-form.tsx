@@ -15,6 +15,7 @@ type InitialValues = {
   offset?: string;
   centrebore?: string;
   finish?: string;
+  capColour?: string;
 };
 
 type QuoteContext = {
@@ -57,6 +58,7 @@ const wheelFields: FormField[] = [
   { id: "offset", label: "Offset (ET)", type: "text", placeholder: "ET35 or F ET20 / R ET35 — leave blank to match vehicle", optional: true },
   { id: "centrebore", label: "Centre bore", type: "text", placeholder: "66.6mm / 72.6mm — leave blank to match vehicle", optional: true },
   { id: "finish", label: "Finish direction", type: "text", placeholder: "Brushed clear / satin graphite / bronze" },
+  { id: "capColour", label: "Centre cap colour", type: "text", placeholder: "Black, white, or custom colour" },
   { id: "references", label: "Reference links", type: "text", placeholder: "Instagram, Pinterest, or car photos" },
 ];
 
@@ -171,6 +173,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
       case "offset": return initialValues.offset ?? "";
       case "centrebore": return initialValues.centrebore ?? "";
       case "finish": return initialValues.finish ?? "";
+      case "capColour": return initialValues.capColour ?? "";
       default: return "";
     }
   }
@@ -216,6 +219,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
             offset: valueFor("offset"),
             centrebore: fitment?.centreBore ?? valueFor("centrebore"),
             finish: valueFor("finish"),
+            capColour: valueFor("capColour"),
             references: valueFor("references"),
           },
           notes: notes.trim(),
