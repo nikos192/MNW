@@ -32,16 +32,6 @@ const wordmarkFont = Cormorant_Garamond({
   weight: ["600", "700"],
 });
 
-function resolveMetadataBase(): URL {
-  const configuredSiteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ?? process.env.VERCEL_URL ?? "http://localhost:3000";
-  const normalizedSiteUrl = /^https?:\/\//i.test(configuredSiteUrl)
-    ? configuredSiteUrl
-    : `https://${configuredSiteUrl}`;
-
-  return new URL(normalizedSiteUrl);
-}
-
 export const metadata: Metadata = {
   metadataBase: resolveMetadataBase(),
   applicationName: BRAND_NAME,
