@@ -4,6 +4,14 @@ import { BRAND_NAME } from "@/lib/brand";
 import { SiteEffects } from "@/components/site-effects";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import {
+  DEFAULT_OG_IMAGE,
+  DEFAULT_SEO_DESCRIPTION,
+  jsonLd,
+  organizationJsonLd,
+  resolveMetadataBase,
+  websiteJsonLd,
+} from "@/lib/seo";
 import "./globals.css";
 
 const headingFont = Work_Sans({
@@ -34,36 +42,40 @@ function resolveMetadataBase(): URL {
   return new URL(normalizedSiteUrl);
 }
 
-const SITE_DESCRIPTION =
-  "Premium forged wheels with fitment, offset, finish, assembly, and testing resolved around the exact chassis in Australia.";
-
 export const metadata: Metadata = {
   metadataBase: resolveMetadataBase(),
+  applicationName: BRAND_NAME,
   title: {
     default: `${BRAND_NAME} | Forged Wheels Australia`,
     template: `%s | ${BRAND_NAME}`,
   },
-  description: SITE_DESCRIPTION,
+  description: DEFAULT_SEO_DESCRIPTION,
+  creator: BRAND_NAME,
+  publisher: BRAND_NAME,
+  category: "Automotive",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? {
+        google: process.env.GOOGLE_SITE_VERIFICATION,
+      }
+    : undefined,
   openGraph: {
     type: "website",
     siteName: BRAND_NAME,
+    url: "/",
     title: `${BRAND_NAME} | Forged Wheels Australia`,
-    description: SITE_DESCRIPTION,
+    description: DEFAULT_SEO_DESCRIPTION,
     locale: "en_AU",
-    images: [
-      {
-        url: "/media/hero-wheel-poster.jpg",
-        width: 1600,
-        height: 900,
-        alt: `${BRAND_NAME} forged wheels`,
-      },
-    ],
+    images: [DEFAULT_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: `${BRAND_NAME} | Forged Wheels Australia`,
-    description: SITE_DESCRIPTION,
-    images: ["/media/hero-wheel-poster.jpg"],
+    description: DEFAULT_SEO_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE.url],
   },
 };
 
@@ -75,6 +87,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${headingFont.variable} ${bodyFont.variable} ${wordmarkFont.variable}`}>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={jsonLd(organizationJsonLd())}
+        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(websiteJsonLd())} />
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>

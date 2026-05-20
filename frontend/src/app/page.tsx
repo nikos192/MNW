@@ -1,10 +1,36 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { GallerySwitcher } from "@/components/gallery-switcher";
 import { collectionSummaries, formatAud, priceRangeForSeries } from "@/lib/monza-data";
 import { getCatalogData } from "@/lib/catalog";
+import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import styles from "./page.module.css";
+
+export const metadata: Metadata = {
+  title: "Forged Wheels Australia",
+  description:
+    "Explore MonzaWheels forged wheel programs, chassis-led fitment guidance, finish options, and quote-ready product detail for Australian builds.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    title: "MonzaWheels | Forged Wheels Australia",
+    description:
+      "Explore forged wheel programs, compare finishes, and quote fitment around the exact chassis.",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MonzaWheels | Forged Wheels Australia",
+    description:
+      "Explore forged wheel programs, compare finishes, and quote fitment around the exact chassis.",
+    images: [DEFAULT_OG_IMAGE.url],
+  },
+};
 
 export default async function Home() {
   const { deliveredSets, products } = await getCatalogData();

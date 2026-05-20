@@ -46,6 +46,12 @@ function clean(value?: string) {
   return value?.trim() || "";
 }
 
+// Strip CR/LF so a malicious value never breaks out of an email header
+// (subject, from, replyTo, etc.). Use for any field that flows into headers.
+function sanitizeHeader(value?: string): string {
+  return clean(value).replace(/[\r\n]+/g, " ");
+}
+
 function displayValue(value?: string) {
   return clean(value) || "Not provided";
 }
@@ -195,8 +201,9 @@ function wrapEmail(args: {
 }
 
 export function buildIntakeEmail(payload: QuoteEmailPayload): EmailContent {
-  const subject = clean(payload.quoteContext?.productTitle)
-    ? `${BRAND_NAME} Quote Request - ${clean(payload.quoteContext?.productTitle)}`
+  const safeTitle = sanitizeHeader(payload.quoteContext?.productTitle);
+  const subject = safeTitle
+    ? `${BRAND_NAME} Quote Request - ${safeTitle}`
     : `${BRAND_NAME} Quote Request`;
   const { customerRows, productRows, vehicleRows, wheelRows } = sectionRows(payload);
   const productUrl = buildProductUrl(payload.quoteContext?.productHandle);
@@ -242,9 +249,10 @@ export function buildIntakeEmail(payload: QuoteEmailPayload): EmailContent {
 }
 
 export function buildCustomerConfirmationEmail(payload: QuoteEmailPayload): EmailContent {
-  const firstName = clean(payload.customer?.name).split(/\s+/)[0] || "there";
-  const subject = clean(payload.quoteContext?.productTitle)
-    ? `${BRAND_NAME} quote request received for ${clean(payload.quoteContext?.productTitle)}`
+  const firstName = sanitizeHeader(payload.customer?.name).split(/\s+/)[0] || "there";
+  const safeTitle = sanitizeHeader(payload.quoteContext?.productTitle);
+  const subject = safeTitle
+    ? `${BRAND_NAME} quote request received for ${safeTitle}`
     : `${BRAND_NAME} quote request received`;
   const { productRows, vehicleRows, wheelRows } = sectionRows(payload);
   const productUrl = buildProductUrl(payload.quoteContext?.productHandle);

@@ -200,6 +200,8 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
         },
         body: JSON.stringify({
           quoteContext,
+          // Honeypot: bots fill every visible field; humans don't see this one.
+          honeypot: valueFor("website_url"),
           customer: {
             name: valueFor("name"),
             email: valueFor("email"),
@@ -253,6 +255,18 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
+      {/* Honeypot: hidden from real users, irresistible to dumb bots. */}
+      <div aria-hidden="true" className={styles.honeypot}>
+        <label>
+          Website
+          <input
+            autoComplete="off"
+            name="website_url"
+            tabIndex={-1}
+            type="text"
+          />
+        </label>
+      </div>
 
       {/* ── Contact details ── */}
       <div className={styles.section}>

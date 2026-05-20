@@ -186,6 +186,16 @@
   text-transform: uppercase;
 }
 
+/* ── Honeypot (off-screen, real users never see it) ── */
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 /* ── Auto fitment panel ── */
 
 .autoFitment {
