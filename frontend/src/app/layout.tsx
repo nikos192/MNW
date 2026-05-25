@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Jura, Work_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { BRAND_NAME } from "@/lib/brand";
 import { SiteEffects } from "@/components/site-effects";
 import { SiteFooter } from "@/components/site-footer";
@@ -89,6 +90,7 @@ export default function RootLayout({
         <SiteHeader />
         <div id="main-content">{children}</div>
         <SiteFooter />
+        <Analytics />
       </body>
     </html>
   );
