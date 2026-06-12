@@ -13,10 +13,12 @@ export default function FitmentToolPage() {
     <main className={styles.page}>
       <section className={styles.hero}>
         <div className="container">
-          <p className="label">Tools</p>
-          <h1 className={styles.title}>Fitment Calculator</h1>
+          <p className="label">Fitment helper</p>
+          <h1 className={styles.title}>Compare wheel changes before you quote.</h1>
           <p className={styles.copy}>
-            Enter two setups to compare them side by side — stance, clearance, diameter, and speedometer error visualised on a scaled cross-section of the axle.
+            Enter your current wheel and tyre size, then test the setup you are
+            considering. See poke, inner clearance, rolling diameter, and
+            speedometer change.
           </p>
         </div>
       </section>
@@ -32,7 +34,8 @@ export default function FitmentToolPage() {
           <div>
             <p className="label">Next step</p>
             <p className={styles.ctaLabel}>
-              Found the right fitment? Get a quote built around your exact chassis.
+              Not sure what the numbers should be? Send the car and we will
+              resolve the fitment for you.
             </p>
           </div>
           <Link className="button-primary" href="/contact">

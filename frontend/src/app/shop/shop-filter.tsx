@@ -10,17 +10,14 @@ type PieceFilter = "1-Piece Forged" | "2-Piece Forged";
 const filterOptions: Array<{
   value: PieceFilter;
   label: string;
-  copy: string;
 }> = [
   {
     value: "1-Piece Forged",
-    label: "1-Piece",
-    copy: "Monoblock forged wheels for the cleanest visual read and the widest fitment spread.",
+    label: "Monoblock",
   },
   {
     value: "2-Piece Forged",
-    label: "2-Piece",
-    copy: "Multi-piece forged wheels for deeper dish, stronger contrast, and hero-build fitment.",
+    label: "Multi-piece",
   },
 ];
 
@@ -30,12 +27,10 @@ type ShopFilterProps = {
 
 export function ShopFilter({ products }: ShopFilterProps) {
   const [activeFilter, setActiveFilter] = useState<PieceFilter>("1-Piece Forged");
-  const activeOption = filterOptions.find((option) => option.value === activeFilter) ?? filterOptions[0];
   const groupedProducts = filterOptions.map((option) => ({
     ...option,
     products: products.filter((product) => product.series === option.value),
   }));
-  const activeGroup = groupedProducts.find((group) => group.value === activeFilter) ?? groupedProducts[0];
 
   return (
     <div className={styles.filterShell}>
@@ -51,14 +46,6 @@ export function ShopFilter({ products }: ShopFilterProps) {
             {option.label}
           </button>
         ))}
-      </div>
-
-      <div className={styles.filterMeta}>
-        <p className={styles.filterLead}>{activeOption.label} Wheels</p>
-        <p className={styles.filterCopy}>{activeOption.copy}</p>
-        <p className={styles.filterCount}>
-          Showing {activeGroup.products.length} {activeGroup.products.length === 1 ? "wheel" : "wheels"}
-        </p>
       </div>
 
       {groupedProducts.map((group) => (

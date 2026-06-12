@@ -11,25 +11,17 @@ import styles from "./site-header.module.css";
 const leftLinks = [
   { href: "/shop", label: "Wheels" },
   { href: "/finishes", label: "Finishes" },
-  { href: "/gallery", label: "Gallery" },
 ];
 
 const rightLinks = [
-  { href: "/engineering", label: "Engineering" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/contact", label: "Contact" },
+  { href: "/contact", label: "Quote" },
 ];
 
 const mobileLinks = [
   { href: "/shop", label: "Wheels" },
   { href: "/finishes", label: "Finishes" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/engineering", label: "Engineering" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/fitment-tool", label: "Fitment Calculator" },
-  { href: "/about", label: "About" },
-  { href: "/find-a-dealer", label: "Find a Dealer" },
-  { href: "/contact", label: "Request a Quote" },
+  { href: "/contact", label: "Quote" },
 ];
 
 function InstagramIcon({ size = 16 }: { size?: number }) {
@@ -65,7 +57,6 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [openPathname, setOpenPathname] = useState<string | null>(null);
-  const isHome = pathname === "/";
   const isOpen = openPathname === pathname;
 
   function closeMenu() {
@@ -110,16 +101,17 @@ export function SiteHeader() {
   return (
     <>
       <header
-        className={`${styles.header} ${isScrolled ? styles.scrolled : ""} ${isHome && !isScrolled ? styles.transparent : styles.solid}`}
+        className={`${styles.header} ${isScrolled ? styles.scrolled : ""} ${styles.solid}`}
       >
         <div className={styles.utilityBar}>
           <div className={`${styles.utilityInner} container`}>
             <p className={styles.utilityText}>
-              <span>Brisbane, Australia</span>
+              <span className={styles.flagBadge} role="img" aria-label="Australian flag">
+                🇦🇺
+              </span>
+              <span>Australian forged wheels</span>
               <span className={styles.utilityDivider}>·</span>
-              <a className={styles.utilityEmailLink} href={`mailto:${BRAND_EMAIL}`}>
-                {BRAND_EMAIL}
-              </a>
+              <span>Built to order</span>
             </p>
 
             <div className={styles.utilityNav}>
@@ -132,11 +124,8 @@ export function SiteHeader() {
               >
                 <InstagramIcon size={16} />
               </a>
-              <Link className={styles.utilityLink} href="/find-a-dealer">
-                Find a Dealer
-              </Link>
               <Link className={styles.utilityLink} href="/contact">
-                Request a Quote
+                Speak to an expert
               </Link>
             </div>
           </div>
@@ -145,6 +134,9 @@ export function SiteHeader() {
         <div className={styles.primaryBar}>
           <div className={`${styles.primaryInner} container`}>
             <div className={styles.navSlot}>
+              <span className={styles.mobileFlag} role="img" aria-label="Australian flag">
+                🇦🇺
+              </span>
               <nav className={`${styles.primaryNav} ${styles.primaryNavLeft}`} aria-label="Primary navigation left">
                 <ul className={styles.navList}>
                   {leftLinks.map((link) => {
@@ -260,12 +252,9 @@ export function SiteHeader() {
               >
                 Instagram
               </a>
-              <Link className={styles.overlaySmallLink} href="/find-a-dealer" onClick={closeMenu}>
-                Find a Dealer
-              </Link>
-              <Link className={styles.overlaySmallLink} href="/contact" onClick={closeMenu}>
-                Request a Quote
-              </Link>
+              <a className={styles.overlaySmallLink} href={`mailto:${BRAND_EMAIL}`}>
+                Email
+              </a>
             </div>
 
             <div className={styles.overlayMeta}>

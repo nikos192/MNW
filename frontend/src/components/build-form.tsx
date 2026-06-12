@@ -43,23 +43,23 @@ type FormField = {
 const contactFields: FormField[] = [
   { id: "name", label: "Your name", type: "text", placeholder: "Alex Morgan", required: true, autoComplete: "name" },
   { id: "email", label: "Your email", type: "email", placeholder: "alex@example.com", required: true, autoComplete: "email" },
-  { id: "phone", label: "Phone number", type: "tel", placeholder: "+61 4xx xxx xxx", autoComplete: "tel" },
+  { id: "phone", label: "Phone number", type: "tel", placeholder: "+61 4xx xxx xxx", autoComplete: "tel", optional: true },
 ];
 
 const vehicleDetailFields: FormField[] = [
-  { id: "brakes", label: "Brake package", type: "text", placeholder: "Carbon ceramics / factory steel / big brake kit" },
-  { id: "suspension", label: "Suspension / ride height", type: "text", placeholder: "Factory, lowered, or coilovers" },
+  { id: "brakes", label: "Brake package", type: "text", placeholder: "Carbon ceramics / factory steel / big brake kit", optional: true },
+  { id: "suspension", label: "Suspension / ride height", type: "text", placeholder: "Factory, lowered, or coilovers", optional: true },
 ];
 
 const wheelFields: FormField[] = [
-  { id: "diameter", label: "Preferred diameter", type: "text", placeholder: "19 / 20 / open to guidance" },
-  { id: "width", label: "Preferred width", type: "text", placeholder: "9.5 / 10.5 or staggered" },
+  { id: "diameter", label: "Preferred diameter", type: "text", placeholder: "19 / 20 / open to guidance", optional: true },
+  { id: "width", label: "Preferred width", type: "text", placeholder: "9.5 / 10.5 or staggered", optional: true },
   { id: "pcd", label: "PCD", type: "text", placeholder: "5x112 / 5x114.3 — leave blank to match vehicle", optional: true },
   { id: "offset", label: "Offset (ET)", type: "text", placeholder: "ET35 or F ET20 / R ET35 — leave blank to match vehicle", optional: true },
   { id: "centrebore", label: "Centre bore", type: "text", placeholder: "66.6mm / 72.6mm — leave blank to match vehicle", optional: true },
-  { id: "finish", label: "Finish direction", type: "text", placeholder: "Brushed clear / satin graphite / bronze" },
-  { id: "capColour", label: "Centre cap colour", type: "text", placeholder: "Black, white, or custom colour" },
-  { id: "references", label: "Reference links", type: "text", placeholder: "Instagram, Pinterest, or car photos" },
+  { id: "finish", label: "Finish direction", type: "text", placeholder: "Brushed clear / satin graphite / bronze", optional: true },
+  { id: "capColour", label: "Centre cap colour", type: "text", placeholder: "Black, white, or custom colour", optional: true },
+  { id: "references", label: "Reference links", type: "text", placeholder: "Instagram, Pinterest, or car photos", optional: true },
 ];
 
 type SubmitState = {
@@ -268,13 +268,24 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
         </label>
       </div>
 
+      <div className={styles.formIntro}>
+        <p className={styles.formIntroTitle}>Required to start</p>
+        <p>
+          Name, email, and vehicle make are enough. Add fitment numbers only if
+          you know them.
+        </p>
+      </div>
+
       {/* ── Contact details ── */}
       <div className={styles.section}>
         <p className={styles.sectionLabel}>Contact</p>
         <div className={styles.grid}>
           {contactFields.map((field) => (
             <label key={field.id} className={styles.field}>
-              <span>{field.label}</span>
+              <span>
+                {field.label}
+                {field.optional && <span className={styles.optionalTag}> — optional</span>}
+              </span>
               <input
                 autoComplete={field.autoComplete}
                 disabled={isSubmitting}
@@ -297,6 +308,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
             <select
               className={styles.select}
               disabled={isSubmitting}
+              required
               value={carMake}
               onChange={(e) => handleMakeChange(e.target.value)}
               aria-label="Vehicle make"
@@ -372,7 +384,10 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
 
           {vehicleDetailFields.map((field) => (
             <label key={field.id} className={styles.field}>
-              <span>{field.label}</span>
+              <span>
+                {field.label}
+                {field.optional && <span className={styles.optionalTag}> — optional</span>}
+              </span>
               <TickerInput
                 disabled={isSubmitting}
                 name={field.id}
@@ -419,7 +434,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
             </label>
           ))}
           <label className={styles.fieldWide}>
-            <span>Project notes</span>
+            <span>Project notes <span className={styles.optionalTag}> — optional</span></span>
             <textarea
               disabled={isSubmitting}
               name="notes"
@@ -433,7 +448,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
       </div>
 
       <button className={styles.button} disabled={isSubmitting} type="submit">
-        {isSubmitting ? "Sending Quote Request..." : "Request a Quote"}
+        {isSubmitting ? "Sending Fitment Review..." : "Send for Fitment Review"}
       </button>
 
       {submitState.status !== "idle" ? (
@@ -451,7 +466,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
       ) : null}
 
       <p className={styles.help}>
-        {`Quote requests are sent directly to ${BRAND_NAME}, and replies go back to the email address you provide above.`}
+        {`Your request goes directly to ${BRAND_NAME}. Replies go to the email address above with the recommended spec, price, and next steps.`}
       </p>
     </form>
   );

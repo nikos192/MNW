@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown } from "lucide-react";
-import { GallerySwitcher } from "@/components/gallery-switcher";
-import { collectionSummaries, formatAud, priceRangeForSeries } from "@/lib/monza-data";
+import { BurnoutWheel } from "@/components/burnout-wheel";
+import { ProductCard } from "@/components/product-card";
+import { QuickStartWheelFinder } from "@/components/quick-start-wheel-finder";
+import { collectionSummaries } from "@/lib/monza-data";
 import { getCatalogData } from "@/lib/catalog";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import styles from "./page.module.css";
+
+const processClips = [
+  "/media/custom-machining-process-01.mp4",
+  "/media/custom-machining-process-02.mp4",
+  "/media/custom-machining-process-03.mp4",
+  "/media/custom-machining-process-04.mp4",
+];
 
 export const metadata: Metadata = {
   title: "Forged Wheels Australia",
@@ -33,7 +41,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const { deliveredSets, products } = await getCatalogData();
+  const { products } = await getCatalogData();
 
   const monoblockCollection = collectionSummaries.find((collection) => collection.slug === "monoblock");
   const multiPieceCollection = collectionSummaries.find((collection) => collection.slug === "multi-piece");
@@ -43,166 +51,128 @@ export default async function Home() {
     products.find((product) => multiPieceCollection?.handles.includes(product.handle)) ??
     products[products.length - 1] ??
     products[0];
-  const finishCount = monoblockProduct?.finishes.length ?? products[0]?.finishes.length ?? 24;
-  const monoblockRange = priceRangeForSeries("1-Piece Forged");
-  const multiPieceRange = priceRangeForSeries("2-Piece Forged");
-  const monoblockFromSet = monoblockRange ? `AUD ${formatAud(monoblockRange.minPerSet)} / set` : "AUD $1,848 / set";
-  const multiPieceFromSet = multiPieceRange ? `AUD ${formatAud(multiPieceRange.minPerSet)} / set` : "AUD $3,528 / set";
+  const featuredProducts = products.slice(0, 4);
 
   return (
     <main className={styles.page}>
       <section className={styles.hero} data-hero-section>
-        <video
-          autoPlay
-          className={styles.heroVideo}
-          loop
-          muted
-          playsInline
-          poster="/media/hero-wheel-poster.jpg"
-          preload="metadata"
-        >
-          <source src="/media/hero-wheel.mp4" type="video/mp4" />
-        </video>
-        <div className={styles.heroOverlay} />
-
         <div className={`${styles.heroInner} container`}>
           <div className={styles.heroCopy} data-hero-copy>
-            <p className={styles.heroLabel}>Forged Wheel Programs</p>
+            <p className={styles.heroLabel}>MonzaWheels Australia</p>
             <h1 className={styles.heroHeading}>
-              Built around the car, not pulled from a shelf.
+              Custom forged wheels, designed in 🇦🇺
             </h1>
             <p className={styles.heroBody}>
-              MonzaWheels develops forged wheel programs around the exact chassis, brake package, and finish brief.
-              JWL certified and tested to an enhanced standard that exceeds international requirements.
-              Browse the design range, compare fitment, and request a quote without losing the bespoke process.
+              Choose a wheel line. Send the car. We confirm size, offset,
+              finish, price, and lead time.
             </p>
 
             <div className={styles.heroActions}>
-              <Link className="button-primary" href="/shop">
-                Explore the Range
-              </Link>
-              <Link className="button-outline-dark" href="/fitment-tool">
-                Compare Fitment
-              </Link>
-            </div>
-
-            <div className={styles.heroFacts}>
-              <div className={styles.heroFact}>
-                <span className={styles.heroFactValue}>{products.length}</span>
-                <span className={styles.heroFactLabel}>forged wheel families</span>
-              </div>
-              <div className={styles.heroFact}>
-                <span className={styles.heroFactValue}>{finishCount}+</span>
-                <span className={styles.heroFactLabel}>finish directions</span>
-              </div>
-              <div className={styles.heroFact}>
-                <span className={styles.heroFactValue}>5</span>
-                <span className={styles.heroFactLabel}>year warranty</span>
-              </div>
+              <QuickStartWheelFinder products={products} />
             </div>
           </div>
 
-          <div className={styles.heroCue}>
-            <span className={styles.heroCueLine} />
-            <ChevronDown size={16} strokeWidth={1.5} />
-            <span className="visually-hidden">Scroll to explore the homepage</span>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.storySection}>
-        <div className={`${styles.storyGrid} container`}>
-          <div className={styles.storyCopy} data-reveal>
-            <p className="label">Our Process</p>
-            <h1 className={styles.storyHeading}>
-              <span>Certified to international standards.</span>
-              <span>Managed from Brisbane.</span>
-            </h1>
-            <Link className={styles.editorialLink} href="/engineering">
-              How we build them →
-            </Link>
-          </div>
-
-          <div className={styles.storyMedia} data-reveal>
+          <div className={styles.heroVisual} data-reveal>
             <Image
-              alt='MW-21 "Ascari" forged wheel detail'
-              className={styles.storyImage}
-              height={1200}
+              alt="BMW M4 Competition with MonzaWheels forged wheels"
+              className={styles.heroCar}
+              height={1000}
               priority
-              sizes="(max-width: 767px) 100vw, 50vw"
-              src="/products/MW-21%20Ascari%203.JPG"
+              sizes="(max-width: 767px) 96vw, 58vw"
+              src="/media/new-m4.png"
               width={1600}
             />
           </div>
         </div>
       </section>
 
+      <BurnoutWheel />
+
+      <section className={styles.processSection} aria-labelledby="custom-machining-title">
+        <div className={styles.processVideoGrid} data-reveal>
+          {processClips.map((clip, index) => (
+            <div className={styles.processVideoFrame} key={clip}>
+              <video
+                aria-label={`Custom machining process clip ${index + 1}`}
+                autoPlay
+                className={styles.processVideo}
+                loop
+                muted
+                playsInline
+                preload="auto"
+              >
+                <source src={clip} type="video/mp4" />
+              </video>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.processTitleOverlay}>
+          <h2 id="custom-machining-title" className={styles.processHeading}>
+            Custom machining process
+          </h2>
+        </div>
+      </section>
+
       <section className={styles.tierSection}>
         <div className={`${styles.tierInner} container`}>
           <div className={styles.tierHeader} data-reveal>
-            <h2 className={styles.sectionHeading}>Two lines. One standard.</h2>
-            <p className={styles.sectionBody}>
-              Every MonzaWheels wheel begins as a single billet of 6061-T6 aluminium.
-              What separates them is the finish.
-            </p>
+            <h2 className={styles.sectionHeading}>Wheel lines.</h2>
           </div>
 
           <div className={styles.tierGrid}>
-            <Link className={styles.tierTile} href="/collections/monoblock">
-              <Image
-                alt="MonzaWheels monoblock forged collection"
-                className={styles.tierImage}
-                height={1200}
-                sizes="(max-width: 767px) 100vw, 50vw"
-                src={monoblockProduct?.images[0]?.url || "/media/hero-wheel-poster.jpg"}
-                width={1800}
-              />
-              <div className={styles.tierOverlay} />
-              <div className={styles.tierMeta}>
-                <p className={styles.tierLabel}>{monoblockCollection?.label || "Forged Series"}</p>
-                <h3 className={styles.tierTitle}>{monoblockCollection?.title || "Monoblock"}</h3>
-                <p className={styles.tierPrice}>From {monoblockFromSet}</p>
-              </div>
-            </Link>
+            <article className={styles.tierTile}>
+              <Link className={styles.tierLink} href="/collections/monoblock">
+                <Image
+                  alt="MonzaWheels monoblock forged collection"
+                  className={styles.tierImage}
+                  height={1200}
+                  sizes="(max-width: 767px) 100vw, 50vw"
+                  src={monoblockProduct?.images[0]?.url || "/media/hero-wheel-poster.jpg"}
+                  width={1800}
+                />
+                <div className={styles.tierOverlay} />
+                <div className={styles.tierMeta}>
+                  <h3 className={styles.tierTitle}>{monoblockCollection?.title || "Monoblock"}</h3>
+                </div>
+              </Link>
+            </article>
 
-            <Link className={styles.tierTile} href="/collections/multi-piece">
-              <Image
-                alt="MonzaWheels multi-piece forged collection"
-                className={styles.tierImage}
-                height={1200}
-                sizes="(max-width: 767px) 100vw, 50vw"
-                src={multiPieceProduct?.images[0]?.url || "/media/hero-wheel-poster.jpg"}
-                width={1800}
-              />
-              <div className={styles.tierOverlay} />
-              <div className={styles.tierMeta}>
-                <p className={styles.tierLabel}>{multiPieceCollection?.label || "Forged Series"}</p>
-                <h3 className={styles.tierTitle}>{multiPieceCollection?.title || "Multi-Piece"}</h3>
-                <p className={styles.tierPrice}>From {multiPieceFromSet}</p>
-              </div>
-            </Link>
-          </div>
-
-          <div className={styles.tierAction} data-reveal>
-            <Link className="button-outline" href="/shop">
-              Explore all wheels
-            </Link>
+            <article className={styles.tierTile}>
+              <Link className={styles.tierLink} href="/collections/multi-piece">
+                <Image
+                  alt="MonzaWheels multi-piece forged collection"
+                  className={styles.tierImage}
+                  height={1200}
+                  sizes="(max-width: 767px) 100vw, 50vw"
+                  src={multiPieceProduct?.images[0]?.url || "/media/hero-wheel-poster.jpg"}
+                  width={1800}
+                />
+                <div className={styles.tierOverlay} />
+                <div className={styles.tierMeta}>
+                  <h3 className={styles.tierTitle}>{multiPieceCollection?.title || "Multi-Piece"}</h3>
+                </div>
+              </Link>
+            </article>
           </div>
         </div>
       </section>
 
-      <section className={styles.gallerySection}>
-        <div className={`${styles.galleryInner} container`}>
-          <div className={styles.galleryHeader} data-reveal>
-            <div className={styles.galleryTitleWrap}>
-              <h2 className={styles.galleryHeading}>Gallery</h2>
-              <p className={styles.galleryCopy}>
-                See the range by delivered chassis or by wheel face. Where photography is still coming in, we show the fitment brief instead of leaving dead space.
-              </p>
-            </div>
+      <section className={styles.featuredSection}>
+        <div className={`${styles.featuredInner} container`}>
+          <div className={styles.simpleHeader} data-reveal>
+            <p className="label">Ready designs</p>
+            <h2 className={styles.sectionHeading}>Latest wheels.</h2>
+            <Link className={styles.subtleLink} href="/shop">
+              View catalogue
+            </Link>
           </div>
 
-          <GallerySwitcher deliveredSets={deliveredSets} products={products} />
+          <div className={styles.featuredGrid}>
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
         </div>
       </section>
     </main>

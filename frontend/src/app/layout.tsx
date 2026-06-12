@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Jura, Work_Sans } from "next/font/google";
+import { Barlow_Condensed, Rajdhani } from "next/font/google";
 import { BRAND_NAME } from "@/lib/brand";
 import { SiteEffects } from "@/components/site-effects";
 import { SiteFooter } from "@/components/site-footer";
@@ -14,29 +14,29 @@ import {
 } from "@/lib/seo";
 import "./globals.css";
 
-const headingFont = Work_Sans({
+const headingFont = Barlow_Condensed({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["500", "700"],
+  weight: ["600", "700", "800"],
 });
 
-const bodyFont = Jura({
+const bodyFont = Rajdhani({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  weight: ["400", "500", "600"],
 });
 
-const wordmarkFont = Cormorant_Garamond({
+const wordmarkFont = Barlow_Condensed({
   variable: "--font-wordmark",
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: ["700"],
 });
 
 const logoIcon = "/brand/LOGO%20MW%20TP.png";
 
 export const viewport: Viewport = {
   colorScheme: "light",
-  themeColor: "#fffaf5",
+  themeColor: "#07111f",
 };
 
 export const metadata: Metadata = {

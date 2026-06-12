@@ -919,6 +919,56 @@ const FINISH_BY_VARIANT: Record<string, { name: string; swatch: string }> = {
   "2": { name: "Gloss black", swatch: "#0F0F0F" },
 };
 
+const DESIGN_POSITIONING: Record<
+  string,
+  {
+    title: string;
+    useCase: string;
+    detail: string;
+  }
+> = {
+  "1A": {
+    title: "Apex Street",
+    useCase: "Clean monoblock face for daily-driven performance cars and OEM-plus builds.",
+    detail: "a restrained split-spoke monoblock direction for street cars that need brake clearance without looking overbuilt",
+  },
+  "1B": {
+    title: "Circuit Five",
+    useCase: "Five-spoke monoblock for track-focused road cars and visible brake packages.",
+    detail: "an open five-spoke monoblock direction for cars where brake visibility and easy cleaning matter",
+  },
+  "1C": {
+    title: "Touring Mesh",
+    useCase: "Motorsport mesh look for sedans, coupes, and touring-style builds.",
+    detail: "a motorsport mesh monoblock direction for buyers chasing a busier face with a factory-plus stance",
+  },
+  "1D": {
+    title: "Sprint Split",
+    useCase: "Sharp split-spoke monoblock for modern German and Japanese performance chassis.",
+    detail: "a sharp split-spoke monoblock direction that works when the car needs a lighter, more technical read",
+  },
+  "1E": {
+    title: "Heritage Rally",
+    useCase: "Compact, stronger visual weight for hot hatches, classics, and rally-inspired builds.",
+    detail: "a compact monoblock direction with more visual weight for smaller chassis and retro-leaning builds",
+  },
+  "1F": {
+    title: "GT Aero",
+    useCase: "Fuller-face monoblock for grand tourers, EVs, and larger brake packages.",
+    detail: "a fuller-face monoblock direction for larger performance cars that need a calmer, more substantial wheel",
+  },
+  "2A": {
+    title: "Deep Dish GT",
+    useCase: "Two-piece dish and lip detail for widebody, stance, and hero street builds.",
+    detail: "a two-piece direction for deeper dish, more lip presence, and a stronger finish contrast",
+  },
+  "2C": {
+    title: "Split Lip Touring",
+    useCase: "Two-piece split-spoke look for aggressive street cars and staggered fitments.",
+    detail: "a two-piece split-spoke direction for staggered builds where the face and outer lip both need attention",
+  },
+};
+
 function formatFinishName(fileName: string) {
   return fileName.replace(/\.jpg$/i, "").replace(/\s+/g, " ").trim();
 }
@@ -1114,7 +1164,7 @@ function buildFallbackProduct(familyCode: (typeof PRODUCT_FAMILIES)[number]): Ca
     throw new Error(`Unexpected product family: ${familyCode}`);
   }
 
-  const [, pieceCode, wheelCode] = match;
+  const [, pieceCode] = match;
   const isOnePiece = pieceCode === "1";
   const series = isOnePiece ? "1-Piece Forged" : "2-Piece Forged";
   const leadTime = isOnePiece ? "approximately 20 days from order confirmation" : "approximately 25 days from order confirmation";
@@ -1130,6 +1180,11 @@ function buildFallbackProduct(familyCode: (typeof PRODUCT_FAMILIES)[number]): Ca
   const widthOptions = isOnePiece ? WIDTHS_1PC : WIDTHS_2PC;
   const construction = isOnePiece ? "1-piece forged monoblock" : "2-piece forged";
   const offsetRange = isOnePiece ? "Resolved per chassis" : "Extended range - resolved per chassis";
+  const positioning = DESIGN_POSITIONING[familyCode] ?? {
+    title: `${familyCode} Forged Wheel`,
+    useCase: `${series} design direction for made-to-order fitment.`,
+    detail: `a ${series.toLowerCase()} design direction`,
+  };
   const familyImages = PRODUCT_CODES
     .filter((code) => code.startsWith(familyCode))
     .map((code) => {
@@ -1149,12 +1204,12 @@ function buildFallbackProduct(familyCode: (typeof PRODUCT_FAMILIES)[number]): Ca
   return {
     id: `wheel-${familyCode.toLowerCase()}`,
     handle: familyCode,
-    title: familyCode,
+    title: `${familyCode} ${positioning.title}`,
     series,
-    shortDescription: `${series} wheel ${wheelCode} shown in ${variantFinishNames}.`,
+    shortDescription: positioning.useCase,
     description:
-      `${familyCode} is wheel ${wheelCode} in the ${series.toLowerCase()} range, shown here in ${variantFinishNames}. ` +
-      "Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.",
+      `${familyCode} ${positioning.title} is ${positioning.detail}. Shown in ${variantFinishNames}. ` +
+      "Send the vehicle, brake package, and finish direction and we will confirm the exact spec before production.",
     price,
     leadTime,
     images: familyImages,
@@ -1346,7 +1401,7 @@ export const collectionSummaries: CollectionSummary[] = [
     slug: "monoblock",
     label: "1-Piece Forged",
     title: "Monoblock",
-    description: "Single-piece forged faces for cleaner chassis, tighter proportions, and the most direct visual read. Available 15–24 inches.",
+    description: "Single-piece forged wheels for clean street, OEM-plus, and track-focused builds. Choose a face, then MonzaWheels confirms sizing around the car. Available 15–24 inches.",
     handles: fallbackProducts
       .filter((product) => product.series === "1-Piece Forged")
       .map((product) => product.handle),
@@ -1355,7 +1410,7 @@ export const collectionSummaries: CollectionSummary[] = [
     slug: "multi-piece",
     label: "2-Piece Forged",
     title: "Multi-Piece",
-    description: "Two-piece forged construction for deeper dish, extended offsets, and a stronger statement on hero builds. Available 18–24 inches.",
+    description: "Two-piece forged wheels for deeper dish, exposed lip detail, and aggressive staggered builds. Choose the look, then MonzaWheels confirms geometry around the car. Available 18–24 inches.",
     handles: fallbackProducts
       .filter((product) => product.series === "2-Piece Forged")
       .map((product) => product.handle),

@@ -17,6 +17,7 @@ type ContactPageProps = {
     centrebore?: string;
     finish?: string;
     capColour?: string;
+    notes?: string;
   }>;
 };
 
@@ -74,12 +75,12 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
         <div className="container">
           <p className="label">Contact</p>
           <h1 className={styles.title}>
-            Request a quote for the right wheel program.
+            Send the car. We will confirm the wheel spec.
           </h1>
           <p className={styles.copy}>
-            Tell us the car, the fitment brief, the finish direction, and any
-            references that matter. {BRAND_NAME} will come back with the correct forged
-            solution rather than pushing you through a generic cart flow.
+            Name, email, and vehicle are enough to start. Leave fitment numbers
+            blank and we will confirm size, offset, brake clearance, finish,
+            price, and lead time.
           </p>
         </div>
       </section>
@@ -88,6 +89,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
         <div className={`${styles.grid} container`}>
           <div className={styles.formPanel} data-reveal>
             <BuildForm
+              initialNotes={params.notes}
               initialValues={initialValues}
               quoteContext={{
                 productHandle: params.product,
@@ -99,31 +101,8 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
 
           <aside className={styles.sidePanel} data-reveal>
             <div>
-              <p className="label">What helps</p>
-              <h2 className={styles.sectionHeading}>
-                The clearer the brief, the faster the quote.
-              </h2>
-            </div>
-
-            <div className={styles.sideBlock}>
-              <h3>Vehicle detail</h3>
-              <p>Make, model, year, ride height, and brake package.</p>
-            </div>
-
-            <div className={styles.sideBlock}>
-              <h3>Direction</h3>
-              <p>
-                Preferred diameter, finish references, and examples of the look
-                you want.
-              </p>
-            </div>
-
-            <div className={styles.sideBlock}>
-              <h3>Outcome</h3>
-              <p>
-                {BRAND_NAME} confirms the correct wheel base, fitment, lead time, and
-                finish path.
-              </p>
+              <p className="label">Quote review</p>
+              <h2 className={styles.sectionHeading}>We confirm the fitment before production.</h2>
             </div>
 
             {hasConfig && contextLines.length ? (

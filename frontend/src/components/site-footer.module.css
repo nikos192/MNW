@@ -1,6 +1,9 @@
 .footer {
-  border-top: 1px solid var(--rule);
-  background: linear-gradient(180deg, rgba(255, 249, 242, 0.9) 0%, var(--bg-deep) 100%);
+  border-top: 1px solid rgba(100, 202, 255, 0.32);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(100, 202, 255, 0.18), transparent 30%),
+    linear-gradient(180deg, #07111f 0%, #03070d 100%);
+  color: var(--off-white);
   padding: var(--section-pad-v-compact) 0 32px;
 }
 
@@ -26,7 +29,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-secondary);
+  color: rgba(226, 241, 255, 0.76);
 }
 
 .socialMonogram {
@@ -40,7 +43,7 @@
 
 .socialLink:hover,
 .socialLink:focus-visible {
-  color: var(--accent-red);
+  color: var(--accent-blue-light);
 }
 
 .logoLink {
@@ -61,11 +64,21 @@
 
 .footerButton {
   width: 180px;
+  border-color: rgba(247, 251, 255, 0.36);
+  background: rgba(247, 251, 255, 0.06);
+  color: var(--off-white);
+}
+
+.footerButton:hover,
+.footerButton:focus-visible {
+  border-color: var(--accent-blue-light);
+  background: var(--accent-blue-light);
+  color: var(--ink);
 }
 
 .middleRow {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(24px, 3vw, 32px);
 }
 
@@ -77,7 +90,7 @@
   letter-spacing: 0.18em;
   line-height: 1.5;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  color: rgba(100, 202, 255, 0.84);
 }
 
 .columnTitle {
@@ -95,12 +108,12 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 2.2;
-  color: var(--text-primary);
+  color: rgba(247, 251, 255, 0.88);
 }
 
 .columnLink:hover,
 .columnLink:focus-visible {
-  color: var(--accent-red);
+  color: var(--accent-blue-light);
 }
 
 .bottomRow {
@@ -109,7 +122,7 @@
   justify-content: space-between;
   gap: 16px;
   padding-top: var(--section-gap-lg);
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid rgba(100, 202, 255, 0.2);
 }
 
 @media (max-width: 900px) {

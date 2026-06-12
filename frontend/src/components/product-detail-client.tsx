@@ -134,7 +134,6 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   }
 
   const activeImage = product.images[activeImageIndex] ?? product.images[0];
-  const activeFinishData = product.finishes.find((finish) => finish.name === activeFinish) ?? product.finishes[0];
   const tierRange = priceRangeForSeries(product.series);
   const chassisRange = fitment
     ? priceRangeForSeries(product.series, fitment.minDiameter, fitment.maxDiameter)
@@ -158,25 +157,6 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       ? formattedActiveRange.set
       : `From ${formattedActiveRange.set}`
     : product.price.replace(/^From\s*/i, "");
-  const headlineSecondary = formattedActiveRange ? formattedActiveRange.wheel : null;
-  const diameterRangeForFacts =
-    fitment !== null
-      ? `${fitment.minDiameter}" to ${fitment.maxDiameter}"`
-      : product.diameterOptions.length
-        ? `${product.diameterOptions[0]} to ${product.diameterOptions[product.diameterOptions.length - 1]}`
-        : "Built to brief";
-  const startingPointLabel = chassisRange ? "For your chassis" : "Starting point";
-  const startingPointValue = formattedActiveRange ? formattedActiveRange.set : product.price.replace(/^From\s*/i, "");
-  const quickFacts = [
-    { label: startingPointLabel, value: startingPointValue },
-    { label: "Lead time", value: product.leadTime },
-    {
-      label: fitment ? "Diameters for your chassis" : "Available diameters",
-      value: diameterRangeForFacts,
-    },
-    { label: "Finish library", value: `${product.finishes.length} finish directions` },
-  ];
-
   function getSwatchTone(swatch: string) {
     switch (swatch.toLowerCase()) {
       case "#0f0f0f":
@@ -279,7 +259,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     : null;
 
   return (
-    <section className={styles.page}>
+    <main className={styles.page}>
       <nav className="breadcrumbs container" aria-label="Breadcrumb">
         <Link className="breadcrumb-link" href="/">
           Home
@@ -323,13 +303,13 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               {product.images.slice(0, 8).map((image, index) => (
                 <button
                   key={`${image.url}-${index}`}
-                  aria-label={`Show image ${index + 1}`}
+                  aria-label={`Show ${image.alt || `${product.title} view ${index + 1}`}`}
                   className={`${styles.thumb} ${index === activeImageIndex ? styles.thumbActive : ""}`}
                   onClick={() => setActiveImageIndex(index)}
                   type="button"
                 >
                   <Image
-                    alt=""
+                    alt={image.alt || `${product.title} view ${index + 1}`}
                     className={styles.thumbImage}
                     src={image.url}
                     sizes="80px"
@@ -345,33 +325,10 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
         {/* ── Detail ── */}
         <div className={styles.detailColumn}>
           <div className={styles.detailPanel}>
-
             <div className={styles.detailHead}>
               <p className={`label ${styles.series}`}>{product.series}</p>
               <h1 className={styles.title}>{product.title}</h1>
               <p className={styles.price}>{headlinePrice}</p>
-              {headlineSecondary ? <p className={styles.priceSecondary}>{headlineSecondary}</p> : null}
-            </div>
-
-            <div className={styles.description}>
-              <p>{product.description}</p>
-            </div>
-
-            <div className={styles.factGrid}>
-              {quickFacts.map((fact) => (
-                <div key={fact.label} className={styles.factCard}>
-                  <p className={styles.factLabel}>{fact.label}</p>
-                  <p className={styles.factValue}>{fact.value}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className={styles.selectionGuide}>
-              <p className={styles.selectionGuideTitle}>How this page works</p>
-              <p className={styles.selectionGuideCopy}>
-                Pick the car, choose the wheel direction, and leave any chassis-specific numbers blank if you want us to resolve them.
-                The quote stays bespoke even when you start from a catalogue face.
-              </p>
             </div>
 
             {/* ── Your Vehicle ── */}
@@ -652,11 +609,6 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                     </label>
                   ))}
                 </div>
-                {activeFinishData ? (
-                  <p className={styles.finishNote}>
-                    Selected finish preview: {activeFinishData.name}
-                  </p>
-                ) : null}
               </div>
             )}
 
@@ -718,96 +670,108 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               ) : null}
             </div>
 
-            {/* ── PCD (optional) — hidden when fitment is auto-matched ── */}
-            {!fitment && product.pcdOptions.length > 0 && (
-              <div className={styles.optionGroup}>
-                <div className={styles.optionHeader}>
-                  <p className={`label ${styles.optionLabel}`}>PCD <span className={styles.optionalTag}>optional</span></p>
-                  {activePcd && <span className={styles.optionSelected}>{activePcd}</span>}
-                </div>
-                <div className={styles.pills} role="radiogroup" aria-label="PCD">
-                  {product.pcdOptions.map((opt) => (
-                    <label key={opt} className={styles.pillItem}>
-                      <input
-                        aria-label={opt}
-                        checked={activePcd === opt}
-                        className="visually-hidden"
-                        name="pcd"
-                        onChange={() => setActivePcd(activePcd === opt ? "" : opt)}
-                        type="radio"
-                        value={opt}
-                      />
-                      <span className={`${styles.pill} ${activePcd === opt ? styles.pillActive : ""}`}>
-                        {opt}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-                <p className={styles.offsetNote}>
-                  {carLabel ? `We'll match PCD to your ${carLabel}.` : "Leave blank — we match PCD to your vehicle after the quote."}
-                </p>
-              </div>
-            )}
+            <details className={styles.advancedDetails}>
+              <summary className={styles.advancedSummary}>
+                Advanced fitment details
+                <span>Optional if you want MonzaWheels to resolve the chassis numbers.</span>
+              </summary>
+              <div className={styles.advancedPanel}>
+                {/* ── PCD (optional) — hidden when fitment is auto-matched ── */}
+                {!fitment && product.pcdOptions.length > 0 && (
+                  <div className={styles.optionGroup}>
+                    <div className={styles.optionHeader}>
+                      <p className={`label ${styles.optionLabel}`}>PCD <span className={styles.optionalTag}>optional</span></p>
+                      {activePcd && <span className={styles.optionSelected}>{activePcd}</span>}
+                    </div>
+                    <div className={styles.pills} role="radiogroup" aria-label="PCD">
+                      {product.pcdOptions.map((opt) => (
+                        <label key={opt} className={styles.pillItem}>
+                          <input
+                            aria-label={opt}
+                            checked={activePcd === opt}
+                            className="visually-hidden"
+                            name="pcd"
+                            onChange={() => setActivePcd(activePcd === opt ? "" : opt)}
+                            type="radio"
+                            value={opt}
+                          />
+                          <span className={`${styles.pill} ${activePcd === opt ? styles.pillActive : ""}`}>
+                            {opt}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                    <p className={styles.offsetNote}>
+                      {carLabel ? `We'll match PCD to your ${carLabel}.` : "Leave blank — we match PCD to your vehicle after the quote."}
+                    </p>
+                  </div>
+                )}
 
-            {/* ── Offset (optional) ── */}
-            <div className={styles.optionGroup}>
-              <div className={styles.optionHeader}>
-                <p className={`label ${styles.optionLabel}`}>Offset (ET) <span className={styles.optionalTag}>optional</span></p>
-                {product.offsetRange && (
-                  <span className={styles.optionHint}>{product.offsetRange}</span>
+                {/* ── Offset (optional) ── */}
+                <div className={styles.optionGroup}>
+                  <div className={styles.optionHeader}>
+                    <p className={`label ${styles.optionLabel}`}>Offset (ET) <span className={styles.optionalTag}>optional</span></p>
+                    {product.offsetRange && (
+                      <span className={styles.optionHint}>{product.offsetRange}</span>
+                    )}
+                  </div>
+                  <div className={styles.offsetWrap}>
+                    <span className={styles.offsetPrefix}>ET</span>
+                    <input
+                      aria-label="Offset (ET value)"
+                      className={styles.offsetInput}
+                      inputMode="decimal"
+                      name="offset"
+                      onChange={(e) => setActiveOffset(e.target.value)}
+                      placeholder="e.g. 35 or F 20 / R 35"
+                      type="text"
+                      value={activeOffset}
+                    />
+                  </div>
+                  <p className={styles.offsetNote}>
+                    {carLabel ? `Offset confirmed to your ${carLabel} after chassis review.` : "Leave blank — offset is confirmed per chassis after the quote."}
+                  </p>
+                </div>
+
+                {/* ── Centre bore (optional) — hidden when fitment is auto-matched ── */}
+                {!fitment && product.centreboreOptions.length > 0 && (
+                  <div className={styles.optionGroup}>
+                    <div className={styles.optionHeader}>
+                      <p className={`label ${styles.optionLabel}`}>Centre Bore <span className={styles.optionalTag}>optional</span></p>
+                      {activeCentrebore && <span className={styles.optionSelected}>{activeCentrebore}</span>}
+                    </div>
+                    <div className={styles.pills} role="radiogroup" aria-label="Centre bore">
+                      {product.centreboreOptions.map((opt) => (
+                        <label key={opt} className={styles.pillItem}>
+                          <input
+                            aria-label={opt}
+                            checked={activeCentrebore === opt}
+                            className="visually-hidden"
+                            name="centrebore"
+                            onChange={() => setActiveCentrebore(activeCentrebore === opt ? "" : opt)}
+                            type="radio"
+                            value={opt}
+                          />
+                          <span className={`${styles.pill} ${activeCentrebore === opt ? styles.pillActive : ""}`}>
+                            {opt}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                    <p className={styles.offsetNote}>
+                      {carLabel ? `We'll match centre bore to your ${carLabel}. Hub rings supplied where required.` : "Leave blank — matched to your vehicle. Hub rings supplied where required."}
+                    </p>
+                  </div>
                 )}
               </div>
-              <div className={styles.offsetWrap}>
-                <span className={styles.offsetPrefix}>ET</span>
-                <input
-                  aria-label="Offset (ET value)"
-                  className={styles.offsetInput}
-                  inputMode="decimal"
-                  name="offset"
-                  onChange={(e) => setActiveOffset(e.target.value)}
-                  placeholder="e.g. 35 or F 20 / R 35"
-                  type="text"
-                  value={activeOffset}
-                />
-              </div>
-              <p className={styles.offsetNote}>
-                {carLabel ? `Offset confirmed to your ${carLabel} after chassis review.` : "Leave blank — offset is confirmed per chassis after the quote."}
-              </p>
-            </div>
-
-            {/* ── Centre bore (optional) — hidden when fitment is auto-matched ── */}
-            {!fitment && product.centreboreOptions.length > 0 && (
-              <div className={styles.optionGroup}>
-                <div className={styles.optionHeader}>
-                  <p className={`label ${styles.optionLabel}`}>Centre Bore <span className={styles.optionalTag}>optional</span></p>
-                  {activeCentrebore && <span className={styles.optionSelected}>{activeCentrebore}</span>}
-                </div>
-                <div className={styles.pills} role="radiogroup" aria-label="Centre bore">
-                  {product.centreboreOptions.map((opt) => (
-                    <label key={opt} className={styles.pillItem}>
-                      <input
-                        aria-label={opt}
-                        checked={activeCentrebore === opt}
-                        className="visually-hidden"
-                        name="centrebore"
-                        onChange={() => setActiveCentrebore(activeCentrebore === opt ? "" : opt)}
-                        type="radio"
-                        value={opt}
-                      />
-                      <span className={`${styles.pill} ${activeCentrebore === opt ? styles.pillActive : ""}`}>
-                        {opt}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-                <p className={styles.offsetNote}>
-                  {carLabel ? `We'll match centre bore to your ${carLabel}. Hub rings supplied where required.` : "Leave blank — matched to your vehicle. Hub rings supplied where required."}
-                </p>
-              </div>
-            )}
+            </details>
 
             {/* ── Estimated quote ── */}
-            <div className={styles.estimatePanel}>
+            <details className={styles.estimatePanel}>
+              <summary className={styles.estimateSummary}>
+                <span>Estimate</span>
+                <strong>{estimatedTotal !== null ? `AUD ${formatAud(estimatedTotal)}` : headlinePrice}</strong>
+              </summary>
               <div className={styles.estimateHeader}>
                 <p className={styles.estimateLabel}>Estimated quote</p>
                 <p className={styles.estimateSub}>
@@ -881,31 +845,34 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                 Indicative only. Excludes freight, GST, and any chassis-specific
                 machining. Final figure is confirmed after we review the build brief.
               </p>
-            </div>
+            </details>
 
             {/* ── Specs ── */}
-            <div className={styles.specs}>
-              {product.specs.map((spec) => {
-                let value = spec.value;
-                if (fitment) {
-                  if (spec.label === "Diameter range") {
-                    value = `${fitment.minDiameter}" to ${fitment.maxDiameter}" for ${carLabel || `${carMake} ${carModel}`.trim()}`;
-                  } else if (spec.label === "PCD") {
-                    value = `${fitment.pcd} (matched to your chassis)`;
+            <details className={styles.specsDisclosure}>
+              <summary className={styles.specsSummary}>Full specification table</summary>
+              <div className={styles.specs}>
+                {product.specs.map((spec) => {
+                  let value = spec.value;
+                  if (fitment) {
+                    if (spec.label === "Diameter range") {
+                      value = `${fitment.minDiameter}" to ${fitment.maxDiameter}" for ${carLabel || `${carMake} ${carModel}`.trim()}`;
+                    } else if (spec.label === "PCD") {
+                      value = `${fitment.pcd} (matched to your chassis)`;
+                    }
                   }
-                }
-                return (
-                  <div key={spec.label} className={styles.specRow}>
-                    <span className={styles.specKey}>{spec.label}</span>
-                    <span className={styles.specValue}>{value}</span>
-                  </div>
-                );
-              })}
-            </div>
+                  return (
+                    <div key={spec.label} className={styles.specRow}>
+                      <span className={styles.specKey}>{spec.label}</span>
+                      <span className={styles.specValue}>{value}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </details>
 
             <div className={styles.cta}>
               <a className={styles.quoteButton} href={buildQuoteUrl()}>
-                Request a Quote
+                Send this build for review
               </a>
               <p className={styles.leadTime}>
                 Lead time {product.leadTime} &nbsp;·&nbsp; Made to order
@@ -915,6 +882,6 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
           </div>
         </div>
       </div>
-    </section>
+    </main>
   );
 }

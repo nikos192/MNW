@@ -44,6 +44,32 @@ const DEFAULT_NEW: Setup = {
   aspectRatio: "30",
 };
 
+const FITMENT_PRESETS: Array<{
+  label: string;
+  description: string;
+  current: Setup;
+  next: Setup;
+}> = [
+  {
+    label: "OEM plus",
+    description: "Mild street change with more width.",
+    current: DEFAULT_CUR,
+    next: DEFAULT_NEW,
+  },
+  {
+    label: "Flush street",
+    description: "More poke with similar tyre diameter.",
+    current: { wheelWidth: "9", wheelDia: "19", et: "42", tyreWidth: "245", aspectRatio: "35" },
+    next: { wheelWidth: "9.5", wheelDia: "19", et: "28", tyreWidth: "255", aspectRatio: "35" },
+  },
+  {
+    label: "Track square",
+    description: "Wider tyre with clearance to check.",
+    current: { wheelWidth: "8.5", wheelDia: "18", et: "45", tyreWidth: "235", aspectRatio: "40" },
+    next: { wheelWidth: "9.5", wheelDia: "18", et: "38", tyreWidth: "265", aspectRatio: "35" },
+  },
+];
+
 // ─── Maths ───────────────────────────────────────────────────────────────────
 
 function compute(s: Setup): Calcs {
@@ -94,8 +120,8 @@ const VH        = 400;
 const HUB_X     = VW / 2;
 const HUB_Y     = VH / 2 + 18;
 const PAD       = 60;
-const CUR_COLOR = "#5b9cf6";
-const NEW_COLOR = "#e03535";
+const CUR_COLOR = "#1f6fb2";
+const NEW_COLOR = "#64caff";
 
 function getScale(c: Calcs, n: Calcs): number {
   const refs = [c, n].filter((r) => r.valid);
@@ -387,6 +413,26 @@ export function FitmentToolClient() {
   const speedoErr  = both
     ? ((nCalcs.overallDiameter - cCalcs.overallDiameter) / cCalcs.overallDiameter) * 100
     : 0;
+  const quoteHref = useMemo(() => {
+    const params = new URLSearchParams({
+      diameter: `${nw.wheelDia}"`,
+      width: `${nw.wheelWidth}"`,
+      offset: nw.et,
+    });
+
+    if (both) {
+      params.set(
+        "notes",
+        [
+          `Fitment tool result: current ${cur.wheelDia}x${cur.wheelWidth} ET${cur.et} with ${cur.tyreWidth}/${cur.aspectRatio}.`,
+          `Proposed ${nw.wheelDia}x${nw.wheelWidth} ET${nw.et} with ${nw.tyreWidth}/${nw.aspectRatio}.`,
+          `Outer position ${signed(stanceDiff)}mm, inner clearance ${signed(innerDiff)}mm, rolling diameter ${signed(diamDiff)}mm, speedo ${signed(speedoErr, 2)}%.`,
+        ].join(" "),
+      );
+    }
+
+    return `/contact?${params.toString()}`;
+  }, [both, cur, diamDiff, innerDiff, nw, speedoErr, stanceDiff]);
 
   function setCurField(k: keyof Setup, v: string) {
     setCur((p) => ({ ...p, [k]: v }));
@@ -397,6 +443,35 @@ export function FitmentToolClient() {
 
   return (
     <div className={styles.tool}>
+      <div className={styles.toolIntro}>
+        <div>
+          <p className={styles.toolIntroTitle}>What this compares</p>
+          <p className={styles.toolIntroCopy}>
+            Use this when you know your current wheel and tyre size. Compare
+            poke, inner clearance, rolling diameter, and speedometer change.
+          </p>
+        </div>
+
+        <div className={styles.presetPanel}>
+          <p className={styles.presetTitle}>Try a preset</p>
+          <div className={styles.presetButtons} role="group" aria-label="Fitment presets">
+            {FITMENT_PRESETS.map((preset) => (
+              <button
+                key={preset.label}
+                className={styles.presetButton}
+                onClick={() => {
+                  setCur(preset.current);
+                  setNw(preset.next);
+                }}
+                type="button"
+              >
+                <span>{preset.label}</span>
+                <small>{preset.description}</small>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
 
       {/* ── Inputs ── */}
       <div className={styles.inputWrap}>
@@ -495,6 +570,21 @@ export function FitmentToolClient() {
             }
             warn={Math.abs(speedoErr) > 2}
           />
+        </div>
+      )}
+
+      {both && (
+        <div className={styles.toolHandoff}>
+          <div>
+            <p className={styles.toolHandoffTitle}>Ready for a sanity check?</p>
+            <p className={styles.toolHandoffCopy}>
+              Send these calculated numbers with your vehicle details so
+              MonzaWheels can confirm brake clearance, offset, and final pricing.
+            </p>
+          </div>
+          <a className={styles.toolHandoffButton} href={quoteHref}>
+            Send these numbers for review
+          </a>
         </div>
       )}
 

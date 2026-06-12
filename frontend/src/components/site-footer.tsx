@@ -45,36 +45,26 @@ import styles from "./site-footer.module.css";
 
 const footerColumns = [
   {
-    title: "Wheels",
+    title: "Build",
     links: [
-      { href: "/shop", label: "All Wheels" },
+      { href: "/shop", label: "Wheels" },
       { href: "/collections/monoblock", label: "Monoblock" },
       { href: "/collections/multi-piece", label: "Multi-Piece" },
+    ],
+  },
+  {
+    title: "Proof",
+    links: [
       { href: "/finishes", label: "Finishes" },
-    ],
-  },
-  {
-    title: "Explore",
-    links: [
-      { href: "/gallery", label: "Gallery" },
-      { href: "/engineering", label: "Engineering" },
-      { href: "/fitment-tool", label: "Fitment Calculator" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { href: "/about", label: `About ${BRAND_NAME}` },
-      { href: "/find-a-dealer", label: "Find a Dealer" },
+      { href: "/pricing", label: "Pricing" },
     ],
   },
   {
     title: "Support",
     links: [
-      { href: "/contact", label: "Contact" },
-      { href: "/pricing", label: "Pricing" },
-      { href: "/fitment", label: "Vehicle Guide" },
+      { href: "/contact", label: "Quote" },
       { href: "/warranty", label: "Warranty" },
+      { href: "/fitment-tool", label: "Fitment Tool" },
     ],
   },
 ];

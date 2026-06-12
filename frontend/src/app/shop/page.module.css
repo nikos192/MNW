@@ -6,15 +6,13 @@
   padding: calc(var(--nav-height) + var(--hero-offset)) 0 var(--section-pad-v-compact);
   border-bottom: 1px solid var(--rule);
   background:
-    radial-gradient(circle at top right, rgba(200, 29, 37, 0.12), transparent 24%),
-    linear-gradient(180deg, #fffaf5 0%, #f5ebe2 100%);
+    radial-gradient(circle at top right, rgba(100, 202, 255, 0.18), transparent 24%),
+    linear-gradient(180deg, #f7fbff 0%, #dcecff 100%);
 }
 
 .heroInner {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
-  gap: clamp(28px, 5vw, 72px);
-  align-items: end;
+  gap: var(--section-gap-lg);
 }
 
 .heroCopy {
@@ -29,6 +27,7 @@
   font-weight: 700;
   line-height: 1.02;
   color: var(--text-primary);
+  text-wrap: balance;
 }
 
 .copy {
@@ -38,39 +37,7 @@
   font-weight: 400;
   line-height: 1.7;
   color: var(--text-muted);
-}
-
-.heroMeta {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.heroMetric {
-  display: grid;
-  gap: 8px;
-  padding: 18px 16px;
-  border: 1px solid rgba(18, 18, 18, 0.08);
-  background: rgba(255, 255, 255, 0.6);
-  box-shadow: var(--shadow-soft);
-}
-
-.heroMetricValue {
-  font-family: var(--font-heading), sans-serif;
-  font-size: clamp(26px, 3vw, 36px);
-  font-weight: 700;
-  line-height: 1;
-  color: var(--text-primary);
-}
-
-.heroMetricLabel {
-  font-family: var(--font-body), sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0.16em;
-  line-height: 1.5;
-  text-transform: uppercase;
-  color: var(--text-secondary);
+  overflow-wrap: anywhere;
 }
 
 .gridSection {
@@ -106,7 +73,10 @@
   font-size: 14px;
   font-weight: 400;
   letter-spacing: 0.18em;
+  line-height: 1.35;
+  text-align: center;
   text-transform: uppercase;
+  white-space: normal;
   transition:
     border-color 220ms var(--ease-precision),
     background 220ms var(--ease-precision),
@@ -124,39 +94,6 @@
   color: var(--off-white);
 }
 
-.filterMeta {
-  display: grid;
-  gap: 8px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--rule);
-}
-
-.filterLead {
-  font-family: var(--font-heading), sans-serif;
-  font-size: clamp(22px, 2.6vw, 28px);
-  font-weight: 700;
-  line-height: 1.1;
-  color: var(--text-primary);
-}
-
-.filterCopy {
-  max-width: 620px;
-  font-family: var(--font-body), sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.7;
-  color: var(--text-muted);
-}
-
-.filterCount {
-  font-family: var(--font-body), sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent-red);
-}
-
 .gridPanel {
   display: block;
 }
@@ -172,10 +109,6 @@
 }
 
 @media (max-width: 1024px) {
-  .heroInner {
-    grid-template-columns: 1fr;
-  }
-
   .filterBar {
     width: 100%;
   }
@@ -191,8 +124,8 @@
 }
 
 @media (max-width: 767px) {
-  .heroMeta {
-    grid-template-columns: 1fr;
+  .title {
+    font-size: clamp(32px, 10vw, 46px);
   }
 
   .filterBar {
