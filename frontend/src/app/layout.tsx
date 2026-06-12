@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Jura, Work_Sans } from "next/font/google";
 import { BRAND_NAME } from "@/lib/brand";
 import { SiteEffects } from "@/components/site-effects";
@@ -32,9 +32,17 @@ const wordmarkFont = Cormorant_Garamond({
   weight: ["600", "700"],
 });
 
+const logoIcon = "/brand/LOGO%20MW%20TP.png";
+
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#fffaf5",
+};
+
 export const metadata: Metadata = {
   metadataBase: resolveMetadataBase(),
   applicationName: BRAND_NAME,
+  manifest: "/manifest.webmanifest",
   title: {
     default: `${BRAND_NAME} | Forged Wheels Australia`,
     template: `%s | ${BRAND_NAME}`,
@@ -66,6 +74,20 @@ export const metadata: Metadata = {
     title: `${BRAND_NAME} | Forged Wheels Australia`,
     description: DEFAULT_SEO_DESCRIPTION,
     images: [DEFAULT_OG_IMAGE.url],
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
+      { url: logoIcon, sizes: "500x500", type: "image/png" },
+    ],
+    apple: [
+      { url: logoIcon, sizes: "500x500", type: "image/png" },
+    ],
+  },
+  appleWebApp: {
+    capable: true,
+    title: BRAND_NAME,
+    statusBarStyle: "default",
   },
 };
 

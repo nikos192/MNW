@@ -1,10 +1,5 @@
 import type { MetadataRoute } from "next";
-
-function siteUrl() {
-  const configured =
-    process.env.NEXT_PUBLIC_SITE_URL ?? process.env.VERCEL_URL ?? "http://localhost:3000";
-  return /^https?:\/\//i.test(configured) ? configured : `https://${configured}`;
-}
+import { normalizedSiteUrl } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -13,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/"],
     },
-    sitemap: `${siteUrl()}/sitemap.xml`,
+    sitemap: `${normalizedSiteUrl()}/sitemap.xml`,
   };
 }

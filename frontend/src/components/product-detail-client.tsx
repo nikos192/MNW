@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import type { CatalogProduct } from "@/lib/monza-data";
+import { useMemo, useState } from "react";
+import type { CatalogProduct, VehicleFitment } from "@/lib/monza-data";
 import {
   CENTRE_CAPS_INCLUDED_VALUE_AUD,
   CUSTOM_FINISH_PRICE_AUD_PER_WHEEL,
@@ -22,6 +22,17 @@ type ProductDetailClientProps = {
 
 function diameterToInt(value: string): number {
   return parseInt(value, 10);
+}
+
+function diameterOptionsForFitment(
+  diameterOptions: string[],
+  fitment: VehicleFitment | null,
+) {
+  if (!fitment) return diameterOptions;
+  return diameterOptions.filter((opt) => {
+    const num = diameterToInt(opt);
+    return num >= fitment.minDiameter && num <= fitment.maxDiameter;
+  });
 }
 
 export function ProductDetailClient({ product }: ProductDetailClientProps) {
@@ -89,26 +100,15 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       : [];
 
   const fitment = getVehicleFitment(carMake, carModel);
+  const collectionHref = product.series === "1-Piece Forged"
+    ? "/collections/monoblock"
+    : "/collections/multi-piece";
+  const collectionLabel = product.series === "1-Piece Forged" ? "Monoblock" : "Multi-Piece";
 
-  const filteredDiameterOptions = useMemo(() => {
-    if (!fitment) return product.diameterOptions;
-    return product.diameterOptions.filter((opt) => {
-      const num = diameterToInt(opt);
-      return num >= fitment.minDiameter && num <= fitment.maxDiameter;
-    });
-  }, [fitment, product.diameterOptions]);
-
-  // If the active diameter falls outside the chassis range, snap to the first allowed option.
-  useEffect(() => {
-    if (!fitment) return;
-    if (filteredDiameterOptions.length === 0) return;
-    if (!filteredDiameterOptions.includes(activeDiameterFront)) {
-      setActiveDiameterFront(filteredDiameterOptions[0]);
-    }
-    if (!filteredDiameterOptions.includes(activeDiameterRear)) {
-      setActiveDiameterRear(filteredDiameterOptions[0]);
-    }
-  }, [fitment, filteredDiameterOptions, activeDiameterFront, activeDiameterRear]);
+  const filteredDiameterOptions = useMemo(
+    () => diameterOptionsForFitment(product.diameterOptions, fitment),
+    [fitment, product.diameterOptions],
+  );
 
   function handleMakeChange(make: string) {
     setCarMake(make);
@@ -119,6 +119,18 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   function handleModelChange(model: string) {
     setCarModel(model);
     setCarYear("");
+    const nextDiameterOptions = diameterOptionsForFitment(
+      product.diameterOptions,
+      getVehicleFitment(carMake, model),
+    );
+    const fallbackDiameter = nextDiameterOptions[0];
+    if (!fallbackDiameter) return;
+    setActiveDiameterFront((current) =>
+      nextDiameterOptions.includes(current) ? current : fallbackDiameter,
+    );
+    setActiveDiameterRear((current) =>
+      nextDiameterOptions.includes(current) ? current : fallbackDiameter,
+    );
   }
 
   const activeImage = product.images[activeImageIndex] ?? product.images[0];
@@ -268,6 +280,24 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
   return (
     <section className={styles.page}>
+      <nav className="breadcrumbs container" aria-label="Breadcrumb">
+        <Link className="breadcrumb-link" href="/">
+          Home
+        </Link>
+        <span aria-hidden="true">/</span>
+        <Link className="breadcrumb-link" href="/shop">
+          Wheels
+        </Link>
+        <span aria-hidden="true">/</span>
+        <Link className="breadcrumb-link" href={collectionHref}>
+          {collectionLabel}
+        </Link>
+        <span aria-hidden="true">/</span>
+        <span className="breadcrumb-current" aria-current="page">
+          {product.title}
+        </span>
+      </nav>
+
       <div className={`${styles.grid} container`}>
 
         {/* ── Gallery ── */}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { collectionSummaries, defaultMediaImage } from "@/lib/monza-data";
 import { getCatalogData } from "@/lib/catalog";
+import { breadcrumbJsonLd, jsonLd } from "@/lib/seo";
 import styles from "../../page-shell.module.css";
 
 type CollectionPageProps = {
@@ -48,64 +49,89 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
       : products.slice(0, collection.slug === "monoblock" ? 2 : 1);
 
   return (
-    <main className={styles.page}>
-      <section className={styles.hero}>
-        <div className={`${styles.heroInner} container`}>
-          <p className="label">{collection.label}</p>
-          <h1 className={styles.heroTitle}>{collection.title}</h1>
-          <p className={styles.heroCopy}>
-            {collection.description} Final diameter, width, offset, and finish
-            are still resolved around the exact vehicle.
-          </p>
-          <div className={styles.heroActions}>
-            <Link className="button-outline" href="/contact">
-              Request a Quote
-            </Link>
-            <Link className="button-outline" href="/fitment">
-              View Fitment Guide
-            </Link>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLd(
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Wheels", path: "/shop" },
+            { name: collection.title, path: `/collections/${collection.slug}` },
+          ]),
+        )}
+      />
+      <main className={styles.page}>
+        <section className={styles.hero}>
+          <div className={`${styles.heroInner} container`}>
+            <nav className="breadcrumbs" aria-label="Breadcrumb">
+              <Link className="breadcrumb-link" href="/">
+                Home
+              </Link>
+              <span aria-hidden="true">/</span>
+              <Link className="breadcrumb-link" href="/shop">
+                Wheels
+              </Link>
+              <span aria-hidden="true">/</span>
+              <span className="breadcrumb-current" aria-current="page">
+                {collection.title}
+              </span>
+            </nav>
+            <p className="label">{collection.label}</p>
+            <h1 className={styles.heroTitle}>{collection.title}</h1>
+            <p className={styles.heroCopy}>
+              {collection.description} Final diameter, width, offset, and finish
+              are still resolved around the exact vehicle.
+            </p>
+            <div className={styles.heroActions}>
+              <Link className="button-outline" href="/contact">
+                Request a Quote
+              </Link>
+              <Link className="button-outline" href="/fitment">
+                View Fitment Guide
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className={styles.sectionAlt}>
-        <div className="container">
-          <div className={styles.sectionHeader}>
-            <p className="label">Available Designs</p>
-            <h2 className={styles.sectionTitle}>Current faces in this line.</h2>
-          </div>
+        <section className={styles.sectionAlt}>
+          <div className="container">
+            <div className={styles.sectionHeader}>
+              <p className="label">Available Designs</p>
+              <h2 className={styles.sectionTitle}>Current faces in this line.</h2>
+            </div>
 
-          <div className={styles.collectionGrid}>
-            {collectionProducts.map((product) => (
-              <article key={product.id} className={styles.collectionCard} data-reveal>
-                <Link className={styles.collectionMedia} href={`/shop/${product.handle}`}>
-                  <Image
-                    alt={product.title}
-                    className={styles.collectionImage}
-                    height={1200}
-                    sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 33vw"
-                    src={product.images[0]?.url || defaultMediaImage}
-                    width={1600}
-                  />
-                </Link>
-
-                <div className={styles.collectionBody}>
-                  <p className={styles.cardOverline}>{product.series}</p>
-                  <h2 className={styles.collectionTitle}>{product.title}</h2>
-                  <p className={styles.collectionCopy}>{product.shortDescription}</p>
-                  <div className={styles.collectionMeta}>
-                    <span className={styles.cardMeta}>Starting at {product.price}</span>
-                    <span className={styles.cardMeta}>{product.leadTime}</span>
-                  </div>
-                  <Link className={styles.inlineLink} href={`/shop/${product.handle}`}>
-                    Open product →
+            <div className={styles.collectionGrid}>
+              {collectionProducts.map((product) => (
+                <article key={product.id} className={styles.collectionCard} data-reveal>
+                  <Link className={styles.collectionMedia} href={`/shop/${product.handle}`}>
+                    <Image
+                      alt={product.title}
+                      className={styles.collectionImage}
+                      height={1200}
+                      sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 33vw"
+                      src={product.images[0]?.url || defaultMediaImage}
+                      width={1600}
+                    />
                   </Link>
-                </div>
-              </article>
-            ))}
+
+                  <div className={styles.collectionBody}>
+                    <p className={styles.cardOverline}>{product.series}</p>
+                    <h2 className={styles.collectionTitle}>{product.title}</h2>
+                    <p className={styles.collectionCopy}>{product.shortDescription}</p>
+                    <div className={styles.collectionMeta}>
+                      <span className={styles.cardMeta}>Starting at {product.price}</span>
+                      <span className={styles.cardMeta}>{product.leadTime}</span>
+                    </div>
+                    <Link className={styles.inlineLink} href={`/shop/${product.handle}`}>
+                      Open product →
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </>
   );
 }

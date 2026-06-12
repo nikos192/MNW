@@ -1,4 +1,5 @@
 import { BRAND_EMAIL, BRAND_INSTAGRAM_URL, BRAND_NAME } from "@/lib/brand";
+import { normalizedSiteUrl } from "@/lib/seo";
 
 export type QuoteEmailPayload = {
   quoteContext?: {
@@ -70,13 +71,7 @@ function formatLine(label: string, value?: string) {
 }
 
 function resolveSiteUrl() {
-  const configuredSiteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ?? process.env.VERCEL_URL ?? "http://localhost:3000";
-  const normalizedSiteUrl = /^https?:\/\//i.test(configuredSiteUrl)
-    ? configuredSiteUrl
-    : `https://${configuredSiteUrl}`;
-
-  return normalizedSiteUrl.replace(/\/$/, "");
+  return normalizedSiteUrl();
 }
 
 function buildProductUrl(handle?: string) {
