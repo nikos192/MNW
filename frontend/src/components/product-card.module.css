@@ -79,8 +79,8 @@
 .series {
   margin-bottom: 8px;
   font-family: var(--font-body), sans-serif;
-  font-size: 10px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.18em;
   line-height: 1.5;
   text-transform: uppercase;
@@ -100,7 +100,7 @@
   margin-bottom: 4px;
   font-family: var(--font-body), sans-serif;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.4;
   color: var(--text-primary);
 }
@@ -108,8 +108,8 @@
 .priceSecondary {
   margin-bottom: 14px;
   font-family: var(--font-body), sans-serif;
-  font-size: 11px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   line-height: 1.5;
   color: var(--text-muted);
 }
@@ -123,8 +123,8 @@
 
 .finishes {
   font-family: var(--font-body), sans-serif;
-  font-size: 10px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.28em;
   line-height: 1.5;
   text-transform: uppercase;
@@ -133,8 +133,8 @@
 
 .ctaHint {
   font-family: var(--font-body), sans-serif;
-  font-size: 12px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   line-height: 1.5;
   color: var(--text-primary);
 }

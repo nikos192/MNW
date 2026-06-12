@@ -27,7 +27,7 @@
 .optionCopy {
   font-family: var(--font-body), sans-serif;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.65;
   color: var(--text-secondary);
 }

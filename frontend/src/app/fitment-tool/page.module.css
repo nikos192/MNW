@@ -27,7 +27,7 @@
 .copy {
   max-width: 560px;
   font-size: 15px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.75;
   color: var(--text-muted);
 }
@@ -78,17 +78,17 @@
 }
 
 .currentToneBg {
-  background: #5b9cf6;
+  background: #00539f;
 }
 
 .newToneBg {
-  background: #e03535;
+  background: #9b1414;
 }
 
 .colTitle {
   font-family: var(--font-body), sans-serif;
-  font-size: 10px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -108,8 +108,8 @@
 
 .fieldLabel {
   font-family: var(--font-body), sans-serif;
-  font-size: 10px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--text-secondary);
@@ -136,7 +136,7 @@
   color: var(--text-primary);
   font-family: var(--font-body), sans-serif;
   font-size: 15px;
-  font-weight: 300;
+  font-weight: 400;
   border: 0;
   outline: 0;
   -moz-appearance: textfield;
@@ -149,8 +149,8 @@
 }
 
 .input::placeholder {
-  color: var(--text-secondary);
-  opacity: 0.5;
+  color: var(--text-muted);
+  opacity: 1;
 }
 
 .unit {
@@ -159,8 +159,8 @@
   padding: 0 14px;
   border-left: 1px solid var(--rule);
   font-family: var(--font-body), sans-serif;
-  font-size: 10px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-secondary);
@@ -176,8 +176,8 @@
   gap: 10px;
   flex-wrap: wrap;
   font-family: var(--font-body), sans-serif;
-  font-size: 11px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   color: var(--text-muted);
   letter-spacing: 0.04em;
   padding-top: 8px;
@@ -202,11 +202,11 @@
   top: 12px;
   left: 16px;
   font-family: var(--font-body), sans-serif;
-  font-size: 9px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(230, 215, 196, 0.25);
+  color: rgba(255, 250, 245, 0.88);
   pointer-events: none;
   z-index: 1;
 }
@@ -253,8 +253,8 @@
 
 .resultLabel {
   font-family: var(--font-body), sans-serif;
-  font-size: 9px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--text-secondary);
@@ -275,8 +275,8 @@
 
 .resultNote {
   font-family: var(--font-body), sans-serif;
-  font-size: 12px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   line-height: 1.6;
   color: var(--text-muted);
 }
@@ -295,8 +295,8 @@
   width: 100%;
   padding: 16px clamp(20px, 3vw, 32px);
   font-family: var(--font-body), sans-serif;
-  font-size: 10px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -335,14 +335,14 @@ details[open] .breakdownToggle::before {
   gap: 32px;
   padding: 0 clamp(20px, 3vw, 32px) clamp(24px, 3vw, 32px);
   font-family: var(--font-body), sans-serif;
-  font-size: 13px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   line-height: 2;
   color: var(--text-muted);
 }
 
 .breakdownHead {
-  font-size: 10px;
+  font-size: 14px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
   font-weight: 400;
@@ -350,11 +350,11 @@ details[open] .breakdownToggle::before {
 }
 
 .currentToneText {
-  color: #5b9cf6;
+  color: #00539f;
 }
 
 .newToneText {
-  color: #e03535;
+  color: #9b1414;
 }
 
 /* ─── CTA section ────────────────────────────────────────────────────────────── */

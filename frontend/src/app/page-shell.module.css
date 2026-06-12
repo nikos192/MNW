@@ -26,7 +26,7 @@
   max-width: 58ch;
   font-family: var(--font-body), sans-serif;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   color: var(--text-secondary);
 }
@@ -65,7 +65,7 @@
   max-width: 58ch;
   font-family: var(--font-body), sans-serif;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   color: var(--text-secondary);
 }
@@ -94,8 +94,8 @@
 .cardOverline,
 .cardMeta {
   font-family: var(--font-body), sans-serif;
-  font-size: 11px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.14em;
   line-height: 1.5;
   text-transform: uppercase;
@@ -117,7 +117,7 @@
 .note {
   font-family: var(--font-body), sans-serif;
   font-size: 15px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   color: var(--text-secondary);
 }
@@ -132,7 +132,7 @@
   border-bottom: 1px solid transparent;
   font-family: var(--font-body), sans-serif;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.04em;
   line-height: 1.6;
   color: var(--text-primary);

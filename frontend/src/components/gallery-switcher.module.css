@@ -13,8 +13,8 @@
   padding: 0 0 8px;
   border-bottom: 1px solid transparent;
   font-family: var(--font-body), sans-serif;
-  font-size: 12px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.14em;
   line-height: 1.5;
   text-transform: uppercase;
@@ -60,7 +60,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 18px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.5));
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.82));
   opacity: 0;
   transition: opacity 200ms ease;
 }
@@ -78,12 +78,12 @@
 .overlayEyebrow {
   align-self: flex-start;
   font-family: var(--font-body), sans-serif;
-  font-size: 11px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.14em;
   line-height: 1.5;
   text-transform: uppercase;
-  color: rgba(255, 250, 245, 0.72);
+  color: rgba(255, 250, 245, 0.94);
 }
 
 .overlayTitle {
@@ -97,8 +97,8 @@
 
 .viewAllLink {
   font-family: var(--font-body), sans-serif;
-  font-size: 13px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.04em;
   line-height: 1.6;
   color: var(--text-secondary);
@@ -118,8 +118,8 @@
 
 .briefEyebrow {
   font-family: var(--font-body), sans-serif;
-  font-size: 10px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.18em;
   line-height: 1.5;
   text-transform: uppercase;
@@ -138,12 +138,12 @@
 .briefFinish,
 .briefNote {
   font-family: var(--font-body), sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.65;
 }
 
 .briefSpec {
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-primary);

@@ -44,7 +44,7 @@
   max-width: 660px;
   padding: clamp(28px, 4vw, 40px);
   background:
-    linear-gradient(135deg, rgba(8, 8, 8, 0.7), rgba(8, 8, 8, 0.44)),
+    linear-gradient(135deg, rgba(8, 8, 8, 0.82), rgba(8, 8, 8, 0.68)),
     radial-gradient(circle at top right, rgba(200, 29, 37, 0.28), transparent 34%);
   border: 1px solid rgba(255, 250, 245, 0.14);
   box-shadow: 0 28px 60px rgba(0, 0, 0, 0.28);
@@ -54,12 +54,12 @@
 
 .heroLabel {
   font-family: var(--font-body), sans-serif;
-  font-size: 11px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.22em;
   line-height: 1.4;
   text-transform: uppercase;
-  color: rgba(255, 220, 222, 0.88);
+  color: #fff5f5;
 }
 
 .heroHeading {
@@ -72,10 +72,10 @@
 .heroBody {
   max-width: 52ch;
   font-family: var(--font-body), sans-serif;
-  font-size: clamp(15px, 1.2vw, 17px);
-  font-weight: 300;
+  font-size: clamp(16px, 1.2vw, 17px);
+  font-weight: 400;
   line-height: 1.75;
-  color: rgba(255, 250, 245, 0.78);
+  color: rgba(255, 250, 245, 0.96);
 }
 
 .heroActions {
@@ -108,12 +108,12 @@
 
 .heroFactLabel {
   font-family: var(--font-body), sans-serif;
-  font-size: 10px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.16em;
   line-height: 1.5;
   text-transform: uppercase;
-  color: rgba(255, 250, 245, 0.66);
+  color: rgba(255, 250, 245, 0.94);
 }
 
 .heroCue {
@@ -178,7 +178,7 @@
   border-bottom: 1px solid transparent;
   font-family: var(--font-body), sans-serif;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.04em;
   line-height: 1.6;
   color: var(--text-primary);
@@ -230,7 +230,7 @@
   max-width: 520px;
   font-family: var(--font-body), sans-serif;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   color: var(--text-secondary);
 }
@@ -265,7 +265,7 @@
 }
 
 .tierOverlay {
-  background: linear-gradient(180deg, rgba(8, 8, 8, 0.04) 12%, rgba(8, 8, 8, 0.74) 100%);
+  background: linear-gradient(180deg, rgba(8, 8, 8, 0.38) 12%, rgba(8, 8, 8, 0.84) 100%);
 }
 
 .tierTile:hover .tierImage,
@@ -285,12 +285,12 @@
 
 .tierLabel {
   font-family: var(--font-body), sans-serif;
-  font-size: 11px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.16em;
   line-height: 1.5;
   text-transform: uppercase;
-  color: rgba(255, 220, 222, 0.88);
+  color: #fff5f5;
 }
 
 .tierTitle {
@@ -305,9 +305,9 @@
 .tierPrice {
   font-family: var(--font-body), sans-serif;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.6;
-  color: rgba(255, 250, 245, 0.78);
+  color: rgba(255, 250, 245, 0.96);
 }
 
 .tierAction {
@@ -344,7 +344,7 @@
 .galleryCopy {
   font-family: var(--font-body), sans-serif;
   font-size: 15px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   color: var(--text-muted);
 }
@@ -399,7 +399,7 @@
 
 .expansionLabel {
   margin-bottom: 18px;
-  color: rgba(200, 29, 37, 0.72);
+  color: var(--accent-red);
 }
 
 .expansionHeading {
@@ -415,9 +415,9 @@
   max-width: 44ch;
   font-family: var(--font-body), sans-serif;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.75;
-  color: rgba(18, 18, 18, 0.72);
+  color: var(--text-muted);
 }
 
 .expansionMeta {
@@ -435,20 +435,20 @@
   display: block;
   margin-bottom: 8px;
   font-family: var(--font-body), sans-serif;
-  font-size: 10px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.28em;
   line-height: 1.5;
   text-transform: uppercase;
-  color: rgba(200, 29, 37, 0.64);
+  color: var(--accent-red);
 }
 
 .expansionMeta p {
   font-family: var(--font-body), sans-serif;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.65;
-  color: rgba(18, 18, 18, 0.76);
+  color: var(--text-muted);
 }
 
 .expansionAction {
@@ -460,7 +460,7 @@
 
 .darkLabel {
   margin-bottom: 18px;
-  color: rgba(22, 22, 22, 0.64);
+  color: var(--text-muted);
 }
 
 .darkHeading {
@@ -476,9 +476,9 @@
   margin-bottom: 24px;
   font-family: var(--font-body), sans-serif;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
-  color: rgba(22, 22, 22, 0.72);
+  color: var(--text-muted);
 }
 
 .introMeta {
@@ -492,20 +492,20 @@
   display: block;
   margin-bottom: 8px;
   font-family: var(--font-body), sans-serif;
-  font-size: 10px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.28em;
   line-height: 1.5;
   text-transform: uppercase;
-  color: rgba(22, 22, 22, 0.54);
+  color: var(--text-secondary);
 }
 
 .introMeta p {
   font-family: var(--font-body), sans-serif;
   font-size: 15px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
-  color: rgba(22, 22, 22, 0.76);
+  color: var(--text-muted);
 }
 
 .featuredSection,
@@ -532,7 +532,7 @@
   max-width: 520px;
   font-family: var(--font-body), sans-serif;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   color: var(--text-muted);
 }

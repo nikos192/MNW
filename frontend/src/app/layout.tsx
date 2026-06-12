@@ -23,7 +23,7 @@ const headingFont = Work_Sans({
 const bodyFont = Jura({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["300"],
+  weight: ["300", "400", "500"],
 });
 
 const wordmarkFont = Cormorant_Garamond({
