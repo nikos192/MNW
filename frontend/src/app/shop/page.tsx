@@ -30,8 +30,6 @@ export const metadata: Metadata = {
 
 export default async function ShopPage() {
   const { products } = await getCatalogData();
-  const monoblockCount = products.filter((product) => product.series === "1-Piece Forged").length;
-  const multiPieceCount = products.filter((product) => product.series === "2-Piece Forged").length;
   const finishCount = products[0]?.finishes.length ?? 24;
 
   return (
@@ -52,16 +50,16 @@ export default async function ShopPage() {
 
           <div className={styles.heroMeta}>
             <div className={styles.heroMetric}>
-              <span className={styles.heroMetricValue}>{monoblockCount}</span>
-              <span className={styles.heroMetricLabel}>monoblock faces</span>
-            </div>
-            <div className={styles.heroMetric}>
-              <span className={styles.heroMetricValue}>{multiPieceCount}</span>
-              <span className={styles.heroMetricLabel}>multi-piece faces</span>
+              <span className={styles.heroMetricValue}>15–24&Prime;</span>
+              <span className={styles.heroMetricLabel}>diameter range</span>
             </div>
             <div className={styles.heroMetric}>
               <span className={styles.heroMetricValue}>{finishCount}+</span>
               <span className={styles.heroMetricLabel}>finish directions</span>
+            </div>
+            <div className={styles.heroMetric}>
+              <span className={styles.heroMetricValue}>5</span>
+              <span className={styles.heroMetricLabel}>year warranty</span>
             </div>
           </div>
         </div>

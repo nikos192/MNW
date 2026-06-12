@@ -12,7 +12,9 @@ type GallerySwitcherProps = {
 };
 
 export function GallerySwitcher({ deliveredSets, products }: GallerySwitcherProps) {
-  const [activeTab, setActiveTab] = useState<"vehicle" | "wheel">("vehicle");
+  const [activeTab, setActiveTab] = useState<"vehicle" | "wheel">(
+    deliveredSets.length > 0 ? "vehicle" : "wheel",
+  );
   const [, startTransition] = useTransition();
 
   const vehicleItems = deliveredSets.map((item) => ({
@@ -63,7 +65,19 @@ export function GallerySwitcher({ deliveredSets, products }: GallerySwitcherProp
       </div>
 
       <div key={activeTab} className={styles.grid}>
-        {showVehicleBriefs
+        {activeTab === "vehicle" && deliveredSets.length === 0 ? (
+          <article className={styles.briefTile}>
+            <p className={styles.briefEyebrow}>Customer builds</p>
+            <h3 className={styles.briefTitle}>Photography in progress</h3>
+            <p className={styles.briefNote}>
+              Delivered sets are photographed on the car before they appear here. In the
+              meantime, browse the range by wheel or request a quote for your chassis.
+            </p>
+            <Link className={styles.viewAllLink} href="/contact">
+              Request a quote →
+            </Link>
+          </article>
+        ) : showVehicleBriefs
           ? deliveredSets.map((item) => (
               <article key={`${item.chassis}-${item.fitment}`} className={styles.briefTile}>
                 <p className={styles.briefEyebrow}>Delivered fitment brief</p>

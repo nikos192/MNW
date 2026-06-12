@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { ProductCard } from "@/components/product-card";
 import type { CatalogProduct } from "@/lib/monza-data";
@@ -29,7 +30,10 @@ type ShopFilterProps = {
 };
 
 export function ShopFilter({ products }: ShopFilterProps) {
-  const [activeFilter, setActiveFilter] = useState<PieceFilter>("1-Piece Forged");
+  const defaultFilter =
+    filterOptions.find((option) => products.some((product) => product.series === option.value))
+      ?.value ?? "1-Piece Forged";
+  const [activeFilter, setActiveFilter] = useState<PieceFilter>(defaultFilter);
   const activeOption = filterOptions.find((option) => option.value === activeFilter) ?? filterOptions[0];
   const groupedProducts = filterOptions.map((option) => ({
     ...option,
@@ -67,11 +71,21 @@ export function ShopFilter({ products }: ShopFilterProps) {
           aria-hidden={activeFilter !== group.value}
           className={`${styles.gridPanel} ${activeFilter === group.value ? "" : styles.gridPanelHidden}`}
         >
-          <div className={styles.grid}>
-            {group.products.map((product) => (
-              <ProductCard key={product.id} imageLoading="eager" product={product} />
-            ))}
-          </div>
+          {group.products.length > 0 ? (
+            <div className={styles.grid}>
+              {group.products.map((product) => (
+                <ProductCard key={product.id} imageLoading="eager" product={product} />
+              ))}
+            </div>
+          ) : (
+            <div className={styles.filterMeta}>
+              <p className={styles.filterCopy}>
+                The first {group.label.toLowerCase()} designs are in development. The program is
+                already quoted directly around your chassis —{" "}
+                <Link href="/contact">request a quote</Link> and we&apos;ll spec it with you.
+              </p>
+            </div>
+          )}
         </div>
       ))}
     </div>

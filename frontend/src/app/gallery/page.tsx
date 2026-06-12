@@ -6,7 +6,7 @@ import styles from "../page-shell.module.css";
 export const metadata = {
   title: "Gallery",
   description:
-    "Browse MonzaWheels builds by vehicle and wheel model, with placeholders preserved where gallery assets are still being assembled.",
+    "Browse MonzaWheels forged wheel designs by wheel model and delivered vehicle. Customer build photography is added as sets are delivered.",
 };
 
 export default async function GalleryPage() {
@@ -19,9 +19,9 @@ export default async function GalleryPage() {
           <p className="label">Gallery</p>
           <h1 className={styles.heroTitle}>Completed cars, resolved fitment, and finish programs.</h1>
           <p className={styles.heroCopy}>
-            Browse builds by vehicle or wheel face. Where imagery is still
-            being assembled, placeholders stay in place rather than faking a
-            gallery.
+            Browse the range by wheel face or by delivered vehicle. Customer
+            build photography is added here as sets are delivered — nothing is
+            staged or faked.
           </p>
         </div>
       </section>

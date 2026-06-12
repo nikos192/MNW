@@ -37,13 +37,13 @@ export default async function Home() {
 
   const monoblockCollection = collectionSummaries.find((collection) => collection.slug === "monoblock");
   const multiPieceCollection = collectionSummaries.find((collection) => collection.slug === "multi-piece");
-  const monoblockProduct =
-    products.find((product) => monoblockCollection?.handles.includes(product.handle)) ?? products[0];
-  const multiPieceProduct =
-    products.find((product) => multiPieceCollection?.handles.includes(product.handle)) ??
-    products[products.length - 1] ??
-    products[0];
-  const finishCount = monoblockProduct?.finishes.length ?? products[0]?.finishes.length ?? 24;
+  const monoblockProduct = products.find((product) =>
+    monoblockCollection?.handles.includes(product.handle),
+  );
+  const multiPieceProduct = products.find((product) =>
+    multiPieceCollection?.handles.includes(product.handle),
+  );
+  const finishCount = products[0]?.finishes.length ?? 24;
   const monoblockRange = priceRangeForSeries("1-Piece Forged");
   const multiPieceRange = priceRangeForSeries("2-Piece Forged");
   const monoblockFromSet = monoblockRange ? `AUD ${formatAud(monoblockRange.minPerSet)} / set` : "AUD $1,848 / set";
@@ -88,8 +88,8 @@ export default async function Home() {
 
             <div className={styles.heroFacts}>
               <div className={styles.heroFact}>
-                <span className={styles.heroFactValue}>{products.length}</span>
-                <span className={styles.heroFactLabel}>forged wheel families</span>
+                <span className={styles.heroFactValue}>15–24&Prime;</span>
+                <span className={styles.heroFactLabel}>diameter range</span>
               </div>
               <div className={styles.heroFact}>
                 <span className={styles.heroFactValue}>{finishCount}+</span>
@@ -130,7 +130,7 @@ export default async function Home() {
               height={1200}
               priority
               sizes="(max-width: 767px) 100vw, 50vw"
-              src="/products/MW-21%20Ascari%203.JPG"
+              src={`/products/${encodeURIComponent('MW-21 "Ascari" 3.JPG')}`}
               width={1600}
             />
           </div>
@@ -197,7 +197,7 @@ export default async function Home() {
             <div className={styles.galleryTitleWrap}>
               <h2 className={styles.galleryHeading}>Gallery</h2>
               <p className={styles.galleryCopy}>
-                See the range by delivered chassis or by wheel face. Where photography is still coming in, we show the fitment brief instead of leaving dead space.
+                See the range by wheel face or by delivered chassis. Customer build photography is added as sets are delivered.
               </p>
             </div>
           </div>
