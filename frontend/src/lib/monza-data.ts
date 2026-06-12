@@ -868,24 +868,6 @@ const WIDTHS_1PC = ["6.0\"", "6.5\"", "7.0\"", "7.5\"", "8.0\"", "8.5\"", "9.0\"
 const WIDTHS_2PC = ["8.0\"", "8.5\"", "9.0\"", "9.5\"", "10.0\"", "10.5\"", "11.0\"", "11.5\"", "12.0\"", "12.5\"", "13.0\"", "13.5\""];
 const PCDS = ["4x100", "4x108", "5x100", "5x108", "5x112", "5x114.3", "5x120", "5x130", "Centre lock"];
 const CENTREBORES = ["54.1mm", "56.6mm", "57.1mm", "60.1mm", "63.4mm", "66.6mm", "67.1mm", "72.6mm", "73.1mm", "74.1mm", "77.0mm"];
-const PRODUCT_CODES = [
-  "1A1",
-  "1A2",
-  "1B1",
-  "1B2",
-  "1C1",
-  "1C2",
-  "1D1",
-  "1D2",
-  "1E1",
-  "1E2",
-  "1F1",
-  "1F2",
-  "2A1",
-  "2A2",
-  "2C1",
-  "2C2",
-] as const;
 
 const FINISH_FILES = [
   "Brushed Clear  .jpg",
@@ -914,61 +896,6 @@ const FINISH_FILES = [
   "Textured Black.jpg",
 ] as const;
 
-const FINISH_BY_VARIANT: Record<string, { name: string; swatch: string }> = {
-  "1": { name: "Silver", swatch: "#AFAFAD" },
-  "2": { name: "Gloss black", swatch: "#0F0F0F" },
-};
-
-const DESIGN_POSITIONING: Record<
-  string,
-  {
-    title: string;
-    useCase: string;
-    detail: string;
-  }
-> = {
-  "1A": {
-    title: "Apex Street",
-    useCase: "Clean monoblock face for daily-driven performance cars and OEM-plus builds.",
-    detail: "a restrained split-spoke monoblock direction for street cars that need brake clearance without looking overbuilt",
-  },
-  "1B": {
-    title: "Circuit Five",
-    useCase: "Five-spoke monoblock for track-focused road cars and visible brake packages.",
-    detail: "an open five-spoke monoblock direction for cars where brake visibility and easy cleaning matter",
-  },
-  "1C": {
-    title: "Touring Mesh",
-    useCase: "Motorsport mesh look for sedans, coupes, and touring-style builds.",
-    detail: "a motorsport mesh monoblock direction for buyers chasing a busier face with a factory-plus stance",
-  },
-  "1D": {
-    title: "Sprint Split",
-    useCase: "Sharp split-spoke monoblock for modern German and Japanese performance chassis.",
-    detail: "a sharp split-spoke monoblock direction that works when the car needs a lighter, more technical read",
-  },
-  "1E": {
-    title: "Heritage Rally",
-    useCase: "Compact, stronger visual weight for hot hatches, classics, and rally-inspired builds.",
-    detail: "a compact monoblock direction with more visual weight for smaller chassis and retro-leaning builds",
-  },
-  "1F": {
-    title: "GT Aero",
-    useCase: "Fuller-face monoblock for grand tourers, EVs, and larger brake packages.",
-    detail: "a fuller-face monoblock direction for larger performance cars that need a calmer, more substantial wheel",
-  },
-  "2A": {
-    title: "Deep Dish GT",
-    useCase: "Two-piece dish and lip detail for widebody, stance, and hero street builds.",
-    detail: "a two-piece direction for deeper dish, more lip presence, and a stronger finish contrast",
-  },
-  "2C": {
-    title: "Split Lip Touring",
-    useCase: "Two-piece split-spoke look for aggressive street cars and staggered fitments.",
-    detail: "a two-piece split-spoke direction for staggered builds where the face and outer lip both need attention",
-  },
-};
-
 function formatFinishName(fileName: string) {
   return fileName.replace(/\.jpg$/i, "").replace(/\s+/g, " ").trim();
 }
@@ -993,10 +920,6 @@ export const finishOptions: WheelFinish[] = FINISH_FILES.map((fileName) => {
     image: `/finishes/${encodeURIComponent(fileName)}`,
   };
 });
-
-const PRODUCT_FAMILIES = Array.from(
-  new Set(PRODUCT_CODES.map((code) => code.slice(0, 2))),
-).sort() as Array<`${1 | 2}${string}`>;
 
 // PRICING (per wheel, AUD). Source: forged wheel pricing sheet.
 // Supplier prices are marked up via RETAIL_MARKUP to reach customer-facing pricing.
@@ -1157,168 +1080,122 @@ export function formatAud(amount: number): string {
   })}`;
 }
 
-function buildFallbackProduct(familyCode: (typeof PRODUCT_FAMILIES)[number]): CatalogProduct {
-  const match = familyCode.match(/^([12])([A-Z])$/);
+// Named production wheels live here. Naming convention: MW-XY where X is the
+// piece count (1 = monoblock, 2 = 2-piece) and Y is the sequential design number.
+type NamedSeries = "1-Piece Forged" | "2-Piece Forged";
 
-  if (!match) {
-    throw new Error(`Unexpected product family: ${familyCode}`);
+const SERIES_FACTS: Record<
+  NamedSeries,
+  {
+    fallbackPrice: string;
+    leadTime: string;
+    construction: string;
+    diameterRange: string;
+    widthRange: string;
+    offsetRange: string;
+    diameterOptions: string[];
+    widthOptions: string[];
   }
+> = {
+  "1-Piece Forged": {
+    fallbackPrice: "From AUD $693/wheel",
+    leadTime: "approximately 20 days from order confirmation",
+    construction: "1-piece forged monoblock",
+    diameterRange: "15 to 24 inches",
+    widthRange: "6.0 to 12.0 inches",
+    offsetRange: "Resolved per chassis",
+    diameterOptions: DIAMETERS_1PC,
+    widthOptions: WIDTHS_1PC,
+  },
+  "2-Piece Forged": {
+    fallbackPrice: "From AUD $1,323/wheel",
+    leadTime: "approximately 25 days from order confirmation",
+    construction: "2-piece forged",
+    diameterRange: "18 to 24 inches",
+    widthRange: "8.0 to 13.5 inches",
+    offsetRange: "Extended range - resolved per chassis",
+    diameterOptions: DIAMETERS_2PC,
+    widthOptions: WIDTHS_2PC,
+  },
+};
 
-  const [, pieceCode] = match;
-  const isOnePiece = pieceCode === "1";
-  const series = isOnePiece ? "1-Piece Forged" : "2-Piece Forged";
-  const leadTime = isOnePiece ? "approximately 20 days from order confirmation" : "approximately 25 days from order confirmation";
-  const tierRange = priceRangeForSeries(series);
-  const price = tierRange
-    ? `From AUD ${formatAud(tierRange.minPerWheel)}/wheel`
-    : isOnePiece
-      ? "From AUD $462/wheel"
-      : "From AUD $882/wheel";
-  const diameterRange = isOnePiece ? "15 to 24 inches" : "18 to 24 inches";
-  const widthRange = isOnePiece ? "6.0 to 12.0 inches" : "8.0 to 13.5 inches";
-  const diameterOptions = isOnePiece ? DIAMETERS_1PC : DIAMETERS_2PC;
-  const widthOptions = isOnePiece ? WIDTHS_1PC : WIDTHS_2PC;
-  const construction = isOnePiece ? "1-piece forged monoblock" : "2-piece forged";
-  const offsetRange = isOnePiece ? "Resolved per chassis" : "Extended range - resolved per chassis";
-  const positioning = DESIGN_POSITIONING[familyCode] ?? {
-    title: `${familyCode} Forged Wheel`,
-    useCase: `${series} design direction for made-to-order fitment.`,
-    detail: `a ${series.toLowerCase()} design direction`,
-  };
-  const familyImages = PRODUCT_CODES
-    .filter((code) => code.startsWith(familyCode))
-    .map((code) => {
-      const variantCode = code.slice(-1);
-      const variantFinish = FINISH_BY_VARIANT[variantCode];
-      return {
-        url: `/products/${code}.png`,
-        alt: `${familyCode} wheel in ${variantFinish.name.toLowerCase()}`,
-      };
-    });
-  const variantFinishNames = PRODUCT_CODES
-    .filter((code) => code.startsWith(familyCode))
-    .map((code) => FINISH_BY_VARIANT[code.slice(-1)]?.name.toLowerCase())
-    .filter(Boolean)
-    .join(" and ");
-
-  return {
-    id: `wheel-${familyCode.toLowerCase()}`,
-    handle: familyCode,
-    title: `${familyCode} ${positioning.title}`,
-    series,
-    shortDescription: positioning.useCase,
-    description:
-      `${familyCode} ${positioning.title} is ${positioning.detail}. Shown in ${variantFinishNames}. ` +
-      "Send the vehicle, brake package, and finish direction and we will confirm the exact spec before production.",
-    price,
-    leadTime,
-    images: familyImages,
-    finishes: finishOptions,
-    specs: [
-      { label: "Construction", value: construction },
-      { label: "Finish", value: "Multiple finishes available" },
-      { label: "Diameter range", value: diameterRange },
-      { label: "Width range", value: widthRange },
-      { label: "PCD", value: "Matched to vehicle - full range available" },
-      { label: "Offset", value: offsetRange },
-    ],
-    diameterOptions,
-    widthOptions,
-    pcdOptions: PCDS,
-    offsetRange,
-    centreboreOptions: CENTREBORES,
-  };
-}
-
-// Named production wheels live here and take precedence over the placeholder
-// alphabetical families above. Naming convention: MW-XY where X is the piece
-// count (1 = monoblock, 2 = 2-piece) and Y is the sequential design number.
-function buildNamedTwoPieceProduct(args: {
+function buildNamedProduct(args: {
   handle: string;
   title: string;
+  series: NamedSeries;
   shortDescription: string;
   description: string;
   imageFileNames: string[];
 }): CatalogProduct {
-  const series = "2-Piece Forged";
-  const tierRange = priceRangeForSeries(series);
+  const facts = SERIES_FACTS[args.series];
+  const tierRange = priceRangeForSeries(args.series);
   const price = tierRange
     ? `From AUD ${formatAud(tierRange.minPerWheel)}/wheel`
-    : "From AUD $1,323/wheel";
+    : facts.fallbackPrice;
 
   return {
     id: `wheel-${args.handle.toLowerCase()}`,
     handle: args.handle,
     title: args.title,
-    series,
+    series: args.series,
     shortDescription: args.shortDescription,
     description: args.description,
     price,
-    leadTime: "approximately 25 days from order confirmation",
+    leadTime: facts.leadTime,
     images: args.imageFileNames.map((fileName, index) => ({
       url: `/products/${encodeURIComponent(fileName)}`,
       alt: `${args.title} forged wheel${index === 0 ? "" : ` — view ${index + 1}`}`,
     })),
     finishes: finishOptions,
     specs: [
-      { label: "Construction", value: "2-piece forged" },
+      { label: "Construction", value: facts.construction },
       { label: "Finish", value: "Multiple finishes available" },
-      { label: "Diameter range", value: "18 to 24 inches" },
-      { label: "Width range", value: "8.0 to 13.5 inches" },
+      { label: "Diameter range", value: facts.diameterRange },
+      { label: "Width range", value: facts.widthRange },
       { label: "PCD", value: "Matched to vehicle - full range available" },
-      { label: "Offset", value: "Extended range - resolved per chassis" },
+      { label: "Offset", value: facts.offsetRange },
     ],
-    diameterOptions: DIAMETERS_2PC,
-    widthOptions: WIDTHS_2PC,
+    diameterOptions: facts.diameterOptions,
+    widthOptions: facts.widthOptions,
     pcdOptions: PCDS,
-    offsetRange: "Extended range - resolved per chassis",
+    offsetRange: facts.offsetRange,
     centreboreOptions: CENTREBORES,
   };
 }
 
 const namedProducts: CatalogProduct[] = [
-  buildNamedTwoPieceProduct({
+  buildNamedProduct({
+    handle: "MW-11",
+    title: 'MW-11 "Serraglio"',
+    series: "1-Piece Forged",
+    shortDescription: "The first design in the MonzaWheels 1-piece forged library.",
+    description:
+      'MW-11 "Serraglio" is the inaugural design in the MonzaWheels 1-piece forged library. The face and barrel are machined from a single forged 6061-T6 billet for the lowest weight, the stiffest structure, and the cleanest visual read. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: [
+      'MW-11 "Serraglio" 1.png',
+      'MW-11 "Serraglio" 2.PNG',
+      'MW-11 "Serraglio" 3.PNG',
+    ],
+  }),
+  buildNamedProduct({
     handle: "MW-21",
     title: 'MW-21 "Ascari"',
+    series: "2-Piece Forged",
     shortDescription: "The first design in the MonzaWheels 2-piece forged library.",
     description:
       'MW-21 "Ascari" is the inaugural design in the MonzaWheels 2-piece forged library. Disc and barrel are forged separately and bolted together for deeper dish, extended offsets, and a stronger visual contrast against the chassis. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: [
-      "MW-21 Ascari 1.png",
-      "MW-21 Ascari 2.JPG",
-      "MW-21 Ascari 3.JPG",
+      'MW-21 "Ascari" 1.png',
+      'MW-21 "Ascari" 2.JPG',
+      'MW-21 "Ascari" 3.JPG',
     ],
   }),
 ];
 
-export const fallbackProducts: CatalogProduct[] = [
-  ...namedProducts,
-  ...PRODUCT_FAMILIES.map(buildFallbackProduct),
-];
+export const fallbackProducts: CatalogProduct[] = [...namedProducts];
 
-export const deliveredSets: DeliveredSet[] = [
-  {
-    chassis: "BMW G80 M3",
-    fitment: "19x9.5 / 20x10.5",
-    finish: "Brushed clear with machined cap",
-    note: "Reference build for a restrained staggered street setup.",
-    image: defaultMediaImage,
-  },
-  {
-    chassis: "Porsche 992 Carrera",
-    fitment: "20x9 / 21x11.5",
-    finish: "Satin graphite with hidden hardware",
-    note: "Illustrates how the same face tightens up when the rear architecture gets more aggressive.",
-    image: defaultMediaImage,
-  },
-  {
-    chassis: "Audi RS3 8Y",
-    fitment: "19x9 square",
-    finish: "Gloss black with machine lip",
-    note: "Proof point for a compact chassis with brake-clearance priorities.",
-    image: defaultMediaImage,
-  },
-];
+// Populated as customer builds are delivered and photographed.
+export const deliveredSets: DeliveredSet[] = [];
 
 export const fitmentPrinciples = [
   {

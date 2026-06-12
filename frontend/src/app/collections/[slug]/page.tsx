@@ -42,11 +42,9 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
   }
 
   const { products } = await getCatalogData();
-  const matchedProducts = products.filter((product) => collection.handles.includes(product.handle));
-  const collectionProducts =
-    matchedProducts.length > 0
-      ? matchedProducts
-      : products.slice(0, collection.slug === "monoblock" ? 2 : 1);
+  const collectionProducts = products.filter((product) =>
+    collection.handles.includes(product.handle),
+  );
 
   return (
     <>
@@ -97,7 +95,20 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
           <div className="container">
             <div className={styles.sectionHeader}>
               <p className="label">Available Designs</p>
-              <h2 className={styles.sectionTitle}>Current faces in this line.</h2>
+              <h2 className={styles.sectionTitle}>
+                {collectionProducts.length > 0
+                  ? "Current faces in this line."
+                  : "First designs are in development."}
+              </h2>
+              {collectionProducts.length === 0 && (
+                <p className={styles.heroCopy}>
+                  The {collection.title.toLowerCase()} program is quoted directly around your
+                  chassis while the published design library grows.{" "}
+                  <Link className={styles.inlineLink} href="/contact">
+                    Request a quote →
+                  </Link>
+                </p>
+              )}
             </div>
 
             <div className={styles.collectionGrid}>
