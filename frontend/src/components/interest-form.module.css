@@ -27,25 +27,27 @@
 
 .label {
   font-family: var(--font-body);
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
+  font-size: 0.74rem;
+  font-weight: 300;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(247, 251, 255, 0.62);
+  color: rgba(247, 251, 255, 0.55);
 }
 
 .req {
-  color: var(--accent-blue-light);
+  color: rgba(247, 251, 255, 0.4);
 }
 
 .input,
 .textarea {
   width: 100%;
-  padding: 13px 16px;
-  border-radius: 10px;
-  border: 1px solid rgba(247, 251, 255, 0.16);
-  background: rgba(247, 251, 255, 0.04);
+  padding: 13px 15px;
+  border-radius: 9px;
+  border: 1px solid rgba(247, 251, 255, 0.14);
+  background: rgba(247, 251, 255, 0.03);
   color: var(--off-white);
   font-family: var(--font-body);
+  font-weight: 300;
   font-size: 1rem;
   transition: border-color var(--duration-hover) var(--ease-precision),
     background var(--duration-hover) var(--ease-precision);
@@ -58,14 +60,14 @@
 
 .input::placeholder,
 .textarea::placeholder {
-  color: rgba(247, 251, 255, 0.34);
+  color: rgba(247, 251, 255, 0.3);
 }
 
 .input:focus-visible,
 .textarea:focus-visible {
   outline: none;
-  border-color: var(--accent-blue-light);
-  background: rgba(247, 251, 255, 0.07);
+  border-color: rgba(247, 251, 255, 0.5);
+  background: rgba(247, 251, 255, 0.06);
 }
 
 .input:disabled,
@@ -75,30 +77,30 @@
 }
 
 .submit {
-  margin-top: 4px;
-  padding: 15px 28px;
-  border: none;
-  border-radius: 10px;
-  background: var(--accent-blue-light);
+  margin-top: 6px;
+  padding: 15px 30px;
+  border: 1px solid var(--off-white);
+  border-radius: 9px;
+  background: var(--off-white);
   color: var(--bg-deep);
   font-family: var(--font-heading);
-  font-size: 1.02rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: transform var(--duration-hover) var(--ease-precision),
-    background var(--duration-hover) var(--ease-precision);
+  transition: background var(--duration-hover) var(--ease-precision),
+    color var(--duration-hover) var(--ease-precision);
 }
 
 .submit:hover:not(:disabled),
 .submit:focus-visible:not(:disabled) {
-  background: #8ad7ff;
-  transform: translateY(-1px);
+  background: transparent;
+  color: var(--off-white);
 }
 
 .submit:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: progress;
 }
 
@@ -111,11 +113,11 @@
 }
 
 .statusSuccess {
-  color: var(--accent-blue-light);
+  color: var(--off-white);
 }
 
 .statusError {
-  color: #ff8a8a;
+  color: #f1a3a3;
 }
 
 @media (max-width: 599px) {

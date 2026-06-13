@@ -56,7 +56,7 @@ export function InterestForm() {
       form.reset();
       setState({
         status: "success",
-        message: "You're on the list. We'll be in touch as designs go live.",
+        message: "Thank you. You are on the early-access list and we will be in touch soon.",
       });
     } catch {
       setState({
@@ -128,12 +128,12 @@ export function InterestForm() {
       </div>
 
       <label className={styles.field}>
-        <span className={styles.label}>Anything else? (optional)</span>
+        <span className={styles.label}>Notes (optional)</span>
         <textarea
           className={styles.textarea}
           disabled={isSubmitting}
           name="message"
-          placeholder="Sizes you're after, finish ideas, or just say hi."
+          placeholder="Sizes, finishes, or anything you would like us to know."
           rows={3}
         />
       </label>

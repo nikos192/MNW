@@ -7,7 +7,7 @@ import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import styles from "./early-access.module.css";
 
 const EARLY_ACCESS_DESCRIPTION =
-  "MonzaWheels is launching custom forged wheels in Australia. Register your interest for early access and request an early quote built around your exact car.";
+  "MonzaWheels is preparing its first release of custom forged wheels in Australia, built to the exact specification of your car. Register your interest for early access and a personal quote.";
 
 export const metadata: Metadata = {
   title: "Early Access | Custom Forged Wheels Australia",
@@ -30,11 +30,19 @@ export const metadata: Metadata = {
   },
 };
 
-const wheelShots = [
-  { src: 'MW-11 "Serraglio" 1.png', alt: 'MW-11 "Serraglio" forged monoblock wheel' },
-  { src: 'MW-21 "Ascari" 1.png', alt: 'MW-21 "Ascari" 2-piece forged wheel' },
-  { src: 'MW-11 "Serraglio" 2.PNG', alt: 'MW-11 "Serraglio" forged wheel, second view' },
-  { src: 'MW-21 "Ascari" 2.JPG', alt: 'MW-21 "Ascari" forged wheel, second view' },
+const firstDesigns = [
+  {
+    name: "MW-11 “Serraglio”",
+    series: "Monoblock · One-piece forged",
+    src: 'MW-11 "Serraglio" 1.png',
+    alt: "MW-11 Serraglio one-piece forged monoblock wheel",
+  },
+  {
+    name: "MW-21 “Ascari”",
+    series: "Two-piece forged",
+    src: 'MW-21 "Ascari" 1.png',
+    alt: "MW-21 Ascari two-piece forged wheel",
+  },
 ];
 
 function productSrc(fileName: string) {
@@ -51,53 +59,68 @@ export default function EarlyAccessPage() {
 
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>Custom forged wheels · Australia</p>
-          <h1 className={styles.heading}>
-            Forged wheels, built around <em>your</em> car.
-          </h1>
+          <p className={styles.eyebrow}>Forged Wheels &middot; Australia</p>
+          <h1 className={styles.heading}>Wheels forged around your car.</h1>
           <p className={styles.subheading}>
-            We&apos;re getting ready to launch. The full catalogue is still in the
-            works — but you can register your interest now for early access and an
-            early quote on a set spec&apos;d around your exact car.
+            {BRAND_NAME} is preparing its first release of custom forged wheels,
+            each one built to the exact specification of your car. Register your
+            interest for early access and a personal quote.
           </p>
 
           <div className={styles.formCard}>
             <p className={styles.formTitle}>Register your interest</p>
             <p className={styles.formCopy}>
-              Drop your details and we&apos;ll reach out as designs go live. No spam,
-              no commitment.
+              Leave your details and we will be in touch as the first designs
+              become available.
             </p>
             <InterestForm />
           </div>
         </div>
 
         <div className={styles.heroVisual}>
-          <Image
-            alt="Custom forged wheel by MonzaWheels"
-            className={styles.heroImage}
-            height={1400}
-            priority
-            sizes="(max-width: 899px) 92vw, 46vw"
-            src={productSrc('MW-21 "Ascari" 1.png')}
-            width={1400}
-          />
+          <div className={styles.heroPanel}>
+            <Image
+              alt="MW-21 Ascari forged wheel"
+              className={styles.heroImage}
+              height={1280}
+              priority
+              sizes="(max-width: 899px) 88vw, 46vw"
+              src={productSrc('MW-21 "Ascari" 3.JPG')}
+              width={1280}
+            />
+          </div>
         </div>
       </section>
 
-      <section className={styles.gallery} aria-label="A first look at our wheels">
-        <p className={styles.galleryLabel}>A first look</p>
-        <div className={styles.galleryGrid}>
-          {wheelShots.map((shot) => (
-            <div className={styles.galleryItem} key={shot.src}>
-              <Image
-                alt={shot.alt}
-                className={styles.galleryImage}
-                height={900}
-                sizes="(max-width: 599px) 50vw, (max-width: 899px) 33vw, 22vw"
-                src={productSrc(shot.src)}
-                width={900}
-              />
-            </div>
+      <section className={styles.designs} aria-labelledby="first-designs-title">
+        <div className={styles.designsHeader}>
+          <h2 className={styles.designsTitle} id="first-designs-title">
+            The first designs
+          </h2>
+          <p className={styles.designsCopy}>
+            Two forged programs to open the range. Final size, offset, and finish
+            are resolved around your vehicle.
+          </p>
+        </div>
+
+        <div className={styles.designsGrid}>
+          {firstDesigns.map((design) => (
+            <article className={styles.designCard} key={design.src}>
+              <div className={styles.designPanel}>
+                <Image
+                  alt={design.alt}
+                  className={styles.designImage}
+                  height={1000}
+                  sizes="(max-width: 899px) 88vw, 44vw"
+                  src={productSrc(design.src)}
+                  width={1000}
+                />
+              </div>
+              <div className={styles.designMeta}>
+                <p className={styles.designName}>{design.name}</p>
+                <p className={styles.designSeries}>{design.series}</p>
+              </div>
+            </article>
           ))}
         </div>
       </section>
@@ -118,7 +141,8 @@ export default function EarlyAccessPage() {
           </a>
         </div>
         <p className={styles.footerNote}>
-          © {new Date().getFullYear()} {BRAND_NAME}. Forged wheels designed in Australia.
+          &copy; {new Date().getFullYear()} {BRAND_NAME}. Designed and engineered in
+          Australia.
         </p>
       </footer>
     </main>
