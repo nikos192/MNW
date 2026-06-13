@@ -1,180 +1,126 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
-import { BurnoutWheel } from "@/components/burnout-wheel";
-import { ProductCard } from "@/components/product-card";
-import { QuickStartWheelFinder } from "@/components/quick-start-wheel-finder";
-import { collectionSummaries } from "@/lib/monza-data";
-import { getCatalogData } from "@/lib/catalog";
+import { InterestForm } from "@/components/interest-form";
+import { MonzaLogo } from "@/components/monza-logo";
+import { BRAND_EMAIL, BRAND_INSTAGRAM_URL, BRAND_NAME } from "@/lib/brand";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
-import styles from "./page.module.css";
+import styles from "./early-access.module.css";
 
-const processClips = [
-  "/media/custom-machining-process-01.mp4",
-  "/media/custom-machining-process-02.mp4",
-  "/media/custom-machining-process-03.mp4",
-  "/media/custom-machining-process-04.mp4",
-];
+const EARLY_ACCESS_DESCRIPTION =
+  "MonzaWheels is launching custom forged wheels in Australia. Register your interest for early access and request an early quote built around your exact car.";
 
 export const metadata: Metadata = {
-  title: "Forged Wheels Australia",
-  description:
-    "Explore MonzaWheels forged wheel programs, chassis-led fitment guidance, finish options, and quote-ready product detail for Australian builds.",
+  title: "Early Access | Custom Forged Wheels Australia",
+  description: EARLY_ACCESS_DESCRIPTION,
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     url: "/",
-    title: "MonzaWheels | Forged Wheels Australia",
-    description:
-      "Explore forged wheel programs, compare finishes, and quote fitment around the exact chassis.",
+    title: `${BRAND_NAME} | Early Access`,
+    description: EARLY_ACCESS_DESCRIPTION,
     images: [DEFAULT_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "MonzaWheels | Forged Wheels Australia",
-    description:
-      "Explore forged wheel programs, compare finishes, and quote fitment around the exact chassis.",
+    title: `${BRAND_NAME} | Early Access`,
+    description: EARLY_ACCESS_DESCRIPTION,
     images: [DEFAULT_OG_IMAGE.url],
   },
 };
 
-export default async function Home() {
-  const { products } = await getCatalogData();
+const wheelShots = [
+  { src: 'MW-11 "Serraglio" 1.png', alt: 'MW-11 "Serraglio" forged monoblock wheel' },
+  { src: 'MW-21 "Ascari" 1.png', alt: 'MW-21 "Ascari" 2-piece forged wheel' },
+  { src: 'MW-11 "Serraglio" 2.PNG', alt: 'MW-11 "Serraglio" forged wheel, second view' },
+  { src: 'MW-21 "Ascari" 2.JPG', alt: 'MW-21 "Ascari" forged wheel, second view' },
+];
 
-  const monoblockCollection = collectionSummaries.find((collection) => collection.slug === "monoblock");
-  const multiPieceCollection = collectionSummaries.find((collection) => collection.slug === "multi-piece");
-  const monoblockProduct =
-    products.find((product) => monoblockCollection?.handles.includes(product.handle)) ?? products[0];
-  const multiPieceProduct =
-    products.find((product) => multiPieceCollection?.handles.includes(product.handle)) ??
-    products[products.length - 1] ??
-    products[0];
-  const featuredProducts = products.slice(0, 4);
+function productSrc(fileName: string) {
+  return `/products/${encodeURIComponent(fileName)}`;
+}
 
+export default function EarlyAccessPage() {
   return (
     <main className={styles.page}>
-      <section className={styles.hero} data-hero-section>
-        <div className={`${styles.heroInner} container`}>
-          <div className={styles.heroCopy} data-hero-copy>
-            <p className={styles.heroLabel}>MonzaWheels Australia</p>
-            <h1 className={styles.heroHeading}>
-              Custom forged wheels, designed in 🇦🇺
-            </h1>
-            <p className={styles.heroBody}>
-              Choose a wheel line. Send the car. We confirm size, offset,
-              finish, price, and lead time.
+      <header className={styles.topbar}>
+        <MonzaLogo className={styles.logo} priority title={`${BRAND_NAME} logo`} />
+        <span className={styles.badge}>Early Access</span>
+      </header>
+
+      <section className={styles.hero}>
+        <div className={styles.heroCopy}>
+          <p className={styles.eyebrow}>Custom forged wheels · Australia</p>
+          <h1 className={styles.heading}>
+            Forged wheels, built around <em>your</em> car.
+          </h1>
+          <p className={styles.subheading}>
+            We&apos;re getting ready to launch. The full catalogue is still in the
+            works — but you can register your interest now for early access and an
+            early quote on a set spec&apos;d around your exact car.
+          </p>
+
+          <div className={styles.formCard}>
+            <p className={styles.formTitle}>Register your interest</p>
+            <p className={styles.formCopy}>
+              Drop your details and we&apos;ll reach out as designs go live. No spam,
+              no commitment.
             </p>
-
-            <div className={styles.heroActions}>
-              <QuickStartWheelFinder products={products} />
-            </div>
+            <InterestForm />
           </div>
+        </div>
 
-          <div className={styles.heroVisual} data-reveal>
-            <Image
-              alt="BMW M4 Competition with MonzaWheels forged wheels"
-              className={styles.heroCar}
-              height={1000}
-              priority
-              sizes="(max-width: 767px) 96vw, 58vw"
-              src="/media/new-m4.png"
-              width={1600}
-            />
-          </div>
+        <div className={styles.heroVisual}>
+          <Image
+            alt="Custom forged wheel by MonzaWheels"
+            className={styles.heroImage}
+            height={1400}
+            priority
+            sizes="(max-width: 899px) 92vw, 46vw"
+            src={productSrc('MW-21 "Ascari" 1.png')}
+            width={1400}
+          />
         </div>
       </section>
 
-      <BurnoutWheel />
-
-      <section className={styles.processSection} aria-labelledby="custom-machining-title">
-        <div className={styles.processVideoGrid} data-reveal>
-          {processClips.map((clip, index) => (
-            <div className={styles.processVideoFrame} key={clip}>
-              <video
-                aria-label={`Custom machining process clip ${index + 1}`}
-                autoPlay
-                className={styles.processVideo}
-                loop
-                muted
-                playsInline
-                preload="auto"
-              >
-                <source src={clip} type="video/mp4" />
-              </video>
+      <section className={styles.gallery} aria-label="A first look at our wheels">
+        <p className={styles.galleryLabel}>A first look</p>
+        <div className={styles.galleryGrid}>
+          {wheelShots.map((shot) => (
+            <div className={styles.galleryItem} key={shot.src}>
+              <Image
+                alt={shot.alt}
+                className={styles.galleryImage}
+                height={900}
+                sizes="(max-width: 599px) 50vw, (max-width: 899px) 33vw, 22vw"
+                src={productSrc(shot.src)}
+                width={900}
+              />
             </div>
           ))}
         </div>
-
-        <div className={styles.processTitleOverlay}>
-          <h2 id="custom-machining-title" className={styles.processHeading}>
-            Custom machining process
-          </h2>
-        </div>
       </section>
 
-      <section className={styles.tierSection}>
-        <div className={`${styles.tierInner} container`}>
-          <div className={styles.tierHeader} data-reveal>
-            <h2 className={styles.sectionHeading}>Wheel lines.</h2>
-          </div>
-
-          <div className={styles.tierGrid}>
-            <article className={styles.tierTile}>
-              <Link className={styles.tierLink} href="/collections/monoblock">
-                <Image
-                  alt="MonzaWheels monoblock forged collection"
-                  className={styles.tierImage}
-                  height={1200}
-                  sizes="(max-width: 767px) 100vw, 50vw"
-                  src={monoblockProduct?.images[0]?.url || "/media/hero-wheel-poster.jpg"}
-                  width={1800}
-                />
-                <div className={styles.tierOverlay} />
-                <div className={styles.tierMeta}>
-                  <h3 className={styles.tierTitle}>{monoblockCollection?.title || "Monoblock"}</h3>
-                </div>
-              </Link>
-            </article>
-
-            <article className={styles.tierTile}>
-              <Link className={styles.tierLink} href="/collections/multi-piece">
-                <Image
-                  alt="MonzaWheels multi-piece forged collection"
-                  className={styles.tierImage}
-                  height={1200}
-                  sizes="(max-width: 767px) 100vw, 50vw"
-                  src={multiPieceProduct?.images[0]?.url || "/media/hero-wheel-poster.jpg"}
-                  width={1800}
-                />
-                <div className={styles.tierOverlay} />
-                <div className={styles.tierMeta}>
-                  <h3 className={styles.tierTitle}>{multiPieceCollection?.title || "Multi-Piece"}</h3>
-                </div>
-              </Link>
-            </article>
-          </div>
+      <footer className={styles.footer}>
+        <p className={styles.footerBrand}>{BRAND_NAME}</p>
+        <div className={styles.footerLinks}>
+          <a className={styles.footerLink} href={`mailto:${BRAND_EMAIL}`}>
+            {BRAND_EMAIL}
+          </a>
+          <a
+            className={styles.footerLink}
+            href={BRAND_INSTAGRAM_URL}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Instagram
+          </a>
         </div>
-      </section>
-
-      <section className={styles.featuredSection}>
-        <div className={`${styles.featuredInner} container`}>
-          <div className={styles.simpleHeader} data-reveal>
-            <p className="label">Ready designs</p>
-            <h2 className={styles.sectionHeading}>Latest wheels.</h2>
-            <Link className={styles.subtleLink} href="/shop">
-              View catalogue
-            </Link>
-          </div>
-
-          <div className={styles.featuredGrid}>
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </div>
-      </section>
+        <p className={styles.footerNote}>
+          © {new Date().getFullYear()} {BRAND_NAME}. Forged wheels designed in Australia.
+        </p>
+      </footer>
     </main>
   );
 }

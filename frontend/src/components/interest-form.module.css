@@ -1,0 +1,125 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(247, 251, 255, 0.62);
+}
+
+.req {
+  color: var(--accent-blue-light);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(247, 251, 255, 0.16);
+  background: rgba(247, 251, 255, 0.04);
+  color: var(--off-white);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  transition: border-color var(--duration-hover) var(--ease-precision),
+    background var(--duration-hover) var(--ease-precision);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 84px;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: rgba(247, 251, 255, 0.34);
+}
+
+.input:focus-visible,
+.textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent-blue-light);
+  background: rgba(247, 251, 255, 0.07);
+}
+
+.input:disabled,
+.textarea:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.submit {
+  margin-top: 4px;
+  padding: 15px 28px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent-blue-light);
+  color: var(--bg-deep);
+  font-family: var(--font-heading);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform var(--duration-hover) var(--ease-precision),
+    background var(--duration-hover) var(--ease-precision);
+}
+
+.submit:hover:not(:disabled),
+.submit:focus-visible:not(:disabled) {
+  background: #8ad7ff;
+  transform: translateY(-1px);
+}
+
+.submit:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.status {
+  margin: 0;
+  min-height: 1.2em;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: rgba(247, 251, 255, 0.7);
+}
+
+.statusSuccess {
+  color: var(--accent-blue-light);
+}
+
+.statusError {
+  color: #ff8a8a;
+}
+
+@media (max-width: 599px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

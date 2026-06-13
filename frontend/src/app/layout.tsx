@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Rajdhani } from "next/font/google";
 import { BRAND_NAME } from "@/lib/brand";
+import { SiteChrome } from "@/components/site-chrome";
 import { SiteEffects } from "@/components/site-effects";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -108,9 +109,9 @@ export default function RootLayout({
           Skip to content
         </a>
         <SiteEffects />
-        <SiteHeader />
-        <div id="main-content">{children}</div>
-        <SiteFooter />
+        <SiteChrome header={<SiteHeader />} footer={<SiteFooter />}>
+          {children}
+        </SiteChrome>
       </body>
     </html>
   );
