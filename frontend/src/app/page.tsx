@@ -70,6 +70,7 @@ export default async function Home() {
             poster="/media/Hero%20video.jpeg"
             preload="auto"
           >
+            <source src="/media/hero-video.mp4" type="video/mp4" />
             <source src="/media/hero%20video.mov" type="video/quicktime" />
           </video>
           <div className={styles.heroVideoOverlay} />
