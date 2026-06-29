@@ -18,41 +18,18 @@ import styles from "./quick-start-wheel-finder.module.css";
 
 const WEB3FORMS_ACCESS_KEY = "20b94c64-91ea-42c3-b4e9-3cb89106d5dc";
 
-const steps = ["Car", "Fit", "Wheel", "Finish", "Send"];
-
-const goalOptions = [
-  {
-    value: "OEM+ street",
-    label: "OEM+",
-    copy: "Customer wants a clean street fitment.",
-  },
-  {
-    value: "Aggressive street",
-    label: "Aggressive",
-    copy: "Customer wants a more assertive street fitment.",
-  },
-  {
-    value: "Track / performance",
-    label: "Track",
-    copy: "Customer wants performance-focused fitment.",
-  },
-  {
-    value: "Show / deep lip",
-    label: "Show",
-    copy: "Customer wants visual presence and finish detail.",
-  },
-];
+const steps = ["Car", "Build", "Wheel", "Finish", "Send"];
 
 const lineOptions = [
   {
     value: "1-Piece Forged",
-    label: "1-piece",
-    copy: "1-piece forged monoblock catalogue line.",
+    label: "One Piece",
+    copy: "Single-piece forged monoblock construction.",
   },
   {
     value: "2-Piece Forged",
-    label: "2-piece",
-    copy: "2-piece forged catalogue line.",
+    label: "Two Piece",
+    copy: "Two-piece forged construction with separate rim hardware.",
   },
 ];
 
@@ -62,7 +39,6 @@ type WizardData = {
   year: string;
   brakes: string;
   suspension: string;
-  goal: string;
   line: string;
   productHandle: string;
   diameter: string;
@@ -89,7 +65,6 @@ const initialData: WizardData = {
   year: "",
   brakes: "",
   suspension: "",
-  goal: "",
   line: "",
   productHandle: "",
   diameter: "Monza to confirm",
@@ -185,12 +160,12 @@ export function QuickStartWheelFinder({ products }: QuickStartWheelFinderProps) 
   }
 
   function hasWheelBrief() {
-    return Boolean(data.make && data.goal && data.line && data.productHandle);
+    return Boolean(data.make && data.line && data.productHandle);
   }
 
   function maxReachableStep() {
     if (!data.make) return 0;
-    if (!data.goal || !data.line) return 1;
+    if (!data.line) return 1;
     if (!data.productHandle) return 2;
     return steps.length - 1;
   }
@@ -201,7 +176,7 @@ export function QuickStartWheelFinder({ products }: QuickStartWheelFinderProps) 
 
   function canContinue() {
     if (step === 0) return Boolean(data.make);
-    if (step === 1) return Boolean(data.goal && data.line);
+    if (step === 1) return Boolean(data.line);
     if (step === 2) return Boolean(data.productHandle);
     if (step === 4) return Boolean(hasWheelBrief() && data.name.trim() && validEmail(data.email.trim()));
     return true;
@@ -250,8 +225,7 @@ export function QuickStartWheelFinder({ products }: QuickStartWheelFinderProps) 
         : "Local fitment database: not auto-matched",
       "",
       "Wheel direction",
-      `Fit goal: ${data.goal}`,
-      `Wheel line: ${data.line}`,
+      `Construction: ${data.line}`,
       `Selected design: ${selectedProduct?.title || "Not selected"}`,
       `Product handle: ${selectedProduct?.handle || "Not supplied"}`,
       `Price basis shown: ${selectedProduct ? priceBasisForSelection(selectedProduct, data.diameter) : "Not shown - no wheel selected"}`,
@@ -291,7 +265,6 @@ export function QuickStartWheelFinder({ products }: QuickStartWheelFinderProps) 
       vehicle_year: data.year,
       brake_package: data.brakes,
       suspension: data.suspension,
-      fit_goal: data.goal,
       wheel_line: data.line,
       wheel_design: selectedProduct?.title ?? "",
       product_handle: selectedProduct?.handle ?? "",
@@ -479,22 +452,8 @@ export function QuickStartWheelFinder({ products }: QuickStartWheelFinderProps) 
               {step === 1 ? (
                 <div className={styles.stepPanel}>
                   <div className={styles.stepHeader}>
-                    <p className={styles.stepLabel}>Fit</p>
-                    <h3>Pick the direction.</h3>
-                  </div>
-
-                  <div className={styles.optionGrid}>
-                    {goalOptions.map((goal) => (
-                      <button
-                        className={`${styles.optionButton} ${data.goal === goal.value ? styles.optionButtonActive : ""}`}
-                        key={goal.value}
-                        type="button"
-                        onClick={() => patch({ goal: goal.value })}
-                      >
-                        <span>{goal.label}</span>
-                        <small>{goal.copy}</small>
-                      </button>
-                    ))}
+                    <p className={styles.stepLabel}>Build</p>
+                    <h3>Choose the construction.</h3>
                   </div>
 
                   <div className={styles.segmented}>

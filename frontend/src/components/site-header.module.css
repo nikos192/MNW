@@ -92,6 +92,18 @@
   color: var(--text-secondary);
 }
 
+.utilityCta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1px solid rgba(17, 19, 21, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--text-primary);
+  box-shadow: 0 8px 20px rgba(17, 19, 21, 0.06);
+}
+
 .utilityLink:hover,
 .utilityLink:focus-visible,
 .utilityIconLink:hover,
@@ -355,6 +367,20 @@
   .navLink {
     font-size: 14px;
     letter-spacing: 0.12em;
+  }
+
+  .utilityText {
+    gap: 6px;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+  }
+
+  .utilityNav {
+    gap: 12px;
+  }
+
+  .utilityCta {
+    padding: 0 12px;
   }
 }
 

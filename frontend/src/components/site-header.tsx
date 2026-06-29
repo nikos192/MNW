@@ -14,12 +14,14 @@ const leftLinks = [
 ];
 
 const rightLinks = [
+  { href: "/fitment-tool", label: "Fitment Check" },
   { href: "/contact", label: "Quote" },
 ];
 
 const mobileLinks = [
   { href: "/shop", label: "Wheels" },
   { href: "/finishes", label: "Finishes" },
+  { href: "/fitment-tool", label: "Fitment Check" },
   { href: "/pricing", label: "Pricing" },
   { href: "/contact", label: "Quote" },
 ];
@@ -121,6 +123,9 @@ export function SiteHeader() {
               >
                 <InstagramIcon size={16} />
               </a>
+              <Link className={`${styles.utilityLink} ${styles.utilityCta}`} href="/fitment-tool">
+                Fitment Check
+              </Link>
               <Link className={styles.utilityLink} href="/contact">
                 Speak to an expert
               </Link>
