@@ -10,7 +10,7 @@
   max-height: var(--utility-height);
   overflow: hidden;
   background: var(--bg-utility);
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid rgba(17, 19, 21, 0.1);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   transition:
@@ -45,7 +45,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--text-secondary);
+  color: rgba(17, 19, 21, 0.62);
   white-space: nowrap;
 }
 
@@ -62,7 +62,7 @@
   display: none;
   width: 44px;
   height: 44px;
-  border: 1px solid rgba(100, 202, 255, 0.28);
+  border: 1px solid rgba(17, 19, 21, 0.14);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.68);
 }
@@ -171,9 +171,9 @@
 }
 
 .solid .primaryBar {
-  background: rgba(247, 251, 255, 0.92);
-  border-bottom-color: var(--rule-strong);
-  box-shadow: 0 12px 32px rgba(54, 34, 24, 0.08);
+  background: rgba(246, 246, 244, 0.9);
+  border-bottom-color: rgba(17, 19, 21, 0.12);
+  box-shadow: 0 12px 32px rgba(17, 19, 21, 0.05);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
 }
@@ -228,7 +228,7 @@
 .navLink:hover,
 .navLink:focus-visible,
 .active {
-  color: var(--accent-red);
+  color: var(--text-secondary);
 }
 
 .navLink:hover::after,
@@ -284,9 +284,7 @@
   position: fixed;
   inset: 0;
   z-index: 90;
-  background:
-    radial-gradient(circle at top right, rgba(100, 202, 255, 0.18), transparent 22%),
-    linear-gradient(180deg, rgba(247, 251, 255, 0.98) 0%, rgba(220, 236, 255, 0.98) 100%);
+  background: rgba(246, 246, 244, 0.98);
   animation: overlayEnter 220ms ease;
 }
 

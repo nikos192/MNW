@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { BurnoutWheel } from "@/components/burnout-wheel";
 import { ProductCard } from "@/components/product-card";
 import { QuickStartWheelFinder } from "@/components/quick-start-wheel-finder";
 import { collectionSummaries } from "@/lib/monza-data";
@@ -56,40 +55,57 @@ export default async function Home() {
     products.find((product) => multiPieceCollection?.handles.includes(product.handle)) ??
     products[products.length - 1] ??
     products[0];
-  const featuredProducts = products.slice(0, 4);
+  const featuredProducts = [...products].reverse().slice(0, 4);
 
   return (
     <main className={styles.page}>
       <section className={styles.hero} data-hero-section>
+        <div className={styles.heroMedia} aria-hidden="true">
+          <Image
+            alt=""
+            className={styles.heroWheel}
+            height={1254}
+            loading="eager"
+            priority
+            sizes="(max-width: 767px) 96vw, 58vw"
+            src="/products/MW-22%20%22Lesmo%22%201.jpeg"
+            width={1254}
+          />
+        </div>
+
         <div className={`${styles.heroInner} container`}>
           <div className={styles.heroCopy} data-hero-copy>
             <p className={styles.heroLabel}>MonzaWheels Australia</p>
-            <h1 className={styles.heroHeading}>Custom forged wheels, designed in Australia.</h1>
+            <h1 className={styles.heroHeading}>Forged wheels made for your exact car.</h1>
             <p className={styles.heroBody}>
-              Choose a wheel line. Send the car. We confirm size, offset, finish,
-              price, and lead time.
+              Bespoke 1-piece and 2-piece forged wheels with fitment, finish,
+              brake clearance, and offsets resolved before production.
             </p>
 
             <div className={styles.heroActions}>
               <QuickStartWheelFinder products={products} />
+              <Link className="button-outline" href="/shop">
+                View Wheels
+              </Link>
             </div>
-          </div>
 
-          <div className={styles.heroVisual} data-reveal>
-            <Image
-              alt="BMW M4 Competition with MonzaWheels forged wheels"
-              className={styles.heroCar}
-              height={1000}
-              priority
-              sizes="(max-width: 767px) 96vw, 58vw"
-              src="/media/new-m4.png"
-              width={1600}
-            />
+            <dl className={styles.heroSpecs} aria-label="MonzaWheels highlights">
+              <div>
+                <dt>Material</dt>
+                <dd>6061-T6 forged aluminium</dd>
+              </div>
+              <div>
+                <dt>Fitment</dt>
+                <dd>Offset and bore confirmed to chassis</dd>
+              </div>
+              <div>
+                <dt>Build</dt>
+                <dd>Monoblock and two-piece programs</dd>
+              </div>
+            </dl>
           </div>
         </div>
       </section>
-
-      <BurnoutWheel />
 
       <section className={styles.processSection} aria-labelledby="custom-machining-title">
         <div className={styles.processVideoGrid} data-reveal>
@@ -111,8 +127,9 @@ export default async function Home() {
         </div>
 
         <div className={styles.processTitleOverlay}>
+          <p className={styles.processLabel}>In production</p>
           <h2 id="custom-machining-title" className={styles.processHeading}>
-            Custom machining process
+            Machined from forged blanks, finished to order.
           </h2>
         </div>
       </section>
@@ -120,7 +137,8 @@ export default async function Home() {
       <section className={styles.tierSection}>
         <div className={`${styles.tierInner} container`}>
           <div className={styles.tierHeader} data-reveal>
-            <h2 className={styles.sectionHeading}>Wheel lines.</h2>
+            <p className="label">Wheel lines</p>
+            <h2 className={styles.sectionHeading}>Choose the construction. We resolve the geometry.</h2>
           </div>
 
           <div className={styles.tierGrid}>
@@ -169,7 +187,7 @@ export default async function Home() {
         <div className={`${styles.featuredInner} container`}>
           <div className={styles.simpleHeader} data-reveal>
             <p className="label">Ready designs</p>
-            <h2 className={styles.sectionHeading}>Latest wheels.</h2>
+            <h2 className={styles.sectionHeading}>Current forged catalogue.</h2>
             <Link className={styles.subtleLink} href="/shop">
               View catalogue
             </Link>

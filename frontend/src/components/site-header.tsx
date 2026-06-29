@@ -106,9 +106,6 @@ export function SiteHeader() {
         <div className={styles.utilityBar}>
           <div className={`${styles.utilityInner} container`}>
             <p className={styles.utilityText}>
-              <span className={styles.flagBadge} role="img" aria-label="Australian flag">
-                🇦🇺
-              </span>
               <span>Australian forged wheels</span>
               <span className={styles.utilityDivider}>·</span>
               <span>Built to order</span>
@@ -134,9 +131,6 @@ export function SiteHeader() {
         <div className={styles.primaryBar}>
           <div className={`${styles.primaryInner} container`}>
             <div className={styles.navSlot}>
-              <span className={styles.mobileFlag} role="img" aria-label="Australian flag">
-                🇦🇺
-              </span>
               <nav className={`${styles.primaryNav} ${styles.primaryNavLeft}`} aria-label="Primary navigation left">
                 <ul className={styles.navList}>
                   {leftLinks.map((link) => {

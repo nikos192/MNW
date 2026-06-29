@@ -4,9 +4,7 @@ import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
 // Routes that render as a standalone page without the global header/footer.
-// The early-access landing at "/" is intentionally chrome-free so it reads as a
-// focused one-pager while the full site is still in development.
-const BARE_ROUTES = new Set<string>(["/"]);
+const BARE_ROUTES = new Set<string>(["/early-access"]);
 
 type SiteChromeProps = {
   header: ReactNode;
