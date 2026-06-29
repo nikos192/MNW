@@ -61,16 +61,18 @@ export default async function Home() {
     <main className={styles.page}>
       <section className={styles.hero} data-hero-section>
         <div className={styles.heroMedia} aria-hidden="true">
-          <Image
-            alt=""
-            className={styles.heroWheel}
-            height={1254}
-            loading="eager"
-            priority
-            sizes="(max-width: 767px) 96vw, 58vw"
-            src="/products/MW-22%20%22Lesmo%22%201.jpeg"
-            width={1254}
-          />
+          <video
+            autoPlay
+            className={styles.heroVideo}
+            loop
+            muted
+            playsInline
+            poster="/media/Hero%20video.jpeg"
+            preload="auto"
+          >
+            <source src="/media/hero%20video.mov" type="video/quicktime" />
+          </video>
+          <div className={styles.heroVideoOverlay} />
         </div>
 
         <div className={`${styles.heroInner} container`}>

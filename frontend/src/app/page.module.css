@@ -7,9 +7,7 @@
   position: relative;
   min-height: 82svh;
   overflow: hidden;
-  background:
-    linear-gradient(90deg, rgba(246, 246, 244, 0.98) 0%, rgba(246, 246, 244, 0.96) 48%, rgba(246, 246, 244, 0.42) 74%),
-    linear-gradient(180deg, #ffffff 0%, #eeeeea 100%);
+  background: #101113;
   border-bottom: 1px solid rgba(14, 16, 18, 0.12);
 }
 
@@ -39,6 +37,13 @@
   gap: 22px;
   width: min(100%, 700px);
   min-width: 0;
+  padding: clamp(24px, 2.8vw, 36px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(250, 248, 243, 0.74) 0%, rgba(250, 248, 243, 0.58) 100%);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 24px 80px rgba(14, 16, 18, 0.22);
 }
 
 .heroLabel {
@@ -90,15 +95,25 @@
   pointer-events: none;
 }
 
-.heroWheel {
+.heroVideo,
+.heroVideoOverlay {
   position: absolute;
-  right: max(-8vw, -96px);
-  top: 50%;
-  width: min(56vw, 760px);
-  max-width: none;
-  height: auto;
-  transform: translateY(-44%);
-  filter: drop-shadow(0 48px 70px rgba(14, 16, 18, 0.22));
+  inset: 0;
+}
+
+.heroVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 1;
+  filter: saturate(0.88) contrast(1.04) brightness(0.74);
+}
+
+.heroVideoOverlay {
+  background:
+    linear-gradient(90deg, rgba(246, 246, 244, 0.92) 0%, rgba(246, 246, 244, 0.82) 34%, rgba(246, 246, 244, 0.2) 64%, rgba(14, 16, 18, 0.32) 100%),
+    linear-gradient(180deg, rgba(14, 16, 18, 0.08) 0%, rgba(14, 16, 18, 0.38) 100%);
 }
 
 .heroSpecs {
@@ -361,14 +376,6 @@
     width: min(100%, 640px);
   }
 
-  .heroWheel {
-    right: -150px;
-    top: 46%;
-    width: 660px;
-    opacity: 0.32;
-    transform: translateY(-50%);
-  }
-
   .featuredGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -389,6 +396,7 @@
 
   .heroCopy {
     gap: 18px;
+    padding: 22px;
   }
 
   .heroHeading {
@@ -410,14 +418,6 @@
   .heroActions :global(.button-primary),
   .heroActions :global(.button-outline) {
     width: 100%;
-  }
-
-  .heroWheel {
-    right: -150px;
-    top: 34%;
-    width: 440px;
-    opacity: 0.24;
-    transform: translateY(-50%);
   }
 
   .heroSpecs {
