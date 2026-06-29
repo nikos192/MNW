@@ -1190,6 +1190,32 @@ const namedProducts: CatalogProduct[] = [
       'MW-21 "Ascari" 3.JPG',
     ],
   }),
+  buildNamedProduct({
+    handle: "MW-12",
+    title: 'MW-12 "Biassono"',
+    series: "1-Piece Forged",
+    shortDescription: "The second design in the MonzaWheels 1-piece forged library.",
+    description:
+      'MW-12 "Biassono" expands the MonzaWheels 1-piece forged library with a sharper monoblock face machined from a single forged 6061-T6 billet. It is built for the same chassis-led process, with final diameter, width, PCD, centre bore, and offset confirmed around the exact vehicle before production.',
+    imageFileNames: [
+      'MW-12 "Biassono" 1.jpeg',
+      'MW-12 "Biassono" 2.jpeg',
+      'MW-12 "Biassono" 3.jpeg',
+    ],
+  }),
+  buildNamedProduct({
+    handle: "MW-22",
+    title: 'MW-22 "Lesmo"',
+    series: "2-Piece Forged",
+    shortDescription: "The second design in the MonzaWheels 2-piece forged library.",
+    description:
+      'MW-22 "Lesmo" extends the MonzaWheels 2-piece forged library with a new split construction for deeper dish, stronger contrast, and a more technical visual read. Final diameter, width, PCD, centre bore, and offset are still confirmed around the exact vehicle before production.',
+    imageFileNames: [
+      'MW-22 "Lesmo" 1.jpeg',
+      'MW-22 "Lesmo" 2.jpeg',
+      'MW-22 "Lesmo" 3.jpeg',
+    ],
+  }),
 ];
 
 export const fallbackProducts: CatalogProduct[] = [...namedProducts];
