@@ -7,7 +7,9 @@
   position: relative;
   min-height: 82svh;
   overflow: hidden;
-  background: #101113;
+  background:
+    radial-gradient(circle at 78% 24%, rgba(168, 131, 79, 0.2) 0%, rgba(168, 131, 79, 0) 30%),
+    linear-gradient(120deg, #f4f1eb 0%, #ece6dc 32%, #18191b 100%);
   border-bottom: 1px solid rgba(14, 16, 18, 0.12);
 }
 
@@ -17,7 +19,7 @@
   inset: auto 0 0;
   height: 34%;
   pointer-events: none;
-  background: linear-gradient(180deg, transparent 0%, rgba(14, 16, 18, 0.08) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(14, 16, 18, 0.14) 100%);
 }
 
 .heroInner {
@@ -35,15 +37,9 @@
 .heroCopy {
   display: grid;
   gap: 22px;
-  width: min(100%, 700px);
+  width: min(100%, 640px);
   min-width: 0;
-  padding: clamp(24px, 2.8vw, 36px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 10px;
-  background: linear-gradient(180deg, rgba(250, 248, 243, 0.74) 0%, rgba(250, 248, 243, 0.58) 100%);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 24px 80px rgba(14, 16, 18, 0.22);
+  padding: 0;
 }
 
 .heroLabel {
@@ -95,25 +91,60 @@
   pointer-events: none;
 }
 
-.heroVideo,
+.heroVideoAmbient,
+.heroVideoFrame,
 .heroVideoOverlay {
   position: absolute;
+}
+
+.heroVideoAmbient {
   inset: 0;
+  overflow: hidden;
 }
 
 .heroVideo {
+  position: absolute;
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  object-fit: cover;
+  object-position: center 36%;
+  opacity: 0.28;
+  filter: blur(28px) saturate(0.7) contrast(0.95) brightness(0.74);
+  transform: scale(1.08);
+}
+
+.heroVideoFrame {
+  top: clamp(28px, 4vw, 56px);
+  right: max(24px, calc((100vw - var(--container-max)) / 2));
+  bottom: clamp(24px, 4vw, 48px);
+  width: min(38vw, 560px);
+  min-width: 320px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 32px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 100%),
+    #101113;
+  box-shadow:
+    0 32px 80px rgba(14, 16, 18, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.heroVideoFeature {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
-  opacity: 1;
-  filter: saturate(0.88) contrast(1.04) brightness(0.74);
+  object-position: center 32%;
+  filter: saturate(0.96) contrast(1.02) brightness(0.88);
+  transform: scale(1.02);
 }
 
 .heroVideoOverlay {
+  inset: 0;
   background:
-    linear-gradient(90deg, rgba(246, 246, 244, 0.92) 0%, rgba(246, 246, 244, 0.82) 34%, rgba(246, 246, 244, 0.2) 64%, rgba(14, 16, 18, 0.32) 100%),
-    linear-gradient(180deg, rgba(14, 16, 18, 0.08) 0%, rgba(14, 16, 18, 0.38) 100%);
+    linear-gradient(90deg, rgba(244, 241, 235, 0.96) 0%, rgba(244, 241, 235, 0.9) 34%, rgba(244, 241, 235, 0.42) 58%, rgba(24, 25, 27, 0.12) 72%, rgba(24, 25, 27, 0.2) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(14, 16, 18, 0.16) 100%);
 }
 
 .heroSpecs {
@@ -368,6 +399,14 @@
     width: min(100%, 640px);
   }
 
+  .heroVideoFrame {
+    top: 112px;
+    right: 24px;
+    width: min(42vw, 460px);
+    bottom: 84px;
+    min-width: 280px;
+  }
+
   .heroHeading {
     font-size: 4.75rem;
   }
@@ -396,7 +435,7 @@
 
   .heroCopy {
     gap: 18px;
-    padding: 22px;
+    width: min(100%, 420px);
   }
 
   .heroHeading {
@@ -418,6 +457,38 @@
   .heroActions :global(.button-primary),
   .heroActions :global(.button-outline) {
     width: 100%;
+  }
+
+  .heroVideoAmbient {
+    inset: 0 -22% 0 18%;
+  }
+
+  .heroVideo {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.18;
+    filter: blur(18px) saturate(0.68) brightness(0.7);
+    transform: scale(1.16);
+  }
+
+  .heroVideoFrame {
+    top: 108px;
+    right: -8%;
+    bottom: 160px;
+    width: min(68vw, 320px);
+    min-width: 0;
+    border-radius: 24px;
+  }
+
+  .heroVideoFeature {
+    object-position: center 24%;
+  }
+
+  .heroVideoOverlay {
+    background:
+      linear-gradient(180deg, rgba(244, 241, 235, 0.76) 0%, rgba(244, 241, 235, 0.88) 36%, rgba(244, 241, 235, 0.28) 62%, rgba(24, 25, 27, 0.18) 100%),
+      linear-gradient(90deg, rgba(244, 241, 235, 0.96) 0%, rgba(244, 241, 235, 0.88) 54%, rgba(244, 241, 235, 0.18) 100%);
   }
 
   .heroSpecs {

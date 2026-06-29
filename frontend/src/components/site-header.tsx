@@ -123,9 +123,6 @@ export function SiteHeader() {
               >
                 <InstagramIcon size={16} />
               </a>
-              <Link className={`${styles.utilityLink} ${styles.utilityCta}`} href="/fitment-tool">
-                Fitment Check
-              </Link>
               <Link className={styles.utilityLink} href="/contact">
                 Speak to an expert
               </Link>

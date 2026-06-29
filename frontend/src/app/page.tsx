@@ -61,17 +61,32 @@ export default async function Home() {
     <main className={styles.page}>
       <section className={styles.hero} data-hero-section>
         <div className={styles.heroMedia} aria-hidden="true">
-          <video
-            autoPlay
-            className={styles.heroVideo}
-            loop
-            muted
-            playsInline
-            poster="/media/Hero%20video.jpeg"
-            preload="auto"
-          >
-            <source src="/media/hero-video.mp4" type="video/mp4" />
-          </video>
+          <div className={styles.heroVideoAmbient}>
+            <video
+              autoPlay
+              className={styles.heroVideo}
+              loop
+              muted
+              playsInline
+              poster="/media/Hero%20video.jpeg"
+              preload="auto"
+            >
+              <source src="/media/hero-video.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <div className={styles.heroVideoFrame}>
+            <video
+              autoPlay
+              className={styles.heroVideoFeature}
+              loop
+              muted
+              playsInline
+              poster="/media/Hero%20video.jpeg"
+              preload="auto"
+            >
+              <source src="/media/hero-video.mp4" type="video/mp4" />
+            </video>
+          </div>
           <div className={styles.heroVideoOverlay} />
         </div>
 
