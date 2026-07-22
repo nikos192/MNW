@@ -4,6 +4,7 @@ import { FormEvent, useState, useRef, useEffect } from "react";
 import { BRAND_NAME } from "@/lib/brand";
 import { getVehicleFitment, vehicleData } from "@/lib/monza-data";
 import styles from "./build-form.module.css";
+import { trackMetaEvent } from "@/lib/meta-pixel";
 
 type InitialValues = {
   make?: string;
@@ -234,6 +235,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
         throw new Error(result?.error || "Unable to send quote request right now.");
       }
 
+      trackMetaEvent("Contact");
       form.reset();
       setNotes(initialNotes);
       setCarMake("");

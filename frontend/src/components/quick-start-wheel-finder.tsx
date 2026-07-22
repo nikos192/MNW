@@ -15,6 +15,7 @@ import {
   type CatalogProduct,
 } from "@/lib/monza-data";
 import styles from "./quick-start-wheel-finder.module.css";
+import { trackMetaEvent } from "@/lib/meta-pixel";
 
 const steps = ["Car", "Build", "Wheel", "Finish", "Send"];
 
@@ -261,6 +262,7 @@ export function QuickStartWheelFinder({ products }: QuickStartWheelFinderProps) 
         throw new Error(result?.error || "Unable to send the wheel brief.");
       }
 
+      trackMetaEvent("Contact");
       setSubmitState({
         status: "success",
         message: "Brief sent. MonzaWheels will review your fitment and reply by email.",
