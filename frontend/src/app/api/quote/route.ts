@@ -6,6 +6,7 @@ import {
   buildIntakeEmail,
   type QuoteEmailPayload,
 } from "@/lib/quote-email";
+import { isAllowedFormOrigin } from "@/lib/request-origin";
 
 export const runtime = "nodejs";
 
@@ -57,24 +58,6 @@ function getClientIp(request: Request): string {
   return request.headers.get("x-real-ip") ?? "unknown";
 }
 
-function getAllowedOrigins(): string[] {
-  const explicit = process.env.NEXT_PUBLIC_SITE_URL;
-  const allowed = [
-    explicit,
-    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined,
-    process.env.NODE_ENV !== "production" ? "http://localhost:3000" : undefined,
-  ].filter(Boolean) as string[];
-  return allowed.map((url) => url.replace(/\/$/, ""));
-}
-
-function isAllowedOrigin(request: Request): boolean {
-  const origin = request.headers.get("origin") ?? request.headers.get("referer") ?? "";
-  if (!origin) return false;
-  const allowed = getAllowedOrigins();
-  if (allowed.length === 0) return true; // No SITE_URL configured — accept (dev fallback)
-  return allowed.some((url) => origin.startsWith(url));
-}
-
 function tooBig(payload: QuoteRequestBody): string | null {
   // Returns the first oversized field name, or null if all fit.
   const checks: Array<[string | undefined, number, string]> = [
@@ -119,7 +102,7 @@ export async function POST(request: Request) {
   }
 
   // Origin / referer must match the configured site URL.
-  if (!isAllowedOrigin(request)) {
+  if (!isAllowedFormOrigin(request)) {
     return NextResponse.json({ error: "Forbidden origin." }, { status: 403 });
   }
 

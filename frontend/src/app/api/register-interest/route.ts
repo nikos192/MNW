@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { BRAND_EMAIL, BRAND_NAME } from "@/lib/brand";
+import { isAllowedFormOrigin } from "@/lib/request-origin";
 
 export const runtime = "nodejs";
 
@@ -66,23 +67,6 @@ function getClientIp(request: Request): string {
   return request.headers.get("x-real-ip") ?? "unknown";
 }
 
-function getAllowedOrigins(): string[] {
-  const allowed = [
-    process.env.NEXT_PUBLIC_SITE_URL,
-    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined,
-    process.env.NODE_ENV !== "production" ? "http://localhost:3000" : undefined,
-  ].filter(Boolean) as string[];
-  return allowed.map((url) => url.replace(/\/$/, ""));
-}
-
-function isAllowedOrigin(request: Request): boolean {
-  const origin = request.headers.get("origin") ?? request.headers.get("referer") ?? "";
-  if (!origin) return false;
-  const allowed = getAllowedOrigins();
-  if (allowed.length === 0) return true; // No SITE_URL configured — accept (dev fallback)
-  return allowed.some((url) => origin.startsWith(url));
-}
-
 function tooBig(body: InterestRequestBody): string | null {
   const checks: Array<[string | undefined, number, string]> = [
     [body.name, NAME_CAP, "name"],
@@ -109,7 +93,7 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!isAllowedOrigin(request)) {
+  if (!isAllowedFormOrigin(request)) {
     return NextResponse.json({ error: "Forbidden origin." }, { status: 403 });
   }
 
