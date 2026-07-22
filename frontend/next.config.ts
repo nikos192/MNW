@@ -5,7 +5,7 @@ import type { NextConfig } from "next";
 // middleware setup — both for the inline runtime scripts and for next/image's
 // inline width/height styles. The rest of the policy is tight: only same-origin
 // scripts/styles, images locked to https + data + blob, connects limited to
-// same-origin plus the Web3Forms intake endpoint, no embedding in iframes,
+// same-origin, no embedding in iframes,
 // and HTTP requests upgraded to HTTPS.
 const csp = [
   "default-src 'self'",
@@ -13,7 +13,7 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
-  "connect-src 'self' https://api.web3forms.com",
+  "connect-src 'self'",
   "frame-ancestors 'none'",
   "form-action 'self'",
   "base-uri 'self'",

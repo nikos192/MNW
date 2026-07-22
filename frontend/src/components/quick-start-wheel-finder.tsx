@@ -16,8 +16,6 @@ import {
 } from "@/lib/monza-data";
 import styles from "./quick-start-wheel-finder.module.css";
 
-const WEB3FORMS_ACCESS_KEY = "20b94c64-91ea-42c3-b4e9-3cb89106d5dc";
-
 const steps = ["Car", "Build", "Wheel", "Finish", "Send"];
 
 const lineOptions = [
@@ -206,41 +204,6 @@ export function QuickStartWheelFinder({ products }: QuickStartWheelFinderProps) 
     setSubmitState({ status: "idle", message: "" });
   }
 
-  function buildMessage() {
-    const vehicle = [data.year, data.make, data.model].filter(Boolean).join(" ");
-    return [
-      "Quick Start: Find Your Wheel",
-      "",
-      "Customer",
-      `Name: ${data.name}`,
-      `Email: ${data.email}`,
-      `Phone: ${data.phone || "Not supplied"}`,
-      "",
-      "Vehicle",
-      `Vehicle: ${vehicle || "Not supplied"}`,
-      `Brake package: ${data.brakes || "Monza to confirm"}`,
-      `Suspension / ride height: ${data.suspension || "Monza to confirm"}`,
-      fitment
-        ? `Local fitment database: PCD ${fitment.pcd}, centre bore ${fitment.centreBore}, diameter range ${fitment.minDiameter}\"-${fitment.maxDiameter}\"`
-        : "Local fitment database: not auto-matched",
-      "",
-      "Wheel direction",
-      `Construction: ${data.line}`,
-      `Selected design: ${selectedProduct?.title || "Not selected"}`,
-      `Product handle: ${selectedProduct?.handle || "Not supplied"}`,
-      `Price basis shown: ${selectedProduct ? priceBasisForSelection(selectedProduct, data.diameter) : "Not shown - no wheel selected"}`,
-      `Diameter: ${data.diameter}`,
-      `Width: ${data.width}`,
-      `Finish: ${data.finish}`,
-      "",
-      "Notes",
-      data.notes || "No extra notes supplied.",
-      "",
-      "Requested next step",
-      "Confirm fitment, quote, finish availability, lead time, and purchase path.",
-    ].join("\n");
-  }
-
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -251,50 +214,51 @@ export function QuickStartWheelFinder({ products }: QuickStartWheelFinderProps) 
 
     setSubmitState({ status: "sending", message: "" });
 
-    const vehicle = [data.year, data.make, data.model].filter(Boolean).join(" ");
     const payload = {
-      access_key: WEB3FORMS_ACCESS_KEY,
-      subject: "Quick Start wheel finder - MonzaWheels",
-      from_name: "MonzaWheels website",
-      name: data.name.trim(),
-      email: data.email.trim(),
-      phone: data.phone.trim(),
-      vehicle,
-      vehicle_make: data.make,
-      vehicle_model: data.model,
-      vehicle_year: data.year,
-      brake_package: data.brakes,
-      suspension: data.suspension,
-      wheel_line: data.line,
-      wheel_design: selectedProduct?.title ?? "",
-      product_handle: selectedProduct?.handle ?? "",
-      price_basis_shown: selectedProduct ? priceBasisForSelection(selectedProduct, data.diameter) : "",
-      diameter: data.diameter,
-      width: data.width,
-      finish: data.finish,
-      pcd: fitment?.pcd ?? "Monza to confirm",
-      centre_bore: fitment?.centreBore ?? "Monza to confirm",
-      message: buildMessage(),
-      botcheck: false,
+      quoteContext: {
+        productTitle: selectedProduct?.title ?? "",
+        productHandle: selectedProduct?.handle ?? "",
+        startingPrice: selectedProduct ? priceBasisForSelection(selectedProduct, data.diameter) : "",
+      },
+      customer: {
+        name: data.name.trim(),
+        email: data.email.trim(),
+        phone: data.phone.trim(),
+      },
+      vehicle: {
+        make: data.make,
+        model: data.model,
+        year: data.year,
+        brakes: data.brakes,
+        suspension: data.suspension,
+      },
+      wheel: {
+        diameter: data.diameter,
+        width: data.width,
+        finish: data.finish,
+        pcd: fitment?.pcd ?? "Monza to confirm",
+        centrebore: fitment?.centreBore ?? "Monza to confirm",
+      },
+      notes: [
+        "Submitted through Quick Start: Find Your Wheel.",
+        `Construction: ${data.line}`,
+        data.notes || "No extra notes supplied.",
+        "Requested next step: Confirm fitment, quote, finish availability, lead time, and purchase path.",
+      ].join("\n"),
     };
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetch("/api/quote", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
         body: JSON.stringify(payload),
       });
-      const result = (await response.json().catch(() => null)) as {
-        success?: boolean;
-        message?: string;
-        body?: { message?: string };
-      } | null;
+      const result = (await response.json().catch(() => null)) as { error?: string } | null;
 
-      if (!response.ok || !result?.success) {
-        throw new Error(result?.message || result?.body?.message || "Unable to send the wheel brief.");
+      if (!response.ok) {
+        throw new Error(result?.error || "Unable to send the wheel brief.");
       }
 
       setSubmitState({
