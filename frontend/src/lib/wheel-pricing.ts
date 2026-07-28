@@ -34,6 +34,8 @@ export type PricingBreakdown = {
   supplierUsdPerWheel: number;
   supplierUsdPerSet: number;
   convertedWheelCostAud: number;
+  baseShippingAud: number;
+  shippingSurchargeAud: number;
   shippingAud: number;
   landedCostAud: number;
   wheelRrpIncGstAudPerSet: number;
@@ -104,7 +106,10 @@ export function calculateWheelPricing(input: PricingInput): PricingBreakdown | n
 
   const supplierUsdPerSet = row.usdPerWheel * 4;
   const convertedWheelCostAud = supplierUsdPerSet * WHEEL_PRICING_CONFIG.fxRate;
-  const shippingAud = WHEEL_PRICING_CONFIG.shippingAudPerSet[input.state];
+  const baseShippingAud = WHEEL_PRICING_CONFIG.baseShippingAudPerSet;
+  const shippingSurchargeAud =
+    WHEEL_PRICING_CONFIG.shippingSurchargeAudPerSet[input.state];
+  const shippingAud = baseShippingAud + shippingSurchargeAud;
   const landedCostAud = convertedWheelCostAud + shippingAud;
   const wheelRrpIncGstAudPerSet = markedUpIncGst(convertedWheelCostAud);
   const shippingRrpIncGstAudPerSet = markedUpIncGst(shippingAud);
@@ -149,6 +154,8 @@ export function calculateWheelPricing(input: PricingInput): PricingBreakdown | n
     supplierUsdPerWheel: row.usdPerWheel,
     supplierUsdPerSet,
     convertedWheelCostAud,
+    baseShippingAud,
+    shippingSurchargeAud,
     shippingAud,
     landedCostAud,
     wheelRrpIncGstAudPerSet,

@@ -28,10 +28,27 @@ const constructionOptions: Array<{
   { value: "2pc", label: "Two-piece", detail: "Forged centre + barrel" },
 ];
 
-const stateOptions: Array<{ value: DeliveryState; label: string; shipping: number }> = [
-  { value: "VIC", label: "Victoria", shipping: WHEEL_PRICING_CONFIG.shippingAudPerSet.VIC },
-  { value: "QLD", label: "Queensland", shipping: WHEEL_PRICING_CONFIG.shippingAudPerSet.QLD },
-  { value: "OTHER", label: "All other states", shipping: WHEEL_PRICING_CONFIG.shippingAudPerSet.OTHER },
+const stateOptions: Array<{ value: DeliveryState; label: string; surcharge: number }> = [
+  {
+    value: "VIC",
+    label: "Victoria",
+    surcharge: WHEEL_PRICING_CONFIG.shippingSurchargeAudPerSet.VIC,
+  },
+  {
+    value: "NSW",
+    label: "New South Wales",
+    surcharge: WHEEL_PRICING_CONFIG.shippingSurchargeAudPerSet.NSW,
+  },
+  {
+    value: "QLD",
+    label: "Queensland",
+    surcharge: WHEEL_PRICING_CONFIG.shippingSurchargeAudPerSet.QLD,
+  },
+  {
+    value: "OTHER",
+    label: "All other states",
+    surcharge: WHEEL_PRICING_CONFIG.shippingSurchargeAudPerSet.OTHER,
+  },
 ];
 
 export function PricingCalculator() {
@@ -165,7 +182,10 @@ export function PricingCalculator() {
             <span className={styles.stepNumber}>03</span>
             <div>
               <p className={styles.controlLabel}>Delivery</p>
-              <p className={styles.controlHint}>Shipping is included in the live RRP.</p>
+              <p className={styles.controlHint}>
+                {formatPrice(WHEEL_PRICING_CONFIG.baseShippingAudPerSet)} base
+                freight plus the selected state surcharge is included in the live RRP.
+              </p>
             </div>
           </div>
           <label className={styles.field}>
@@ -173,14 +193,14 @@ export function PricingCalculator() {
             <select value={state} onChange={(event) => setState(event.target.value as DeliveryState)}>
               {stateOptions.map((option) => (
                 <option key={option.value} value={option.value}>
-                  {option.label} — {formatPrice(option.shipping)}
+                  {option.label} — +{formatPrice(option.surcharge)} surcharge
                 </option>
               ))}
             </select>
           </label>
           {state === "OTHER" ? (
             <p className={styles.defaultNote}>
-              Conservative default selected. Choose VIC or QLD if applicable.
+              Conservative default selected. Choose VIC, NSW, or QLD if applicable.
             </p>
           ) : null}
         </div>

@@ -2,15 +2,17 @@ export const WHEEL_PRICING_CONFIG = {
   fxRate: 1.43,
   gstRate: 0.1,
   margin: 0.3,
-  shippingAudPerSet: {
+  baseShippingAudPerSet: 1100,
+  shippingSurchargeAudPerSet: {
     VIC: 150,
+    NSW: 150,
     QLD: 100,
     OTHER: 250,
   },
 } as const;
 
 export type Construction = "monoblock" | "2pc";
-export type DeliveryState = keyof typeof WHEEL_PRICING_CONFIG.shippingAudPerSet;
+export type DeliveryState = keyof typeof WHEEL_PRICING_CONFIG.shippingSurchargeAudPerSet;
 export type PricingCurrency = "AUD" | "USD";
 
 export type WheelPriceRow = {
