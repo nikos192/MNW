@@ -1,5 +1,6 @@
 import { BRAND_EMAIL, BRAND_FACEBOOK_URL, BRAND_INSTAGRAM_URL, BRAND_LEGAL_NAME, BRAND_NAME } from "@/lib/brand";
-import { priceRangeForSeries, type CatalogProduct } from "@/lib/monza-data";
+import type { CatalogProduct } from "@/lib/monza-data";
+import { priceRangeForSeries } from "@/lib/wheel-pricing";
 
 const CANONICAL_PRODUCTION_HOST = "www.monzawheels.com.au";
 const CANONICAL_PRODUCTION_URL = `https://${CANONICAL_PRODUCTION_HOST}`;

@@ -5,15 +5,13 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArrowLeft, ArrowRight, Check, X } from "lucide-react";
 import {
-  CENTRE_CAPS_INCLUDED_VALUE_AUD,
   finishOptions,
   formatAud,
   getVehicleFitment,
-  priceForDiameter,
-  priceRangeForSeries,
   vehicleData,
   type CatalogProduct,
 } from "@/lib/monza-data";
+import { priceForDiameter, priceRangeForSeries } from "@/lib/wheel-pricing";
 import styles from "./quick-start-wheel-finder.module.css";
 import { trackMetaEvent } from "@/lib/meta-pixel";
 
@@ -91,18 +89,20 @@ function selectedDiameterValue(diameter: string) {
 function seriesPriceLabel(series: string) {
   const range = priceRangeForSeries(series);
   return range
-    ? `Series from AUD ${formatAud(range.minPerSet)} / set incl. caps, ex-GST`
+    ? `Series from AUD ${formatAud(range.minPerSet)} / set incl. GST and delivery`
     : "Quoted after fitment review";
 }
 
-function priceBasisForSelection(product: CatalogProduct | null, diameter: string) {
+function priceBasisForSelection(product: CatalogProduct | null, diameter: string, width: string) {
   if (!product) return "Price not calculated";
 
   const diameterValue = selectedDiameterValue(diameter);
-  const perWheel = diameterValue !== null ? priceForDiameter(product.series, diameterValue) : null;
+  const perWheel = diameterValue !== null
+    ? priceForDiameter(product.series, diameterValue, width)
+    : null;
 
   if (perWheel !== null) {
-    return `AUD ${formatAud(perWheel * 4 + CENTRE_CAPS_INCLUDED_VALUE_AUD)} / set incl. caps, ex-GST (${diameter})`;
+    return `AUD ${formatAud(perWheel * 4)} / set incl. GST and delivery (${diameter})`;
   }
 
   return seriesPriceLabel(product.series);
@@ -219,7 +219,9 @@ export function QuickStartWheelFinder({ products }: QuickStartWheelFinderProps) 
       quoteContext: {
         productTitle: selectedProduct?.title ?? "",
         productHandle: selectedProduct?.handle ?? "",
-        startingPrice: selectedProduct ? priceBasisForSelection(selectedProduct, data.diameter) : "",
+        startingPrice: selectedProduct
+          ? priceBasisForSelection(selectedProduct, data.diameter, data.width)
+          : "",
       },
       customer: {
         name: data.name.trim(),
@@ -555,7 +557,7 @@ export function QuickStartWheelFinder({ products }: QuickStartWheelFinderProps) 
                   <div className={styles.summary}>
                     <p>{[data.year, data.make, data.model].filter(Boolean).join(" ") || "Vehicle not supplied"}</p>
                     <p>{selectedProduct?.title || "Wheel design pending"}</p>
-                    <p>{priceBasisForSelection(selectedProduct, data.diameter)}</p>
+                    <p>{priceBasisForSelection(selectedProduct, data.diameter, data.width)}</p>
                     <p>{[data.diameter, data.width, data.finish].filter(Boolean).join(" / ")}</p>
                   </div>
 

@@ -5,15 +5,18 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { CatalogProduct, VehicleFitment } from "@/lib/monza-data";
 import {
-  CENTRE_CAPS_INCLUDED_VALUE_AUD,
   CUSTOM_FINISH_PRICE_AUD_PER_WHEEL,
   customFinishOptions,
   formatAud,
   getVehicleFitment,
-  priceForDiameter,
-  priceRangeForSeries,
   vehicleData,
 } from "@/lib/monza-data";
+import {
+  constructionFromSeries,
+  getWidthOptions,
+  priceForDiameter,
+  priceRangeForSeries,
+} from "@/lib/wheel-pricing";
 import styles from "./product-detail-client.module.css";
 
 type ProductDetailClientProps = {
@@ -55,13 +58,37 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [capColour, setCapColour] = useState<"Black" | "White" | "Custom">("Black");
   const [capColourCustom, setCapColourCustom] = useState("");
 
+  function validWidthsForDiameter(value: string): string[] {
+    const construction = constructionFromSeries(product.series);
+    const parsedDiameter = Number.parseInt(value, 10);
+    if (!construction || !Number.isFinite(parsedDiameter)) return product.widthOptions;
+    const bands = getWidthOptions(construction, parsedDiameter);
+    return product.widthOptions.filter((option) => {
+      const parsedWidth = Number.parseFloat(option);
+      return bands.some(
+        (band) => parsedWidth >= band.minWidth && parsedWidth <= band.maxWidth,
+      );
+    });
+  }
+
   function pickDiameter(value: string, axle: "front" | "rear") {
+    const validWidths = validWidthsForDiameter(value);
     if (isStaggered) {
-      if (axle === "front") setActiveDiameterFront(value);
-      else setActiveDiameterRear(value);
+      if (axle === "front") {
+        setActiveDiameterFront(value);
+        if (!validWidths.includes(activeWidthFront)) setActiveWidthFront(validWidths[0] ?? "");
+      } else {
+        setActiveDiameterRear(value);
+        if (!validWidths.includes(activeWidthRear)) setActiveWidthRear(validWidths[0] ?? "");
+      }
     } else {
       setActiveDiameterFront(value);
       setActiveDiameterRear(value);
+      const nextWidth = validWidths.includes(activeWidthFront)
+        ? activeWidthFront
+        : validWidths[0] ?? "";
+      setActiveWidthFront(nextWidth);
+      setActiveWidthRear(nextWidth);
     }
   }
 
@@ -131,9 +158,18 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     setActiveDiameterRear((current) =>
       nextDiameterOptions.includes(current) ? current : fallbackDiameter,
     );
+    const fallbackWidths = validWidthsForDiameter(fallbackDiameter);
+    setActiveWidthFront((current) =>
+      fallbackWidths.includes(current) ? current : fallbackWidths[0] ?? "",
+    );
+    setActiveWidthRear((current) =>
+      fallbackWidths.includes(current) ? current : fallbackWidths[0] ?? "",
+    );
   }
 
   const activeImage = product.images[activeImageIndex] ?? product.images[0];
+  const frontWidthOptions = validWidthsForDiameter(activeDiameterFront);
+  const rearWidthOptions = validWidthsForDiameter(activeDiameterRear);
   const tierRange = priceRangeForSeries(product.series);
   const chassisRange = fitment
     ? priceRangeForSeries(product.series, fitment.minDiameter, fitment.maxDiameter)
@@ -142,12 +178,12 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const formatRange = (range: { minPerSet: number; maxPerSet: number; minPerWheel: number; maxPerWheel: number }) => {
     if (range.minPerSet === range.maxPerSet) {
       return {
-        set: `AUD ${formatAud(range.minPerSet)} / set`,
+        set: `AUD ${formatAud(range.minPerSet)} / set inc. GST & delivery`,
         wheel: `AUD ${formatAud(range.minPerWheel)} per wheel`,
       };
     }
     return {
-      set: `AUD ${formatAud(range.minPerSet)} – ${formatAud(range.maxPerSet)} / set`,
+      set: `AUD ${formatAud(range.minPerSet)} – ${formatAud(range.maxPerSet)} / set inc. GST & delivery`,
       wheel: `AUD ${formatAud(range.minPerWheel)} – ${formatAud(range.maxPerWheel)} per wheel`,
     };
   };
@@ -241,10 +277,10 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const frontDiameterNum = activeDiameterFront ? parseInt(activeDiameterFront, 10) : NaN;
   const rearDiameterNum = activeDiameterRear ? parseInt(activeDiameterRear, 10) : NaN;
   const frontPerWheelPrice = Number.isFinite(frontDiameterNum)
-    ? priceForDiameter(product.series, frontDiameterNum)
+    ? priceForDiameter(product.series, frontDiameterNum, activeWidthFront)
     : null;
   const rearPerWheelPrice = Number.isFinite(rearDiameterNum)
-    ? priceForDiameter(product.series, rearDiameterNum)
+    ? priceForDiameter(product.series, rearDiameterNum, activeWidthRear)
     : null;
   // Square fitment uses the front price × 4. Staggered = 2 × front + 2 × rear.
   const wheelOnlySubtotal = (() => {
@@ -252,10 +288,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     if (frontPerWheelPrice === null || rearPerWheelPrice === null) return null;
     return frontPerWheelPrice * 2 + rearPerWheelPrice * 2;
   })();
-  const wheelSetWithCaps = wheelOnlySubtotal !== null ? wheelOnlySubtotal + CENTRE_CAPS_INCLUDED_VALUE_AUD : null;
   const customFinishSubtotal = includeCustomFinish && isOnePiece ? CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4 : 0;
-  const estimatedTotal = wheelSetWithCaps !== null
-    ? wheelSetWithCaps + customFinishSubtotal
+  const estimatedTotal = wheelOnlySubtotal !== null
+    ? wheelOnlySubtotal + customFinishSubtotal
     : null;
 
   return (
@@ -505,7 +540,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                     <div className={styles.axleRow}>
                       <span className={styles.axleLabel}>Front</span>
                       <div className={styles.pills} role="radiogroup" aria-label="Front width">
-                        {product.widthOptions.map((opt) => (
+                        {frontWidthOptions.map((opt) => (
                           <label key={`w-front-${opt}`} className={styles.pillItem}>
                             <input
                               aria-label={`Front ${opt}`}
@@ -526,7 +561,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                     <div className={styles.axleRow}>
                       <span className={styles.axleLabel}>Rear</span>
                       <div className={styles.pills} role="radiogroup" aria-label="Rear width">
-                        {product.widthOptions.map((opt) => (
+                        {rearWidthOptions.map((opt) => (
                           <label key={`w-rear-${opt}`} className={styles.pillItem}>
                             <input
                               aria-label={`Rear ${opt}`}
@@ -547,7 +582,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                   </div>
                 ) : (
                   <div className={styles.pills} role="radiogroup" aria-label="Width">
-                    {product.widthOptions.map((opt) => (
+                    {frontWidthOptions.map((opt) => (
                       <label key={opt} className={styles.pillItem}>
                         <input
                           aria-label={opt}
@@ -842,8 +877,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               </div>
 
               <p className={styles.estimateFinePrint}>
-                Indicative only. Excludes freight, GST, and any chassis-specific
-                machining. Final figure is confirmed after we review the build brief.
+                Indicative only. Includes GST and the conservative all-other-states
+                delivery allowance. Final figure is confirmed after we review the build brief.
               </p>
             </details>
 

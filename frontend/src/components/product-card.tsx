@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { formatAud, priceRangeForSeries, type CatalogProduct } from "@/lib/monza-data";
+import { formatAud, type CatalogProduct } from "@/lib/monza-data";
+import { priceRangeForSeries } from "@/lib/wheel-pricing";
 import styles from "./product-card.module.css";
 
 type ProductCardProps = {
@@ -12,7 +13,7 @@ export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps
   const secondaryImage = product.images[1]?.url || product.images[0]?.url;
   const tierRange = priceRangeForSeries(product.series);
   const primaryPrice = tierRange
-    ? `From AUD ${formatAud(tierRange.minPerSet)} / set`
+    ? `From AUD ${formatAud(tierRange.minPerSet)} / set inc. GST`
     : product.price.replace(/^From\s*/i, "");
 
   return (

@@ -56,8 +56,8 @@ export default function FinishesPage() {
             <p className={styles.sectionCopy}>
               The custom appearance program covers the treatments below — any
               one of them is available on the 1-piece line as a per-wheel
-              surcharge. Surcharge: AUD {formatAud(CUSTOM_FINISH_PRICE_AUD_PER_WHEEL)} per wheel
-              (AUD {formatAud(CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4)} per set of 4) on top of the
+              surcharge. From AUD {formatAud(CUSTOM_FINISH_PRICE_AUD_PER_WHEEL)} per wheel
+              (AUD {formatAud(CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4)} per set of 4, inc. GST) on top of the
               wheel cost.
             </p>
           </div>

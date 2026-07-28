@@ -1,4 +1,8 @@
 import { BRAND_EMAIL } from "@/lib/brand";
+import {
+  addOnRrpIncGstAudPerSet,
+  priceRangeForSeries,
+} from "@/lib/wheel-pricing";
 
 export type CatalogImage = {
   url: string;
@@ -480,7 +484,7 @@ export const vehicleData: Record<string, Record<string, number[]>> = {
 
 // VEHICLE FITMENT DATABASE
 // PCD and centre bore are the key fitment specs; the diameter range is OEM-typical
-// (so we don't offer 15" wheels for an M4, for example).
+// (so we don't offer undersized wheels for an M4, for example).
 // Specs cross-checked against wheel-size.com, sizemywheels.com, and manufacturer data.
 // Some mid/rear-engine cars (R8, Huracán, NSX) have different front/rear hub bores —
 // the "X mm front / Y mm rear" notation reflects this rather than averaging.
@@ -862,10 +866,10 @@ export function getVehicleFitment(make?: string, model?: string): VehicleFitment
 
 export const defaultMediaImage = "/media/hero-wheel-poster.jpg";
 
-const DIAMETERS_1PC = ["15\"", "16\"", "17\"", "18\"", "19\"", "20\"", "21\"", "22\"", "23\"", "24\""];
+const DIAMETERS_1PC = ["16\"", "17\"", "18\"", "19\"", "20\"", "21\"", "22\"", "23\"", "24\""];
 const DIAMETERS_2PC = ["18\"", "19\"", "20\"", "21\"", "22\"", "23\"", "24\""];
-const WIDTHS_1PC = ["6.0\"", "6.5\"", "7.0\"", "7.5\"", "8.0\"", "8.5\"", "9.0\"", "9.5\"", "10.0\"", "10.5\"", "11.0\"", "11.5\"", "12.0\""];
-const WIDTHS_2PC = ["8.0\"", "8.5\"", "9.0\"", "9.5\"", "10.0\"", "10.5\"", "11.0\"", "11.5\"", "12.0\"", "12.5\"", "13.0\"", "13.5\""];
+const WIDTHS_1PC = ["6.0\"", "6.5\"", "7.0\"", "7.5\"", "8.0\"", "8.5\"", "9.0\"", "9.5\"", "10.0\"", "10.5\"", "11.0\"", "11.5\"", "12.0\"", "12.5\"", "13.0\""];
+const WIDTHS_2PC = ["8.0\"", "8.5\"", "9.0\"", "9.5\"", "10.0\"", "10.5\"", "11.0\"", "11.5\"", "12.0\""];
 const PCDS = ["4x100", "4x108", "5x100", "5x108", "5x112", "5x114.3", "5x120", "5x130", "Centre lock"];
 const CENTREBORES = ["54.1mm", "56.6mm", "57.1mm", "60.1mm", "63.4mm", "66.6mm", "67.1mm", "72.6mm", "73.1mm", "74.1mm", "77.0mm"];
 
@@ -921,132 +925,10 @@ export const finishOptions: WheelFinish[] = FINISH_FILES.map((fileName) => {
   };
 });
 
-// PRICING (per wheel, AUD). Source: forged wheel pricing sheet.
-// Supplier prices are marked up via RETAIL_MARKUP to reach customer-facing pricing.
-// Centre caps are included with every wheel set.
-export type DiameterPrice = {
-  diameter: number;
-  widthRange: string;
-  priceAudPerWheel: number;
-};
-
-export type CarbonPrice = {
-  diameter: number;
-  width: string;
-  priceAudPerWheel: number;
-};
-
-export type AccessoryPrice = {
-  name: string;
-  priceAud: number;
-  unit: string;
-};
-
-const RETAIL_MARKUP = 1.5;
-
-function retail(supplierAud: number): number {
-  return Math.round(supplierAud * RETAIL_MARKUP);
-}
-
-const supplier1Pc: ReadonlyArray<{ diameter: number; widthRange: string; supplierAud: number }> = [
-  { diameter: 15, widthRange: "7J", supplierAud: 504 },
-  { diameter: 16, widthRange: "5.5J–8J", supplierAud: 462 },
-  { diameter: 17, widthRange: "7J–10J", supplierAud: 504 },
-  { diameter: 18, widthRange: "7.5J–13J", supplierAud: 546 },
-  { diameter: 19, widthRange: "8J–12J", supplierAud: 588 },
-  { diameter: 20, widthRange: "8J–12.5J", supplierAud: 630 },
-  { diameter: 21, widthRange: "8.5J–13J", supplierAud: 693 },
-  { diameter: 22, widthRange: "8.5J–12.5J", supplierAud: 777 },
-  { diameter: 23, widthRange: "9.5J–13J", supplierAud: 1050 },
-  { diameter: 24, widthRange: "9.5J–13J", supplierAud: 1155 },
-];
-
-const supplier2Pc: ReadonlyArray<{ diameter: number; widthRange: string; supplierAud: number }> = [
-  { diameter: 18, widthRange: "8J–12J", supplierAud: 882 },
-  { diameter: 19, widthRange: "8.5J–12J", supplierAud: 924 },
-  { diameter: 20, widthRange: "8.5J–12J", supplierAud: 987 },
-  { diameter: 21, widthRange: "8.5J–12J", supplierAud: 1071 },
-  { diameter: 22, widthRange: "8.5J–12J", supplierAud: 1176 },
-  { diameter: 23, widthRange: "8.5J–12J", supplierAud: 1302 },
-  { diameter: 24, widthRange: "9J–12J", supplierAud: 1428 },
-];
-
-const supplier2PcCarbon: ReadonlyArray<{ diameter: number; width: string; supplierAud: number }> = [
-  { diameter: 19, width: "8.5J", supplierAud: 3738 },
-  { diameter: 20, width: "8.5J", supplierAud: 3948 },
-  { diameter: 20, width: "9.5J", supplierAud: 4158 },
-  { diameter: 20, width: "10.5J", supplierAud: 4368 },
-  { diameter: 21, width: "9.5J", supplierAud: 4368 },
-  { diameter: 21, width: "10.5J", supplierAud: 4578 },
-];
-
-export const pricing1Pc: DiameterPrice[] = supplier1Pc.map((row) => ({
-  diameter: row.diameter,
-  widthRange: row.widthRange,
-  priceAudPerWheel: retail(row.supplierAud),
-}));
-
-export const pricing2Pc: DiameterPrice[] = supplier2Pc.map((row) => ({
-  diameter: row.diameter,
-  widthRange: row.widthRange,
-  priceAudPerWheel: retail(row.supplierAud),
-}));
-
-export const pricing2PcCarbon: CarbonPrice[] = supplier2PcCarbon.map((row) => ({
-  diameter: row.diameter,
-  width: row.width,
-  priceAudPerWheel: retail(row.supplierAud),
-}));
-
-// Centre caps are included with every wheel set — their retail cost is bundled
-// into the per-set total below rather than offered as a paid extra.
-const CENTRE_CAPS_RETAIL_PER_SET = retail(73.5);
-
-export const accessoryPricing: AccessoryPrice[] = [
-  { name: "Custom off-catalogue finish (1-piece)", priceAud: retail(31.5), unit: "per wheel" },
-];
-
-export type PriceRange = {
-  minPerWheel: number;
-  maxPerWheel: number;
-  minPerSet: number;
-  maxPerSet: number;
-};
-
-function priceRangeFromTable(table: DiameterPrice[], minDiameter?: number, maxDiameter?: number): PriceRange | null {
-  let entries = table;
-  if (typeof minDiameter === "number" && typeof maxDiameter === "number") {
-    entries = table.filter((row) => row.diameter >= minDiameter && row.diameter <= maxDiameter);
-  }
-  if (entries.length === 0) return null;
-  const prices = entries.map((row) => row.priceAudPerWheel);
-  const minPerWheel = Math.min(...prices);
-  const maxPerWheel = Math.max(...prices);
-  // Set price = 4 wheels + included centre caps.
-  return {
-    minPerWheel,
-    maxPerWheel,
-    minPerSet: minPerWheel * 4 + CENTRE_CAPS_RETAIL_PER_SET,
-    maxPerSet: maxPerWheel * 4 + CENTRE_CAPS_RETAIL_PER_SET,
-  };
-}
-
-export function priceRangeForSeries(series: string, minDiameter?: number, maxDiameter?: number): PriceRange | null {
-  if (series === "1-Piece Forged") return priceRangeFromTable(pricing1Pc, minDiameter, maxDiameter);
-  if (series === "2-Piece Forged") return priceRangeFromTable(pricing2Pc, minDiameter, maxDiameter);
-  return null;
-}
-
-export function priceForDiameter(series: string, diameter: number): number | null {
-  const table = series === "1-Piece Forged" ? pricing1Pc : series === "2-Piece Forged" ? pricing2Pc : null;
-  if (!table) return null;
-  return table.find((row) => row.diameter === diameter)?.priceAudPerWheel ?? null;
-}
-
-// Retail cost of the centre caps that come bundled with every wheel set.
-// Exposed so callers can show "centre caps included (worth $X)" if desired.
-export const CENTRE_CAPS_INCLUDED_VALUE_AUD = CENTRE_CAPS_RETAIL_PER_SET;
-export const CUSTOM_FINISH_PRICE_AUD_PER_WHEEL = retail(31.5);
+// Two-colour paint is the baseline used for the generic custom-finish estimate.
+// Finish-specific pricing is available in the pricing calculator.
+export const CUSTOM_FINISH_PRICE_AUD_PER_WHEEL =
+  (addOnRrpIncGstAudPerSet("two-colour-paint") ?? 0) / 4;
 
 // Treatments available under the 1-piece custom appearance surcharge.
 export const customFinishOptions: ReadonlyArray<{ name: string; copy: string }> = [
@@ -1098,21 +980,21 @@ const SERIES_FACTS: Record<
   }
 > = {
   "1-Piece Forged": {
-    fallbackPrice: "From AUD $693/wheel",
+    fallbackPrice: "From AUD $638/wheel inc. GST",
     leadTime: "approximately 20 days from order confirmation",
     construction: "1-piece forged monoblock",
-    diameterRange: "15 to 24 inches",
-    widthRange: "6.0 to 12.0 inches",
+    diameterRange: "16 to 24 inches",
+    widthRange: "6.0 to 13.0 inches",
     offsetRange: "Resolved per chassis",
     diameterOptions: DIAMETERS_1PC,
     widthOptions: WIDTHS_1PC,
   },
   "2-Piece Forged": {
-    fallbackPrice: "From AUD $1,323/wheel",
+    fallbackPrice: "From AUD $1,042/wheel inc. GST",
     leadTime: "approximately 25 days from order confirmation",
     construction: "2-piece forged",
     diameterRange: "18 to 24 inches",
-    widthRange: "8.0 to 13.5 inches",
+    widthRange: "8.0 to 12.0 inches",
     offsetRange: "Extended range - resolved per chassis",
     diameterOptions: DIAMETERS_2PC,
     widthOptions: WIDTHS_2PC,
@@ -1130,7 +1012,7 @@ function buildNamedProduct(args: {
   const facts = SERIES_FACTS[args.series];
   const tierRange = priceRangeForSeries(args.series);
   const price = tierRange
-    ? `From AUD ${formatAud(tierRange.minPerWheel)}/wheel`
+    ? `From AUD ${formatAud(tierRange.minPerWheel)}/wheel inc. GST`
     : facts.fallbackPrice;
 
   return {
