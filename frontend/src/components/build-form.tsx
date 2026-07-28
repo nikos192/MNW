@@ -60,7 +60,7 @@ const wheelFields: FormField[] = [
   { id: "centrebore", label: "Centre bore", type: "text", placeholder: "66.6mm / 72.6mm — leave blank to match vehicle", optional: true },
   { id: "finish", label: "Finish direction", type: "text", placeholder: "Brushed clear / satin graphite / bronze", optional: true },
   { id: "capColour", label: "Centre cap colour", type: "text", placeholder: "Black, white, or custom colour", optional: true },
-  { id: "references", label: "Reference links", type: "text", placeholder: "Instagram, Pinterest, or car photos", optional: true },
+  { id: "references", label: "Design or inspiration links", type: "text", placeholder: "Instagram, Pinterest, Drive, Dropbox, or image link", optional: true },
 ];
 
 type SubmitState = {
@@ -274,7 +274,8 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
         <p className={styles.formIntroTitle}>Required to start</p>
         <p>
           Name, email, and vehicle make are enough. Add fitment numbers only if
-          you know them.
+          you know them. Paste a design link below, or reply to the confirmation
+          email with image attachments.
         </p>
       </div>
 
@@ -443,14 +444,14 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
               rows={6}
               value={notes}
               onChange={(event) => setNotes(event.target.value)}
-              placeholder="Tell us about the look you want, wheel style preferences, and anything important about the car."
+              placeholder="Describe the wheel you want, what to retain from the reference, finish direction, and anything important about the car."
             />
           </label>
         </div>
       </div>
 
       <button className={styles.button} disabled={isSubmitting} type="submit">
-        {isSubmitting ? "Sending Fitment Review..." : "Send for Fitment Review"}
+        {isSubmitting ? "Sending Quote Request..." : "Request Custom Quote"}
       </button>
 
       {submitState.status !== "idle" ? (

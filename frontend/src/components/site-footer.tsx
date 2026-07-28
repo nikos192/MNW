@@ -62,7 +62,7 @@ const footerColumns = [
   {
     title: "Support",
     links: [
-      { href: "/contact", label: "Quote" },
+      { href: "/contact?design=custom", label: "Custom Design Quote" },
       { href: "/warranty", label: "Warranty" },
       { href: "/fitment-tool", label: "Fitment Tool" },
     ],
@@ -100,8 +100,8 @@ export function SiteFooter() {
           </Link>
 
           <div className={styles.ctaWrap}>
-            <Link className={`button-outline ${styles.footerButton}`} href="/contact">
-              Request a Quote
+            <Link className={`button-outline ${styles.footerButton}`} href="/contact?design=custom">
+              Custom Design Quote
             </Link>
           </div>
         </div>

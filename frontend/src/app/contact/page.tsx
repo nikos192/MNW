@@ -18,17 +18,19 @@ type ContactPageProps = {
     finish?: string;
     capColour?: string;
     notes?: string;
+    design?: string;
   }>;
 };
 
 export const metadata = {
   title: "Contact",
   description:
-    `Request a quote for a ${BRAND_NAME} forged wheel set. Share the chassis, finish direction, and build notes and ${BRAND_NAME} will respond with the right program.`,
+    `Request a bespoke forged wheel quote from ${BRAND_NAME}. Send a design reference, sketch, or idea and we will engineer it around your vehicle.`,
 };
 
 export default async function ContactPage({ searchParams }: ContactPageProps) {
   const params = await searchParams;
+  const isCustomDesign = params.design === "custom";
 
   const contextLines = [
     params.title ? `Product: ${params.title}` : "",
@@ -73,14 +75,16 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
     <main className={styles.page}>
       <section className={styles.hero}>
         <div className="container">
-          <p className="label">Contact</p>
+          <p className="label">{isCustomDesign ? "Custom design quote" : "Contact"}</p>
           <h1 className={styles.title}>
-            Send the car. We will confirm the wheel spec.
+            {isCustomDesign
+              ? "Send the idea. We will engineer the wheel."
+              : "Send the car. We will confirm the wheel spec."}
           </h1>
           <p className={styles.copy}>
-            Name, email, and vehicle are enough to start. Leave fitment numbers
-            blank and we will confirm size, offset, brake clearance, finish,
-            price, and lead time.
+            {isCustomDesign
+              ? "Share a link to the wheel, sketch, render, or style you want. After submitting, reply to your confirmation email with any image files and we will develop the design around your car."
+              : "Name, email, and vehicle are enough to start. Leave fitment numbers blank and we will confirm size, offset, brake clearance, finish, price, and lead time."}
           </p>
         </div>
       </section>
@@ -89,7 +93,12 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
         <div className={`${styles.grid} container`}>
           <div className={styles.formPanel} data-reveal>
             <BuildForm
-              initialNotes={params.notes}
+              initialNotes={
+                params.notes ??
+                (isCustomDesign
+                  ? "Custom design request\n\nDesign direction or reference:\n"
+                  : undefined)
+              }
               initialValues={initialValues}
               quoteContext={{
                 productHandle: params.product,
@@ -101,9 +110,21 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
 
           <aside className={styles.sidePanel} data-reveal>
             <div>
-              <p className="label">Quote review</p>
-              <h2 className={styles.sectionHeading}>We confirm the fitment before production.</h2>
+              <p className="label">{isCustomDesign ? "How it works" : "Quote review"}</p>
+              <h2 className={styles.sectionHeading}>
+                {isCustomDesign
+                  ? "Your reference becomes a buildable forged wheel."
+                  : "We confirm the fitment before production."}
+              </h2>
             </div>
+
+            {isCustomDesign ? (
+              <ol className={styles.designSteps}>
+                <li><span>01</span><p>Submit the vehicle and describe the wheel direction.</p></li>
+                <li><span>02</span><p>Reply to the confirmation email with photos, sketches, or renders.</p></li>
+                <li><span>03</span><p>We confirm feasibility, fitment, price, and lead time before production.</p></li>
+              </ol>
+            ) : null}
 
             {hasConfig && contextLines.length ? (
               <div className={styles.contextBox}>

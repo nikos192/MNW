@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
-import { QuickStartWheelFinder } from "@/components/quick-start-wheel-finder";
 import { collectionSummaries } from "@/lib/monza-data";
 import { getCatalogData } from "@/lib/catalog";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
@@ -18,7 +17,7 @@ const processClips = [
 export const metadata: Metadata = {
   title: "Forged Wheels Australia",
   description:
-    "Explore MonzaWheels forged wheel programs, chassis-led fitment guidance, finish options, and quote-ready product detail for Australian builds.",
+    "Send MonzaWheels a wheel reference, sketch, or idea for a bespoke forged design engineered around your exact Australian vehicle.",
   alternates: {
     canonical: "/",
   },
@@ -27,14 +26,14 @@ export const metadata: Metadata = {
     url: "/",
     title: "MonzaWheels | Forged Wheels Australia",
     description:
-      "Explore forged wheel programs, compare finishes, and quote fitment around the exact chassis.",
+      "Bring us a wheel reference, sketch, or idea. We develop it as a bespoke forged design engineered around your exact vehicle.",
     images: [DEFAULT_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: "MonzaWheels | Forged Wheels Australia",
     description:
-      "Explore forged wheel programs, compare finishes, and quote fitment around the exact chassis.",
+      "Bring us a wheel reference, sketch, or idea. We develop it as a bespoke forged design engineered around your exact vehicle.",
     images: [DEFAULT_OG_IMAGE.url],
   },
 };
@@ -68,7 +67,7 @@ export default async function Home() {
               loop
               muted
               playsInline
-              poster="/media/Hero%20video.jpeg"
+              poster="/media/hero-wheel-poster.jpg"
               preload="auto"
             >
               <source src="/media/hero-video.mp4" type="video/mp4" />
@@ -81,7 +80,7 @@ export default async function Home() {
               loop
               muted
               playsInline
-              poster="/media/Hero%20video.jpeg"
+              poster="/media/hero-wheel-poster.jpg"
               preload="auto"
             >
               <source src="/media/hero-video.mp4" type="video/mp4" />
@@ -93,16 +92,18 @@ export default async function Home() {
         <div className={`${styles.heroInner} container`}>
           <div className={styles.heroCopy} data-hero-copy>
             <p className={styles.heroLabel}>MonzaWheels Australia</p>
-            <h1 className={styles.heroHeading}>Forged wheels made for your exact car.</h1>
+            <h1 className={styles.heroHeading}>Your wheel idea. Forged for your car.</h1>
             <p className={styles.heroBody}>
-              Bespoke 1-piece and 2-piece forged wheels with fitment, finish,
-              brake clearance, and offsets resolved before production.
+              Send us a wheel reference, sketch, or idea. We will develop it as
+              a bespoke forged wheel with fitment resolved around your exact car.
             </p>
 
             <div className={styles.heroActions}>
-              <QuickStartWheelFinder products={products} />
+              <Link className="button-primary" href="/contact?design=custom">
+                Custom Design Quote
+              </Link>
               <Link className="button-outline" href="/shop">
-                View Wheels
+                View Starting Designs
               </Link>
             </div>
 
@@ -120,6 +121,33 @@ export default async function Home() {
                 <dd>Monoblock and two-piece programs</dd>
               </div>
             </dl>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.customDesignSection} aria-labelledby="custom-design-title">
+        <div className={`${styles.customDesignInner} container`} data-reveal>
+          <div className={styles.customDesignLead}>
+            <p className={styles.customDesignLabel}>Beyond the catalogue</p>
+            <h2 id="custom-design-title" className={styles.customDesignHeading}>
+              Seen a wheel you want? Send it.
+            </h2>
+          </div>
+          <div className={styles.customDesignBody}>
+            <p>
+              A photo, hand sketch, render, or link is enough to begin. We can
+              translate the direction into a one-off monoblock or two-piece
+              design, then engineer the diameter, width, offset and brake
+              clearance around your vehicle.
+            </p>
+            <ol className={styles.customDesignSteps}>
+              <li><span>01</span>Share the design direction</li>
+              <li><span>02</span>We resolve geometry and pricing</li>
+              <li><span>03</span>You approve before production</li>
+            </ol>
+            <Link className={styles.customDesignLink} href="/contact?design=custom">
+              Start a custom design quote
+            </Link>
           </div>
         </div>
       </section>
@@ -146,7 +174,7 @@ export default async function Home() {
         <div className={styles.processTitleOverlay}>
           <p className={styles.processLabel}>In production</p>
           <h2 id="custom-machining-title" className={styles.processHeading}>
-            Machined from forged blanks, finished to order.
+            From reference to forged reality.
           </h2>
         </div>
       </section>
@@ -203,8 +231,10 @@ export default async function Home() {
       <section className={styles.featuredSection}>
         <div className={`${styles.featuredInner} container`}>
           <div className={styles.simpleHeader} data-reveal>
-            <p className="label">Ready designs</p>
-            <h2 className={styles.sectionHeading}>Current forged catalogue.</h2>
+            <div>
+              <p className="label">Ready designs</p>
+              <h2 className={styles.sectionHeading}>Starting points, not limits.</h2>
+            </div>
             <Link className={styles.subtleLink} href="/shop">
               View catalogue
             </Link>

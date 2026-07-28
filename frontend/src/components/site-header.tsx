@@ -15,7 +15,7 @@ const leftLinks = [
 
 const rightLinks = [
   { href: "/fitment-tool", label: "Fitment Check" },
-  { href: "/contact", label: "Quote" },
+  { href: "/contact?design=custom", label: "Custom Quote" },
 ];
 
 const mobileLinks = [
@@ -23,7 +23,7 @@ const mobileLinks = [
   { href: "/finishes", label: "Finishes" },
   { href: "/fitment-tool", label: "Fitment Check" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/contact", label: "Quote" },
+  { href: "/contact?design=custom", label: "Custom Design Quote" },
 ];
 
 function InstagramIcon({ size = 16 }: { size?: number }) {
@@ -48,11 +48,12 @@ function InstagramIcon({ size = 16 }: { size?: number }) {
 }
 
 function isActivePath(pathname: string, href: string) {
-  if (href === "/") {
-    return pathname === href;
+  const hrefPath = href.split("?")[0];
+  if (hrefPath === "/") {
+    return pathname === hrefPath;
   }
 
-  return pathname === href || pathname.startsWith(`${href}/`);
+  return pathname === hrefPath || pathname.startsWith(`${hrefPath}/`);
 }
 
 export function SiteHeader() {
@@ -123,8 +124,8 @@ export function SiteHeader() {
               >
                 <InstagramIcon size={16} />
               </a>
-              <Link className={styles.utilityLink} href="/contact">
-                Speak to an expert
+              <Link className={styles.utilityLink} href="/contact?design=custom">
+                Design your wheel
               </Link>
             </div>
           </div>

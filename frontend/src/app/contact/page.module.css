@@ -87,6 +87,32 @@
   color: var(--text-primary);
 }
 
+.designSteps {
+  display: grid;
+  border-top: 1px solid var(--rule);
+}
+
+.designSteps li {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 12px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.designSteps span {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--text-secondary);
+}
+
+.designSteps p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-primary);
+}
+
 @media (max-width: 1024px) {
   .grid {
     grid-template-columns: 1fr;
