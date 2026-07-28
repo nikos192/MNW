@@ -65,6 +65,7 @@ const footerColumns = [
       { href: "/contact?design=custom", label: "Custom Design Quote" },
       { href: "/warranty", label: "Warranty" },
       { href: "/fitment-tool", label: "Fitment Tool" },
+      { href: "/privacypolicy", label: "Privacy Policy" },
     ],
   },
 ];
