@@ -10,8 +10,17 @@
   padding: calc(var(--nav-height) + var(--hero-offset)) 0 var(--section-pad-v-compact);
   border-bottom: 1px solid var(--rule);
   background:
-    radial-gradient(circle at top right, rgba(100, 202, 255, 0.16), transparent 26%),
-    linear-gradient(180deg, #f7fbff 0%, #dcecff 100%);
+    linear-gradient(90deg, rgba(17, 19, 21, 0.035) 1px, transparent 1px),
+    linear-gradient(rgba(17, 19, 21, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, #ffffff 0%, #efefec 100%);
+  background-size: 56px 56px, 56px 56px, auto;
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+  align-items: end;
+  gap: clamp(40px, 8vw, 120px);
 }
 
 .title {
@@ -21,17 +30,41 @@
   line-height: 1.04;
   color: var(--text-primary);
   margin: 14px 0 18px;
-  max-width: 820px;
+  max-width: 780px;
   text-wrap: balance;
 }
 
 .copy {
-  max-width: 560px;
-  font-size: 15px;
+  max-width: 620px;
+  font-size: 17px;
   font-weight: 400;
   line-height: 1.75;
   color: var(--text-muted);
   overflow-wrap: anywhere;
+}
+
+.heroGuide {
+  border-top: 1px solid var(--rule-strong);
+}
+
+.heroGuide div {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.heroGuide dt {
+  color: var(--text-secondary);
+  font-size: 13px;
+  letter-spacing: 0.16em;
+}
+
+.heroGuide dd {
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.4;
 }
 
 /* ─── Tool section ───────────────────────────────────────────────────────────── */
@@ -43,7 +76,7 @@
 /* ─── Tool container ─────────────────────────────────────────────────────────── */
 
 .tool {
-  border: 1px solid var(--rule);
+  border: 1px solid var(--rule-strong);
   background: var(--bg-surface);
   box-shadow: var(--shadow-soft);
   overflow: hidden;
@@ -57,8 +90,8 @@
   padding: clamp(22px, 3vw, 32px);
   border-bottom: 1px solid var(--rule);
   background:
-    radial-gradient(circle at top right, rgba(100, 202, 255, 0.12), transparent 30%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(230, 242, 255, 0.72));
+    linear-gradient(135deg, rgba(17, 19, 21, 0.025) 25%, transparent 25%) 0 0 / 12px 12px,
+    var(--bg-card);
 }
 
 .toolIntroTitle,
@@ -119,6 +152,16 @@
   transform: translateY(-1px);
 }
 
+.presetButtonActive {
+  border-color: var(--text-primary);
+  background: var(--text-primary);
+  color: var(--off-white);
+}
+
+.presetButtonActive small {
+  color: rgba(248, 248, 246, 0.68);
+}
+
 .presetButton span {
   font-family: var(--font-heading), sans-serif;
   font-size: 18px;
@@ -153,17 +196,26 @@
 .colHead {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 16px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--rule);
 }
 
-.colDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  opacity: 0.85;
+.colIdentity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.colIndex {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: 0.08em;
 }
 
 .currentToneBg {
@@ -172,6 +224,7 @@
 
 .newToneBg {
   background: #64caff;
+  color: #07131c;
 }
 
 .colTitle {
@@ -181,6 +234,24 @@
   letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--text-muted);
+}
+
+.swapButton {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--rule);
+  color: var(--text-muted);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+}
+
+.swapButton:hover,
+.swapButton:focus-visible {
+  border-color: var(--text-primary);
+  background: var(--text-primary);
+  color: var(--off-white);
 }
 
 .divider {
@@ -315,6 +386,47 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   border-top: 1px solid var(--rule);
+}
+
+.verdict {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.7fr);
+  align-items: end;
+  gap: clamp(24px, 5vw, 72px);
+  padding: clamp(24px, 3vw, 36px);
+  border-top: 4px solid;
+}
+
+.verdict_good {
+  border-color: #16734a;
+  background: #eef7f1;
+}
+
+.verdict_check {
+  border-color: #b24b32;
+  background: #fff2ed;
+}
+
+.verdictLabel {
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.verdict h2 {
+  max-width: 680px;
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 600;
+  line-height: 1.04;
+}
+
+.verdict > p {
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.65;
 }
 
 .resultCard {
@@ -511,6 +623,11 @@ details[open] .breakdownToggle::before {
 /* ─── Responsive ─────────────────────────────────────────────────────────────── */
 
 @media (max-width: 960px) {
+  .heroInner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
   .toolIntro {
     grid-template-columns: 1fr;
   }
@@ -521,6 +638,10 @@ details[open] .breakdownToggle::before {
 
   .results {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .verdict {
+    grid-template-columns: 1fr;
   }
 
   .resultCard:nth-child(2) {
@@ -544,6 +665,32 @@ details[open] .breakdownToggle::before {
 
   .inputWrap {
     grid-template-columns: 1fr;
+  }
+
+  .heroGuide {
+    display: none;
+  }
+
+  .toolSection {
+    padding-top: 28px;
+  }
+
+  .toolIntro,
+  .col {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .presetButtons {
+    grid-template-columns: repeat(3, minmax(150px, 1fr));
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scroll-snap-type: x proximity;
+  }
+
+  .presetButton {
+    min-height: 112px;
+    scroll-snap-align: start;
   }
 
   .divider {

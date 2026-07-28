@@ -1,25 +1,31 @@
-import Link from "next/link";
+import { ConversionLink } from "@/components/conversion-link";
 import { FitmentToolClient } from "./FitmentToolClient";
 import styles from "./page.module.css";
 
 export const metadata = {
-  title: "Fitment Calculator",
+  title: "Wheel Fitment Calculator",
   description:
-    `Compare two wheel and tyre setups side by side. See stance difference, inner clearance change, diameter delta, and speedometer error — visualised on a scaled axle cross-section.`,
+    "Compare wheel width, offset and tyre size changes before ordering. Check stance, inner clearance, rolling diameter and speedometer difference.",
 };
 
 export default function FitmentToolPage() {
   return (
     <main className={styles.page}>
       <section className={styles.hero}>
-        <div className="container">
-          <p className="label">Fitment helper</p>
-          <h1 className={styles.title}>Compare wheel changes before you quote.</h1>
-          <p className={styles.copy}>
-            Enter your current wheel and tyre size, then test the setup you are
-            considering. See poke, inner clearance, rolling diameter, and
-            speedometer change.
-          </p>
+        <div className={`${styles.heroInner} container`}>
+          <div>
+            <p className="label">Wheel fitment check</p>
+            <h1 className={styles.title}>Know what moves before the wheel does.</h1>
+            <p className={styles.copy}>
+              Compare your current setup with a proposed wheel and tyre package.
+              See how width, offset and rolling diameter change in real time.
+            </p>
+          </div>
+          <dl className={styles.heroGuide}>
+            <div><dt>01</dt><dd>Enter your current setup</dd></div>
+            <div><dt>02</dt><dd>Build the proposed setup</dd></div>
+            <div><dt>03</dt><dd>Send the result for final review</dd></div>
+          </dl>
         </div>
       </section>
 
@@ -38,9 +44,13 @@ export default function FitmentToolPage() {
               resolve the fitment for you.
             </p>
           </div>
-          <Link className="button-primary" href="/contact">
-            Request a Quote
-          </Link>
+          <ConversionLink
+            className="button-primary"
+            href="/contact?notes=Please+help+me+resolve+the+correct+fitment+for+my+vehicle."
+            eventSource="fitment_tool_footer"
+          >
+            Resolve my fitment
+          </ConversionLink>
         </div>
       </section>
     </main>

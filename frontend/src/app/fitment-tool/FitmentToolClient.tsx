@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { ConversionLink } from "@/components/conversion-link";
 import styles from "./page.module.css";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -396,11 +397,48 @@ function ResultCard({
   );
 }
 
+function fitmentVerdict(innerDiff: number, speedoErr: number) {
+  const clearanceRisk = innerDiff > 5;
+  const diameterRisk = Math.abs(speedoErr) > 3;
+
+  if (clearanceRisk && diameterRisk) {
+    return {
+      tone: "check",
+      label: "Needs review",
+      title: "Clearance and rolling diameter both need attention.",
+      copy: "This may still be workable, but the inner clearance and tyre sizing should be resolved against the exact vehicle before ordering.",
+    };
+  }
+  if (clearanceRisk) {
+    return {
+      tone: "check",
+      label: "Clearance check",
+      title: "The proposed wheel sits further inward.",
+      copy: "Confirm suspension, upright and brake clearance on the exact chassis before treating this as a final fitment.",
+    };
+  }
+  if (diameterRisk) {
+    return {
+      tone: "check",
+      label: "Tyre check",
+      title: "The rolling diameter has moved beyond the preferred range.",
+      copy: "A different tyre profile may bring the speedometer and overall diameter closer to the current setup.",
+    };
+  }
+  return {
+    tone: "good",
+    label: "Promising baseline",
+    title: "The key calculated changes are within a sensible range.",
+    copy: "Use this as a comparison only. Final fitment still needs vehicle, brake, suspension and guard-clearance confirmation.",
+  };
+}
+
 // ─── Main export ─────────────────────────────────────────────────────────────
 
 export function FitmentToolClient() {
   const [cur, setCur] = useState<Setup>(DEFAULT_CUR);
   const [nw,  setNw]  = useState<Setup>(DEFAULT_NEW);
+  const [activePreset, setActivePreset] = useState("OEM plus");
 
   const cCalcs = useMemo(() => compute(cur), [cur]);
   const nCalcs = useMemo(() => compute(nw),  [nw]);
@@ -413,6 +451,7 @@ export function FitmentToolClient() {
   const speedoErr  = both
     ? ((nCalcs.overallDiameter - cCalcs.overallDiameter) / cCalcs.overallDiameter) * 100
     : 0;
+  const verdict = fitmentVerdict(innerDiff, speedoErr);
   const quoteHref = useMemo(() => {
     const params = new URLSearchParams({
       diameter: `${nw.wheelDia}"`,
@@ -426,7 +465,7 @@ export function FitmentToolClient() {
         [
           `Fitment tool result: current ${cur.wheelDia}x${cur.wheelWidth} ET${cur.et} with ${cur.tyreWidth}/${cur.aspectRatio}.`,
           `Proposed ${nw.wheelDia}x${nw.wheelWidth} ET${nw.et} with ${nw.tyreWidth}/${nw.aspectRatio}.`,
-          `Outer position ${signed(stanceDiff)}mm, inner clearance ${signed(innerDiff)}mm, rolling diameter ${signed(diamDiff)}mm, speedo ${signed(speedoErr, 2)}%.`,
+          `Outer position ${signed(stanceDiff)}mm, inner position ${signed(innerDiff)}mm, rolling diameter ${signed(diamDiff)}mm, speedo ${signed(speedoErr, 2)}%.`,
         ].join(" "),
       );
     }
@@ -435,9 +474,11 @@ export function FitmentToolClient() {
   }, [both, cur, diamDiff, innerDiff, nw, speedoErr, stanceDiff]);
 
   function setCurField(k: keyof Setup, v: string) {
+    setActivePreset("");
     setCur((p) => ({ ...p, [k]: v }));
   }
   function setNwField(k: keyof Setup, v: string) {
+    setActivePreset("");
     setNw((p) => ({ ...p, [k]: v }));
   }
 
@@ -445,10 +486,10 @@ export function FitmentToolClient() {
     <div className={styles.tool}>
       <div className={styles.toolIntro}>
         <div>
-          <p className={styles.toolIntroTitle}>What this compares</p>
+          <p className={styles.toolIntroTitle}>Start with known numbers</p>
           <p className={styles.toolIntroCopy}>
-            Use this when you know your current wheel and tyre size. Compare
-            poke, inner clearance, rolling diameter, and speedometer change.
+            Read the markings on your tyre and use the stamped wheel width and
+            ET where available. Unsure? Choose a preset to see how the tool works.
           </p>
         </div>
 
@@ -458,10 +499,14 @@ export function FitmentToolClient() {
             {FITMENT_PRESETS.map((preset) => (
               <button
                 key={preset.label}
-                className={styles.presetButton}
+                className={`${styles.presetButton} ${
+                  activePreset === preset.label ? styles.presetButtonActive : ""
+                }`}
+                aria-pressed={activePreset === preset.label}
                 onClick={() => {
                   setCur(preset.current);
                   setNw(preset.next);
+                  setActivePreset(preset.label);
                 }}
                 type="button"
               >
@@ -478,8 +523,22 @@ export function FitmentToolClient() {
         {/* Current column */}
         <div className={styles.col}>
           <div className={styles.colHead}>
-            <span className={`${styles.colDot} ${styles.currentToneBg}`} />
-            <span className={styles.colTitle}>Current Setup</span>
+            <div className={styles.colIdentity}>
+              <span className={`${styles.colIndex} ${styles.currentToneBg}`}>01</span>
+              <span className={styles.colTitle}>Current Setup</span>
+            </div>
+            <button
+              className={styles.swapButton}
+              type="button"
+              onClick={() => {
+                setCur(nw);
+                setNw(cur);
+                setActivePreset("");
+              }}
+              aria-label="Swap current and proposed setups"
+            >
+              Swap
+            </button>
           </div>
           <Field label="Wheel Width"    unit="in"  value={cur.wheelWidth}   onChange={(v) => setCurField("wheelWidth", v)}   placeholder="e.g. 9.5" />
           <Field label="Wheel Diameter" unit="in"  value={cur.wheelDia}     onChange={(v) => setCurField("wheelDia", v)}     placeholder="e.g. 19" />
@@ -502,8 +561,10 @@ export function FitmentToolClient() {
         {/* New column */}
         <div className={styles.col}>
           <div className={styles.colHead}>
-            <span className={`${styles.colDot} ${styles.newToneBg}`} />
-            <span className={styles.colTitle}>New Setup</span>
+            <div className={styles.colIdentity}>
+              <span className={`${styles.colIndex} ${styles.newToneBg}`}>02</span>
+              <span className={styles.colTitle}>Proposed Setup</span>
+            </div>
           </div>
           <Field label="Wheel Width"    unit="in"  value={nw.wheelWidth}   onChange={(v) => setNwField("wheelWidth", v)}   placeholder="e.g. 10" />
           <Field label="Wheel Diameter" unit="in"  value={nw.wheelDia}     onChange={(v) => setNwField("wheelDia", v)}     placeholder="e.g. 20" />
@@ -530,47 +591,56 @@ export function FitmentToolClient() {
 
       {/* ── Results ── */}
       {both && (
-        <div className={styles.results}>
-          <ResultCard
-            label="Diameter Difference"
-            value={`${signed(diamDiff)} mm`}
-            note={
-              diamDiff > 0 ? "New tyre is taller — higher than stock"
-              : diamDiff < 0 ? "New tyre is shorter — lower than stock"
-              : "Same overall diameter"
-            }
-          />
-          <ResultCard
-            label="Stance Difference"
-            value={`${signed(stanceDiff)} mm`}
-            note={
-              stanceDiff > 0 ? "More poke — outer lip further out"
-              : stanceDiff < 0 ? "More tuck — outer lip recedes"
-              : "Same outer position"
-            }
-          />
-          <ResultCard
-            label="Inner Clearance"
-            value={`${signed(innerDiff)} mm`}
-            note={
-              innerDiff > 5 ? "Significant extra intrusion — verify clearance"
-              : innerDiff > 0 ? "Slight extra intrusion — check clearance"
-              : innerDiff < 0 ? "Less intrusion — more clearance"
-              : "Same inner position"
-            }
-            warn={innerDiff > 5}
-          />
-          <ResultCard
-            label="Speedo Error"
-            value={`${signed(speedoErr, 2)} %`}
-            note={
-              Math.abs(speedoErr) > 2
-                ? `${Math.abs(speedoErr).toFixed(1)}% deviation — noticeable, tune recommended`
-                : "Within acceptable range"
-            }
-            warn={Math.abs(speedoErr) > 2}
-          />
-        </div>
+        <>
+          <div className={`${styles.verdict} ${styles[`verdict_${verdict.tone}`]}`}>
+            <div>
+              <p className={styles.verdictLabel}>{verdict.label}</p>
+              <h2>{verdict.title}</h2>
+            </div>
+            <p>{verdict.copy}</p>
+          </div>
+          <div className={styles.results}>
+            <ResultCard
+              label="Rolling diameter"
+              value={`${signed(diamDiff)} mm`}
+              note={
+                diamDiff > 0 ? "New tyre is taller than the current setup"
+                : diamDiff < 0 ? "New tyre is shorter than the current setup"
+                : "Same overall diameter"
+              }
+            />
+            <ResultCard
+              label="Outer position"
+              value={`${signed(stanceDiff)} mm`}
+              note={
+                stanceDiff > 0 ? "Further outward — more visual poke"
+                : stanceDiff < 0 ? "Further inward — more visual tuck"
+                : "Same outer position"
+              }
+            />
+            <ResultCard
+              label="Inner position"
+              value={`${signed(innerDiff)} mm`}
+              note={
+                innerDiff > 5 ? "Further inward — clearance must be verified"
+                : innerDiff > 0 ? "Slightly further inward — check clearance"
+                : innerDiff < 0 ? "Further outward — more inner clearance"
+                : "Same inner position"
+              }
+              warn={innerDiff > 5}
+            />
+            <ResultCard
+              label="Speedometer"
+              value={`${signed(speedoErr, 2)} %`}
+              note={
+                Math.abs(speedoErr) > 3
+                  ? `${Math.abs(speedoErr).toFixed(1)}% deviation — revise tyre sizing`
+                  : "Within the tool’s ±3% comparison guide"
+              }
+              warn={Math.abs(speedoErr) > 3}
+            />
+          </div>
+        </>
       )}
 
       {both && (
@@ -582,9 +652,13 @@ export function FitmentToolClient() {
               MonzaWheels can confirm brake clearance, offset, and final pricing.
             </p>
           </div>
-          <a className={styles.toolHandoffButton} href={quoteHref}>
+          <ConversionLink
+            className={styles.toolHandoffButton}
+            href={quoteHref}
+            eventSource="fitment_tool_result"
+          >
             Send these numbers for review
-          </a>
+          </ConversionLink>
         </div>
       )}
 
