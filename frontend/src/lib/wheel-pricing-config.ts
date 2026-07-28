@@ -1,7 +1,7 @@
 export const WHEEL_PRICING_CONFIG = {
   fxRate: 1.43,
   gstRate: 0.1,
-  margin: 0.3,
+  margin: 0.25,
   baseShippingAudPerSet: 1100,
   shippingSurchargeAudPerSet: {
     VIC: 150,
