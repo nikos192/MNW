@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { CatalogProduct, VehicleFitment } from "@/lib/monza-data";
+import { trackMetaEvent } from "@/lib/meta-pixel";
 import {
   CUSTOM_FINISH_PRICE_AUD_PER_WHEEL,
   customFinishOptions,
@@ -39,6 +40,7 @@ function diameterOptionsForFitment(
 }
 
 export function ProductDetailClient({ product }: ProductDetailClientProps) {
+  const hasTrackedView = useRef(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [activeFinish, setActiveFinish] = useState(product.finishes[0]?.name ?? "");
   // Diameter / width are tracked per axle so customers can build staggered sets.
@@ -57,6 +59,17 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   // Centre cap colour — Black/White logos plus a custom text fallback.
   const [capColour, setCapColour] = useState<"Black" | "White" | "Custom">("Black");
   const [capColourCustom, setCapColourCustom] = useState("");
+
+  useEffect(() => {
+    if (hasTrackedView.current) return;
+
+    trackMetaEvent("ViewContent", {
+      content_ids: [product.handle],
+      content_name: product.title,
+      content_type: "product",
+    });
+    hasTrackedView.current = true;
+  }, [product.handle, product.title]);
 
   function validWidthsForDiameter(value: string): string[] {
     const construction = constructionFromSeries(product.series);

@@ -235,7 +235,12 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
         throw new Error(result?.error || "Unable to send quote request right now.");
       }
 
-      trackMetaEvent("Contact");
+      const leadParameters = {
+        content_category: "Custom forged wheel quote",
+        content_name: quoteContext?.productTitle ?? "Custom design quote",
+      };
+      trackMetaEvent("Lead", leadParameters);
+      trackMetaEvent("Contact", leadParameters);
       form.reset();
       setNotes(initialNotes);
       setCarMake("");

@@ -6,6 +6,11 @@ declare global {
   }
 }
 
-export function trackMetaEvent(eventName: "Contact" | "Lead" | "CompleteRegistration") {
-  window.fbq?.("track", eventName);
+type MetaStandardEvent = "Contact" | "Lead" | "CompleteRegistration" | "ViewContent";
+
+export function trackMetaEvent(
+  eventName: MetaStandardEvent,
+  parameters?: Record<string, string | number | boolean | string[]>,
+) {
+  window.fbq?.("track", eventName, parameters);
 }

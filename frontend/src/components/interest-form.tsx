@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { trackMetaEvent } from "@/lib/meta-pixel";
 import styles from "./interest-form.module.css";
 
 type SubmitState = {
@@ -53,6 +54,10 @@ export function InterestForm() {
         return;
       }
 
+      trackMetaEvent("CompleteRegistration", {
+        content_name: "Early access",
+        status: true,
+      });
       form.reset();
       setState({
         status: "success",
