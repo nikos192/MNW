@@ -88,21 +88,6 @@ export default async function Home() {
                 Explore The Collection
               </Link>
             </div>
-
-            <dl className={styles.heroSpecs} aria-label="MonzaWheels highlights">
-              <div>
-                <dt>Material</dt>
-                <dd>6061-T6 forged aluminium</dd>
-              </div>
-              <div>
-                <dt>Fitment</dt>
-                <dd>Offset and bore confirmed to chassis</dd>
-              </div>
-              <div>
-                <dt>Build</dt>
-                <dd>Monoblock and two-piece programs</dd>
-              </div>
-            </dl>
           </div>
         </div>
       </section>

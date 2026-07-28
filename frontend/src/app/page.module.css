@@ -136,43 +136,6 @@
     linear-gradient(180deg, rgba(5, 6, 7, 0.18) 0%, rgba(5, 6, 7, 0.04) 38%, rgba(5, 6, 7, 0.8) 100%);
 }
 
-.heroSpecs {
-  position: absolute;
-  right: var(--section-pad-h);
-  bottom: clamp(72px, 9vh, 112px);
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  width: min(42vw, 620px);
-  margin: 0;
-  padding-top: 22px;
-  border-top: 1px solid rgba(255, 255, 255, 0.34);
-}
-
-.heroSpecs div {
-  display: grid;
-  gap: 4px;
-  min-width: 0;
-}
-
-.heroSpecs dt {
-  color: rgba(255, 255, 255, 0.58);
-  font-family: var(--font-body), sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-.heroSpecs dd {
-  color: rgba(255, 255, 255, 0.9);
-  font-family: var(--font-body), sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1.35;
-}
-
 .processSection {
   position: relative;
   min-height: 560px;
@@ -544,10 +507,6 @@
     font-size: clamp(5rem, 11vw, 7.5rem);
   }
 
-  .heroSpecs {
-    display: none;
-  }
-
   .featuredGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -555,12 +514,6 @@
   .processHeading,
   .sectionHeading {
     font-size: 3.75rem;
-  }
-}
-
-@media (max-width: 1399px) {
-  .heroSpecs {
-    display: none;
   }
 }
 
@@ -611,10 +564,6 @@
     background:
       linear-gradient(180deg, rgba(5, 6, 7, 0.18) 0%, rgba(5, 6, 7, 0.02) 38%, rgba(5, 6, 7, 0.88) 100%),
       linear-gradient(90deg, rgba(5, 6, 7, 0.42) 0%, rgba(5, 6, 7, 0.05) 82%);
-  }
-
-  .heroSpecs {
-    display: none;
   }
 
   .processSection {
