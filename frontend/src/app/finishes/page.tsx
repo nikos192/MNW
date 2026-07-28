@@ -1,17 +1,13 @@
-import Link from "next/link";
-import {
-  CUSTOM_FINISH_PRICE_AUD_PER_WHEEL,
-  customFinishOptions,
-  finishPrograms,
-  formatAud,
-} from "@/lib/monza-data";
-import styles from "../page-shell.module.css";
-import customStyles from "./page.module.css";
+import type { Metadata } from "next";
+import { FinishLibrary } from "@/components/finish-library";
+import { finishOptions } from "@/lib/monza-data";
+import styles from "./page.module.css";
 
-export const metadata = {
-  title: "Finishes",
+export const metadata: Metadata = {
+  title: "Forged Wheel Finishes",
   description:
-    "Browse the core MonzaWheels finish programs used to tune the final visual read of each forged wheel set.",
+    "Compare MonzaWheels forged wheel finishes visually, review surface character and care, then carry your preferred finish into a custom quote.",
+  alternates: { canonical: "/finishes" },
 };
 
 export default function FinishesPage() {
@@ -19,80 +15,53 @@ export default function FinishesPage() {
     <main className={styles.page}>
       <section className={styles.hero}>
         <div className={`${styles.heroInner} container`}>
-          <p className="label">Finishes</p>
-          <h1 className={styles.heroTitle}>Finish programs should support the face, not compete with it.</h1>
-          <p className={styles.heroCopy}>
-            Surface selection is part of the engineering brief. The same face
-            can read formal, technical, or aggressive depending on the final
-            finish direction.
+          <p className="label">Finish library</p>
+          <h1>See the finish. Compare the character.</h1>
+          <p>
+            Explore every current surface program on the same wheel form. Filter by
+            colour family, compare two directions, then send the preferred finish with
+            your quote request.
           </p>
+          <dl>
+            <div><dt>24</dt><dd>Current finish directions</dd></div>
+            <div><dt>2</dt><dd>Finishes compared side by side</dd></div>
+            <div><dt>1</dt><dd>Final finish approved before production</dd></div>
+          </dl>
         </div>
       </section>
 
-      <section className={styles.sectionAlt}>
+      <section className={styles.librarySection}>
         <div className="container">
-          <div className={styles.sectionHeader}>
-            <p className="label">Core Finishes</p>
-            <h2 className={styles.sectionTitle}>The foundational surface programs.</h2>
-          </div>
-
-          <div className={styles.cardGrid}>
-            {finishPrograms.map((finish) => (
-              <article key={finish.title} className={styles.card} data-reveal>
-                <p className={styles.cardOverline}>{finish.overline}</p>
-                <h3 className={styles.cardTitle}>{finish.title}</h3>
-                <p className={styles.cardCopy}>{finish.copy}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <div className="container">
-          <div className={styles.sectionHeader}>
-            <p className="label">Beyond the catalogue</p>
-            <h2 className={styles.sectionTitle}>Custom off-catalogue finishes.</h2>
-            <p className={styles.sectionCopy}>
-              The custom appearance program covers the treatments below — any
-              one of them is available on the 1-piece line as a per-wheel
-              surcharge. From AUD {formatAud(CUSTOM_FINISH_PRICE_AUD_PER_WHEEL)} per wheel
-              (AUD {formatAud(CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4)} per set of 4, inc. GST) on top of the
-              wheel cost.
+          <div className={styles.sectionIntro}>
+            <p className="label">Choose a direction</p>
+            <h2>One wheel. Twenty-four different reads.</h2>
+            <p>
+              Screen colour is indicative. Final colour, sheen and any additional
+              treatment cost are confirmed with the complete wheel specification.
             </p>
           </div>
-
-          <ul className={customStyles.optionList} data-reveal>
-            {customFinishOptions.map((option) => (
-              <li key={option.name} className={customStyles.optionItem}>
-                <h3 className={customStyles.optionTitle}>{option.name}</h3>
-                <p className={customStyles.optionCopy}>{option.copy}</p>
-              </li>
-            ))}
-          </ul>
-
-          <div className={customStyles.processNote} data-reveal>
-            <p className={styles.cardOverline}>How it works</p>
-            <p className={styles.cardCopy}>
-              Send a paint code, photo, or chassis reference with the quote
-              request. The finish is approved before machining starts so it is
-              locked in by the time the forge moves. Custom appearance is
-              offered on the 1-piece line; 2-piece builds use the catalogue
-              programs to keep the disc-and-barrel finish consistent.
-            </p>
-          </div>
+          <FinishLibrary finishes={finishOptions} />
         </div>
       </section>
 
-      <section className={styles.ctaSection}>
-        <div className={`${styles.ctaPanel} container`}>
+      <section className={styles.customSection}>
+        <div className={`${styles.customGrid} container`}>
           <div>
-            <p className="label">Next Step</p>
-            <h2 className={styles.sectionTitle}>Need a finish direction matched to the car?</h2>
+            <p className="label">Beyond the library</p>
+            <h2>Paint code, two-tone or a completely custom direction.</h2>
           </div>
-          <Link className="button-outline" href="/contact">
-            Request a Quote
-          </Link>
+          <div>
+            <p>
+              Bring a vehicle paint code, sample, reference image or surface
+              combination. Custom paint, dual-tone treatment, chrome and special
+              polishing are priced with the final specification.
+            </p>
+            <ol>
+              <li><span>01</span>Choose a library finish or send a reference</li>
+              <li><span>02</span>We confirm feasibility, treatment and pricing</li>
+              <li><span>03</span>You approve the finish direction before production</li>
+            </ol>
+          </div>
         </div>
       </section>
     </main>

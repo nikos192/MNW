@@ -1,42 +1,22 @@
-.optionList {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: clamp(14px, 2vw, 18px);
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.optionItem {
-  display: grid;
-  gap: 8px;
-  padding: clamp(20px, 2.4vw, 26px);
-  border: 1px solid var(--rule);
-  background: var(--bg-surface);
-  box-shadow: var(--shadow-soft);
-}
-
-.optionTitle {
-  font-family: var(--font-heading), sans-serif;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 1.2;
-  color: var(--text-primary);
-}
-
-.optionCopy {
-  font-family: var(--font-body), sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.65;
-  color: var(--text-secondary);
-}
-
-.processNote {
-  display: grid;
-  gap: 10px;
-  margin-top: clamp(20px, 2.5vw, 28px);
-  padding: clamp(20px, 2.5vw, 26px);
-  border-left: 3px solid var(--accent-red);
-  background: var(--bg-card);
-}
+.page { background: var(--bg-dark); }
+.hero { padding: calc(var(--nav-height) + 58px) 0 68px; background: radial-gradient(circle at 80% 15%, rgba(212,199,170,.54), transparent 27%), linear-gradient(135deg, #f8f6f1, #dcecff); border-bottom: 1px solid var(--rule); }
+.heroInner { display: grid; gap: 20px; }
+.hero h1 { max-width: 10ch; font-size: clamp(4.2rem, 8vw, 8rem); line-height: .84; text-transform: uppercase; }
+.heroInner > p:not(:first-child) { max-width: 56ch; color: var(--text-muted); font-size: 18px; line-height: 1.65; }
+.hero dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 760px; margin-top: 12px; border-top: 1px solid var(--rule); }
+.hero dl div { display: grid; gap: 3px; padding: 18px 20px 0 0; }
+.hero dl div + div { padding-left: 20px; border-left: 1px solid var(--rule); }
+.hero dt { font-family: var(--font-heading); font-size: 35px; font-weight: 700; }
+.hero dd { color: var(--text-muted); font-size: 12px; line-height: 1.4; text-transform: uppercase; }
+.librarySection, .customSection { padding: var(--section-pad-v) 0; }
+.sectionIntro { display: grid; gap: 13px; max-width: 760px; margin-bottom: 38px; }
+.sectionIntro h2, .customSection h2 { font-size: clamp(3rem, 6vw, 5.6rem); line-height: .9; text-transform: uppercase; }
+.sectionIntro > p:last-child { max-width: 58ch; color: var(--text-muted); line-height: 1.65; }
+.customSection { background: #111315; color: #fff; }
+.customGrid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(42px, 8vw, 110px); }
+.customGrid > div { display: grid; gap: 22px; align-content: start; }
+.customGrid > div:last-child > p { color: rgba(255,255,255,.66); font-size: 17px; line-height: 1.65; }
+.customGrid ol { display: grid; border-top: 1px solid rgba(255,255,255,.2); }
+.customGrid li { display: grid; grid-template-columns: 38px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.2); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+.customGrid li span { color: #d4c7aa; }
+@media (max-width: 760px) { .hero h1 { font-size: 4.2rem; } .hero dl, .customGrid { grid-template-columns: 1fr; } .hero dl div, .hero dl div + div { padding: 14px 0; border-left: 0; border-bottom: 1px solid var(--rule); } }
