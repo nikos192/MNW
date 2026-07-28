@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BRAND_EMAIL, BRAND_INSTAGRAM_URL, BRAND_NAME } from "@/lib/brand";
 import { MonzaLogo } from "@/components/monza-logo";
+import { trackFunnelEvent } from "@/lib/meta-pixel";
 import styles from "./site-header.module.css";
 
 const leftLinks = [
@@ -124,7 +125,11 @@ export function SiteHeader() {
               >
                 <InstagramIcon size={16} />
               </a>
-              <Link className={styles.utilityLink} href="/contact?design=custom">
+              <Link
+                className={styles.utilityLink}
+                href="/contact?design=custom"
+                onClick={() => trackFunnelEvent("QuoteCtaClick", { source: "utility_header" })}
+              >
                 Design your wheel
               </Link>
             </div>
@@ -169,6 +174,11 @@ export function SiteHeader() {
                         <Link
                           className={`${styles.navLink} ${isActive ? styles.active : ""}`}
                           href={link.href}
+                          onClick={() => {
+                            if (link.href.startsWith("/contact")) {
+                              trackFunnelEvent("QuoteCtaClick", { source: "primary_header" });
+                            }
+                          }}
                         >
                           {link.label}
                         </Link>
@@ -232,7 +242,12 @@ export function SiteHeader() {
                     key={`${link.href}-${link.label}`}
                     className={`${styles.overlayLink} ${isActive ? styles.overlayLinkActive : ""}`}
                     href={link.href}
-                    onClick={closeMenu}
+                    onClick={() => {
+                      if (link.href.startsWith("/contact")) {
+                        trackFunnelEvent("QuoteCtaClick", { source: "mobile_menu" });
+                      }
+                      closeMenu();
+                    }}
                   >
                     {link.label}
                   </Link>

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { ConversionLink } from "@/components/conversion-link";
 import type { CatalogProduct, VehicleFitment } from "@/lib/monza-data";
 import { trackMetaEvent } from "@/lib/meta-pixel";
 import {
@@ -919,9 +920,14 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             </details>
 
             <div className={styles.cta}>
-              <a className={styles.quoteButton} href={buildQuoteUrl()}>
+              <ConversionLink
+                className={styles.quoteButton}
+                eventName="ProductQuoteClick"
+                eventSource={product.handle}
+                href={buildQuoteUrl()}
+              >
                 Send this build for review
-              </a>
+              </ConversionLink>
               <p className={styles.leadTime}>
                 Lead time {product.leadTime} &nbsp;·&nbsp; Made to order
               </p>
@@ -930,6 +936,23 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
           </div>
         </div>
       </div>
+
+      <section className={`${styles.productProof} container`} aria-label="Product program details">
+        <div className={styles.productStory}>
+          <p className="label">Built around your car</p>
+          <h2>A starting design, not a locked specification.</h2>
+          <p>{product.description}</p>
+          <Link href="/custom-forged-wheels">Or send us a completely different design</Link>
+        </div>
+        <dl className={styles.proofGrid}>
+          <div><dt>Design approval</dt><dd>Final drawing or render approved before machining</dd></div>
+          <div><dt>Production</dt><dd>{product.leadTime}</dd></div>
+          <div><dt>Testing</dt><dd>JWL certified with enhanced fatigue and impact testing</dd></div>
+          <div><dt>Warranty</dt><dd>Five-year structural and finish coverage</dd></div>
+          <div><dt>Payment</dt><dd>Full payment is completed before production begins</dd></div>
+          <div><dt>Fitment</dt><dd>Offset, centre bore and brake clearance confirmed to chassis</dd></div>
+        </dl>
+      </section>
     </main>
   );
 }

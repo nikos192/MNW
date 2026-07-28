@@ -4,6 +4,41 @@
   min-width: 0;
 }
 
+.progress {
+  display: grid;
+  gap: 10px;
+}
+
+.progress p {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.progressTrack {
+  height: 3px;
+  overflow: hidden;
+  background: var(--rule);
+}
+
+.progressTrack span {
+  display: block;
+  height: 100%;
+  background: var(--text-primary);
+  transition: width 300ms ease;
+}
+
+.step {
+  display: grid;
+  gap: 2rem;
+}
+
+.stepHidden {
+  display: none;
+}
+
 .formIntro {
   display: grid;
   gap: 6px;
@@ -31,6 +66,33 @@
 .section {
   display: grid;
   gap: 1rem;
+}
+
+.detailHeading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.detailHeading > div {
+  display: grid;
+  gap: 6px;
+}
+
+.detailHeading p:last-child {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.backButton {
+  padding-bottom: 4px;
+  border-bottom: 1px solid currentColor;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .sectionLabel {
@@ -90,6 +152,46 @@
   transition:
     border-color var(--duration-hover) var(--ease-precision),
     background-color var(--duration-hover) var(--ease-precision);
+}
+
+.uploadBox {
+  display: grid;
+  gap: 10px;
+  padding: 22px;
+  border: 1px dashed var(--rule-strong);
+  background: rgba(255, 255, 255, 0.66);
+}
+
+.uploadLabel {
+  display: grid;
+  gap: 12px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.uploadLabel input {
+  width: 100%;
+  font-size: 14px;
+}
+
+.uploadBox > p {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.fileList {
+  display: grid;
+  gap: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--rule);
+}
+
+.fileList li {
+  overflow: hidden;
+  color: var(--text-primary);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .select {

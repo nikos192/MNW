@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { ConversionLink } from "@/components/conversion-link";
+import { trackFunnelEvent } from "@/lib/meta-pixel";
 import {
   WHEEL_ADD_ONS,
   WHEEL_PRICING_CONFIG,
@@ -79,11 +81,19 @@ export function PricingCalculator() {
     setConstruction(nextConstruction);
     setDiameter(nextDiameter);
     setWidth(nextWidth);
+    trackFunnelEvent("PricingConfiguration", {
+      field: "construction",
+      value: nextConstruction,
+    });
   }
 
   function selectDiameter(nextDiameter: number) {
     setDiameter(nextDiameter);
     setWidth(getWidthOptions(construction, nextDiameter)[0]?.widthKey ?? "");
+    trackFunnelEvent("PricingConfiguration", {
+      field: "diameter",
+      value: nextDiameter,
+    });
   }
 
   function toggleAddOn(id: AddOnId) {
@@ -92,6 +102,10 @@ export function PricingCalculator() {
         ? current.filter((item) => item !== id)
         : [...current, id],
     );
+    trackFunnelEvent("PricingConfiguration", {
+      field: "add_on",
+      value: id,
+    });
   }
 
   if (!breakdown) return null;
@@ -183,17 +197,26 @@ export function PricingCalculator() {
             <div>
               <p className={styles.controlLabel}>Delivery</p>
               <p className={styles.controlHint}>
-                {formatPrice(WHEEL_PRICING_CONFIG.baseShippingAudPerSet)} base
-                freight plus the selected state surcharge is included in the live RRP.
+                Select the delivery state for an accurate delivered total.
               </p>
             </div>
           </div>
           <label className={styles.field}>
             <span>Delivery state</span>
-            <select value={state} onChange={(event) => setState(event.target.value as DeliveryState)}>
+            <select
+              value={state}
+              onChange={(event) => {
+                const nextState = event.target.value as DeliveryState;
+                setState(nextState);
+                trackFunnelEvent("PricingConfiguration", {
+                  field: "delivery_state",
+                  value: nextState,
+                });
+              }}
+            >
               {stateOptions.map((option) => (
                 <option key={option.value} value={option.value}>
-                  {option.label} — +{formatPrice(option.surcharge)} surcharge
+                  {option.label}
                 </option>
               ))}
             </select>
@@ -260,7 +283,9 @@ export function PricingCalculator() {
           <strong>{formatPrice(breakdown.displayPerWheel, currency)}</strong>
         </div>
 
-        <div className={styles.breakdown}>
+        <details className={styles.breakdownDisclosure}>
+          <summary>How this delivered price is calculated</summary>
+          <div className={styles.breakdown}>
           <div>
             <span>Wheel set</span>
             <span>{formatPrice(wheelRrpDisplay, currency)}</span>
@@ -283,7 +308,8 @@ export function PricingCalculator() {
             <span>GST</span>
             <span>Included</span>
           </div>
-        </div>
+          </div>
+        </details>
 
         {breakdown.hasPriceOnRequestAddOn ? (
           <p className={styles.requestNote}>
@@ -319,9 +345,14 @@ export function PricingCalculator() {
           </p>
         ) : null}
 
-        <Link className={`button-primary ${styles.quoteButton}`} href={quoteHref}>
+        <ConversionLink
+          className={`button-primary ${styles.quoteButton}`}
+          eventName="PricingQuoteClick"
+          eventSource={`${construction}_${diameter}_${state}`}
+          href={quoteHref}
+        >
           Request this specification
-        </Link>
+        </ConversionLink>
       </aside>
     </div>
   );

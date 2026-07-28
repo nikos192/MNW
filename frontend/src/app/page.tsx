@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
+import { ConversionLink } from "@/components/conversion-link";
+import { ViewportVideo } from "@/components/viewport-video";
+import { DesktopHeroVideo } from "@/components/desktop-hero-video";
 import { collectionSummaries } from "@/lib/monza-data";
 import { getCatalogData } from "@/lib/catalog";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
@@ -61,30 +64,14 @@ export default async function Home() {
       <section className={styles.hero} data-hero-section>
         <div className={styles.heroMedia} aria-hidden="true">
           <div className={styles.heroVideoAmbient}>
-            <video
-              autoPlay
-              className={styles.heroVideo}
-              loop
-              muted
-              playsInline
-              poster="/media/hero-wheel-poster.jpg"
-              preload="auto"
-            >
-              <source src="/media/hero-video.mp4" type="video/mp4" />
-            </video>
+            <div className={styles.heroVideo} />
           </div>
           <div className={styles.heroVideoFrame}>
-            <video
-              autoPlay
+            <DesktopHeroVideo
               className={styles.heroVideoFeature}
-              loop
-              muted
-              playsInline
               poster="/media/hero-wheel-poster.jpg"
-              preload="auto"
-            >
-              <source src="/media/hero-video.mp4" type="video/mp4" />
-            </video>
+              src="/media/hero-video.mp4"
+            />
           </div>
           <div className={styles.heroVideoOverlay} />
         </div>
@@ -99,9 +86,9 @@ export default async function Home() {
             </p>
 
             <div className={styles.heroActions}>
-              <Link className="button-primary" href="/contact?design=custom">
+              <ConversionLink className="button-primary" eventSource="homepage_hero" href="/contact?design=custom">
                 Custom Design Quote
-              </Link>
+              </ConversionLink>
               <Link className="button-outline" href="/shop">
                 View Starting Designs
               </Link>
@@ -145,9 +132,9 @@ export default async function Home() {
               <li><span>02</span>We resolve geometry and pricing</li>
               <li><span>03</span>You approve before production</li>
             </ol>
-            <Link className={styles.customDesignLink} href="/contact?design=custom">
+            <ConversionLink className={styles.customDesignLink} eventSource="homepage_custom_section" href="/contact?design=custom">
               Start a custom design quote
-            </Link>
+            </ConversionLink>
           </div>
         </div>
       </section>
@@ -156,17 +143,11 @@ export default async function Home() {
         <div className={styles.processVideoGrid} data-reveal>
           {processClips.map((clip, index) => (
             <div className={styles.processVideoFrame} key={clip}>
-              <video
-                aria-label={`Custom machining process clip ${index + 1}`}
-                autoPlay
+              <ViewportVideo
+                ariaLabel={`Custom machining process clip ${index + 1}`}
                 className={styles.processVideo}
-                loop
-                muted
-                playsInline
-                preload="auto"
-              >
-                <source src={clip} type="video/mp4" />
-              </video>
+                src={clip}
+              />
             </div>
           ))}
         </div>
@@ -244,6 +225,30 @@ export default async function Home() {
             {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.trustSection}>
+        <div className={`${styles.trustInner} container`}>
+          <div className={styles.trustHeading}>
+            <p className="label">Confidence before production</p>
+            <h2 className={styles.sectionHeading}>Approved before a billet is cut.</h2>
+            <p>
+              The final design, fitment, delivered price and production timing are
+              reviewed with you before full payment and machining.
+            </p>
+          </div>
+          <div className={styles.trustGrid}>
+            <article><span>01</span><h3>Chassis-specific fitment</h3><p>Offset, bore, brake clearance and width are confirmed around the exact car.</p></article>
+            <article><span>02</span><h3>Design approval</h3><p>You approve the final drawing or render before the production order begins.</p></article>
+            <article><span>03</span><h3>Verified construction</h3><p>6061-T6 forged aluminium with published fatigue and impact testing standards.</p></article>
+            <article><span>04</span><h3>Five-year coverage</h3><p>Structural and finish manufacturing defects are covered under the published warranty.</p></article>
+          </div>
+          <div className={styles.trustLinks}>
+            <Link href="/engineering">Review engineering standards</Link>
+            <Link href="/warranty">Read the warranty</Link>
+            <Link href="/custom-forged-wheels">See how custom design works</Link>
           </div>
         </div>
       </section>

@@ -4,7 +4,7 @@ import { FormEvent, useState, useRef, useEffect } from "react";
 import { BRAND_NAME } from "@/lib/brand";
 import { getVehicleFitment, vehicleData } from "@/lib/monza-data";
 import styles from "./build-form.module.css";
-import { trackMetaEvent } from "@/lib/meta-pixel";
+import { trackFunnelEvent, trackMetaEvent } from "@/lib/meta-pixel";
 
 type InitialValues = {
   make?: string;
@@ -132,6 +132,9 @@ function TickerInput({
 export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext }: BuildFormProps) {
   const [notes, setNotes] = useState(initialNotes);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [step, setStep] = useState<1 | 2>(1);
+  const [files, setFiles] = useState<File[]>([]);
+  const hasTrackedStart = useRef(false);
   const [submitState, setSubmitState] = useState<SubmitState>({
     status: "idle",
     message: "",
@@ -179,6 +182,27 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
     }
   }
 
+  function trackStart() {
+    if (hasTrackedStart.current) return;
+    hasTrackedStart.current = true;
+    trackFunnelEvent("QuoteFormStart", {
+      content_name: quoteContext?.productTitle ?? "Custom design quote",
+    });
+  }
+
+  function continueToDetails(form: HTMLFormElement) {
+    const name = form.elements.namedItem("name") as HTMLInputElement | null;
+    const email = form.elements.namedItem("email") as HTMLInputElement | null;
+    if (!name?.reportValidity() || !email?.reportValidity() || !carMake) {
+      if (!carMake) setSubmitState({ status: "error", message: "Select your vehicle make to continue." });
+      return;
+    }
+    setSubmitState({ status: "idle", message: "" });
+    setStep(2);
+    trackFunnelEvent("QuoteFormStep", { step: 2, step_name: "Optional details" });
+    requestAnimationFrame(() => form.scrollIntoView({ behavior: "smooth", block: "start" }));
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -187,46 +211,47 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
     }
 
     const form = event.currentTarget;
-    const formData = new FormData(form);
-    const valueFor = (fieldId: string) => String(formData.get(fieldId) ?? "").trim();
+    const formValues = new FormData(form);
+    const valueFor = (fieldId: string) => String(formValues.get(fieldId) ?? "").trim();
 
     setIsSubmitting(true);
     setSubmitState({ status: "idle", message: "" });
 
     try {
+      const payload = {
+        quoteContext,
+        honeypot: valueFor("website_url"),
+        customer: {
+          name: valueFor("name"),
+          email: valueFor("email"),
+          phone: valueFor("phone"),
+        },
+        vehicle: {
+          make: carMake === "Other" ? (carModel || "Other") : carMake,
+          model: carMake === "Other" ? "" : carModel,
+          year: carYear,
+          brakes: valueFor("brakes"),
+          suspension: valueFor("suspension"),
+        },
+        wheel: {
+          diameter: valueFor("diameter"),
+          width: valueFor("width"),
+          pcd: fitment?.pcd ?? valueFor("pcd"),
+          offset: valueFor("offset"),
+          centrebore: fitment?.centreBore ?? valueFor("centrebore"),
+          finish: valueFor("finish"),
+          capColour: valueFor("capColour"),
+          references: valueFor("references"),
+        },
+        notes: notes.trim(),
+      };
+      const requestData = new FormData();
+      requestData.set("payload", JSON.stringify(payload));
+      files.forEach((file) => requestData.append("references", file));
+
       const response = await fetch("/api/quote", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          quoteContext,
-          // Honeypot: bots fill every visible field; humans don't see this one.
-          honeypot: valueFor("website_url"),
-          customer: {
-            name: valueFor("name"),
-            email: valueFor("email"),
-            phone: valueFor("phone"),
-          },
-          vehicle: {
-            make: carMake === "Other" ? (carModel || "Other") : carMake,
-            model: carMake === "Other" ? "" : carModel,
-            year: carYear,
-            brakes: valueFor("brakes"),
-            suspension: valueFor("suspension"),
-          },
-          wheel: {
-            diameter: valueFor("diameter"),
-            width: valueFor("width"),
-            pcd: fitment?.pcd ?? valueFor("pcd"),
-            offset: valueFor("offset"),
-            centrebore: fitment?.centreBore ?? valueFor("centrebore"),
-            finish: valueFor("finish"),
-            capColour: valueFor("capColour"),
-            references: valueFor("references"),
-          },
-          notes: notes.trim(),
-        }),
+        body: requestData,
       });
 
       const result = (await response.json().catch(() => null)) as { error?: string } | null;
@@ -246,6 +271,8 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
       setCarMake("");
       setCarModel("");
       setCarYear("");
+      setFiles([]);
+      setStep(1);
       setSubmitState({
         status: "success",
         message: `Quote request sent. ${BRAND_NAME} will get back to you shortly. A confirmation email is on its way now, so please check your junk mail if you do not see it in your inbox.`,
@@ -261,7 +288,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
   }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form} onFocusCapture={trackStart} onSubmit={handleSubmit}>
       {/* Honeypot: hidden from real users, irresistible to dumb bots. */}
       <div aria-hidden="true" className={styles.honeypot}>
         <label>
@@ -275,42 +302,30 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
         </label>
       </div>
 
-      <div className={styles.formIntro}>
-        <p className={styles.formIntroTitle}>Required to start</p>
-        <p>
-          Name, email, and vehicle make are enough. Add fitment numbers only if
-          you know them. Paste a design link below, or reply to the confirmation
-          email with image attachments.
-        </p>
+      <div className={styles.progress} aria-label={`Quote form step ${step} of 2`}>
+        <div className={styles.progressTrack}><span style={{ width: `${step * 50}%` }} /></div>
+        <p>Step {step} of 2 · {step === 1 ? "Your idea" : "Optional details"}</p>
       </div>
 
-      {/* ── Contact details ── */}
-      <div className={styles.section}>
-        <p className={styles.sectionLabel}>Contact</p>
-        <div className={styles.grid}>
-          {contactFields.map((field) => (
-            <label key={field.id} className={styles.field}>
-              <span>
-                {field.label}
-                {field.optional && <span className={styles.optionalTag}> — optional</span>}
-              </span>
-              <input
-                autoComplete={field.autoComplete}
-                disabled={isSubmitting}
-                name={field.id}
-                type={field.type}
-                placeholder={field.placeholder}
-                required={field.required}
-              />
-            </label>
-          ))}
+      <div className={step === 1 ? styles.step : styles.stepHidden}>
+        <div className={styles.formIntro}>
+          <p className={styles.formIntroTitle}>Only the essentials</p>
+          <p>Name, email, vehicle make and a reference are enough to begin.</p>
         </div>
-      </div>
-
-      {/* ── Vehicle ── */}
-      <div className={styles.section}>
-        <p className={styles.sectionLabel}>Your Vehicle</p>
-        <div className={styles.grid}>
+        <div className={styles.section}>
+          <p className={styles.sectionLabel}>Contact</p>
+          <div className={styles.grid}>
+            {contactFields.map((field) => (
+              <label key={field.id} className={styles.field}>
+                <span>{field.label}{field.optional && <span className={styles.optionalTag}> — optional</span>}</span>
+                <input autoComplete={field.autoComplete} disabled={isSubmitting} name={field.id} type={field.type} placeholder={field.placeholder} required={field.required} />
+              </label>
+            ))}
+          </div>
+        </div>
+        <div className={styles.section}>
+          <p className={styles.sectionLabel}>Your vehicle</p>
+          <div className={styles.grid}>
           <label className={styles.field}>
             <span>Make</span>
             <select
@@ -390,24 +405,62 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
             </label>
           )}
 
+          </div>
+        </div>
+        <div className={styles.section}>
+          <p className={styles.sectionLabel}>Design reference</p>
+          <div className={styles.uploadBox}>
+            <label className={styles.uploadLabel}>
+              <span>Upload photos, sketches, renders or PDF</span>
+              <input
+                accept=".jpg,.jpeg,.png,.webp,.pdf,image/jpeg,image/png,image/webp,application/pdf"
+                disabled={isSubmitting}
+                multiple
+                onChange={(event) => {
+                  const nextFiles = Array.from(event.target.files ?? []).slice(0, 3);
+                  if (nextFiles.reduce((total, file) => total + file.size, 0) > 4 * 1024 * 1024) {
+                    setSubmitState({ status: "error", message: "Reference uploads must be 4MB or smaller in total." });
+                    event.target.value = "";
+                    setFiles([]);
+                    return;
+                  }
+                  setFiles(nextFiles);
+                  setSubmitState({ status: "idle", message: "" });
+                }}
+                type="file"
+              />
+            </label>
+            <p>JPG, PNG, WebP or PDF · up to 3 files · 4MB combined</p>
+            {files.length ? <ul className={styles.fileList}>{files.map((file) => <li key={`${file.name}-${file.size}`}>{file.name}</li>)}</ul> : null}
+          </div>
+          <label className={styles.field}>
+            <span>Or paste a design link <span className={styles.optionalTag}>— optional</span></span>
+            <input disabled={isSubmitting} name="references" placeholder="Instagram, Pinterest, Drive or another link" type="url" />
+          </label>
+        </div>
+        <button className={styles.button} disabled={isSubmitting} onClick={(event) => continueToDetails(event.currentTarget.form!)} type="button">
+          Continue
+        </button>
+      </div>
+
+      <div className={step === 2 ? styles.step : styles.stepHidden}>
+      <div className={styles.section}>
+        <div className={styles.detailHeading}>
+          <div>
+            <p className={styles.sectionLabel}>Optional fitment details</p>
+            <p>Leave anything unknown blank. We confirm the final geometry.</p>
+          </div>
+          <button className={styles.backButton} onClick={() => setStep(1)} type="button">Back</button>
+        </div>
+        <div className={styles.grid}>
           {vehicleDetailFields.map((field) => (
             <label key={field.id} className={styles.field}>
-              <span>
-                {field.label}
-                {field.optional && <span className={styles.optionalTag}> — optional</span>}
-              </span>
-              <TickerInput
-                disabled={isSubmitting}
-                name={field.id}
-                type={field.type}
-                placeholder={field.placeholder}
-              />
+              <span>{field.label}<span className={styles.optionalTag}> — optional</span></span>
+              <TickerInput disabled={isSubmitting} name={field.id} type={field.type} placeholder={field.placeholder} />
             </label>
           ))}
         </div>
       </div>
-
-      {/* ── Wheel brief ── */}
       <div className={styles.section}>
         <p className={styles.sectionLabel}>Wheel Brief</p>
         <div className={styles.grid}>
@@ -426,7 +479,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
               </p>
             </div>
           ) : null}
-          {visibleWheelFields.map((field) => (
+          {visibleWheelFields.filter((field) => field.id !== "references").map((field) => (
             <label key={field.id} className={styles.field}>
               <span>
                 {field.label}
@@ -458,6 +511,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
       <button className={styles.button} disabled={isSubmitting} type="submit">
         {isSubmitting ? "Sending Quote Request..." : "Request Custom Quote"}
       </button>
+      </div>
 
       {submitState.status !== "idle" ? (
         <p

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getCatalogData } from "@/lib/catalog";
 import { absoluteUrl } from "@/lib/seo";
+import { VEHICLE_SEO_PAGES } from "@/lib/vehicle-seo-pages";
 
 const staticRoutes = [
   { path: "", priority: 1, changeFrequency: "weekly" as const },
@@ -12,6 +13,7 @@ const staticRoutes = [
   { path: "/fitment", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/fitment-tool", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/pricing", priority: 0.7, changeFrequency: "monthly" as const },
+  { path: "/custom-forged-wheels", priority: 0.9, changeFrequency: "monthly" as const },
   { path: "/about", priority: 0.6, changeFrequency: "monthly" as const },
   { path: "/find-a-dealer", priority: 0.6, changeFrequency: "monthly" as const },
   { path: "/warranty", priority: 0.5, changeFrequency: "yearly" as const },
@@ -35,6 +37,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: "weekly" as const,
       priority: 0.7,
+    })),
+    ...VEHICLE_SEO_PAGES.map((page) => ({
+      url: absoluteUrl(`/forged-wheels/${page.slug}`),
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
     })),
   ];
 }

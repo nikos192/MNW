@@ -112,6 +112,7 @@
   opacity: 0.28;
   filter: blur(28px) saturate(0.7) contrast(0.95) brightness(0.74);
   transform: scale(1.08);
+  background: url("/media/hero-wheel-poster.jpg") center 36% / cover no-repeat;
 }
 
 .heroVideoFrame {
@@ -125,6 +126,7 @@
   border-radius: 32px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 100%),
+    url("/media/hero-wheel-poster.jpg") center 32% / cover no-repeat,
     #101113;
   box-shadow:
     0 32px 80px rgba(14, 16, 18, 0.34),
@@ -218,7 +220,8 @@
   border-left: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.processVideo {
+.processVideo,
+.processVideo video {
   display: block;
   width: 100%;
   height: 100%;
@@ -226,6 +229,10 @@
   object-fit: cover;
   opacity: 0.82;
   filter: saturate(0.82) contrast(1.08);
+}
+
+.processVideo video {
+  object-fit: cover;
 }
 
 .processTitleOverlay {
@@ -264,9 +271,81 @@
 
 .customDesignSection,
 .tierSection,
-.featuredSection {
+.featuredSection,
+.trustSection {
   padding: 96px 0;
   background: #f6f6f4;
+}
+
+.trustSection {
+  background: #e8e5de;
+}
+
+.trustInner {
+  display: grid;
+  gap: 42px;
+}
+
+.trustHeading {
+  display: grid;
+  gap: 14px;
+  max-width: 790px;
+}
+
+.trustHeading > p:last-child {
+  max-width: 56ch;
+  color: var(--text-muted);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.trustGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--rule);
+}
+
+.trustGrid article {
+  display: grid;
+  gap: 12px;
+  padding: 24px 24px 28px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.trustGrid article + article {
+  padding-left: 24px;
+  border-left: 1px solid var(--rule);
+}
+
+.trustGrid span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.trustGrid h3 {
+  font-size: 23px;
+  text-transform: uppercase;
+}
+
+.trustGrid p {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.trustLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 28px;
+}
+
+.trustLinks a {
+  padding-bottom: 5px;
+  border-bottom: 1px solid currentColor;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .customDesignSection {
@@ -598,7 +677,8 @@
 
   .tierSection,
   .customDesignSection,
-  .featuredSection {
+  .featuredSection,
+  .trustSection {
     padding: 64px 0;
   }
 
@@ -612,8 +692,15 @@
   }
 
   .tierGrid,
-  .featuredGrid {
+  .featuredGrid,
+  .trustGrid {
     grid-template-columns: 1fr;
+  }
+
+  .trustGrid article,
+  .trustGrid article + article {
+    padding: 22px 0;
+    border-left: 0;
   }
 
   .simpleHeader {

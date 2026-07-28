@@ -83,7 +83,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
           </h1>
           <p className={styles.copy}>
             {isCustomDesign
-              ? "Share a link to the wheel, sketch, render, or style you want. After submitting, reply to your confirmation email with any image files and we will develop the design around your car."
+              ? "Upload the wheel, sketch, render, or style you want. Name, email and vehicle make are enough to start—we will develop the design around your exact car."
               : "Name, email, and vehicle are enough to start. Leave fitment numbers blank and we will confirm size, offset, brake clearance, finish, price, and lead time."}
           </p>
         </div>
@@ -121,8 +121,8 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             {isCustomDesign ? (
               <ol className={styles.designSteps}>
                 <li><span>01</span><p>Submit the vehicle and describe the wheel direction.</p></li>
-                <li><span>02</span><p>Reply to the confirmation email with photos, sketches, or renders.</p></li>
-                <li><span>03</span><p>We confirm feasibility, fitment, price, and lead time before production.</p></li>
+                <li><span>02</span><p>We resolve the design, fitment, price and production timing.</p></li>
+                <li><span>03</span><p>You approve the final drawing or render before machining begins.</p></li>
               </ol>
             ) : null}
 

@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
+import { MobileQuoteBar } from "@/components/mobile-quote-bar";
 
 // Routes that render as a standalone page without the global header/footer.
 const BARE_ROUTES = new Set<string>(["/early-access"]);
@@ -20,6 +21,7 @@ export function SiteChrome({ header, footer, children }: SiteChromeProps) {
     <>
       {!isBare && header}
       <div id="main-content">{children}</div>
+      {!isBare && <MobileQuoteBar />}
       {!isBare && footer}
     </>
   );

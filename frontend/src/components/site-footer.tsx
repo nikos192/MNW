@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BRAND_FACEBOOK_URL, BRAND_INSTAGRAM_URL, BRAND_LEGAL_NAME, BRAND_NAME } from "@/lib/brand";
 import { MonzaLogo } from "@/components/monza-logo";
+import { ConversionLink } from "@/components/conversion-link";
 
 function InstagramIcon({ size = 18 }: { size?: number }) {
   return (
@@ -101,9 +102,13 @@ export function SiteFooter() {
           </Link>
 
           <div className={styles.ctaWrap}>
-            <Link className={`button-outline ${styles.footerButton}`} href="/contact?design=custom">
+            <ConversionLink
+              className={`button-outline ${styles.footerButton}`}
+              eventSource="site_footer"
+              href="/contact?design=custom"
+            >
               Custom Design Quote
-            </Link>
+            </ConversionLink>
           </div>
         </div>
 

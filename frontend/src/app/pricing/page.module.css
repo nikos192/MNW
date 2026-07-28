@@ -269,6 +269,25 @@
   display: grid;
 }
 
+.breakdownDisclosure {
+  border-top: 1px solid rgba(248, 248, 246, 0.2);
+  border-bottom: 1px solid rgba(248, 248, 246, 0.2);
+}
+
+.breakdownDisclosure summary {
+  padding: 14px 0;
+  color: rgba(248, 248, 246, 0.76);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.breakdownDisclosure[open] summary {
+  border-bottom: 1px solid rgba(248, 248, 246, 0.12);
+}
+
 .breakdown > div {
   display: flex;
   justify-content: space-between;

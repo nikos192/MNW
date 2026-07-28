@@ -1,0 +1,36 @@
+.page { background: var(--bg-dark); }
+.hero { padding: calc(var(--nav-height) + 64px) 0 72px; background: radial-gradient(circle at 82% 20%, rgba(212,199,170,.46), transparent 27%), linear-gradient(130deg, #f7f5f0, #dcecff); border-bottom: 1px solid var(--rule); }
+.heroInner { display: grid; gap: 22px; max-width: 930px; }
+.hero h1 { max-width: 12ch; font-size: clamp(4rem, 8vw, 7.7rem); line-height: .86; text-transform: uppercase; }
+.heroInner > p:not(:first-child) { max-width: 58ch; color: var(--text-muted); font-size: 18px; line-height: 1.65; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.fitment, .decisions, .cta { padding: var(--section-pad-v) 0; }
+.fitmentGrid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(44px, 8vw, 110px); }
+.fitmentGrid > div { display: grid; gap: 16px; align-content: start; }
+.fitmentGrid h2, .sectionHeading h2, .cta h2 { font-size: clamp(3rem, 6vw, 5.2rem); line-height: .92; text-transform: uppercase; }
+.fitmentGrid p { color: var(--text-muted); line-height: 1.7; }
+.fitmentGrid dl { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--rule); }
+.fitmentGrid dl div { display: grid; gap: 8px; padding: 24px; border-bottom: 1px solid var(--rule); }
+.fitmentGrid dl div:nth-child(even) { border-left: 1px solid var(--rule); }
+.fitmentGrid dt { color: var(--text-muted); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+.fitmentGrid dd { font-family: var(--font-heading); font-size: 27px; font-weight: 700; text-transform: uppercase; }
+.decisions { background: #111315; color: #fff; }
+.sectionHeading { display: grid; gap: 12px; max-width: 720px; margin-bottom: 42px; }
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(255,255,255,.2); }
+.cards article { display: grid; gap: 14px; padding: 28px 28px 28px 0; border-bottom: 1px solid rgba(255,255,255,.2); }
+.cards article + article { padding-left: 28px; border-left: 1px solid rgba(255,255,255,.2); }
+.cards span { color: #d4c7aa; font-size: 12px; }
+.cards h3 { font-size: 28px; text-transform: uppercase; }
+.cards p { color: rgba(255,255,255,.64); line-height: 1.6; }
+.ctaInner { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 32px; }
+.ctaInner > div { display: grid; gap: 12px; max-width: 780px; }
+@media (max-width: 800px) {
+ .fitmentGrid, .ctaInner { grid-template-columns: 1fr; }
+ .cards { grid-template-columns: 1fr; }
+ .cards article, .cards article + article { padding: 24px 0; border-left: 0; }
+}
+@media (max-width: 540px) {
+ .hero h1 { font-size: 3.8rem; }
+ .fitmentGrid dl { grid-template-columns: 1fr; }
+ .fitmentGrid dl div:nth-child(even) { border-left: 0; }
+}

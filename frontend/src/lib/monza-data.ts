@@ -991,7 +991,7 @@ const SERIES_FACTS: Record<
   },
   "2-Piece Forged": {
     fallbackPrice: "From AUD $1,042/wheel inc. GST",
-    leadTime: "approximately 25 days from order confirmation",
+    leadTime: "approximately 30 days from order confirmation",
     construction: "2-piece forged",
     diameterRange: "18 to 24 inches",
     widthRange: "8.0 to 12.0 inches",

@@ -11,14 +11,27 @@ import { isAllowedFormOrigin } from "@/lib/request-origin";
 export const runtime = "nodejs";
 
 type QuoteRequestBody = QuoteEmailPayload & { honeypot?: string };
+type QuoteAttachment = {
+  content: Buffer;
+  filename: string;
+};
 
-// Per-field caps so a malicious client can't push 10 MB into the inbox.
+// Per-field caps prevent oversized text payloads from reaching the inbox.
 const FIELD_CAPS: ReadonlyArray<[string | undefined, number, string]> = [];
 
 const SHORT_CAP = 200;
 const MEDIUM_CAP = 500;
 const NOTES_CAP = 5_000;
 const EMAIL_CAP = 254;
+const MAX_ATTACHMENTS = 3;
+const MAX_ATTACHMENT_BYTES = 4 * 1024 * 1024;
+const MAX_TOTAL_ATTACHMENT_BYTES = 4 * 1024 * 1024;
+const ALLOWED_ATTACHMENT_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "application/pdf",
+]);
 
 // Simple in-memory sliding-window rate limiter. Only effective per lambda
 // instance, but still slows down naive bots and accidental double-submits.
@@ -116,8 +129,52 @@ export async function POST(request: Request) {
   }
 
   let body: QuoteRequestBody;
+  let attachments: QuoteAttachment[] = [];
   try {
-    body = (await request.json()) as QuoteRequestBody;
+    if (request.headers.get("content-type")?.includes("multipart/form-data")) {
+      const formData = await request.formData();
+      body = JSON.parse(String(formData.get("payload") ?? "")) as QuoteRequestBody;
+      const files = formData
+        .getAll("references")
+        .filter((entry): entry is File => entry instanceof File && entry.size > 0);
+
+      if (files.length > MAX_ATTACHMENTS) {
+        return NextResponse.json(
+          { error: `Upload no more than ${MAX_ATTACHMENTS} reference files.` },
+          { status: 413 },
+        );
+      }
+      if (files.reduce((total, file) => total + file.size, 0) > MAX_TOTAL_ATTACHMENT_BYTES) {
+        return NextResponse.json(
+          { error: "Reference uploads must be 4MB or smaller in total." },
+          { status: 413 },
+        );
+      }
+
+      for (const file of files) {
+        if (!ALLOWED_ATTACHMENT_TYPES.has(file.type)) {
+          return NextResponse.json(
+            { error: "Reference files must be JPG, PNG, WebP, or PDF." },
+            { status: 415 },
+          );
+        }
+        if (file.size > MAX_ATTACHMENT_BYTES) {
+          return NextResponse.json(
+            { error: `Each reference file must be 4MB or smaller (${file.name}).` },
+            { status: 413 },
+          );
+        }
+      }
+
+      attachments = await Promise.all(
+        files.map(async (file) => ({
+          content: Buffer.from(await file.arrayBuffer()),
+          filename: file.name.replace(/[^\w.\- ()]/g, "_").slice(0, 180),
+        })),
+      );
+    } else {
+      body = (await request.json()) as QuoteRequestBody;
+    }
   } catch {
     return NextResponse.json({ error: "Invalid request payload." }, { status: 400 });
   }
@@ -167,6 +224,7 @@ export async function POST(request: Request) {
         subject: stripCrlf(intakeEmailContent.subject),
         text: intakeEmailContent.text,
         html: intakeEmailContent.html,
+        attachments,
       }),
       resend.emails.send({
         from: fromEmail,
