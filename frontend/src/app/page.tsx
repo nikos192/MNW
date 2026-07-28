@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
 import { ConversionLink } from "@/components/conversion-link";
 import { ViewportVideo } from "@/components/viewport-video";
-import { DesktopHeroVideo } from "@/components/desktop-hero-video";
+import { ResponsiveHeroVideo } from "@/components/responsive-hero-video";
 import { collectionSummaries } from "@/lib/monza-data";
 import { getCatalogData } from "@/lib/catalog";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
@@ -63,34 +63,29 @@ export default async function Home() {
     <main className={styles.page}>
       <section className={styles.hero} data-hero-section>
         <div className={styles.heroMedia} aria-hidden="true">
-          <div className={styles.heroVideoAmbient}>
-            <div className={styles.heroVideo} />
-          </div>
-          <div className={styles.heroVideoFrame}>
-            <DesktopHeroVideo
-              className={styles.heroVideoFeature}
-              poster="/media/hero-wheel-poster.jpg"
-              src="/media/hero-video.mp4"
-            />
-          </div>
+          <ResponsiveHeroVideo
+            className={styles.heroVideo}
+            desktopSrc="/media/monza-hero-desktop.mp4"
+            mobileSrc="/media/monza-hero-mobile.mp4"
+          />
           <div className={styles.heroVideoOverlay} />
         </div>
 
         <div className={`${styles.heroInner} container`}>
           <div className={styles.heroCopy} data-hero-copy>
-            <p className={styles.heroLabel}>MonzaWheels Australia</p>
-            <h1 className={styles.heroHeading}>Your wheel idea. Forged for your car.</h1>
+            <p className={styles.heroLabel}>Forged in motion</p>
+            <h1 className={styles.heroHeading}>Built to be seen.</h1>
             <p className={styles.heroBody}>
-              Send us a wheel reference, sketch, or idea. We will develop it as
-              a bespoke forged wheel with fitment resolved around your exact car.
+              Bespoke forged wheels, designed around your vision and engineered
+              for your exact car.
             </p>
 
             <div className={styles.heroActions}>
               <ConversionLink className="button-primary" eventSource="homepage_hero" href="/contact?design=custom">
-                Custom Design Quote
+                Design Your Wheels
               </ConversionLink>
               <Link className="button-outline" href="/shop">
-                View Starting Designs
+                Explore The Collection
               </Link>
             </div>
 

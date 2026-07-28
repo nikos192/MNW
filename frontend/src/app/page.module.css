@@ -5,83 +5,107 @@
 
 .hero {
   position: relative;
-  min-height: 82svh;
+  min-height: 100svh;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 78% 24%, rgba(168, 131, 79, 0.2) 0%, rgba(168, 131, 79, 0) 30%),
-    linear-gradient(120deg, #f4f1eb 0%, #ece6dc 32%, #18191b 100%);
-  border-bottom: 1px solid rgba(14, 16, 18, 0.12);
+  background: #090a0b;
 }
 
 .hero::after {
   content: "";
   position: absolute;
-  inset: auto 0 0;
-  height: 34%;
+  z-index: 3;
+  inset: auto var(--section-pad-h) 22px;
+  height: 1px;
   pointer-events: none;
-  background: linear-gradient(180deg, transparent 0%, rgba(14, 16, 18, 0.14) 100%);
+  background: rgba(255, 255, 255, 0.28);
 }
 
 .heroInner {
   position: relative;
   z-index: 2;
-  min-height: 82svh;
+  min-height: 100svh;
   display: grid;
-  grid-template-columns: minmax(0, 0.7fr) minmax(340px, 0.3fr);
-  align-items: center;
-  gap: clamp(28px, 5vw, 72px);
-  padding-top: calc(var(--nav-height) + 64px);
-  padding-bottom: 56px;
+  align-items: end;
+  padding-top: calc(var(--nav-height) + 96px);
+  padding-bottom: clamp(72px, 9vh, 112px);
 }
 
 .heroCopy {
   display: grid;
-  gap: 22px;
-  width: min(100%, 640px);
+  gap: 18px;
+  width: min(100%, 920px);
   min-width: 0;
   padding: 0;
+  color: #ffffff;
 }
 
 .heroLabel {
   font-family: var(--font-body), sans-serif;
   font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.24em;
   line-height: 1.4;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .heroHeading {
-  max-width: 10.8ch;
-  color: var(--text-primary);
-  font-size: 5.75rem;
+  max-width: 9ch;
+  color: #ffffff;
+  font-size: clamp(5.5rem, 10vw, 10rem);
   font-weight: 700;
-  letter-spacing: 0;
-  line-height: 0.9;
+  letter-spacing: -0.02em;
+  line-height: 0.78;
   text-transform: uppercase;
+  text-wrap: balance;
+  text-shadow: 0 4px 32px rgba(0, 0, 0, 0.3);
 }
 
 .heroBody {
-  max-width: 46ch;
-  color: var(--text-muted);
+  max-width: 42ch;
+  color: rgba(255, 255, 255, 0.82);
   font-family: var(--font-body), sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 500;
-  line-height: 1.55;
+  line-height: 1.5;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.42);
 }
 
 .heroActions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  padding-top: 8px;
+  padding-top: 10px;
 }
 
 .heroActions :global(.button-primary),
 .heroActions :global(.button-outline) {
-  min-width: 184px;
+  min-width: 196px;
   min-height: 52px;
+}
+
+.heroActions :global(.button-primary) {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #111315;
+}
+
+.heroActions :global(.button-outline) {
+  border-color: rgba(255, 255, 255, 0.62);
+  color: #ffffff;
+}
+
+.heroActions :global(.button-primary:hover),
+.heroActions :global(.button-primary:focus-visible) {
+  background: #d4c7aa;
+  border-color: #d4c7aa;
+}
+
+.heroActions :global(.button-outline:hover),
+.heroActions :global(.button-outline:focus-visible) {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #ffffff;
+  color: #ffffff;
 }
 
 .heroMedia {
@@ -91,72 +115,38 @@
   pointer-events: none;
 }
 
-.heroVideoAmbient,
-.heroVideoFrame,
+.heroVideo,
 .heroVideoOverlay {
   position: absolute;
-}
-
-.heroVideoAmbient {
   inset: 0;
-  overflow: hidden;
 }
 
 .heroVideo {
-  position: absolute;
-  inset: -8%;
-  width: 116%;
-  height: 116%;
-  object-fit: cover;
-  object-position: center 36%;
-  opacity: 0.28;
-  filter: blur(28px) saturate(0.7) contrast(0.95) brightness(0.74);
-  transform: scale(1.08);
-  background: url("/media/hero-wheel-poster.jpg") center 36% / cover no-repeat;
-}
-
-.heroVideoFrame {
-  top: clamp(28px, 4vw, 56px);
-  right: max(24px, calc((100vw - var(--container-max)) / 2));
-  bottom: clamp(24px, 4vw, 48px);
-  width: min(38vw, 560px);
-  min-width: 320px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 32px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 100%),
-    url("/media/hero-wheel-poster.jpg") center 32% / cover no-repeat,
-    #101113;
-  box-shadow:
-    0 32px 80px rgba(14, 16, 18, 0.34),
-    inset 0 1px 0 rgba(255, 255, 255, 0.14);
-}
-
-.heroVideoFeature {
   width: 100%;
   height: 100%;
+  max-width: none;
   object-fit: cover;
-  object-position: center 32%;
-  filter: saturate(0.96) contrast(1.02) brightness(0.88);
-  transform: scale(1.02);
+  object-position: center;
+  background: #090a0b;
 }
 
 .heroVideoOverlay {
-  inset: 0;
   background:
-    linear-gradient(90deg, rgba(244, 241, 235, 0.96) 0%, rgba(244, 241, 235, 0.9) 34%, rgba(244, 241, 235, 0.42) 58%, rgba(24, 25, 27, 0.12) 72%, rgba(24, 25, 27, 0.2) 100%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(14, 16, 18, 0.16) 100%);
+    linear-gradient(90deg, rgba(5, 6, 7, 0.66) 0%, rgba(5, 6, 7, 0.26) 48%, rgba(5, 6, 7, 0.08) 76%),
+    linear-gradient(180deg, rgba(5, 6, 7, 0.18) 0%, rgba(5, 6, 7, 0.04) 38%, rgba(5, 6, 7, 0.8) 100%);
 }
 
 .heroSpecs {
+  position: absolute;
+  right: var(--section-pad-h);
+  bottom: clamp(72px, 9vh, 112px);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
-  width: min(100%, 700px);
-  margin: 8px 0 0;
+  width: min(42vw, 620px);
+  margin: 0;
   padding-top: 22px;
-  border-top: 1px solid rgba(14, 16, 18, 0.16);
+  border-top: 1px solid rgba(255, 255, 255, 0.34);
 }
 
 .heroSpecs div {
@@ -166,7 +156,7 @@
 }
 
 .heroSpecs dt {
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.58);
   font-family: var(--font-body), sans-serif;
   font-size: 12px;
   font-weight: 600;
@@ -176,7 +166,7 @@
 }
 
 .heroSpecs dd {
-  color: var(--text-primary);
+  color: rgba(255, 255, 255, 0.9);
   font-family: var(--font-body), sans-serif;
   font-size: 15px;
   font-weight: 500;
@@ -540,35 +530,22 @@
 }
 
 @media (max-width: 1199px) {
-  .hero {
-    min-height: auto;
-  }
-
   .heroInner {
-    min-height: 740px;
-    grid-template-columns: 1fr;
+    min-height: 100svh;
     align-items: end;
-    padding-bottom: 48px;
+    padding-bottom: 64px;
   }
 
   .heroCopy {
-    width: min(100%, 640px);
-  }
-
-  .heroVideoFrame {
-    top: 112px;
-    right: 24px;
-    width: min(42vw, 460px);
-    bottom: 84px;
-    min-width: 280px;
+    width: min(100%, 720px);
   }
 
   .heroHeading {
-    font-size: 4.75rem;
+    font-size: clamp(5rem, 11vw, 7.5rem);
   }
 
   .heroSpecs {
-    width: min(100%, 640px);
+    display: none;
   }
 
   .featuredGrid {
@@ -581,26 +558,33 @@
   }
 }
 
+@media (max-width: 1399px) {
+  .heroSpecs {
+    display: none;
+  }
+}
+
 @media (max-width: 767px) {
   .heroInner {
-    min-height: 760px;
+    min-height: 100svh;
     gap: 28px;
-    padding-top: calc(var(--nav-height) + 42px);
-    padding-bottom: 36px;
+    padding-top: calc(var(--nav-height) + 56px);
+    padding-bottom: 52px;
   }
 
   .heroCopy {
-    gap: 18px;
+    gap: 16px;
     width: min(100%, 420px);
   }
 
   .heroHeading {
-    max-width: 10.5ch;
-    font-size: 3rem;
+    max-width: 8ch;
+    font-size: clamp(4.2rem, 21vw, 6.2rem);
+    line-height: 0.8;
   }
 
   .heroBody {
-    max-width: 30ch;
+    max-width: 32ch;
     font-size: 1.05rem;
   }
 
@@ -615,47 +599,22 @@
     width: 100%;
   }
 
-  .heroVideoAmbient {
-    inset: 0 -22% 0 18%;
+  .heroActions :global(.button-outline) {
+    display: none;
   }
 
   .heroVideo {
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.18;
-    filter: blur(18px) saturate(0.68) brightness(0.7);
-    transform: scale(1.16);
-  }
-
-  .heroVideoFrame {
-    top: 108px;
-    right: -8%;
-    bottom: 160px;
-    width: min(68vw, 320px);
-    min-width: 0;
-    border-radius: 24px;
-  }
-
-  .heroVideoFeature {
-    object-position: center 24%;
+    object-position: center center;
   }
 
   .heroVideoOverlay {
     background:
-      linear-gradient(180deg, rgba(244, 241, 235, 0.76) 0%, rgba(244, 241, 235, 0.88) 36%, rgba(244, 241, 235, 0.28) 62%, rgba(24, 25, 27, 0.18) 100%),
-      linear-gradient(90deg, rgba(244, 241, 235, 0.96) 0%, rgba(244, 241, 235, 0.88) 54%, rgba(244, 241, 235, 0.18) 100%);
+      linear-gradient(180deg, rgba(5, 6, 7, 0.18) 0%, rgba(5, 6, 7, 0.02) 38%, rgba(5, 6, 7, 0.88) 100%),
+      linear-gradient(90deg, rgba(5, 6, 7, 0.42) 0%, rgba(5, 6, 7, 0.05) 82%);
   }
 
   .heroSpecs {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    width: min(100%, 340px);
-    padding-top: 18px;
-  }
-
-  .heroSpecs div {
-    padding: 0;
+    display: none;
   }
 
   .processSection {
