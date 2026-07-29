@@ -27,7 +27,7 @@ export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps
                 className={`${styles.image} ${styles.primary}`}
                 loading={imageLoading}
                 src={product.images[0].url}
-                sizes="(max-width: 1024px) 50vw, 33vw"
+                sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 width={1200}
                 height={1200}
               />
@@ -37,7 +37,7 @@ export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps
                   className={`${styles.image} ${styles.secondary}`}
                   loading={imageLoading}
                   src={secondaryImage}
-                  sizes="(max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   width={1200}
                   height={1200}
                 />
@@ -49,8 +49,18 @@ export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps
         </div>
 
         <div className={styles.meta}>
+          <div className={styles.metaTopline}>
+            <p className={styles.series}>
+              {product.series === "2-Piece Forged" ? "Two-piece forged" : "Monoblock forged"}
+            </p>
+            <span className={styles.arrow} aria-hidden="true">↗</span>
+          </div>
           <h3 className={styles.title}>{product.title}</h3>
-          <p className={styles.price}>{primaryPrice}</p>
+          <p className={styles.description}>{product.shortDescription}</p>
+          <div className={styles.cardFooter}>
+            <p className={styles.price}>{primaryPrice}</p>
+            <span className={styles.viewLabel}>View wheel</span>
+          </div>
         </div>
       </Link>
     </article>

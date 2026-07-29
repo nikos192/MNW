@@ -92,6 +92,26 @@ export default async function Home() {
         </div>
       </section>
 
+      <section className={styles.featuredSection}>
+        <div className={`${styles.featuredInner} container`}>
+          <div className={styles.simpleHeader} data-reveal>
+            <div>
+              <p className="label">The collection</p>
+              <h2 className={styles.sectionHeading}>Choose your starting point.</h2>
+            </div>
+            <Link className={styles.subtleLink} href="/shop">
+              View all wheels
+            </Link>
+          </div>
+
+          <div className={styles.featuredGrid}>
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className={styles.customDesignSection} aria-labelledby="custom-design-title">
         <div className={`${styles.customDesignInner} container`} data-reveal>
           <div className={styles.customDesignLead}>
@@ -185,26 +205,6 @@ export default async function Home() {
                 </div>
               </Link>
             </article>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.featuredSection}>
-        <div className={`${styles.featuredInner} container`}>
-          <div className={styles.simpleHeader} data-reveal>
-            <div>
-              <p className="label">Ready designs</p>
-              <h2 className={styles.sectionHeading}>Starting points, not limits.</h2>
-            </div>
-            <Link className={styles.subtleLink} href="/shop">
-              View catalogue
-            </Link>
-          </div>
-
-          <div className={styles.featuredGrid}>
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
           </div>
         </div>
       </section>

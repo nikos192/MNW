@@ -6,46 +6,29 @@
   .bar {
     position: fixed;
     right: 12px;
-    bottom: 12px;
-    left: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
     z-index: 50;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 14px;
-    padding: 12px 12px 12px 16px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    background: rgba(17, 19, 21, 0.94);
+    display: block;
     box-shadow: 0 18px 46px rgba(0, 0, 0, 0.28);
-    color: #fff;
-    backdrop-filter: blur(14px);
-  }
-
-  .bar > div {
-    display: grid;
-    min-width: 0;
-  }
-
-  .bar strong {
-    overflow: hidden;
-    font-size: 13px;
-    line-height: 1.3;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .bar span {
-    color: rgba(255, 255, 255, 0.62);
-    font-size: 11px;
   }
 
   .bar a {
-    padding: 11px 13px;
-    background: #fff;
-    color: #111315;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 0 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(17, 19, 21, 0.94);
+    color: #fff;
     font-size: 12px;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
+    backdrop-filter: blur(14px);
+  }
+
+  .bar span {
+    font-size: 15px;
   }
 }
