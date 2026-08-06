@@ -110,9 +110,9 @@ export function SiteHeader() {
         <div className={styles.utilityBar}>
           <div className={`${styles.utilityInner} container`}>
             <p className={styles.utilityText}>
-              <span>Australian forged wheels</span>
+              <span>10% off all wheel sets</span>
               <span className={styles.utilityDivider}>·</span>
-              <span>Built to order</span>
+              <span>Free standard shipping</span>
             </p>
 
             <div className={styles.utilityNav}>

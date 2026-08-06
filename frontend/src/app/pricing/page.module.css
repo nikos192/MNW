@@ -273,6 +273,14 @@
   letter-spacing: -0.02em;
 }
 
+.heroPrice del {
+  width: fit-content;
+  color: rgba(248, 248, 246, 0.58);
+  font-family: var(--font-body), sans-serif;
+  font-size: 17px;
+  line-height: 1.2;
+}
+
 .heroPrice small {
   margin-top: 6px;
   font-size: 12px;

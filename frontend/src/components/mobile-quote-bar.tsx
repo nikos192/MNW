@@ -15,7 +15,7 @@ export function MobileQuoteBar() {
         eventSource="mobile_sticky_bar"
         href="/contact?design=custom"
       >
-        Get a quote <span aria-hidden="true">↗</span>
+        Save 10% <span aria-hidden="true">↗</span>
       </ConversionLink>
     </div>
   );

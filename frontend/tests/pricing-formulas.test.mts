@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   addOnRetailIncGstAud,
   expressAirShippingIncGstAud,
+  wheelSetSalePriceIncGstAud,
   wheelSetRetailIncGstAud,
 } from "../src/lib/pricing-formulas.ts";
 
@@ -27,4 +28,8 @@ test("ordinary add-ons receive markup and GST without wheel-set shipping", () =>
 
 test("express air shipping is cost plus GST without markup", () => {
   assert.ok(Math.abs(expressAirShippingIncGstAud() - 880) < 0.001);
+});
+
+test("the wheel sale discounts the wheel-set retail price by 10%", () => {
+  assert.ok(Math.abs(wheelSetSalePriceIncGstAud(2_840) - 4_362.93) < 0.001);
 });

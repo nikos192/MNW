@@ -14,11 +14,12 @@ export default function PricingPage() {
     <main className={shellStyles.page}>
       <section className={shellStyles.hero}>
         <div className={`${shellStyles.heroInner} container`}>
-          <p className="label">Pricing</p>
+          <p className="label">10% wheel sale</p>
           <h1 className={shellStyles.heroTitle}>Forged wheel pricing.</h1>
           <p className={shellStyles.heroCopy}>
             Build a live price around construction, wheel size and finish.
-            Every displayed AUD total includes GST and free standard shipping.
+            Sale prices are 10% off every wheel set and include GST and free
+            standard shipping. Optional upgrades remain at their normal price.
           </p>
         </div>
       </section>

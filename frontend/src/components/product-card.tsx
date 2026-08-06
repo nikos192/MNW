@@ -15,11 +15,15 @@ export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps
   const primaryPrice = tierRange
     ? `From AUD ${formatAud(tierRange.minPerSet)} / set inc. GST`
     : product.price.replace(/^From\s*/i, "");
+  const regularPrice = tierRange
+    ? `AUD ${formatAud(tierRange.regularMinPerSet)}`
+    : null;
 
   return (
     <article className={styles.card} data-reveal>
       <Link className={styles.link} href={`/shop/${product.handle}`}>
         <div className={styles.media}>
+          <span className={styles.saleBadge}>10% off</span>
           {product.images[0] ? (
             <>
               <Image
@@ -58,7 +62,10 @@ export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps
           <h3 className={styles.title}>{product.title}</h3>
           <p className={styles.description}>{product.shortDescription}</p>
           <div className={styles.cardFooter}>
-            <p className={styles.price}>{primaryPrice}</p>
+            <div className={styles.priceGroup}>
+              {regularPrice ? <del className={styles.regularPrice}>{regularPrice}</del> : null}
+              <p className={styles.price}>{primaryPrice}</p>
+            </div>
             <span className={styles.viewLabel}>View wheel</span>
           </div>
         </div>
