@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ConversionLink } from "@/components/conversion-link";
 import type { CatalogProduct, VehicleFitment } from "@/lib/monza-data";
 import { trackMetaEvent } from "@/lib/meta-pixel";
+import { expressAirShippingIncGstAud } from "@/lib/pricing-formulas";
 import {
   CUSTOM_FINISH_PRICE_AUD_PER_WHEEL,
   customFinishOptions,
@@ -131,8 +132,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [carModel, setCarModel] = useState("");
   const [carYear, setCarYear] = useState("");
 
-  // Custom finish is the only optional add-on; centre caps come included.
   const [includeCustomFinish, setIncludeCustomFinish] = useState(false);
+  const [includeExpressShipping, setIncludeExpressShipping] = useState(false);
 
   const carModels = carMake && carMake !== "Other" ? Object.keys(vehicleData[carMake] ?? {}) : [];
   const carYears =
@@ -192,12 +193,12 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const formatRange = (range: { minPerSet: number; maxPerSet: number; minPerWheel: number; maxPerWheel: number }) => {
     if (range.minPerSet === range.maxPerSet) {
       return {
-        set: `AUD ${formatAud(range.minPerSet)} / set inc. GST & delivery`,
+        set: `AUD ${formatAud(range.minPerSet)} / set inc. GST & free standard shipping`,
         wheel: `AUD ${formatAud(range.minPerWheel)} per wheel`,
       };
     }
     return {
-      set: `AUD ${formatAud(range.minPerSet)} – ${formatAud(range.maxPerSet)} / set inc. GST & delivery`,
+      set: `AUD ${formatAud(range.minPerSet)} – ${formatAud(range.maxPerSet)} / set inc. GST & free standard shipping`,
       wheel: `AUD ${formatAud(range.minPerWheel)} – ${formatAud(range.maxPerWheel)} per wheel`,
     };
   };
@@ -246,6 +247,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       "centre caps incl.",
       isStaggered ? "staggered" : null,
       includeCustomFinish && isOnePiece ? "custom finish" : null,
+      includeExpressShipping ? "express air shipping" : "free standard shipping",
     ].filter(Boolean);
     const quotedPrice = estimatedTotal !== null
       ? `Est. AUD ${formatAud(estimatedTotal)} / set (${estimateExtras.join(", ")})`
@@ -303,8 +305,11 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     return frontPerWheelPrice * 2 + rearPerWheelPrice * 2;
   })();
   const customFinishSubtotal = includeCustomFinish && isOnePiece ? CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4 : 0;
+  const expressShippingSubtotal = includeExpressShipping
+    ? expressAirShippingIncGstAud()
+    : 0;
   const estimatedTotal = wheelOnlySubtotal !== null
-    ? wheelOnlySubtotal + customFinishSubtotal
+    ? wheelOnlySubtotal + customFinishSubtotal + expressShippingSubtotal
     : null;
 
   return (
@@ -862,6 +867,28 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                   <span className={styles.estimateIncluded}>Included</span>
                 </div>
 
+                <div className={styles.estimateRow}>
+                  <span className={styles.estimateRowLabel}>Standard shipping</span>
+                  <span className={styles.estimateIncluded}>Free</span>
+                </div>
+
+                <label className={styles.estimateAddon}>
+                  <input
+                    type="checkbox"
+                    checked={includeExpressShipping}
+                    onChange={(event) => setIncludeExpressShipping(event.target.checked)}
+                  />
+                  <span className={styles.estimateAddonText}>
+                    <span className={styles.estimateAddonLabel}>Express Air Shipping</span>
+                    <span className={styles.estimateAddonNote}>
+                      Optional air-freight upgrade over free standard shipping.
+                    </span>
+                  </span>
+                  <span className={styles.estimateRowValue}>
+                    +AUD {formatAud(expressAirShippingIncGstAud())}
+                  </span>
+                </label>
+
                 {isOnePiece ? (
                   <label className={styles.estimateAddon}>
                     <input
@@ -891,8 +918,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               </div>
 
               <p className={styles.estimateFinePrint}>
-                Indicative only. Includes GST and the conservative all-other-states
-                delivery allowance. Final figure is confirmed after we review the build brief.
+                Indicative only. Includes GST and free standard shipping. Express Air
+                Shipping is optional. Final pricing is confirmed after we review the build brief.
               </p>
             </details>
 

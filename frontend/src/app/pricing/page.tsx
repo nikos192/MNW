@@ -17,9 +17,8 @@ export default function PricingPage() {
           <p className="label">Pricing</p>
           <h1 className={shellStyles.heroTitle}>Forged wheel pricing.</h1>
           <p className={shellStyles.heroCopy}>
-            Build a live delivered price around construction, wheel size,
-            finish and delivery state. Every displayed AUD total includes
-            freight and GST.
+            Build a live price around construction, wheel size and finish.
+            Every displayed AUD total includes GST and free standard shipping.
           </p>
         </div>
       </section>
@@ -31,7 +30,7 @@ export default function PricingPage() {
             <h2 className={shellStyles.sectionTitle}>Build the set.</h2>
             <p className={shellStyles.sectionCopy}>
               Select a valid diameter and width band, then tailor the finish
-              and delivery. Standard centre caps are included.
+              and choose standard or express delivery. Standard centre caps are included.
             </p>
           </div>
           <PricingCalculator />
@@ -67,7 +66,7 @@ export default function PricingPage() {
             <ul>
               <li>Four custom-made forged wheels</li>
               <li>Standard MonzaWheels centre caps</li>
-              <li>Delivery allowance for the selected state</li>
+              <li>Free standard shipping Australia-wide</li>
               <li>Australian GST</li>
             </ul>
           </div>

@@ -29,7 +29,7 @@ const questions = [
   {
     question: "What is included in the displayed price?",
     answer:
-      "The live AUD price covers four custom forged wheels, standard centre caps, the selected Australia-wide delivery allowance and GST. Tyres and installation are not included unless separately quoted.",
+      "The live AUD price covers four custom forged wheels, standard centre caps, free standard shipping and GST. Express Air Shipping is an optional $880 upgrade. Tyres and installation are not included unless separately quoted.",
   },
   {
     question: "What warranty is included?",
