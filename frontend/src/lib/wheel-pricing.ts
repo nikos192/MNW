@@ -4,17 +4,22 @@ import {
   WHEEL_PRICING_CONFIG,
   type AddOnId,
   type Construction,
-  type DeliveryState,
   type PricingCurrency,
   type WheelPriceRow,
 } from "@/lib/wheel-pricing-config";
+import {
+  addOnRetailIncGstAud,
+  expressAirShippingIncGstAud,
+  wheelSetSalePriceIncGstAud,
+  wheelSetRetailIncGstAud,
+} from "@/lib/pricing-formulas";
 
 export type PricingInput = {
   construction: Construction;
   diameter: number;
   width: string | number;
   addOns: AddOnId[];
-  state: DeliveryState;
+  expressShipping?: boolean;
   currency: PricingCurrency;
 };
 
@@ -34,15 +39,13 @@ export type PricingBreakdown = {
   supplierUsdPerWheel: number;
   supplierUsdPerSet: number;
   convertedWheelCostAud: number;
-  baseShippingAud: number;
-  shippingSurchargeAud: number;
-  shippingAud: number;
-  landedCostAud: number;
-  wheelRrpIncGstAudPerSet: number;
-  shippingRrpIncGstAudPerSet: number;
+  standardShippingIncludedAud: number;
   baseSellPriceExGstAud: number;
   baseGstAud: number;
+  regularBaseRrpIncGstAudPerSet: number;
   baseRrpIncGstAudPerSet: number;
+  saleSavingsAud: number;
+  expressShippingIncGstAud: number;
   addOns: AddOnBreakdown[];
   fixedAddOnsRrpIncGstAud: number;
   hasPriceOnRequestAddOn: boolean;
@@ -95,27 +98,22 @@ export function findWheelPriceRow(
   return rows[0] ?? null;
 }
 
-function markedUpIncGst(costAud: number): number {
-  const sellPriceExGst = costAud / (1 - WHEEL_PRICING_CONFIG.margin);
-  return sellPriceExGst * (1 + WHEEL_PRICING_CONFIG.gstRate);
-}
-
 export function calculateWheelPricing(input: PricingInput): PricingBreakdown | null {
   const row = findWheelPriceRow(input.construction, input.diameter, input.width);
   if (!row) return null;
 
   const supplierUsdPerSet = row.usdPerWheel * 4;
   const convertedWheelCostAud = supplierUsdPerSet * WHEEL_PRICING_CONFIG.fxRate;
-  const baseShippingAud = WHEEL_PRICING_CONFIG.baseShippingAudPerSet;
-  const shippingSurchargeAud =
-    WHEEL_PRICING_CONFIG.shippingSurchargeAudPerSet[input.state];
-  const shippingAud = baseShippingAud + shippingSurchargeAud;
-  const landedCostAud = convertedWheelCostAud + shippingAud;
-  const wheelRrpIncGstAudPerSet = markedUpIncGst(convertedWheelCostAud);
-  const shippingRrpIncGstAudPerSet = markedUpIncGst(shippingAud);
-  const baseSellPriceExGstAud = landedCostAud / (1 - WHEEL_PRICING_CONFIG.margin);
-  const baseRrpIncGstAudPerSet = baseSellPriceExGstAud * (1 + WHEEL_PRICING_CONFIG.gstRate);
+  const standardShippingIncludedAud = WHEEL_PRICING_CONFIG.standardShippingAudPerSet;
+  const regularBaseRrpIncGstAudPerSet = wheelSetRetailIncGstAud(convertedWheelCostAud);
+  const baseRrpIncGstAudPerSet = wheelSetSalePriceIncGstAud(convertedWheelCostAud);
+  const saleSavingsAud = regularBaseRrpIncGstAudPerSet - baseRrpIncGstAudPerSet;
+  const baseSellPriceExGstAud = baseRrpIncGstAudPerSet
+    / (1 + WHEEL_PRICING_CONFIG.gstRate);
   const baseGstAud = baseRrpIncGstAudPerSet - baseSellPriceExGstAud;
+  const expressShippingIncGstAud = input.expressShipping
+    ? expressAirShippingIncGstAud()
+    : 0;
   const currencyRateFromAud = input.currency === "AUD"
     ? 1
     : 1 / WHEEL_PRICING_CONFIG.fxRate;
@@ -126,7 +124,7 @@ export function calculateWheelPricing(input: PricingInput): PricingBreakdown | n
     .map<AddOnBreakdown>((addOn) => {
       const rrpIncGstAudPerSet = addOn.usdPerWheel === null
         ? null
-        : markedUpIncGst(addOn.usdPerWheel * 4 * WHEEL_PRICING_CONFIG.fxRate);
+        : addOnRetailIncGstAud(addOn.usdPerWheel * 4 * WHEEL_PRICING_CONFIG.fxRate);
       return {
         id: addOn.id,
         name: addOn.name,
@@ -144,7 +142,7 @@ export function calculateWheelPricing(input: PricingInput): PricingBreakdown | n
     0,
   );
   const totalRrpIncGstAudPerSet =
-    baseRrpIncGstAudPerSet + fixedAddOnsRrpIncGstAud;
+    baseRrpIncGstAudPerSet + fixedAddOnsRrpIncGstAud + expressShippingIncGstAud;
   const totalRrpIncGstAudPerWheel = totalRrpIncGstAudPerSet / 4;
 
   return {
@@ -154,15 +152,13 @@ export function calculateWheelPricing(input: PricingInput): PricingBreakdown | n
     supplierUsdPerWheel: row.usdPerWheel,
     supplierUsdPerSet,
     convertedWheelCostAud,
-    baseShippingAud,
-    shippingSurchargeAud,
-    shippingAud,
-    landedCostAud,
-    wheelRrpIncGstAudPerSet,
-    shippingRrpIncGstAudPerSet,
+    standardShippingIncludedAud,
     baseSellPriceExGstAud,
     baseGstAud,
+    regularBaseRrpIncGstAudPerSet,
     baseRrpIncGstAudPerSet,
+    saleSavingsAud,
+    expressShippingIncGstAud,
     addOns,
     fixedAddOnsRrpIncGstAud,
     hasPriceOnRequestAddOn: addOns.some((addOn) => addOn.priceOnRequest),
@@ -184,13 +180,14 @@ export type PriceRange = {
   maxPerWheel: number;
   minPerSet: number;
   maxPerSet: number;
+  regularMinPerSet: number;
+  regularMaxPerSet: number;
 };
 
 export function priceRangeForSeries(
   series: string,
   minDiameter?: number,
   maxDiameter?: number,
-  state: DeliveryState = "OTHER",
 ): PriceRange | null {
   const construction = constructionFromSeries(series);
   if (!construction) return null;
@@ -204,7 +201,7 @@ export function priceRangeForSeries(
       diameter: row.diameter,
       width: row.widthKey,
       addOns: [],
-      state,
+      expressShipping: false,
       currency: "AUD",
     }))
     .filter((price) => price !== null);
@@ -215,6 +212,8 @@ export function priceRangeForSeries(
     maxPerWheel: Math.max(...prices.map((price) => price.totalRrpIncGstAudPerWheel)),
     minPerSet: Math.min(...prices.map((price) => price.totalRrpIncGstAudPerSet)),
     maxPerSet: Math.max(...prices.map((price) => price.totalRrpIncGstAudPerSet)),
+    regularMinPerSet: Math.min(...prices.map((price) => price.regularBaseRrpIncGstAudPerSet)),
+    regularMaxPerSet: Math.max(...prices.map((price) => price.regularBaseRrpIncGstAudPerSet)),
   };
 }
 
@@ -222,7 +221,6 @@ export function priceForDiameter(
   series: string,
   diameter: number,
   width?: string | number,
-  state: DeliveryState = "OTHER",
 ): number | null {
   const construction = constructionFromSeries(series);
   if (!construction) return null;
@@ -235,15 +233,37 @@ export function priceForDiameter(
     diameter,
     width: row.widthKey,
     addOns: [],
-    state,
+    expressShipping: false,
     currency: "AUD",
   })?.totalRrpIncGstAudPerWheel ?? null;
+}
+
+export function regularPriceForDiameter(
+  series: string,
+  diameter: number,
+  width?: string | number,
+): number | null {
+  const construction = constructionFromSeries(series);
+  if (!construction) return null;
+  const row = width === undefined
+    ? getWidthOptions(construction, diameter)[0]
+    : findWheelPriceRow(construction, diameter, width);
+  if (!row) return null;
+  const pricing = calculateWheelPricing({
+    construction,
+    diameter,
+    width: row.widthKey,
+    addOns: [],
+    expressShipping: false,
+    currency: "AUD",
+  });
+  return pricing ? pricing.regularBaseRrpIncGstAudPerSet / 4 : null;
 }
 
 export function addOnRrpIncGstAudPerSet(id: AddOnId): number | null {
   const addOn = WHEEL_ADD_ONS.find((item) => item.id === id);
   if (!addOn || addOn.usdPerWheel === null) return null;
-  return markedUpIncGst(addOn.usdPerWheel * 4 * WHEEL_PRICING_CONFIG.fxRate);
+  return addOnRetailIncGstAud(addOn.usdPerWheel * 4 * WHEEL_PRICING_CONFIG.fxRate);
 }
 
 export function formatPrice(amount: number, currency: PricingCurrency = "AUD"): string {

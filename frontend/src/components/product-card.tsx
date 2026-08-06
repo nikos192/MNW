@@ -15,11 +15,15 @@ export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps
   const primaryPrice = tierRange
     ? `From AUD ${formatAud(tierRange.minPerSet)} / set inc. GST`
     : product.price.replace(/^From\s*/i, "");
+  const regularPrice = tierRange
+    ? `AUD ${formatAud(tierRange.regularMinPerSet)}`
+    : null;
 
   return (
     <article className={styles.card} data-reveal>
       <Link className={styles.link} href={`/shop/${product.handle}`}>
         <div className={styles.media}>
+          <span className={styles.saleBadge}>10% off</span>
           {product.images[0] ? (
             <>
               <Image
@@ -27,7 +31,7 @@ export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps
                 className={`${styles.image} ${styles.primary}`}
                 loading={imageLoading}
                 src={product.images[0].url}
-                sizes="(max-width: 1024px) 50vw, 33vw"
+                sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 width={1200}
                 height={1200}
               />
@@ -37,7 +41,7 @@ export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps
                   className={`${styles.image} ${styles.secondary}`}
                   loading={imageLoading}
                   src={secondaryImage}
-                  sizes="(max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   width={1200}
                   height={1200}
                 />
@@ -49,8 +53,21 @@ export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps
         </div>
 
         <div className={styles.meta}>
+          <div className={styles.metaTopline}>
+            <p className={styles.series}>
+              {product.series === "2-Piece Forged" ? "Two-piece forged" : "Monoblock forged"}
+            </p>
+            <span className={styles.arrow} aria-hidden="true">↗</span>
+          </div>
           <h3 className={styles.title}>{product.title}</h3>
-          <p className={styles.price}>{primaryPrice}</p>
+          <p className={styles.description}>{product.shortDescription}</p>
+          <div className={styles.cardFooter}>
+            <div className={styles.priceGroup}>
+              {regularPrice ? <del className={styles.regularPrice}>{regularPrice}</del> : null}
+              <p className={styles.price}>{primaryPrice}</p>
+            </div>
+            <span className={styles.viewLabel}>View wheel</span>
+          </div>
         </div>
       </Link>
     </article>

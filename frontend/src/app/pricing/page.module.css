@@ -147,6 +147,32 @@
   border-left: 1px solid var(--rule);
 }
 
+.deliveryOptions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--rule);
+  border-left: 1px solid var(--rule);
+}
+
+.includedDelivery {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 62px;
+  padding: 12px 14px;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.includedDelivery strong {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .addOn {
   position: relative;
   display: grid;
@@ -245,6 +271,14 @@
   font-weight: 700;
   line-height: 0.98;
   letter-spacing: -0.02em;
+}
+
+.heroPrice del {
+  width: fit-content;
+  color: rgba(248, 248, 246, 0.58);
+  font-family: var(--font-body), sans-serif;
+  font-size: 17px;
+  line-height: 1.2;
 }
 
 .heroPrice small {
@@ -434,6 +468,7 @@
   .segmented,
   .selectGrid,
   .addOnGrid,
+  .deliveryOptions,
   .inclusions ul {
     grid-template-columns: 1fr;
   }

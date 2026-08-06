@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ConversionLink } from "@/components/conversion-link";
 import type { CatalogProduct, VehicleFitment } from "@/lib/monza-data";
 import { trackMetaEvent } from "@/lib/meta-pixel";
+import { expressAirShippingIncGstAud } from "@/lib/pricing-formulas";
 import {
   CUSTOM_FINISH_PRICE_AUD_PER_WHEEL,
   customFinishOptions,
@@ -18,6 +19,7 @@ import {
   getWidthOptions,
   priceForDiameter,
   priceRangeForSeries,
+  regularPriceForDiameter,
 } from "@/lib/wheel-pricing";
 import styles from "./product-detail-client.module.css";
 
@@ -131,8 +133,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [carModel, setCarModel] = useState("");
   const [carYear, setCarYear] = useState("");
 
-  // Custom finish is the only optional add-on; centre caps come included.
   const [includeCustomFinish, setIncludeCustomFinish] = useState(false);
+  const [includeExpressShipping, setIncludeExpressShipping] = useState(false);
 
   const carModels = carMake && carMake !== "Other" ? Object.keys(vehicleData[carMake] ?? {}) : [];
   const carYears =
@@ -189,15 +191,24 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     ? priceRangeForSeries(product.series, fitment.minDiameter, fitment.maxDiameter)
     : null;
   const activeRange = chassisRange ?? tierRange;
-  const formatRange = (range: { minPerSet: number; maxPerSet: number; minPerWheel: number; maxPerWheel: number }) => {
+  const formatRange = (range: {
+    minPerSet: number;
+    maxPerSet: number;
+    minPerWheel: number;
+    maxPerWheel: number;
+    regularMinPerSet: number;
+    regularMaxPerSet: number;
+  }) => {
     if (range.minPerSet === range.maxPerSet) {
       return {
-        set: `AUD ${formatAud(range.minPerSet)} / set inc. GST & delivery`,
+        set: `AUD ${formatAud(range.minPerSet)} / set inc. GST & free standard shipping`,
+        regularSet: `AUD ${formatAud(range.regularMinPerSet)}`,
         wheel: `AUD ${formatAud(range.minPerWheel)} per wheel`,
       };
     }
     return {
-      set: `AUD ${formatAud(range.minPerSet)} – ${formatAud(range.maxPerSet)} / set inc. GST & delivery`,
+      set: `AUD ${formatAud(range.minPerSet)} – ${formatAud(range.maxPerSet)} / set inc. GST & free standard shipping`,
+      regularSet: `AUD ${formatAud(range.regularMinPerSet)} – ${formatAud(range.regularMaxPerSet)}`,
       wheel: `AUD ${formatAud(range.minPerWheel)} – ${formatAud(range.maxPerWheel)} per wheel`,
     };
   };
@@ -246,6 +257,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       "centre caps incl.",
       isStaggered ? "staggered" : null,
       includeCustomFinish && isOnePiece ? "custom finish" : null,
+      includeExpressShipping ? "express air shipping" : "free standard shipping",
     ].filter(Boolean);
     const quotedPrice = estimatedTotal !== null
       ? `Est. AUD ${formatAud(estimatedTotal)} / set (${estimateExtras.join(", ")})`
@@ -296,15 +308,31 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const rearPerWheelPrice = Number.isFinite(rearDiameterNum)
     ? priceForDiameter(product.series, rearDiameterNum, activeWidthRear)
     : null;
+  const regularFrontPerWheelPrice = Number.isFinite(frontDiameterNum)
+    ? regularPriceForDiameter(product.series, frontDiameterNum, activeWidthFront)
+    : null;
+  const regularRearPerWheelPrice = Number.isFinite(rearDiameterNum)
+    ? regularPriceForDiameter(product.series, rearDiameterNum, activeWidthRear)
+    : null;
   // Square fitment uses the front price × 4. Staggered = 2 × front + 2 × rear.
   const wheelOnlySubtotal = (() => {
     if (!isStaggered) return frontPerWheelPrice !== null ? frontPerWheelPrice * 4 : null;
     if (frontPerWheelPrice === null || rearPerWheelPrice === null) return null;
     return frontPerWheelPrice * 2 + rearPerWheelPrice * 2;
   })();
+  const regularWheelSubtotal = (() => {
+    if (!isStaggered) {
+      return regularFrontPerWheelPrice !== null ? regularFrontPerWheelPrice * 4 : null;
+    }
+    if (regularFrontPerWheelPrice === null || regularRearPerWheelPrice === null) return null;
+    return regularFrontPerWheelPrice * 2 + regularRearPerWheelPrice * 2;
+  })();
   const customFinishSubtotal = includeCustomFinish && isOnePiece ? CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4 : 0;
+  const expressShippingSubtotal = includeExpressShipping
+    ? expressAirShippingIncGstAud()
+    : 0;
   const estimatedTotal = wheelOnlySubtotal !== null
-    ? wheelOnlySubtotal + customFinishSubtotal
+    ? wheelOnlySubtotal + customFinishSubtotal + expressShippingSubtotal
     : null;
 
   return (
@@ -377,6 +405,12 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             <div className={styles.detailHead}>
               <p className={`label ${styles.series}`}>{product.series}</p>
               <h1 className={styles.title}>{product.title}</h1>
+              {formattedActiveRange ? (
+                <div className={styles.salePriceMeta}>
+                  <span>10% off wheel sets</span>
+                  <del>{formattedActiveRange.regularSet}</del>
+                </div>
+              ) : null}
               <p className={styles.price}>{headlinePrice}</p>
             </div>
 
@@ -852,6 +886,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                     {isStaggered && rearPerWheelPrice !== null && rearPerWheelPrice !== frontPerWheelPrice
                       ? `AUD ${formatAud(frontPerWheelPrice)} front · AUD ${formatAud(rearPerWheelPrice)} rear per wheel`
                       : `AUD ${formatAud(frontPerWheelPrice)} per wheel`}
+                    {regularWheelSubtotal !== null && wheelOnlySubtotal !== null ? (
+                      <> · <del>AUD {formatAud(regularWheelSubtotal)}</del> · Save AUD {formatAud(regularWheelSubtotal - wheelOnlySubtotal)}</>
+                    ) : null}
                   </p>
                 ) : null}
 
@@ -861,6 +898,28 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                   </span>
                   <span className={styles.estimateIncluded}>Included</span>
                 </div>
+
+                <div className={styles.estimateRow}>
+                  <span className={styles.estimateRowLabel}>Standard shipping</span>
+                  <span className={styles.estimateIncluded}>Free</span>
+                </div>
+
+                <label className={styles.estimateAddon}>
+                  <input
+                    type="checkbox"
+                    checked={includeExpressShipping}
+                    onChange={(event) => setIncludeExpressShipping(event.target.checked)}
+                  />
+                  <span className={styles.estimateAddonText}>
+                    <span className={styles.estimateAddonLabel}>Express Air Shipping</span>
+                    <span className={styles.estimateAddonNote}>
+                      Optional air-freight upgrade over free standard shipping.
+                    </span>
+                  </span>
+                  <span className={styles.estimateRowValue}>
+                    +AUD {formatAud(expressAirShippingIncGstAud())}
+                  </span>
+                </label>
 
                 {isOnePiece ? (
                   <label className={styles.estimateAddon}>
@@ -891,8 +950,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               </div>
 
               <p className={styles.estimateFinePrint}>
-                Indicative only. Includes GST and the conservative all-other-states
-                delivery allowance. Final figure is confirmed after we review the build brief.
+                Indicative only. Includes GST and free standard shipping. Express Air
+                Shipping is optional. Final pricing is confirmed after we review the build brief.
               </p>
             </details>
 

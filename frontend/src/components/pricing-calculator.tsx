@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { ConversionLink } from "@/components/conversion-link";
 import { trackFunnelEvent } from "@/lib/meta-pixel";
+import { expressAirShippingIncGstAud } from "@/lib/pricing-formulas";
 import {
   WHEEL_ADD_ONS,
   WHEEL_PRICING_CONFIG,
   type AddOnId,
   type Construction,
-  type DeliveryState,
   type PricingCurrency,
 } from "@/lib/wheel-pricing-config";
 import {
@@ -30,36 +30,13 @@ const constructionOptions: Array<{
   { value: "2pc", label: "Two-piece", detail: "Forged centre + barrel" },
 ];
 
-const stateOptions: Array<{ value: DeliveryState; label: string; surcharge: number }> = [
-  {
-    value: "VIC",
-    label: "Victoria",
-    surcharge: WHEEL_PRICING_CONFIG.shippingSurchargeAudPerSet.VIC,
-  },
-  {
-    value: "NSW",
-    label: "New South Wales",
-    surcharge: WHEEL_PRICING_CONFIG.shippingSurchargeAudPerSet.NSW,
-  },
-  {
-    value: "QLD",
-    label: "Queensland",
-    surcharge: WHEEL_PRICING_CONFIG.shippingSurchargeAudPerSet.QLD,
-  },
-  {
-    value: "OTHER",
-    label: "All other states",
-    surcharge: WHEEL_PRICING_CONFIG.shippingSurchargeAudPerSet.OTHER,
-  },
-];
-
 export function PricingCalculator() {
   const [construction, setConstruction] = useState<Construction>("monoblock");
   const [diameter, setDiameter] = useState(19);
   const [width, setWidth] = useState("8-13");
-  const [state, setState] = useState<DeliveryState>("OTHER");
   const [currency, setCurrency] = useState<PricingCurrency>("AUD");
   const [addOns, setAddOns] = useState<AddOnId[]>([]);
+  const [expressShipping, setExpressShipping] = useState(false);
 
   const diameters = getDiameterOptions(construction);
   const widths = getWidthOptions(construction, diameter);
@@ -68,7 +45,7 @@ export function PricingCalculator() {
     diameter,
     width,
     addOns,
-    state,
+    expressShipping,
     currency,
   });
 
@@ -111,18 +88,24 @@ export function PricingCalculator() {
   if (!breakdown) return null;
 
   const currencySuffix = currency === "AUD" ? "AUD" : "USD";
-  const wheelRrpDisplay =
-    breakdown.wheelRrpIncGstAudPerSet * breakdown.currencyRateFromAud;
-  const shippingRrpDisplay =
-    breakdown.shippingRrpIncGstAudPerSet * breakdown.currencyRateFromAud;
-  const shippingLabel = stateOptions.find((option) => option.value === state)?.label;
+  const baseRrpDisplay =
+    breakdown.baseRrpIncGstAudPerSet * breakdown.currencyRateFromAud;
+  const regularTotalDisplay = (
+    breakdown.regularBaseRrpIncGstAudPerSet
+    + breakdown.fixedAddOnsRrpIncGstAud
+    + breakdown.expressShippingIncGstAud
+  ) * breakdown.currencyRateFromAud;
+  const expressShippingDisplay =
+    breakdown.expressShippingIncGstAud * breakdown.currencyRateFromAud;
   const quoteParams = new URLSearchParams({
     title: `${construction === "monoblock" ? "Monoblock" : "2-piece"} forged wheel set`,
-    startingPrice: `${formatPrice(breakdown.displayPerSet, currency)} ${currencySuffix} inc. GST and delivery`,
+    startingPrice: `${formatPrice(breakdown.displayPerSet, currency)} ${currencySuffix} inc. GST`,
     diameter: `${diameter}"`,
     width: breakdown.row.widthLabel,
     notes: [
-      `Delivery: ${shippingLabel}`,
+      expressShipping
+        ? "Delivery: Express Air Shipping upgrade"
+        : "Delivery: Free standard shipping",
       addOns.length > 0
         ? `Upgrades: ${breakdown.addOns.map((addOn) => addOn.name).join(", ")}`
         : "",
@@ -197,35 +180,37 @@ export function PricingCalculator() {
             <div>
               <p className={styles.controlLabel}>Delivery</p>
               <p className={styles.controlHint}>
-                Select the delivery state for an accurate delivered total.
+                Standard shipping is included. Upgrade only if you need air freight.
               </p>
             </div>
           </div>
-          <label className={styles.field}>
-            <span>Delivery state</span>
-            <select
-              value={state}
-              onChange={(event) => {
-                const nextState = event.target.value as DeliveryState;
-                setState(nextState);
-                trackFunnelEvent("PricingConfiguration", {
-                  field: "delivery_state",
-                  value: nextState,
-                });
-              }}
-            >
-              {stateOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          {state === "OTHER" ? (
-            <p className={styles.defaultNote}>
-              Conservative default selected. Choose VIC, NSW, or QLD if applicable.
-            </p>
-          ) : null}
+          <div className={styles.deliveryOptions}>
+            <div className={styles.includedDelivery}>
+              <span>Standard shipping</span>
+              <strong>Free</strong>
+            </div>
+            <label className={styles.addOn} data-active={expressShipping}>
+              <input
+                checked={expressShipping}
+                onChange={(event) => {
+                  setExpressShipping(event.target.checked);
+                  trackFunnelEvent("PricingConfiguration", {
+                    field: "express_shipping",
+                    value: event.target.checked,
+                  });
+                }}
+                type="checkbox"
+              />
+              <span className={styles.checkmark} aria-hidden="true" />
+              <span className={styles.addOnName}>Express Air Shipping</span>
+              <span className={styles.addOnPrice}>
+                +{formatPrice(
+                  expressAirShippingIncGstAud() * breakdown.currencyRateFromAud,
+                  currency,
+                )}
+              </span>
+            </label>
+          </div>
         </div>
 
         <div className={styles.controlSection}>
@@ -268,14 +253,15 @@ export function PricingCalculator() {
         <div>
           <p className={styles.resultEyebrow}>Live RRP · GST included</p>
           <p className={styles.resultSpec}>
-            {diameter}&quot; · {breakdown.row.widthLabel} · {shippingLabel}
+            {diameter}&quot; · {breakdown.row.widthLabel} · {expressShipping ? "Express air" : "Free standard shipping"}
           </p>
         </div>
 
         <div className={styles.heroPrice}>
-          <span>Set of four</span>
+          <span>10% off · set of four</span>
+          <del>{formatPrice(regularTotalDisplay, currency)}</del>
           <strong>{formatPrice(breakdown.displayPerSet, currency)}</strong>
-          <small>{currencySuffix} · includes delivery and GST</small>
+          <small>{currencySuffix} · includes GST and free standard shipping</small>
         </div>
 
         <div className={styles.perWheel}>
@@ -284,16 +270,22 @@ export function PricingCalculator() {
         </div>
 
         <details className={styles.breakdownDisclosure}>
-          <summary>How this delivered price is calculated</summary>
+          <summary>Price summary</summary>
           <div className={styles.breakdown}>
           <div>
-            <span>Wheel set</span>
-            <span>{formatPrice(wheelRrpDisplay, currency)}</span>
+            <span>Wheel set · sale price</span>
+            <span>{formatPrice(baseRrpDisplay, currency)}</span>
           </div>
           <div>
-            <span>Delivered to {shippingLabel}</span>
-            <span>{formatPrice(shippingRrpDisplay, currency)}</span>
+            <span>Standard shipping</span>
+            <span>Free</span>
           </div>
+          {expressShipping ? (
+            <div>
+              <span>Express Air Shipping</span>
+              <span>+{formatPrice(expressShippingDisplay, currency)}</span>
+            </div>
+          ) : null}
           {breakdown.addOns.map((addOn) => (
             <div key={addOn.id}>
               <span>{addOn.name}</span>
@@ -348,7 +340,7 @@ export function PricingCalculator() {
         <ConversionLink
           className={`button-primary ${styles.quoteButton}`}
           eventName="PricingQuoteClick"
-          eventSource={`${construction}_${diameter}_${state}`}
+          eventSource={`${construction}_${diameter}_${expressShipping ? "express" : "standard"}`}
           href={quoteHref}
         >
           Request this specification

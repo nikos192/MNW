@@ -11,15 +11,11 @@ export function MobileQuoteBar() {
 
   return (
     <div className={styles.bar}>
-      <div>
-        <strong>Your design. Your fitment.</strong>
-        <span>Upload an idea to begin</span>
-      </div>
       <ConversionLink
         eventSource="mobile_sticky_bar"
         href="/contact?design=custom"
       >
-        Get a quote
+        Save 10% <span aria-hidden="true">↗</span>
       </ConversionLink>
     </div>
   );
