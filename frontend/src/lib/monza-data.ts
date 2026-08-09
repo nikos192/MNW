@@ -1008,6 +1008,7 @@ function buildNamedProduct(args: {
   shortDescription: string;
   description: string;
   imageFileNames: string[];
+  imageBasePath?: "/products" | "/Wheels";
 }): CatalogProduct {
   const facts = SERIES_FACTS[args.series];
   const tierRange = priceRangeForSeries(args.series);
@@ -1025,7 +1026,7 @@ function buildNamedProduct(args: {
     price,
     leadTime: facts.leadTime,
     images: args.imageFileNames.map((fileName, index) => ({
-      url: `/products/${encodeURIComponent(fileName)}`,
+      url: `${args.imageBasePath ?? "/products"}/${encodeURIComponent(fileName)}`,
       alt: `${args.title} forged wheel${index === 0 ? "" : ` — view ${index + 1}`}`,
     })),
     finishes: finishOptions,
@@ -1084,6 +1085,146 @@ const namedProducts: CatalogProduct[] = [
       'MW-22 "Lesmo" 2.jpeg',
       'MW-22 "Lesmo" 3.jpeg',
     ],
+  }),
+  buildNamedProduct({
+    handle: "MW-12",
+    title: 'MW-12 "Roggia"',
+    series: "1-Piece Forged",
+    shortDescription: "A directional split-spoke monoblock with a sharply machined outer edge.",
+    description:
+      'MW-12 "Roggia" brings a directional split-spoke face to the MonzaWheels monoblock library. Ten angular spokes sweep into a deeply relieved centre, while the machined perimeter keeps the profile light and technical. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1A.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-13",
+    title: 'MW-13 "Parabolica"',
+    series: "1-Piece Forged",
+    shortDescription: "A fine split-ten-spoke design with long, tensioned lines and subtle concavity.",
+    description:
+      'MW-13 "Parabolica" uses ten fine split spokes to draw the eye from the hub to the rim in one continuous movement. Its long machined edges and restrained concavity create an elegant motorsport profile without visual weight. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1B.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-14",
+    title: 'MW-14 "Curva Grande"',
+    series: "1-Piece Forged",
+    shortDescription: "A sculpted twin-five-spoke monoblock with open brake visibility.",
+    description:
+      'MW-14 "Curva Grande" is shaped around five broad spoke pairs that fork cleanly toward the outer rim. Deep pockets around the hub and generous openings expose the brake package while giving the face a planted, structural stance. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1C.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-15",
+    title: 'MW-15 "Variante"',
+    series: "1-Piece Forged",
+    shortDescription: "A dense multi-spoke monoblock with a classic competition rhythm.",
+    description:
+      'MW-15 "Variante" translates a classic endurance-racing mesh into a clean forged monoblock. Closely spaced spokes, a stepped outer edge, and a compact centre create a precise, mechanical read suited to both modern and period-inspired builds. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1D.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-16",
+    title: 'MW-16 "Tamburello"',
+    series: "1-Piece Forged",
+    shortDescription: "A lightweight ten-spoke face defined by crisp channels and open geometry.",
+    description:
+      'MW-16 "Tamburello" pairs ten slender spokes with crisp recessed channels that sharpen the face without adding visual mass. The open windows and gentle concavity make the design feel fast at rest and leave the brake hardware fully visible. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1E.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-17",
+    title: 'MW-17 "Rivazza"',
+    series: "1-Piece Forged",
+    shortDescription: "A skeletal split-five-spoke monoblock with pronounced directional tension.",
+    description:
+      'MW-17 "Rivazza" uses five sharply divided spokes to create a skeletal, high-performance face. Deeply machined junctions and asymmetric windows pull the design outward, giving the wheel a strong directional character and generous brake clearance. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1F.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-18",
+    title: 'MW-18 "Acque Minerali"',
+    series: "1-Piece Forged",
+    shortDescription: "A deep-concave ten-spoke monoblock with a dark, machined-face finish.",
+    description:
+      'MW-18 "Acque Minerali" combines ten slender spokes with a pronounced drop into the centre bowl. A dark finish and fine machined edges emphasise the concavity, producing a technical silhouette with a restrained motorsport character. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1g.PNG"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-19",
+    title: 'MW-19 "Tosa"',
+    series: "1-Piece Forged",
+    shortDescription: "A fine multi-spoke monoblock with a warm satin finish and stepped rim.",
+    description:
+      'MW-19 "Tosa" is built around a dense field of fine spokes that meet a subtly stepped outer rim. The warm satin finish and restrained centre bowl give the design an elegant touring character while retaining clear competition influence. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1h.PNG"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-110",
+    title: 'MW-110 "Piratella"',
+    series: "1-Piece Forged",
+    shortDescription: "A bold five-spoke monoblock with broad surfaces and a deep gloss finish.",
+    description:
+      'MW-20 "Piratella" reduces the monoblock form to five broad spokes and a clean, uninterrupted centre. Strong planar surfaces, softened spoke roots, and a deep gloss finish create a deliberately simple wheel with substantial visual presence. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1i.PNG"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-23",
+    title: 'MW-23 "San Donato"',
+    series: "2-Piece Forged",
+    shortDescription: "An intricate mesh centre paired with exposed hardware and a polished step lip.",
+    description:
+      'MW-23 "San Donato" brings an intricate cross-laced mesh centre to the MonzaWheels 2-piece library. Exposed assembly hardware and a deep polished step lip frame the dense forged face, creating a layered, technical profile with strong heritage influence. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["2A.PNG"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-24",
+    title: 'MW-24 "Casanova"',
+    series: "2-Piece Forged",
+    shortDescription: "A directional split-five centre set inside a deep polished barrel.",
+    description:
+      'MW-24 "Casanova" sets a sharply directional split-five centre inside a deep polished barrel. The slender spoke tips overlap the exposed fastener line, adding movement and depth while keeping the brake package open to view. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["2B.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-25",
+    title: 'MW-25 "Savelli"',
+    series: "2-Piece Forged",
+    shortDescription: "A fluid five-spoke centre with sculpted surfaces and a mirror-polished lip.",
+    description:
+      'MW-25 "Savelli" shapes five broad spokes into a fluid, almost turbine-like forged centre. The dark reflective face rolls into a polished outer lip and exposed hardware, balancing a clean five-spoke layout with the depth of 2-piece construction. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["2c.PNG"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-26",
+    title: 'MW-26 "Arrabbiata"',
+    series: "2-Piece Forged",
+    shortDescription: "A muscular five-spoke centre contrasted against a polished deep-dish barrel.",
+    description:
+      'MW-26 "Arrabbiata" pairs a muscular five-spoke centre with the pronounced depth of a polished 2-piece barrel. Broad bronze faces, exposed perimeter hardware, and a simple hub treatment give the design a purposeful GT-era stance. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["2d.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-27",
+    title: 'MW-27 "Bucine"',
+    series: "2-Piece Forged",
+    shortDescription: "A fine radial multi-spoke centre framed by a polished step lip.",
+    description:
+      'MW-27 "Bucine" uses a fine radial multi-spoke centre to create a clean, almost continuous sweep around the wheel face. The bright forged centre, exposed fasteners, and polished step lip deliver a precise touring profile with unmistakable multi-piece depth. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["2e.png"],
+    imageBasePath: "/Wheels",
   }),
 ];
 

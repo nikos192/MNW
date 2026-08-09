@@ -3,3 +3,5 @@
 # Customer form exports / internal PDFs — never commit accidentally
 *.pdf
 CUSTOMER-*
+.vercel
+.env*

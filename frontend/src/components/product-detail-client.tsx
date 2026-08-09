@@ -19,7 +19,6 @@ import {
   getWidthOptions,
   priceForDiameter,
   priceRangeForSeries,
-  regularPriceForDiameter,
 } from "@/lib/wheel-pricing";
 import styles from "./product-detail-client.module.css";
 
@@ -196,19 +195,15 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     maxPerSet: number;
     minPerWheel: number;
     maxPerWheel: number;
-    regularMinPerSet: number;
-    regularMaxPerSet: number;
   }) => {
     if (range.minPerSet === range.maxPerSet) {
       return {
         set: `AUD ${formatAud(range.minPerSet)} / set inc. GST & free standard shipping`,
-        regularSet: `AUD ${formatAud(range.regularMinPerSet)}`,
         wheel: `AUD ${formatAud(range.minPerWheel)} per wheel`,
       };
     }
     return {
       set: `AUD ${formatAud(range.minPerSet)} – ${formatAud(range.maxPerSet)} / set inc. GST & free standard shipping`,
-      regularSet: `AUD ${formatAud(range.regularMinPerSet)} – ${formatAud(range.regularMaxPerSet)}`,
       wheel: `AUD ${formatAud(range.minPerWheel)} – ${formatAud(range.maxPerWheel)} per wheel`,
     };
   };
@@ -308,24 +303,11 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const rearPerWheelPrice = Number.isFinite(rearDiameterNum)
     ? priceForDiameter(product.series, rearDiameterNum, activeWidthRear)
     : null;
-  const regularFrontPerWheelPrice = Number.isFinite(frontDiameterNum)
-    ? regularPriceForDiameter(product.series, frontDiameterNum, activeWidthFront)
-    : null;
-  const regularRearPerWheelPrice = Number.isFinite(rearDiameterNum)
-    ? regularPriceForDiameter(product.series, rearDiameterNum, activeWidthRear)
-    : null;
   // Square fitment uses the front price × 4. Staggered = 2 × front + 2 × rear.
   const wheelOnlySubtotal = (() => {
     if (!isStaggered) return frontPerWheelPrice !== null ? frontPerWheelPrice * 4 : null;
     if (frontPerWheelPrice === null || rearPerWheelPrice === null) return null;
     return frontPerWheelPrice * 2 + rearPerWheelPrice * 2;
-  })();
-  const regularWheelSubtotal = (() => {
-    if (!isStaggered) {
-      return regularFrontPerWheelPrice !== null ? regularFrontPerWheelPrice * 4 : null;
-    }
-    if (regularFrontPerWheelPrice === null || regularRearPerWheelPrice === null) return null;
-    return regularFrontPerWheelPrice * 2 + regularRearPerWheelPrice * 2;
   })();
   const customFinishSubtotal = includeCustomFinish && isOnePiece ? CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4 : 0;
   const expressShippingSubtotal = includeExpressShipping
@@ -405,12 +387,6 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             <div className={styles.detailHead}>
               <p className={`label ${styles.series}`}>{product.series}</p>
               <h1 className={styles.title}>{product.title}</h1>
-              {formattedActiveRange ? (
-                <div className={styles.salePriceMeta}>
-                  <span>10% off wheel sets</span>
-                  <del>{formattedActiveRange.regularSet}</del>
-                </div>
-              ) : null}
               <p className={styles.price}>{headlinePrice}</p>
             </div>
 
@@ -886,9 +862,6 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                     {isStaggered && rearPerWheelPrice !== null && rearPerWheelPrice !== frontPerWheelPrice
                       ? `AUD ${formatAud(frontPerWheelPrice)} front · AUD ${formatAud(rearPerWheelPrice)} rear per wheel`
                       : `AUD ${formatAud(frontPerWheelPrice)} per wheel`}
-                    {regularWheelSubtotal !== null && wheelOnlySubtotal !== null ? (
-                      <> · <del>AUD {formatAud(regularWheelSubtotal)}</del> · Save AUD {formatAud(regularWheelSubtotal - wheelOnlySubtotal)}</>
-                    ) : null}
                   </p>
                 ) : null}
 

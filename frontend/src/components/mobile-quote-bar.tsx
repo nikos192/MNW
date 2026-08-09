@@ -15,7 +15,7 @@ export function MobileQuoteBar() {
         eventSource="mobile_sticky_bar"
         href="/contact?design=custom"
       >
-        Save 10% <span aria-hidden="true">↗</span>
+        Design your wheel <span aria-hidden="true">↗</span>
       </ConversionLink>
     </div>
   );

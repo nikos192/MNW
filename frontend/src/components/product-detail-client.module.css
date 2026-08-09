@@ -117,30 +117,6 @@
   color: #b42318;
 }
 
-.salePriceMeta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-  margin-top: 4px;
-}
-
-.salePriceMeta span {
-  padding: 5px 8px;
-  background: #b42318;
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.salePriceMeta del {
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-
 .selectionSteps span {
   display: inline-grid;
   place-items: center;

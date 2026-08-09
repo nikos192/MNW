@@ -142,6 +142,38 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
             </div>
           </div>
         </section>
+
+        <section className={styles.ctaSection}>
+          <div className={`${styles.ctaPanel} container`}>
+            <div>
+              <p className="label">Custom design program</p>
+              <h2 className={styles.sectionTitle}>Can&apos;t find what you&apos;re looking for?</h2>
+              <p className={styles.note}>
+                Bring us a sketch, reference or idea and we can develop a one-off
+                forged wheel around your vehicle and fitment.
+              </p>
+            </div>
+            <Link className="button-outline" href="/contact?design=custom">
+              Start a custom enquiry
+            </Link>
+          </div>
+        </section>
+
+        <section className={styles.ctaSection}>
+          <div className={`${styles.ctaPanel} container`}>
+            <div>
+              <p className="label">Custom design program</p>
+              <h2 className={styles.sectionTitle}>Can&apos;t find what you&apos;re looking for?</h2>
+              <p className={styles.note}>
+                Bring us a sketch, reference or idea and we can develop a one-off
+                forged design around your chassis, fitment and finish direction.
+              </p>
+            </div>
+            <Link className="button-outline" href="/contact?design=custom">
+              Start a custom enquiry
+            </Link>
+          </div>
+        </section>
       </main>
     </>
   );

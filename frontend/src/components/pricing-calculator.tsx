@@ -90,11 +90,6 @@ export function PricingCalculator() {
   const currencySuffix = currency === "AUD" ? "AUD" : "USD";
   const baseRrpDisplay =
     breakdown.baseRrpIncGstAudPerSet * breakdown.currencyRateFromAud;
-  const regularTotalDisplay = (
-    breakdown.regularBaseRrpIncGstAudPerSet
-    + breakdown.fixedAddOnsRrpIncGstAud
-    + breakdown.expressShippingIncGstAud
-  ) * breakdown.currencyRateFromAud;
   const expressShippingDisplay =
     breakdown.expressShippingIncGstAud * breakdown.currencyRateFromAud;
   const quoteParams = new URLSearchParams({
@@ -258,8 +253,7 @@ export function PricingCalculator() {
         </div>
 
         <div className={styles.heroPrice}>
-          <span>10% off · set of four</span>
-          <del>{formatPrice(regularTotalDisplay, currency)}</del>
+          <span>Set of four</span>
           <strong>{formatPrice(breakdown.displayPerSet, currency)}</strong>
           <small>{currencySuffix} · includes GST and free standard shipping</small>
         </div>
@@ -273,7 +267,7 @@ export function PricingCalculator() {
           <summary>Price summary</summary>
           <div className={styles.breakdown}>
           <div>
-            <span>Wheel set · sale price</span>
+            <span>Wheel set</span>
             <span>{formatPrice(baseRrpDisplay, currency)}</span>
           </div>
           <div>

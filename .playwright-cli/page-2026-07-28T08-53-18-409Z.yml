@@ -1,0 +1,204 @@
+- generic [ref=e1]:
+  - link "Skip to content":
+    - /url: "#main-content"
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic:
+        - paragraph [ref=e5]:
+          - generic [ref=e6]: Australian forged wheels
+          - generic [ref=e7]: ·
+          - generic [ref=e8]: Built to order
+        - generic [ref=e9]:
+          - link "MonzaWheels Instagram" [ref=e10] [cursor=pointer]:
+            - /url: https://www.instagram.com/monzawheels_/
+          - link "Design your wheel" [ref=e15] [cursor=pointer]:
+            - /url: /contact?design=custom
+    - generic [ref=e17]:
+      - navigation "Primary navigation left" [ref=e19]:
+        - list [ref=e20]:
+          - listitem [ref=e21]:
+            - link "Wheels" [ref=e22] [cursor=pointer]:
+              - /url: /shop
+          - listitem [ref=e23]:
+            - link "Finishes" [ref=e24] [cursor=pointer]:
+              - /url: /finishes
+      - link "MonzaWheels homepage" [ref=e25] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e26]: MonzaWheels
+      - navigation "Primary navigation right" [ref=e28]:
+        - list [ref=e29]:
+          - listitem [ref=e30]:
+            - link "Fitment Check" [ref=e31] [cursor=pointer]:
+              - /url: /fitment-tool
+          - listitem [ref=e32]:
+            - link "Custom Quote" [ref=e33] [cursor=pointer]:
+              - /url: /contact?design=custom
+  - main [ref=e35]:
+    - generic [ref=e37]:
+      - paragraph [ref=e38]: Finish library
+      - heading "See the finish. Compare the character." [level=1] [ref=e39]
+      - paragraph [ref=e40]: Explore every current surface program on the same wheel form. Filter by colour family, compare two directions, then send the preferred finish with your quote request.
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - term [ref=e43]: "24"
+          - definition [ref=e44]: Current finish directions
+        - generic [ref=e45]:
+          - term [ref=e46]: "2"
+          - definition [ref=e47]: Finishes compared side by side
+        - generic [ref=e48]:
+          - term [ref=e49]: "1"
+          - definition [ref=e50]: Final finish approved before production
+    - generic [ref=e52]:
+      - generic [ref=e53]:
+        - paragraph [ref=e54]: Choose a direction
+        - heading "One wheel. Twenty-four different reads." [level=2] [ref=e55]
+        - paragraph [ref=e56]: Screen colour is indicative. Final colour, sheen and any additional treatment cost are confirmed with the complete wheel specification.
+      - generic [ref=e57]:
+        - group "Filter finishes" [ref=e58]:
+          - button "All" [ref=e59] [cursor=pointer]
+          - button "Dark" [active] [pressed] [ref=e60] [cursor=pointer]
+          - button "Silver & Clear" [ref=e61] [cursor=pointer]
+          - button "Bronze & Gold" [ref=e62] [cursor=pointer]
+          - button "White" [ref=e63] [cursor=pointer]
+          - button "Brushed & Polished" [ref=e64] [cursor=pointer]
+        - generic [ref=e65]:
+          - generic "Dark finishes" [ref=e351]:
+            - article [ref=e107]:
+              - button "Preview Frozen Stone Dark Clear" [ref=e108] [cursor=pointer]:
+                - img "Frozen Stone Dark Clear forged wheel finish" [ref=e110]
+                - generic [ref=e111]:
+                  - strong [ref=e112]: Frozen Stone Dark Clear
+                  - generic [ref=e113]: Dark
+              - button "Compare" [ref=e114] [cursor=pointer]
+            - article [ref=e115]:
+              - button "Preview Gloss Black" [ref=e116] [cursor=pointer]:
+                - img "Gloss Black forged wheel finish" [ref=e118]
+                - generic [ref=e119]:
+                  - strong [ref=e120]: Gloss Black
+                  - generic [ref=e121]: Dark
+              - button "Compare" [ref=e122] [cursor=pointer]
+            - article [ref=e131]:
+              - button "Preview Gloss Charcoal" [ref=e132] [cursor=pointer]:
+                - img "Gloss Charcoal forged wheel finish" [ref=e134]
+                - generic [ref=e135]:
+                  - strong [ref=e136]: Gloss Charcoal
+                  - generic [ref=e137]: Dark
+              - button "Compare" [ref=e138] [cursor=pointer]
+            - article [ref=e179]:
+              - button "Preview Satin Black" [ref=e180] [cursor=pointer]:
+                - img "Satin Black forged wheel finish" [ref=e182]
+                - generic [ref=e183]:
+                  - strong [ref=e184]: Satin Black
+                  - generic [ref=e185]: Dark
+              - button "Compare" [ref=e186] [cursor=pointer]
+            - article [ref=e195]:
+              - button "Preview Satin Charcoal" [ref=e196] [cursor=pointer]:
+                - img "Satin Charcoal forged wheel finish" [ref=e198]
+                - generic [ref=e199]:
+                  - strong [ref=e200]: Satin Charcoal
+                  - generic [ref=e201]: Dark
+              - button "Compare" [ref=e202] [cursor=pointer]
+            - article [ref=e243]:
+              - button "Preview Stone Dark Clear" [ref=e244] [cursor=pointer]:
+                - img "Stone Dark Clear forged wheel finish" [ref=e246]
+                - generic [ref=e247]:
+                  - strong [ref=e248]: Stone Dark Clear
+                  - generic [ref=e249]: Dark
+              - button "Compare" [ref=e250] [cursor=pointer]
+            - article [ref=e251]:
+              - button "Preview Textured Black" [ref=e252] [cursor=pointer]:
+                - img "Textured Black forged wheel finish" [ref=e254]
+                - generic [ref=e255]:
+                  - strong [ref=e256]: Textured Black
+                  - generic [ref=e257]: Dark
+              - button "Compare" [ref=e258] [cursor=pointer]
+          - complementary [ref=e259]:
+            - img "Brushed Clear large finish preview" [ref=e261]
+            - generic [ref=e262]:
+              - paragraph [ref=e263]: Selected finish
+              - heading "Brushed Clear" [level=2] [ref=e264]
+              - generic [ref=e265]:
+                - generic [ref=e266]:
+                  - term [ref=e267]: Visual character
+                  - definition [ref=e268]: Visible directional grain that reveals the spoke geometry without a mirror finish.
+                - generic [ref=e269]:
+                  - term [ref=e270]: Pairs well with
+                  - definition [ref=e271]: A versatile technical finish for dark, neutral and metallic vehicle colours.
+                - generic [ref=e272]:
+                  - term [ref=e273]: Care
+                  - definition [ref=e274]: Use pH-neutral wheel cleaner and wipe with the grain. Avoid abrasive compounds and aggressive brushes.
+                - generic [ref=e275]:
+                  - term [ref=e276]: Pricing
+                  - definition [ref=e277]: Brushed treatment · additional-cost finish
+              - link "Request Brushed Clear" [ref=e278] [cursor=pointer]:
+                - /url: /contact?finish=Brushed+Clear&notes=Preferred+finish%3A+Brushed+Clear
+    - generic [ref=e280]:
+      - generic [ref=e281]:
+        - paragraph [ref=e282]: Beyond the library
+        - heading "Paint code, two-tone or a completely custom direction." [level=2] [ref=e283]
+      - generic [ref=e284]:
+        - paragraph [ref=e285]: Bring a vehicle paint code, sample, reference image or surface combination. Custom paint, dual-tone treatment, chrome and special polishing are priced with the final specification.
+        - list [ref=e286]:
+          - listitem [ref=e287]:
+            - generic [ref=e288]: "01"
+            - text: Choose a library finish or send a reference
+          - listitem [ref=e289]:
+            - generic [ref=e290]: "02"
+            - text: We confirm feasibility, treatment and pricing
+          - listitem [ref=e291]:
+            - generic [ref=e292]: "03"
+            - text: You approve the finish direction before production
+  - contentinfo [ref=e293]:
+    - generic [ref=e294]:
+      - generic [ref=e295]:
+        - generic [ref=e296]:
+          - link "MonzaWheels Instagram" [ref=e297] [cursor=pointer]:
+            - /url: https://www.instagram.com/monzawheels_/
+          - link "MonzaWheels Facebook" [ref=e302] [cursor=pointer]:
+            - /url: https://facebook.com/monzawheels
+        - link "MonzaWheels homepage" [ref=e305] [cursor=pointer]:
+          - /url: /
+          - img "MonzaWheels" [ref=e307]
+        - link "Custom Design Quote" [ref=e309] [cursor=pointer]:
+          - /url: /contact?design=custom
+      - generic [ref=e310]:
+        - generic [ref=e311]:
+          - paragraph [ref=e312]: Build
+          - generic [ref=e313]:
+            - link "Wheels" [ref=e314] [cursor=pointer]:
+              - /url: /shop
+            - link "Monoblock" [ref=e315] [cursor=pointer]:
+              - /url: /collections/monoblock
+            - link "Multi-Piece" [ref=e316] [cursor=pointer]:
+              - /url: /collections/multi-piece
+        - generic [ref=e317]:
+          - paragraph [ref=e318]: Proof
+          - generic [ref=e319]:
+            - link "Finishes" [ref=e320] [cursor=pointer]:
+              - /url: /finishes
+            - link "Pricing" [ref=e321] [cursor=pointer]:
+              - /url: /pricing
+        - generic [ref=e322]:
+          - paragraph [ref=e323]: Support
+          - generic [ref=e324]:
+            - link "Custom Design Quote" [ref=e325] [cursor=pointer]:
+              - /url: /contact?design=custom
+            - link "Warranty" [ref=e326] [cursor=pointer]:
+              - /url: /warranty
+            - link "Fitment Tool" [ref=e327] [cursor=pointer]:
+              - /url: /fitment-tool
+            - link "Privacy Policy" [ref=e328] [cursor=pointer]:
+              - /url: /privacypolicy
+      - generic [ref=e329]:
+        - paragraph [ref=e330]: © 2026 MonzaWheels and Accessories. All rights reserved.
+        - paragraph [ref=e331]: Operations based in Brisbane, Australia
+  - generic [ref=e336] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e337]
+    - generic [ref=e341]:
+      - button "Open issues overlay" [ref=e342]:
+        - generic [ref=e343]:
+          - generic [ref=e344]: "0"
+          - generic [ref=e345]: "1"
+        - generic [ref=e346]: Issue
+      - button "Collapse issues badge" [ref=e347]
+  - alert [ref=e350]

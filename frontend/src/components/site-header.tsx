@@ -110,7 +110,7 @@ export function SiteHeader() {
         <div className={styles.utilityBar}>
           <div className={`${styles.utilityInner} container`}>
             <p className={styles.utilityText}>
-              <span>10% off all wheel sets</span>
+              <span>Made-to-order forged wheels</span>
               <span className={styles.utilityDivider}>·</span>
               <span>Free standard shipping</span>
             </p>
