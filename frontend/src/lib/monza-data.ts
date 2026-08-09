@@ -1167,6 +1167,16 @@ const namedProducts: CatalogProduct[] = [
     imageBasePath: "/Wheels",
   }),
   buildNamedProduct({
+    handle: "MW-111",
+    title: 'MW-111 "Rivazza"',
+    series: "1-Piece Forged",
+    shortDescription: "A machined split-five monoblock with layered spokes and strong directional tension.",
+    description:
+      'MW-111 "Rivazza" builds a sharply layered face from five divided spoke groups. Bright machined edges trace each spoke over deep graphite pockets, creating pronounced direction and generous openings around the brake package. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1j.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
     handle: "MW-23",
     title: 'MW-23 "San Donato"',
     series: "2-Piece Forged",
