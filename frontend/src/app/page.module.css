@@ -136,6 +136,70 @@
     linear-gradient(180deg, rgba(5, 6, 7, 0.18) 0%, rgba(5, 6, 7, 0.04) 38%, rgba(5, 6, 7, 0.8) 100%);
 }
 
+.shippingBanner {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  background: #a51f25;
+  color: #ffffff;
+}
+
+.shippingInner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: clamp(18px, 3vw, 44px);
+  min-height: 82px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+.shippingKicker,
+.shippingDetail,
+.shippingLink {
+  font-family: var(--font-body), sans-serif;
+  text-transform: uppercase;
+}
+
+.shippingKicker {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+}
+
+.shippingHeadline {
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(24px, 2.7vw, 38px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.shippingDetail {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+}
+
+.shippingLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  white-space: nowrap;
+}
+
+.shippingInner:hover .shippingLink,
+.shippingInner:focus-visible .shippingLink {
+  border-bottom-color: #ffffff;
+}
+
 .processSection {
   position: relative;
   min-height: 560px;
@@ -515,6 +579,14 @@
   .sectionHeading {
     font-size: 3.75rem;
   }
+
+  .shippingInner {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .shippingDetail {
+    display: none;
+  }
 }
 
 @media (max-width: 767px) {
@@ -554,6 +626,28 @@
 
   .heroActions :global(.button-outline) {
     display: none;
+  }
+
+  .shippingInner {
+    grid-template-columns: 1fr auto;
+    gap: 7px 20px;
+    min-height: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .shippingKicker {
+    grid-column: 1 / -1;
+  }
+
+  .shippingHeadline {
+    font-size: clamp(23px, 7vw, 30px);
+  }
+
+  .shippingLink {
+    align-self: end;
+    padding-bottom: 2px;
+    font-size: 10px;
   }
 
   .heroVideo {

@@ -10,7 +10,7 @@ import { trackFunnelEvent } from "@/lib/meta-pixel";
 import styles from "./site-header.module.css";
 
 const leftLinks = [
-  { href: "/shop", label: "Wheels" },
+  { href: "/shop", label: "Shop Wheels" },
   { href: "/finishes", label: "Finishes" },
 ];
 
@@ -20,7 +20,7 @@ const rightLinks = [
 ];
 
 const mobileLinks = [
-  { href: "/shop", label: "Wheels" },
+  { href: "/shop", label: "Shop Wheels" },
   { href: "/finishes", label: "Finishes" },
   { href: "/fitment-tool", label: "Fitment Check" },
   { href: "/pricing", label: "Pricing" },
@@ -110,9 +110,9 @@ export function SiteHeader() {
         <div className={styles.utilityBar}>
           <div className={`${styles.utilityInner} container`}>
             <p className={styles.utilityText}>
-              <span>Made-to-order forged wheels</span>
+              <span className={styles.utilityShipping}>Free standard shipping Australia-wide</span>
               <span className={styles.utilityDivider}>·</span>
-              <span>Free standard shipping</span>
+              <span>Made-to-order forged wheels</span>
             </p>
 
             <div className={styles.utilityNav}>

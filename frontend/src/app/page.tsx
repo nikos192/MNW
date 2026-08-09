@@ -81,15 +81,29 @@ export default async function Home() {
             </p>
 
             <div className={styles.heroActions}>
-              <ConversionLink className="button-primary" eventSource="homepage_hero" href="/contact?design=custom">
-                Design Your Wheels
+              <ConversionLink
+                className="button-primary"
+                eventName="CatalogueCtaClick"
+                eventSource="homepage_hero"
+                href="/shop"
+              >
+                Shop All Forged Wheels
               </ConversionLink>
-              <Link className="button-outline" href="/shop">
-                Explore The Collection
-              </Link>
+              <ConversionLink className="button-outline" eventSource="homepage_hero" href="/contact?design=custom">
+                Start A Custom Design
+              </ConversionLink>
             </div>
           </div>
         </div>
+      </section>
+
+      <section className={styles.shippingBanner} aria-label="Shipping offer">
+        <Link className={`${styles.shippingInner} container`} href="/shop">
+          <span className={styles.shippingKicker}>Included with every set</span>
+          <strong className={styles.shippingHeadline}>Free standard shipping Australia-wide</strong>
+          <span className={styles.shippingDetail}>Included in every displayed set price</span>
+          <span className={styles.shippingLink}>Browse wheels <span aria-hidden="true">→</span></span>
+        </Link>
       </section>
 
       <section className={styles.featuredSection}>

@@ -71,6 +71,11 @@
   color: currentColor;
 }
 
+.utilityShipping {
+  color: var(--accent-red);
+  font-weight: 600;
+}
+
 .utilityEmailLink {
   color: inherit;
   text-decoration: none;
