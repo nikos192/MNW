@@ -1137,16 +1137,6 @@ const namedProducts: CatalogProduct[] = [
     imageBasePath: "/Wheels",
   }),
   buildNamedProduct({
-    handle: "MW-17",
-    title: 'MW-17 "Rivazza"',
-    series: "1-Piece Forged",
-    shortDescription: "A skeletal split-five-spoke monoblock with pronounced directional tension.",
-    description:
-      'MW-17 "Rivazza" uses five sharply divided spokes to create a skeletal, high-performance face. Deeply machined junctions and asymmetric windows pull the design outward, giving the wheel a strong directional character and generous brake clearance. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
-    imageFileNames: ["1F.png"],
-    imageBasePath: "/Wheels",
-  }),
-  buildNamedProduct({
     handle: "MW-18",
     title: 'MW-18 "Acque Minerali"',
     series: "1-Piece Forged",
