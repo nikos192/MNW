@@ -12,8 +12,9 @@ type MetaStandardEvent = "Contact" | "Lead" | "CompleteRegistration" | "ViewCont
 export function trackMetaEvent(
   eventName: MetaStandardEvent,
   parameters?: Record<string, string | number | boolean | string[]>,
+  options?: { eventID?: string },
 ) {
-  window.fbq?.("track", eventName, parameters);
+  window.fbq?.("track", eventName, parameters, options);
 }
 
 export function trackFunnelEvent(

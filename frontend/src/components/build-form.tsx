@@ -23,6 +23,7 @@ type QuoteContext = {
   productHandle?: string;
   productTitle?: string;
   startingPrice?: string;
+  quoteType?: "wheel" | "custom";
 };
 
 type BuildFormProps = {
@@ -218,8 +219,10 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
     setSubmitState({ status: "idle", message: "" });
 
     try {
+      const eventId = crypto.randomUUID();
       const payload = {
         quoteContext,
+        tracking: { eventId },
         honeypot: valueFor("website_url"),
         customer: {
           name: valueFor("name"),
@@ -260,12 +263,15 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
         throw new Error(result?.error || "Unable to send quote request right now.");
       }
 
+      const quoteType = quoteContext?.quoteType ?? (quoteContext?.productHandle ? "wheel" : "custom");
       const leadParameters = {
-        content_category: "Custom forged wheel quote",
+        content_category: quoteType === "wheel" ? "Forged wheel quote" : "Custom forged wheel quote",
+        content_ids: quoteContext?.productHandle ? [quoteContext.productHandle] : ["custom-forged-wheel"],
         content_name: quoteContext?.productTitle ?? "Custom design quote",
+        content_type: "product",
+        lead_type: quoteType === "wheel" ? "wheel_quote" : "custom_quote",
       };
-      trackMetaEvent("Lead", leadParameters);
-      trackMetaEvent("Contact", leadParameters);
+      trackMetaEvent("Lead", leadParameters, { eventID: eventId });
       form.reset();
       setNotes(initialNotes);
       setCarMake("");

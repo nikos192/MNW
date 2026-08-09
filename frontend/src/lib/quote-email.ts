@@ -6,7 +6,9 @@ export type QuoteEmailPayload = {
     productHandle?: string;
     productTitle?: string;
     startingPrice?: string;
+    quoteType?: "wheel" | "custom";
   };
+  tracking?: { eventId?: string };
   customer?: {
     name?: string;
     email?: string;

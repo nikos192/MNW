@@ -7,6 +7,7 @@ import {
   type QuoteEmailPayload,
 } from "@/lib/quote-email";
 import { isAllowedFormOrigin } from "@/lib/request-origin";
+import { sendMetaLeadConversion } from "@/lib/meta-conversions";
 
 export const runtime = "nodejs";
 
@@ -71,6 +72,13 @@ function getClientIp(request: Request): string {
   return request.headers.get("x-real-ip") ?? "unknown";
 }
 
+function getCookie(request: Request, name: string) {
+  const cookieHeader = request.headers.get("cookie") ?? "";
+  const prefix = `${name}=`;
+  const cookie = cookieHeader.split(";").map((item) => item.trim()).find((item) => item.startsWith(prefix));
+  return cookie ? decodeURIComponent(cookie.slice(prefix.length)) : undefined;
+}
+
 function tooBig(payload: QuoteRequestBody): string | null {
   // Returns the first oversized field name, or null if all fit.
   const checks: Array<[string | undefined, number, string]> = [
@@ -95,6 +103,7 @@ function tooBig(payload: QuoteRequestBody): string | null {
     [payload.quoteContext?.productTitle, SHORT_CAP, "productTitle"],
     [payload.quoteContext?.productHandle, 100, "productHandle"],
     [payload.quoteContext?.startingPrice, SHORT_CAP, "startingPrice"],
+    [payload.tracking?.eventId, 100, "eventId"],
   ];
   for (const [value, max, field] of checks) {
     if (value !== undefined && value.length > max) return field;
@@ -235,6 +244,29 @@ export async function POST(request: Request) {
         html: customerConfirmation.html,
       }),
     ]);
+
+    const eventId = clean(body.tracking?.eventId);
+    if (eventId) {
+      const quoteType = body.quoteContext?.quoteType ?? (body.quoteContext?.productHandle ? "wheel" : "custom");
+
+      try {
+        await sendMetaLeadConversion({
+          contentIds: [body.quoteContext?.productHandle || "custom-forged-wheel"],
+          contentName: body.quoteContext?.productTitle || "Custom design quote",
+          eventId,
+          eventSourceUrl: request.headers.get("referer") ?? undefined,
+          clientIpAddress: ip,
+          clientUserAgent: request.headers.get("user-agent") ?? undefined,
+          email: customerEmail,
+          phone: clean(body.customer?.phone),
+          fbc: getCookie(request, "_fbc"),
+          fbp: getCookie(request, "_fbp"),
+          leadType: quoteType === "wheel" ? "wheel_quote" : "custom_quote",
+        });
+      } catch (metaError) {
+        console.error("Failed to send Meta Lead conversion:", metaError);
+      }
+    }
 
     return NextResponse.json({ ok: true });
   } catch (error) {

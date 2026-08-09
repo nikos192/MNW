@@ -126,7 +126,10 @@ export default function CustomForgedWheelsPage() {
           <div className={styles.formPanel}>
             <BuildForm
               initialNotes={"Custom design request\n\nDesign direction:\n"}
-              quoteContext={{ productTitle: "Custom forged wheel design" }}
+              quoteContext={{
+                productTitle: "Custom forged wheel design",
+                quoteType: "custom",
+              }}
             />
           </div>
         </div>

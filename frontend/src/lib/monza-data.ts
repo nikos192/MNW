@@ -1216,6 +1216,26 @@ const namedProducts: CatalogProduct[] = [
     imageFileNames: ["2e.png"],
     imageBasePath: "/Wheels",
   }),
+  buildNamedProduct({
+    handle: "MW-28",
+    title: 'MW-28 "Biondetti"',
+    series: "2-Piece Forged",
+    shortDescription: "A near-solid aero disc punctuated by five sculpted windows and a polished deep lip.",
+    description:
+      'MW-28 "Biondetti" gives the classic aero-disc form a technical 2-piece treatment. Five deeply machined perimeter windows break the broad brushed face, while exposed hardware and a mirror-polished step lip add contrast and depth. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["2f.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-29",
+    title: 'MW-29 "Correntaio"',
+    series: "2-Piece Forged",
+    shortDescription: "A full aero face ringed by precision cooling slots and a polished outer barrel.",
+    description:
+      'MW-29 "Correntaio" pairs a clean forged aero face with a ring of precisely machined ventilation slots. The stepped perimeter creates a turbine-like rhythm around the solid centre, framed by the depth and bright edge of a polished 2-piece barrel. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["2g.png"],
+    imageBasePath: "/Wheels",
+  }),
 ];
 
 export const fallbackProducts: CatalogProduct[] = [...namedProducts];

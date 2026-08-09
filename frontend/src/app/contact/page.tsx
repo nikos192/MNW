@@ -104,6 +104,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                 productHandle: params.product,
                 productTitle: params.title,
                 startingPrice: params.startingPrice,
+                quoteType: isCustomDesign || !params.product ? "custom" : "wheel",
               }}
             />
           </div>

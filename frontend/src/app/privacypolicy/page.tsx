@@ -136,8 +136,8 @@ export default function PrivacyPolicyPage() {
             <p>
               Our website uses the Meta Pixel. It sends a <strong>PageView</strong> event
               when a page loads, <strong>ViewContent</strong> on wheel product pages,{" "}
-              <strong>Lead</strong> and <strong>Contact</strong> after a quote form is
-              successfully submitted, and <strong>CompleteRegistration</strong> after an
+              <strong>Lead</strong> after a quote form is successfully submitted, and
+              <strong>CompleteRegistration</strong> after an
               early-access registration. Meta may use cookies or similar identifiers to
               measure advertising, attribute conversions and personalise advertising in
               accordance with its own privacy terms.

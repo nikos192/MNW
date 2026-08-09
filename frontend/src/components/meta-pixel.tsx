@@ -1,7 +1,23 @@
+"use client";
+
 import Script from "next/script";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { META_PIXEL_ID } from "@/lib/meta-pixel";
 
 export function MetaPixel() {
+  const pathname = usePathname();
+  const isInitialPage = useRef(true);
+
+  useEffect(() => {
+    if (isInitialPage.current) {
+      isInitialPage.current = false;
+      return;
+    }
+
+    window.fbq?.("track", "PageView");
+  }, [pathname]);
+
   return (
     <>
       <Script id="meta-pixel" strategy="afterInteractive">

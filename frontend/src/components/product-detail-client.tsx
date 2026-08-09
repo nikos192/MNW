@@ -69,9 +69,11 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       content_ids: [product.handle],
       content_name: product.title,
       content_type: "product",
+      currency: "AUD",
+      value: priceRangeForSeries(product.series)?.minPerSet ?? 0,
     });
     hasTrackedView.current = true;
-  }, [product.handle, product.title]);
+  }, [product.handle, product.series, product.title]);
 
   function validWidthsForDiameter(value: string): string[] {
     const construction = constructionFromSeries(product.series);
