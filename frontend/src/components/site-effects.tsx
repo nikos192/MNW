@@ -22,15 +22,31 @@ export function SiteEffects() {
       document.querySelectorAll<HTMLElement>("[data-reveal]"),
     );
 
-    if (!revealItems.length) {
-      return;
-    }
-
     if (prefersReducedMotion || isMobile || !("IntersectionObserver" in window)) {
       revealItems.forEach((item) => {
         item.dataset.visible = "true";
       });
-      return;
+
+      const mutationObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+            if (!(node instanceof HTMLElement)) {
+              return;
+            }
+
+            const addedRevealItems = node.matches("[data-reveal]")
+              ? [node]
+              : Array.from(node.querySelectorAll<HTMLElement>("[data-reveal]"));
+
+            addedRevealItems.forEach((item) => {
+              item.dataset.visible = "true";
+            });
+          });
+        });
+      });
+
+      mutationObserver.observe(document.body, { childList: true, subtree: true });
+      return () => mutationObserver.disconnect();
     }
 
     let frameId = 0;
@@ -53,19 +69,39 @@ export function SiteEffects() {
       },
     );
 
-    frameId = window.requestAnimationFrame(() => {
-      revealItems.forEach((item) => {
-        if (item.dataset.visible === "true" || isWithinRevealZone(item)) {
-          item.dataset.visible = "true";
-          return;
-        }
+    const registerRevealItem = (item: HTMLElement) => {
+      if (item.dataset.visible === "true" || isWithinRevealZone(item)) {
+        item.dataset.visible = "true";
+        return;
+      }
 
-        observer.observe(item);
+      observer.observe(item);
+    };
+
+    const mutationObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (!(node instanceof HTMLElement)) {
+            return;
+          }
+
+          const addedRevealItems = node.matches("[data-reveal]")
+            ? [node]
+            : Array.from(node.querySelectorAll<HTMLElement>("[data-reveal]"));
+
+          addedRevealItems.forEach(registerRevealItem);
+        });
       });
+    });
+
+    frameId = window.requestAnimationFrame(() => {
+      revealItems.forEach(registerRevealItem);
+      mutationObserver.observe(document.body, { childList: true, subtree: true });
     });
 
     return () => {
       window.cancelAnimationFrame(frameId);
+      mutationObserver.disconnect();
       observer.disconnect();
     };
   }, [pathname]);
