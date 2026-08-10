@@ -1177,6 +1177,16 @@ const namedProducts: CatalogProduct[] = [
     imageBasePath: "/Wheels",
   }),
   buildNamedProduct({
+    handle: "MW-112",
+    title: 'MW-112 "Villeneuve"',
+    series: "1-Piece Forged",
+    shortDescription: "A clean broad five-spoke monoblock with deep windows and uncompromised visual strength.",
+    description:
+      'MW-112 "Villeneuve" distils the forged monoblock into five broad, sharply defined spokes. Deep triangular windows and recessed spoke faces remove visual weight from the substantial structure, while the brushed finish keeps the profile technical and precise. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1k.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
     handle: "MW-23",
     title: 'MW-23 "San Donato"',
     series: "2-Piece Forged",
