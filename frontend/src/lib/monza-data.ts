@@ -1256,6 +1256,16 @@ const namedProducts: CatalogProduct[] = [
     imageFileNames: ["2g.png"],
     imageBasePath: "/Wheels",
   }),
+  buildNamedProduct({
+    handle: "MW-210",
+    title: 'MW-210 "Scarperia"',
+    series: "2-Piece Forged",
+    shortDescription: "A broad five-spoke centre with deep relief, exposed hardware, and a polished step lip.",
+    description:
+      'MW-210 "Scarperia" sets five substantial forged spokes inside a deep polished 2-piece barrel. Recessed spoke faces and dark machined pockets sharpen the centre, while the exposed perimeter hardware gives the clean five-spoke form a distinctly mechanical edge. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["2h.png"],
+    imageBasePath: "/Wheels",
+  }),
 ];
 
 export const fallbackProducts: CatalogProduct[] = [...namedProducts];
