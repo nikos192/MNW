@@ -1276,6 +1276,16 @@ const namedProducts: CatalogProduct[] = [
     imageFileNames: ["2h.png"],
     imageBasePath: "/Wheels",
   }),
+  buildNamedProduct({
+    handle: "MW-211",
+    title: 'MW-211 "Palagio"',
+    series: "2-Piece Forged",
+    shortDescription: "An elegant ten-spoke centre with long tapered lines and a bright polished barrel.",
+    description:
+      'MW-211 "Palagio" uses ten long, slender spokes to draw the forged centre cleanly from hub to rim. Subtle channels add definition without interrupting the flowing face, while the polished 2-piece barrel brings depth and a crisp outer edge. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["2i.png"],
+    imageBasePath: "/Wheels",
+  }),
 ];
 
 export const fallbackProducts: CatalogProduct[] = [...namedProducts];
