@@ -1187,6 +1187,16 @@ const namedProducts: CatalogProduct[] = [
     imageBasePath: "/Wheels",
   }),
   buildNamedProduct({
+    handle: "MW-113",
+    title: 'MW-113 "Gresini"',
+    series: "1-Piece Forged",
+    shortDescription: "A lightweight paired multi-spoke monoblock with open brake visibility and a clean stepped rim.",
+    description:
+      'MW-113 "Gresini" uses ten slender spokes arranged in close pairs to create a light, competition-led face. Alternating open windows and a restrained centre bowl keep the geometry precise, while the stepped outer rim gives the design a subtle touring-car character. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1l.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
     handle: "MW-23",
     title: 'MW-23 "San Donato"',
     series: "2-Piece Forged",
