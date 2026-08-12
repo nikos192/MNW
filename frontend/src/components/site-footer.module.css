@@ -1,8 +1,6 @@
 .footer {
-  border-top: 1px solid rgba(100, 202, 255, 0.32);
-  background:
-    radial-gradient(circle at 12% 0%, rgba(100, 202, 255, 0.18), transparent 30%),
-    linear-gradient(180deg, #07111f 0%, #03070d 100%);
+  border-top: 1px solid rgba(184, 164, 124, 0.3);
+  background: #111210;
   color: var(--off-white);
   padding: var(--section-pad-v-compact) 0 32px;
 }
@@ -29,7 +27,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: rgba(226, 241, 255, 0.76);
+  color: rgba(248, 246, 241, 0.68);
 }
 
 .socialMonogram {
@@ -90,7 +88,7 @@
   letter-spacing: 0.18em;
   line-height: 1.5;
   text-transform: uppercase;
-  color: rgba(100, 202, 255, 0.84);
+  color: rgba(184, 164, 124, 0.86);
 }
 
 .columnTitle {
@@ -108,7 +106,7 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 2.2;
-  color: rgba(247, 251, 255, 0.88);
+  color: rgba(248, 246, 241, 0.82);
 }
 
 .columnLink:hover,
@@ -122,7 +120,7 @@
   justify-content: space-between;
   gap: 16px;
   padding-top: var(--section-gap-lg);
-  border-top: 1px solid rgba(100, 202, 255, 0.2);
+  border-top: 1px solid rgba(184, 164, 124, 0.2);
 }
 
 @media (max-width: 900px) {

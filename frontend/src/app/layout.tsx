@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Barlow_Condensed, Rajdhani } from "next/font/google";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { BRAND_NAME } from "@/lib/brand";
 import { SiteChrome } from "@/components/site-chrome";
 import { SiteEffects } from "@/components/site-effects";
@@ -16,19 +16,19 @@ import {
 } from "@/lib/seo";
 import "./globals.css";
 
-const headingFont = Barlow_Condensed({
+const headingFont = Cormorant_Garamond({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  weight: ["500", "600", "700"],
 });
 
-const bodyFont = Rajdhani({
+const bodyFont = Manrope({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const wordmarkFont = Barlow_Condensed({
+const wordmarkFont = Manrope({
   variable: "--font-wordmark",
   subsets: ["latin"],
   weight: ["700"],

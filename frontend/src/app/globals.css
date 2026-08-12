@@ -5,32 +5,32 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --bg-deep: #0e1012;
-  --bg-dark: #f6f6f4;
+  --bg-deep: #111210;
+  --bg-dark: #f3f1ec;
   --bg-card: #ffffff;
   --bg-surface: #ffffff;
-  --bg-light: #ededeb;
-  --bg-utility: rgba(246, 246, 244, 0.94);
-  --text-primary: #111315;
-  --text-muted: #4d5052;
-  --text-secondary: #75716a;
-  --rule: rgba(17, 19, 21, 0.16);
-  --rule-strong: rgba(17, 19, 21, 0.24);
-  --off-white: #f8f8f6;
-  --ink: #111315;
+  --bg-light: #e9e5dd;
+  --bg-utility: rgba(243, 241, 236, 0.94);
+  --text-primary: #171815;
+  --text-muted: #56564f;
+  --text-secondary: #77736a;
+  --rule: rgba(23, 24, 21, 0.14);
+  --rule-strong: rgba(23, 24, 21, 0.25);
+  --off-white: #f8f6f1;
+  --ink: #171815;
   --accent-blue: #111315;
   --accent-blue-strong: #000000;
-  --accent-blue-light: #d4c7aa;
-  --accent-red: #111315;
+  --accent-blue-light: #b8a47c;
+  --accent-red: #8b7650;
   --accent-red-strong: #000000;
-  --accent-soft: rgba(17, 19, 21, 0.08);
+  --accent-soft: rgba(139, 118, 80, 0.1);
   --shadow-soft: 0 18px 42px rgba(17, 19, 21, 0.08);
-  --font-heading: "Barlow Condensed", sans-serif;
-  --font-body: "Rajdhani", sans-serif;
-  --font-wordmark: "Barlow Condensed", sans-serif;
-  --ease-precision: ease;
-  --duration-hover: 300ms;
-  --duration-enter: 300ms;
+  --font-heading: "Cormorant Garamond", serif;
+  --font-body: "Manrope", sans-serif;
+  --font-wordmark: "Manrope", sans-serif;
+  --ease-precision: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-hover: 400ms;
+  --duration-enter: 650ms;
   --utility-height: 36px;
   --primary-nav-height: 68px;
   --nav-height: calc(var(--utility-height) + var(--primary-nav-height));
@@ -40,7 +40,7 @@
   --section-gap-lg: clamp(24px, 3vw, 40px);
   --section-gap-xl: clamp(32px, 4vw, 56px);
   --section-pad-h: clamp(24px, 5vw, 80px);
-  --container-max: 1520px;
+  --container-max: 1440px;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -102,10 +102,10 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  background: #f6f6f4;
+  background: #f3f1ec;
   color: var(--text-primary);
   font-family: var(--font-body), sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 400;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
@@ -190,9 +190,9 @@ h4,
 h5,
 h6 {
   font-family: var(--font-heading), sans-serif;
-  font-weight: 700;
-  line-height: 1.04;
-  letter-spacing: 0.01em;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.025em;
 }
 
 :focus-visible {
@@ -219,9 +219,9 @@ h6 {
 
 .label {
   font-family: var(--font-body), sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0.14em;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
   line-height: 1.4;
   text-transform: uppercase;
   color: var(--accent-red);
@@ -393,9 +393,9 @@ body[data-js-ready="true"] [data-reveal][data-visible="true"] {
   background: var(--accent-red);
   color: var(--off-white);
   font-family: var(--font-body), sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0.14em;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
   line-height: 1.35;
   text-align: center;
   text-transform: uppercase;
