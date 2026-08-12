@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Manrope } from "next/font/google";
 import { BRAND_NAME } from "@/lib/brand";
 import { SiteChrome } from "@/components/site-chrome";
 import { SiteEffects } from "@/components/site-effects";
@@ -16,16 +16,16 @@ import {
 } from "@/lib/seo";
 import "./globals.css";
 
-const headingFont = Cormorant_Garamond({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
 const bodyFont = Manrope({
   variable: "--font-body",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+});
+
+const headingFont = Manrope({
+  variable: "--font-heading",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
 const wordmarkFont = Manrope({
