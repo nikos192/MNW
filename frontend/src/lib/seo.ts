@@ -10,10 +10,10 @@ export const DEFAULT_SEO_DESCRIPTION =
   "Premium forged wheels with fitment, offset, finish, assembly, and testing resolved around the exact chassis in Australia.";
 
 export const DEFAULT_OG_IMAGE = {
-  url: "/media/hero-wheel-poster.jpg",
-  width: 1600,
-  height: 900,
-  alt: `${BRAND_NAME} forged wheels`,
+  url: "/products/MW-11%20%22Serraglio%22%201.png",
+  width: 1254,
+  height: 1254,
+  alt: `${BRAND_NAME} MW-11 Serraglio forged wheel`,
 } as const;
 
 export function normalizedSiteUrl() {
