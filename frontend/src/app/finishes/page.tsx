@@ -19,11 +19,11 @@ export default function FinishesPage() {
           <h1>See the finish. Compare the character.</h1>
           <p>
             Explore every current surface program on the same wheel form. Filter by
-            colour family, compare two directions, then send the preferred finish with
+            surface treatment, compare two directions, then send the preferred finish with
             your quote request.
           </p>
           <dl>
-            <div><dt>24</dt><dd>Current finish directions</dd></div>
+            <div><dt>{finishOptions.length}</dt><dd>Current finish directions</dd></div>
             <div><dt>2</dt><dd>Finishes compared side by side</dd></div>
             <div><dt>1</dt><dd>Final finish approved before production</dd></div>
           </dl>
@@ -34,7 +34,7 @@ export default function FinishesPage() {
         <div className="container">
           <div className={styles.sectionIntro}>
             <p className="label">Choose a direction</p>
-            <h2>One wheel. Twenty-four different reads.</h2>
+            <h2>One wheel. {finishOptions.length} different reads.</h2>
             <p>
               Screen colour is indicative. Final colour, sheen and any additional
               treatment cost are confirmed with the complete wheel specification.

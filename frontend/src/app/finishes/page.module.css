@@ -19,4 +19,4 @@
 .customGrid ol { display: grid; border-top: 1px solid rgba(255,255,255,.2); }
 .customGrid li { display: grid; grid-template-columns: 38px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.2); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
 .customGrid li span { color: #d4c7aa; }
-@media (max-width: 760px) { .hero h1 { font-size: 4.2rem; } .hero dl, .customGrid { grid-template-columns: 1fr; } .hero dl div, .hero dl div + div { padding: 14px 0; border-left: 0; border-bottom: 1px solid var(--rule); } }
+@media (max-width: 760px) { .hero h1 { max-width: 100%; font-size: clamp(3.2rem, 15vw, 4.2rem); overflow-wrap: anywhere; } .hero dl, .customGrid { grid-template-columns: 1fr; } .hero dl div, .hero dl div + div { padding: 14px 0; border-left: 0; border-bottom: 1px solid var(--rule); } }

@@ -6,24 +6,40 @@ import { ConversionLink } from "@/components/conversion-link";
 import type { WheelFinish } from "@/lib/monza-data";
 import styles from "./finish-library.module.css";
 
-type Filter = "All" | "Dark" | "Silver & Clear" | "Bronze & Gold" | "White" | "Brushed & Polished";
+type Filter = "All" | "Brushed" | "Gloss" | "Satin" | "Polished" | "Frozen" | "Stone";
 
 const filters: Filter[] = [
   "All",
-  "Dark",
-  "Silver & Clear",
-  "Bronze & Gold",
-  "White",
-  "Brushed & Polished",
+  "Brushed",
+  "Gloss",
+  "Satin",
+  "Polished",
+  "Frozen",
+  "Stone",
 ];
 
 function categoryFor(name: string): Exclude<Filter, "All"> {
   const value = name.toLowerCase();
-  if (value.includes("brushed") || value.includes("polished")) return "Brushed & Polished";
-  if (value.includes("white")) return "White";
-  if (value.includes("bronze") || value.includes("gold") || value.includes("champagne")) return "Bronze & Gold";
-  if (value.includes("black") || value.includes("charcoal") || value.includes("dark")) return "Dark";
-  return "Silver & Clear";
+  if (value.startsWith("brushed")) return "Brushed";
+  if (value.startsWith("gloss")) return "Gloss";
+  if (value.startsWith("satin")) return "Satin";
+  if (value.startsWith("polished")) return "Polished";
+  if (value.startsWith("frozen")) return "Frozen";
+  return "Stone";
+}
+
+function colourFor(name: string) {
+  const value = name.toLowerCase();
+  if (value.includes("dark clear")) return "Dark clear";
+  if (value.includes("white gold")) return "White gold";
+  if (value.includes("champagne")) return "Champagne";
+  if (value.includes("bronze")) return "Bronze";
+  if (value.includes("copper")) return "Copper";
+  if (value.includes("gold")) return "Gold";
+  if (value.includes("charcoal")) return "Charcoal";
+  if (value.includes("silver")) return "Silver";
+  if (value.includes("black")) return "Black";
+  return "Clear";
 }
 
 function finishDetails(name: string) {
@@ -70,7 +86,7 @@ function finishDetails(name: string) {
 }
 
 export function FinishLibrary({ finishes }: { finishes: WheelFinish[] }) {
-  const [filter, setFilter] = useState<Filter>("All");
+  const [filter, setFilter] = useState<Filter>("Brushed");
   const [selectedName, setSelectedName] = useState(finishes[0]?.name ?? "");
   const [comparison, setComparison] = useState<string[]>([]);
 
@@ -110,9 +126,15 @@ export function FinishLibrary({ finishes }: { finishes: WheelFinish[] }) {
             onClick={() => setFilter(option)}
             type="button"
           >
-            {option}
+            <span>{option}</span>
+            <small>{option === "All" ? finishes.length : finishes.filter((finish) => categoryFor(finish.name) === option).length}</small>
           </button>
         ))}
+      </div>
+
+      <div className={styles.resultsBar} aria-live="polite">
+        <p><strong>{visible.length}</strong> {filter === "All" ? "finish directions" : `${filter.toLowerCase()} finishes`}</p>
+        <span>Select a sample to inspect it in detail</span>
       </div>
 
       <div className={styles.workspace}>
@@ -138,7 +160,7 @@ export function FinishLibrary({ finishes }: { finishes: WheelFinish[] }) {
                   </span>
                   <span className={styles.cardMeta}>
                     <strong>{finish.name}</strong>
-                    <small>{categoryFor(finish.name)}</small>
+                    <small>{categoryFor(finish.name)} · {colourFor(finish.name)}</small>
                   </span>
                 </button>
                 <button

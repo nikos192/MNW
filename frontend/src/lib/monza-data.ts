@@ -874,12 +874,30 @@ const PCDS = ["4x100", "4x108", "5x100", "5x108", "5x112", "5x114.3", "5x120", "
 const CENTREBORES = ["54.1mm", "56.6mm", "57.1mm", "60.1mm", "63.4mm", "66.6mm", "67.1mm", "72.6mm", "73.1mm", "74.1mm", "77.0mm"];
 
 const FINISH_FILES = [
+  "Brushed Bronze  .jpg",
+  "Brushed Champagne  .jpg",
   "Brushed Clear  .jpg",
+  "Brushed Copper  .jpg",
+  "Brushed Gold  .png",
   "Brushed Dark Clear.jpg",
+  "Frozen Bronze  .jpg",
+  "Frozen Champagne  .jpg",
   "Frozen Clear  .jpg",
+  "Frozen Copper  .jpg",
+  "Frozen Gold  .jpg",
+  "frozen dark clear.jpg",
+  "Frozen Polished Bronze  .jpg",
+  "Frozen Polished Champagne  .jpg",
+  "Frozen Polished Clear  .jpg",
+  "Frozen Polished Copper  .jpg",
+  "Frozen Polished Gold  .jpg",
+  "frozen polished dark clear.jpg",
   "Frozen Stone Bronze  .jpg",
   "Frozen Stone Champagne  .jpg",
-  "Frozen Stone Dark Clear  .jpg",
+  "Frozen Stone Clear  .jpg",
+  "Frozen Stone Copper  .jpg",
+  "Frozen Stone Gold  .jpg",
+  "frozen stone dark clear.jpg",
   "Gloss Black.jpg",
   "Gloss Bronze  .jpg",
   "Gloss Charcoal.jpg",
@@ -887,7 +905,12 @@ const FINISH_FILES = [
   "Gloss Silver.jpg",
   "Gloss White  .jpg",
   "Gloss White Gold  .jpg",
-  "Polished Dark Clear  .jpg",
+  "Polished Bronze  .jpg",
+  "Polished Champagne  .jpg",
+  "Polished Clear  .jpg",
+  "Polished Copper  .jpg",
+  "Polished Gold  .jpg",
+  "polished dark clear.jpg",
   "Satin Black.jpg",
   "Satin Bronze  .jpg",
   "Satin Charcoal.jpg",
@@ -896,12 +919,19 @@ const FINISH_FILES = [
   "Satin White Gold  .jpg",
   "Stone Bronze  .jpg",
   "Stone Champagne  .jpg",
+  "Stone Clear  .jpg",
+  "Stone Copper  .jpg",
+  "Stone Gold  .jpg",
   "Stone Dark Clear.jpg",
-  "Textured Black.jpg",
+  "textured black",
 ] as const;
 
 function formatFinishName(fileName: string) {
-  return fileName.replace(/\.jpg$/i, "").replace(/\s+/g, " ").trim();
+  return fileName
+    .replace(/\.(?:jpe?g|png)$/i, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
 function getFinishSwatch(name: string) {

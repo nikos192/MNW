@@ -515,6 +515,29 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
   gap: 8px;
+  max-height: 540px;
+  padding: 2px 8px 8px 2px;
+  overflow-y: auto;
+  scrollbar-color: rgba(18, 18, 18, 0.28) transparent;
+  scrollbar-width: thin;
+}
+
+.finishHeaderMeta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+
+.finishLibraryLink {
+  padding-bottom: 2px;
+  border-bottom: 1px solid currentColor;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .swatchItem {
@@ -549,7 +572,7 @@
 
 .finishImageWrap {
   position: relative;
-  aspect-ratio: 2 / 1;
+  aspect-ratio: 254 / 145;
   overflow: hidden;
   background: var(--bg-card);
   border: 1px solid rgba(18, 18, 18, 0.08);

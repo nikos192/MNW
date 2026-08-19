@@ -634,7 +634,10 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               <div className={styles.optionGroup}>
                 <div className={styles.optionHeader}>
                   <p className={`label ${styles.optionLabel}`}>Finish</p>
-                  {activeFinish && <span className={styles.optionSelected}>{activeFinish}</span>}
+                  <div className={styles.finishHeaderMeta}>
+                    {activeFinish && <span className={styles.optionSelected}>{activeFinish}</span>}
+                    <Link className={styles.finishLibraryLink} href="/finishes">Explore &amp; compare all</Link>
+                  </div>
                 </div>
                 <div className={styles.swatches} role="radiogroup" aria-label="Finish">
                   {product.finishes.map((finish) => (
