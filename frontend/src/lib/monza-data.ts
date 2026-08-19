@@ -1026,7 +1026,9 @@ function buildNamedProduct(args: {
     price,
     leadTime: facts.leadTime,
     images: args.imageFileNames.map((fileName, index) => ({
-      url: `${args.imageBasePath ?? "/products"}/${encodeURIComponent(fileName)}`,
+      url: fileName.startsWith("/")
+        ? fileName
+        : `${args.imageBasePath ?? "/products"}/${encodeURIComponent(fileName)}`,
       alt: `${args.title} forged wheel${index === 0 ? "" : ` — view ${index + 1}`}`,
     })),
     finishes: finishOptions,
@@ -1085,6 +1087,25 @@ const namedProducts: CatalogProduct[] = [
       'MW-22 "Lesmo" 2.jpeg',
       'MW-22 "Lesmo" 3.jpeg',
     ],
+  }),
+  buildNamedProduct({
+    handle: "MW-17",
+    title: 'MW-17 "Sopraelevata"',
+    series: "1-Piece Forged",
+    shortDescription: "A sharply sculpted split-five monoblock with fine spoke bridges and an open, technical face.",
+    description:
+      'MW-17 "Sopraelevata" combines five divided spoke groups with slim connecting bridges and deeply relieved pockets around the hub. The long, angular geometry opens the face around the brake package while giving the forged monoblock a light, highly technical profile. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["a1.PNG", "a2.PNG", "a3.PNG"],
+  }),
+  buildNamedProduct({
+    handle: "MW-28",
+    title: 'MW-28 "Biondetti"',
+    series: "2-Piece Forged",
+    shortDescription: "A near-solid aero disc punctuated by five sculpted windows and a polished deep lip.",
+    description:
+      'MW-28 "Biondetti" gives the classic aero-disc form a technical 2-piece treatment. Five deeply machined perimeter windows break the broad brushed face, while exposed hardware and a mirror-polished step lip add contrast and depth. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["/products/b1.PNG", "/products/b2.PNG", "/products/b3.PNG", "2f.png"],
+    imageBasePath: "/Wheels",
   }),
   buildNamedProduct({
     handle: "MW-12",
@@ -1244,16 +1265,6 @@ const namedProducts: CatalogProduct[] = [
     description:
       'MW-27 "Bucine" uses a fine radial multi-spoke centre to create a clean, almost continuous sweep around the wheel face. The bright forged centre, exposed fasteners, and polished step lip deliver a precise touring profile with unmistakable multi-piece depth. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["2e.png"],
-    imageBasePath: "/Wheels",
-  }),
-  buildNamedProduct({
-    handle: "MW-28",
-    title: 'MW-28 "Biondetti"',
-    series: "2-Piece Forged",
-    shortDescription: "A near-solid aero disc punctuated by five sculpted windows and a polished deep lip.",
-    description:
-      'MW-28 "Biondetti" gives the classic aero-disc form a technical 2-piece treatment. Five deeply machined perimeter windows break the broad brushed face, while exposed hardware and a mirror-polished step lip add contrast and depth. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
-    imageFileNames: ["2f.png"],
     imageBasePath: "/Wheels",
   }),
   buildNamedProduct({
