@@ -946,14 +946,60 @@ function getFinishSwatch(name: string) {
   return "#F5F5F3";
 }
 
-export const finishOptions: WheelFinish[] = FINISH_FILES.map((fileName) => {
-  const name = formatFinishName(fileName);
-  return {
-    name,
-    swatch: getFinishSwatch(name),
-    image: `/finishes/${encodeURIComponent(fileName)}`,
-  };
-});
+const FINISH_COLOUR_ORDER = [
+  "Black",
+  "Charcoal",
+  "Dark Clear",
+  "Silver",
+  "Clear",
+  "White",
+  "White Gold",
+  "Bronze",
+  "Champagne",
+  "Copper",
+  "Gold",
+] as const;
+
+const FINISH_TREATMENT_ORDER = [
+  "Gloss",
+  "Textured",
+  "Satin",
+  "Brushed",
+  "Polished",
+  "Frozen",
+  "Frozen Polished",
+  "Stone",
+  "Frozen Stone",
+] as const;
+
+function finishColour(name: string) {
+  return FINISH_COLOUR_ORDER.find((colour) => name.endsWith(colour)) ?? name;
+}
+
+function finishTreatment(name: string) {
+  return [...FINISH_TREATMENT_ORDER]
+    .reverse()
+    .find((treatment) => name.startsWith(treatment)) ?? name;
+}
+
+export const finishOptions: WheelFinish[] = FINISH_FILES
+  .map((fileName) => {
+    const name = formatFinishName(fileName);
+    return {
+      name,
+      swatch: getFinishSwatch(name),
+      image: `/finishes/${encodeURIComponent(fileName)}`,
+    };
+  })
+  .sort((left, right) => {
+    const leftColour = FINISH_COLOUR_ORDER.indexOf(finishColour(left.name) as typeof FINISH_COLOUR_ORDER[number]);
+    const rightColour = FINISH_COLOUR_ORDER.indexOf(finishColour(right.name) as typeof FINISH_COLOUR_ORDER[number]);
+    if (leftColour !== rightColour) return leftColour - rightColour;
+
+    const leftTreatment = FINISH_TREATMENT_ORDER.indexOf(finishTreatment(left.name) as typeof FINISH_TREATMENT_ORDER[number]);
+    const rightTreatment = FINISH_TREATMENT_ORDER.indexOf(finishTreatment(right.name) as typeof FINISH_TREATMENT_ORDER[number]);
+    return leftTreatment - rightTreatment;
+  });
 
 // Two-colour paint is the baseline used for the generic custom-finish estimate.
 // Finish-specific pricing is available in the pricing calculator.

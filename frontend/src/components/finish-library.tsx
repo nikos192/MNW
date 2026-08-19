@@ -87,7 +87,9 @@ function finishDetails(name: string) {
 
 export function FinishLibrary({ finishes }: { finishes: WheelFinish[] }) {
   const [filter, setFilter] = useState<Filter>("Brushed");
-  const [selectedName, setSelectedName] = useState(finishes[0]?.name ?? "");
+  const [selectedName, setSelectedName] = useState(
+    finishes.find((finish) => categoryFor(finish.name) === "Brushed")?.name ?? finishes[0]?.name ?? "",
+  );
   const [comparison, setComparison] = useState<string[]>([]);
 
   const visible = useMemo(
@@ -108,6 +110,13 @@ export function FinishLibrary({ finishes }: { finishes: WheelFinish[] }) {
     });
   }
 
+  function selectFilter(option: Filter) {
+    setFilter(option);
+    if (option === "All" || categoryFor(selected.name) === option) return;
+    const firstMatch = finishes.find((finish) => categoryFor(finish.name) === option);
+    if (firstMatch) setSelectedName(firstMatch.name);
+  }
+
   if (!selected || !selectedDetails) return null;
 
   const quoteHref = `/contact?${new URLSearchParams({
@@ -123,7 +132,7 @@ export function FinishLibrary({ finishes }: { finishes: WheelFinish[] }) {
             aria-pressed={filter === option}
             data-active={filter === option}
             key={option}
-            onClick={() => setFilter(option)}
+            onClick={() => selectFilter(option)}
             type="button"
           >
             <span>{option}</span>
