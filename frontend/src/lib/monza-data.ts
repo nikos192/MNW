@@ -923,7 +923,7 @@ const FINISH_FILES = [
   "Stone Copper  .jpg",
   "Stone Gold  .jpg",
   "Stone Dark Clear.jpg",
-  "textured black",
+  "Textured Black.jpg",
 ] as const;
 
 function formatFinishName(fileName: string) {
