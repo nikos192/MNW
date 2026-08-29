@@ -5,6 +5,7 @@ import { BRAND_NAME } from "@/lib/brand";
 import { getVehicleFitment, vehicleData } from "@/lib/monza-data";
 import styles from "./build-form.module.css";
 import { trackFunnelEvent, trackMetaEvent } from "@/lib/meta-pixel";
+import type { ShippingOption } from "@/lib/order-timelines";
 
 type InitialValues = {
   make?: string;
@@ -24,6 +25,7 @@ type QuoteContext = {
   productTitle?: string;
   startingPrice?: string;
   quoteType?: "wheel" | "custom";
+  shippingOption?: ShippingOption;
 };
 
 type BuildFormProps = {
@@ -246,6 +248,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
           capColour: valueFor("capColour"),
           references: valueFor("references"),
         },
+        shipping: quoteContext?.shippingOption ?? "standard",
         notes: notes.trim(),
       };
       const requestData = new FormData();
@@ -534,7 +537,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
       ) : null}
 
       <p className={styles.help}>
-        {`Your request goes directly to ${BRAND_NAME}. Replies go to the email address above with the recommended spec, price, and next steps.`}
+        {`Your request goes directly to ${BRAND_NAME}. We confirm fitment, price and delivery choice, then provide a custom 3D render for your approval before production.`}
       </p>
     </form>
   );

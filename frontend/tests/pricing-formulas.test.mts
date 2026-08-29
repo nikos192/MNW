@@ -5,6 +5,7 @@ import {
   expressAirShippingIncGstAud,
   wheelSetRetailIncGstAud,
 } from "../src/lib/pricing-formulas.ts";
+import { totalLeadTimeDays } from "../src/lib/order-timelines.ts";
 
 const workedExamples = [
   { manufacturingCostAud: 1_363, expectedExact: 2_735.59 },
@@ -25,6 +26,13 @@ test("ordinary add-ons receive markup and GST without wheel-set shipping", () =>
   assert.ok(Math.abs(addOnRetailIncGstAud(100) - 143) < 0.001);
 });
 
-test("express air shipping is cost plus GST without markup", () => {
-  assert.ok(Math.abs(expressAirShippingIncGstAud() - 880) < 0.001);
+test("express air shipping is the GST-inclusive advertised upgrade", () => {
+  assert.ok(Math.abs(expressAirShippingIncGstAud() - 800) < 0.001);
+});
+
+test("published total lead times add production and shipping transit", () => {
+  assert.equal(totalLeadTimeDays("one-piece", "standard"), 60);
+  assert.equal(totalLeadTimeDays("two-piece", "standard"), 70);
+  assert.equal(totalLeadTimeDays("one-piece", "express"), 34);
+  assert.equal(totalLeadTimeDays("two-piece", "express"), 44);
 });

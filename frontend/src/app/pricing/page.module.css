@@ -154,6 +154,16 @@
   border-left: 1px solid var(--rule);
 }
 
+.deliveryEstimate {
+  display: grid;
+  gap: 3px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.deliveryEstimate strong { color: var(--text-primary); font-size: 14px; }
+
 .includedDelivery {
   display: flex;
   align-items: center;

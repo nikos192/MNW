@@ -630,6 +630,26 @@
 
 /* ── Estimate panel ── */
 
+.deliveryPanel {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid var(--rule-strong);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.deliveryTotal {
+  display: grid;
+  gap: 3px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.deliveryTotal strong { color: var(--text-primary); font-size: 14px; }
+
 .estimatePanel {
   display: grid;
   gap: 14px;
@@ -1049,6 +1069,8 @@
   padding-top: var(--section-pad-v);
   border-top: 1px solid var(--rule);
 }
+
+.orderJourneyWrap { margin-top: var(--section-pad-v); }
 
 .productStory {
   display: grid;

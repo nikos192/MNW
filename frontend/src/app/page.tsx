@@ -5,6 +5,7 @@ import { ProductCard } from "@/components/product-card";
 import { ConversionLink } from "@/components/conversion-link";
 import { ViewportVideo } from "@/components/viewport-video";
 import { ResponsiveHeroVideo } from "@/components/responsive-hero-video";
+import { OrderJourney } from "@/components/order-journey";
 import { collectionSummaries } from "@/lib/monza-data";
 import { getCatalogData } from "@/lib/catalog";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
@@ -100,10 +101,21 @@ export default async function Home() {
       <section className={styles.shippingBanner} aria-label="Shipping offer">
         <Link className={`${styles.shippingInner} container`} href="/shop">
           <span className={styles.shippingKicker}>Included with every set</span>
-          <strong className={styles.shippingHeadline}>Free standard shipping Australia-wide</strong>
-          <span className={styles.shippingDetail}>Included in every displayed set price</span>
+          <strong className={styles.shippingHeadline}>Standard shipping included Australia-wide</strong>
+          <span className={styles.shippingDetail}>Approx. 40 days transit · after production</span>
           <span className={styles.shippingLink}>Browse wheels <span aria-hidden="true">→</span></span>
         </Link>
+      </section>
+
+      <section className={styles.orderSection}>
+        <div className="container">
+          <OrderJourney />
+          <div className={styles.timelineGrid} aria-label="Production and delivery estimates">
+            <article><span>One-piece forged</span><strong>Approx. 20 days production</strong><p>Approx. 60 days total with standard shipping · 34 days with express</p></article>
+            <article><span>Two-piece forged</span><strong>Approx. 30 days production</strong><p>Approx. 70 days total with standard shipping · 44 days with express</p></article>
+            <article><span>Shipping choices</span><strong>Standard included · Express AUD $800</strong><p>Approx. 40 days standard transit · 2 weeks express transit. Shipping is additional to production.</p></article>
+          </div>
+        </div>
       </section>
 
       <section className={styles.featuredSection}>
@@ -197,6 +209,7 @@ export default async function Home() {
                   <h3 className={styles.tierTitle}>
                     {monoblockCollection?.title || "Monoblock"}
                   </h3>
+                  <p className={styles.tierDescription}>One forged piece · lighter, clean construction · approx. 20 days production</p>
                 </div>
               </Link>
             </article>
@@ -216,6 +229,7 @@ export default async function Home() {
                   <h3 className={styles.tierTitle}>
                     {multiPieceCollection?.title || "Multi-Piece"}
                   </h3>
+                  <p className={styles.tierDescription}>Forged centre and separate barrel · greater finish and lip flexibility · approx. 30 days production</p>
                 </div>
               </Link>
             </article>

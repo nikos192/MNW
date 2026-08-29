@@ -119,8 +119,10 @@ export default function CustomForgedWheelsPage() {
             <ul>
               <li>Monoblock production: approximately 20 days</li>
               <li>Two-piece production: approximately 30 days</li>
-              <li>Free standard shipping included in live pricing</li>
-              <li>Final fitment and design approved before machining</li>
+              <li>Standard shipping included · approximately 40 days transit</li>
+              <li>Express shipping AUD $800 · approximately 2 weeks transit</li>
+              <li>Shipping time is additional to production time</li>
+              <li>Custom 3D render and fitment approved before production</li>
             </ul>
           </div>
           <div className={styles.formPanel}>

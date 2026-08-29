@@ -110,7 +110,7 @@ export function SiteHeader() {
         <div className={styles.utilityBar}>
           <div className={`${styles.utilityInner} container`}>
             <p className={styles.utilityText}>
-              <span className={styles.utilityShipping}>Free standard shipping Australia-wide</span>
+              <span className={styles.utilityShipping}>Standard shipping included Australia-wide</span>
               <span className={styles.utilityDivider}>·</span>
               <span>Made-to-order forged wheels</span>
             </p>

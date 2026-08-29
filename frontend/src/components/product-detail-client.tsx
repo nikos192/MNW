@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ConversionLink } from "@/components/conversion-link";
+import { OrderJourney } from "@/components/order-journey";
+import { ShippingSelector } from "@/components/shipping-selector";
 import type { CatalogProduct, VehicleFitment } from "@/lib/monza-data";
 import { trackMetaEvent } from "@/lib/meta-pixel";
 import { expressAirShippingIncGstAud } from "@/lib/pricing-formulas";
@@ -21,6 +23,11 @@ import {
   priceRangeForSeries,
 } from "@/lib/wheel-pricing";
 import styles from "./product-detail-client.module.css";
+import {
+  shippingLabel,
+  totalLeadTimeDays,
+  type ShippingOption,
+} from "@/lib/order-timelines";
 
 type ProductDetailClientProps = {
   product: CatalogProduct;
@@ -135,7 +142,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [carYear, setCarYear] = useState("");
 
   const [includeCustomFinish, setIncludeCustomFinish] = useState(false);
-  const [includeExpressShipping, setIncludeExpressShipping] = useState(false);
+  const [shippingOption, setShippingOption] = useState<ShippingOption>("standard");
+  const includeExpressShipping = shippingOption === "express";
 
   const carModels = carMake && carMake !== "Other" ? Object.keys(vehicleData[carMake] ?? {}) : [];
   const carYears =
@@ -200,12 +208,12 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   }) => {
     if (range.minPerSet === range.maxPerSet) {
       return {
-        set: `AUD ${formatAud(range.minPerSet)} / set inc. GST & free standard shipping`,
+        set: `AUD ${formatAud(range.minPerSet)} / set inc. GST & standard shipping included`,
         wheel: `AUD ${formatAud(range.minPerWheel)} per wheel`,
       };
     }
     return {
-      set: `AUD ${formatAud(range.minPerSet)} – ${formatAud(range.maxPerSet)} / set inc. GST & free standard shipping`,
+      set: `AUD ${formatAud(range.minPerSet)} – ${formatAud(range.maxPerSet)} / set inc. GST & standard shipping included`,
       wheel: `AUD ${formatAud(range.minPerWheel)} – ${formatAud(range.maxPerWheel)} per wheel`,
     };
   };
@@ -254,7 +262,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       "centre caps incl.",
       isStaggered ? "staggered" : null,
       includeCustomFinish && isOnePiece ? "custom finish" : null,
-      includeExpressShipping ? "express air shipping" : "free standard shipping",
+      includeExpressShipping ? "express shipping" : "standard shipping included",
     ].filter(Boolean);
     const quotedPrice = estimatedTotal !== null
       ? `Est. AUD ${formatAud(estimatedTotal)} / set (${estimateExtras.join(", ")})`
@@ -276,6 +284,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     if (resolvedCentrebore) params.set("centrebore", resolvedCentrebore);
     if (activeFinish) params.set("finish", activeFinish);
     if (formattedCapColour) params.set("capColour", formattedCapColour);
+    params.set("shipping", shippingOption);
     return `/contact?${params.toString()}`;
   }
 
@@ -297,6 +306,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   // Live estimate based on the customer's current selections.
   // Centre caps are bundled into every wheel set; only custom finish is an extra.
   const isOnePiece = product.series === "1-Piece Forged";
+  const construction = isOnePiece ? "one-piece" : "two-piece";
+  const productionTime = isOnePiece ? 20 : 30;
+  const estimatedTotalLeadTime = totalLeadTimeDays(construction, shippingOption);
   const frontDiameterNum = activeDiameterFront ? parseInt(activeDiameterFront, 10) : NaN;
   const rearDiameterNum = activeDiameterRear ? parseInt(activeDiameterRear, 10) : NaN;
   const frontPerWheelPrice = Number.isFinite(frontDiameterNum)
@@ -830,8 +842,16 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               </div>
             </details>
 
+            <div className={styles.deliveryPanel}>
+              <ShippingSelector value={shippingOption} onChange={setShippingOption} />
+              <p className={styles.deliveryTotal} aria-live="polite">
+                <strong>Estimated total lead time: approximately {estimatedTotalLeadTime} days</strong>
+                {`Approximately ${productionTime} days production + ${shippingOption === "express" ? "2 weeks" : "40 days"} shipping transit.`}
+              </p>
+            </div>
+
             {/* ── Estimated quote ── */}
-            <details className={styles.estimatePanel}>
+            <details className={styles.estimatePanel} open>
               <summary className={styles.estimateSummary}>
                 <span>Estimate</span>
                 <strong>{estimatedTotal !== null ? `AUD ${formatAud(estimatedTotal)}` : headlinePrice}</strong>
@@ -878,26 +898,11 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                 </div>
 
                 <div className={styles.estimateRow}>
-                  <span className={styles.estimateRowLabel}>Standard shipping</span>
-                  <span className={styles.estimateIncluded}>Free</span>
+                  <span className={styles.estimateRowLabel}>{shippingLabel(shippingOption)}</span>
+                  <span className={styles.estimateIncluded}>
+                    {includeExpressShipping ? `+AUD ${formatAud(expressAirShippingIncGstAud())}` : "Included"}
+                  </span>
                 </div>
-
-                <label className={styles.estimateAddon}>
-                  <input
-                    type="checkbox"
-                    checked={includeExpressShipping}
-                    onChange={(event) => setIncludeExpressShipping(event.target.checked)}
-                  />
-                  <span className={styles.estimateAddonText}>
-                    <span className={styles.estimateAddonLabel}>Express Air Shipping</span>
-                    <span className={styles.estimateAddonNote}>
-                      Optional air-freight upgrade over free standard shipping.
-                    </span>
-                  </span>
-                  <span className={styles.estimateRowValue}>
-                    +AUD {formatAud(expressAirShippingIncGstAud())}
-                  </span>
-                </label>
 
                 {isOnePiece ? (
                   <label className={styles.estimateAddon}>
@@ -928,8 +933,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               </div>
 
               <p className={styles.estimateFinePrint}>
-                Indicative only. Includes GST and free standard shipping. Express Air
-                Shipping is optional. Final pricing is confirmed after we review the build brief.
+                Indicative only. Includes GST. Standard shipping is included; express is
+                added only when selected. Final pricing is confirmed after we review the build brief.
               </p>
             </details>
 
@@ -966,7 +971,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                 Send this build for review
               </ConversionLink>
               <p className={styles.leadTime}>
-                Lead time {product.leadTime} &nbsp;·&nbsp; Made to order
+                Production {product.leadTime} &nbsp;·&nbsp; Shipping additional
               </p>
             </div>
 
@@ -990,6 +995,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
           <div><dt>Fitment</dt><dd>Offset, centre bore and brake clearance confirmed to chassis</dd></div>
         </dl>
       </section>
+      <div className={`${styles.orderJourneyWrap} container`}>
+        <OrderJourney />
+      </div>
     </main>
   );
 }

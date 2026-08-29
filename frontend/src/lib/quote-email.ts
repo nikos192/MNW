@@ -1,5 +1,6 @@
 import { BRAND_EMAIL, BRAND_INSTAGRAM_URL, BRAND_NAME } from "@/lib/brand";
 import { normalizedSiteUrl } from "@/lib/seo";
+import { shippingLabel, type ShippingOption } from "@/lib/order-timelines";
 
 export type QuoteEmailPayload = {
   quoteContext?: {
@@ -7,6 +8,7 @@ export type QuoteEmailPayload = {
     productTitle?: string;
     startingPrice?: string;
     quoteType?: "wheel" | "custom";
+    shippingOption?: ShippingOption;
   };
   tracking?: { eventId?: string };
   customer?: {
@@ -32,6 +34,7 @@ export type QuoteEmailPayload = {
     references?: string;
   };
   notes?: string;
+  shipping?: ShippingOption;
 };
 
 type EmailContent = {
@@ -91,6 +94,7 @@ function sectionRows(payload: QuoteEmailPayload) {
     { label: "Product", value: displayValue(payload.quoteContext?.productTitle) },
     { label: "Product handle", value: displayValue(payload.quoteContext?.productHandle) },
     { label: "Starting price shown", value: displayValue(payload.quoteContext?.startingPrice) },
+    { label: "Shipping selection", value: shippingLabel(payload.shipping ?? "standard") },
   ];
 
   const vehicleRows: SummaryRow[] = [

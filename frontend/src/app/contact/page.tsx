@@ -1,5 +1,7 @@
 import { BRAND_NAME } from "@/lib/brand";
 import { BuildForm } from "@/components/build-form";
+import { OrderJourney } from "@/components/order-journey";
+import { shippingLabel, type ShippingOption } from "@/lib/order-timelines";
 import styles from "./page.module.css";
 
 type ContactPageProps = {
@@ -19,6 +21,7 @@ type ContactPageProps = {
     capColour?: string;
     notes?: string;
     design?: string;
+    shipping?: ShippingOption;
   }>;
 };
 
@@ -45,6 +48,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
     params.centrebore ? `Centre bore: ${params.centrebore}` : "",
     params.finish ? `Finish: ${params.finish}` : "",
     params.capColour ? `Centre cap colour: ${params.capColour}` : "",
+    params.shipping ? `Delivery: ${shippingLabel(params.shipping)}` : "",
   ].filter(Boolean);
 
   const initialValues = {
@@ -105,6 +109,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                 productTitle: params.title,
                 startingPrice: params.startingPrice,
                 quoteType: isCustomDesign || !params.product ? "custom" : "wheel",
+                shippingOption: params.shipping,
               }}
             />
           </div>
@@ -119,13 +124,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               </h2>
             </div>
 
-            {isCustomDesign ? (
-              <ol className={styles.designSteps}>
-                <li><span>01</span><p>Submit the vehicle and describe the wheel direction.</p></li>
-                <li><span>02</span><p>We resolve the design, fitment, price and production timing.</p></li>
-                <li><span>03</span><p>You approve the final drawing or render before machining begins.</p></li>
-              </ol>
-            ) : null}
+            <OrderJourney compact />
 
             {hasConfig && contextLines.length ? (
               <div className={styles.contextBox}>

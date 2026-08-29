@@ -15,7 +15,7 @@ export function addOnRetailIncGstAud(manufacturingCostAud: number): number {
   return manufacturingCostAud * (1 + MARKUP_RATE) * (1 + GST_RATE);
 }
 
-/** Express freight is charged at cost plus GST, with no retail markup. */
+/** Customer-facing express freight upgrade, inclusive of GST. */
 export function expressAirShippingIncGstAud(): number {
-  return EXPRESS_AIR_SHIPPING_COST_AUD * (1 + GST_RATE);
+  return EXPRESS_AIR_SHIPPING_COST_AUD;
 }

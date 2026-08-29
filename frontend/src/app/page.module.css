@@ -199,6 +199,16 @@
   border-bottom-color: #ffffff;
 }
 
+.orderSection { padding: 96px 0; background: #f3f1ec; }
+.timelineGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--rule); border-top: 0; background: #fff; }
+.timelineGrid article { display: grid; gap: 8px; padding: 24px; }
+.timelineGrid article + article { border-left: 1px solid var(--rule); }
+.timelineGrid span { color: var(--text-muted); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.timelineGrid strong { font-size: 17px; line-height: 1.3; }
+.timelineGrid p { color: var(--text-muted); font-size: 13px; line-height: 1.55; }
+
+.tierDescription { max-width: 42ch; margin-top: 8px; color: rgba(255,255,255,.72); font-size: 13px; line-height: 1.5; }
+
 .processSection {
   position: relative;
   min-height: 560px;
@@ -588,6 +598,9 @@
 }
 
 @media (max-width: 767px) {
+  .orderSection { padding: 64px 0; }
+  .timelineGrid { grid-template-columns: 1fr; }
+  .timelineGrid article + article { border-left: 0; border-top: 1px solid var(--rule); }
   .heroInner {
     min-height: 100svh;
     gap: 28px;

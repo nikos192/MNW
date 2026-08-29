@@ -9,7 +9,7 @@ const questions = [
   {
     question: "Do I approve the design before production?",
     answer:
-      "Yes. The final drawing or render, wheel specification and delivered price are confirmed for your approval before machining begins.",
+      "Yes. We provide a custom 3D render with the confirmed wheel specification for your review. Production begins only after you approve it.",
   },
   {
     question: "When is payment due?",
@@ -19,7 +19,7 @@ const questions = [
   {
     question: "How long does production take?",
     answer:
-      "The current estimate is approximately 20 days for a monoblock set and 30 days for a two-piece set from order confirmation. Delivery time is additional and can vary by destination.",
+      "Production is approximately 20 days for one-piece forged wheels and 30 days for two-piece forged wheels after approval. Shipping is additional: approximately 40 days standard or 2 weeks express.",
   },
   {
     question: "How is fitment confirmed?",
@@ -29,7 +29,7 @@ const questions = [
   {
     question: "What is included in the displayed price?",
     answer:
-      "The live AUD price includes four custom forged wheels, standard centre caps, free standard shipping and GST. Optional upgrades include the $880 Express Air Shipping option. Tyres and installation are not included unless separately quoted.",
+      "The live AUD price includes four custom forged wheels, standard centre caps, standard shipping and GST. Express Shipping is an optional AUD $800 upgrade and is never added unless selected. Tyres and installation are not included unless separately quoted.",
   },
   {
     question: "What warranty is included?",

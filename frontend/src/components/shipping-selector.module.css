@@ -1,0 +1,16 @@
+.fieldset { display: grid; gap: 8px; min-width: 0; border: 0; padding: 0; }
+.legend { color: var(--text-primary); font-size: 14px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
+.note { margin-bottom: 6px; color: var(--text-muted); font-size: 13px; line-height: 1.5; }
+.options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.option { position: relative; display: grid; grid-template-columns: 20px minmax(0,1fr); gap: 10px 12px; min-height: 108px; padding: 16px; border: 1px solid var(--rule-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; transition: border-color 180ms ease, background 180ms ease, transform 180ms ease; }
+.option:hover { border-color: var(--text-primary); transform: translateY(-1px); }
+.option[data-selected="true"] { border: 2px solid var(--text-primary); padding: 15px; background: var(--accent-soft); }
+.option input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.option:has(input:focus-visible) { outline: 3px solid var(--accent-red); outline-offset: 3px; }
+.indicator { display: grid; place-items: center; width: 18px; height: 18px; margin-top: 1px; border: 1px solid var(--rule-strong); border-radius: 50%; background: #fff; }
+.option[data-selected="true"] .indicator { border: 5px solid var(--text-primary); }
+.copy { display: grid; gap: 5px; align-content: start; }
+.copy strong { font-size: 14px; line-height: 1.25; }
+.copy > span { color: var(--text-muted); font-size: 13px; line-height: 1.35; }
+.price { grid-column: 2; align-self: end; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+@media (max-width: 600px) { .options { grid-template-columns: 1fr; } .option { min-height: 94px; } }

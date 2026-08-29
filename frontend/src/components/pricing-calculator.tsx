@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ConversionLink } from "@/components/conversion-link";
+import { ShippingSelector } from "@/components/shipping-selector";
 import { trackFunnelEvent } from "@/lib/meta-pixel";
-import { expressAirShippingIncGstAud } from "@/lib/pricing-formulas";
 import {
   WHEEL_ADD_ONS,
   WHEEL_PRICING_CONFIG,
@@ -20,6 +20,7 @@ import {
   getWidthOptions,
 } from "@/lib/wheel-pricing";
 import styles from "@/app/pricing/page.module.css";
+import { totalLeadTimeDays, type ShippingOption } from "@/lib/order-timelines";
 
 const constructionOptions: Array<{
   value: Construction;
@@ -36,7 +37,8 @@ export function PricingCalculator() {
   const [width, setWidth] = useState("8-13");
   const [currency, setCurrency] = useState<PricingCurrency>("AUD");
   const [addOns, setAddOns] = useState<AddOnId[]>([]);
-  const [expressShipping, setExpressShipping] = useState(false);
+  const [shippingOption, setShippingOption] = useState<ShippingOption>("standard");
+  const expressShipping = shippingOption === "express";
 
   const diameters = getDiameterOptions(construction);
   const widths = getWidthOptions(construction, diameter);
@@ -99,14 +101,19 @@ export function PricingCalculator() {
     width: breakdown.row.widthLabel,
     notes: [
       expressShipping
-        ? "Delivery: Express Air Shipping upgrade"
-        : "Delivery: Free standard shipping",
+        ? "Delivery: Express Shipping — AUD $800 — approximately 2 weeks transit"
+        : "Delivery: Standard Shipping included — approximately 40 days transit",
       addOns.length > 0
         ? `Upgrades: ${breakdown.addOns.map((addOn) => addOn.name).join(", ")}`
         : "",
     ].filter(Boolean).join("\n"),
   });
+  quoteParams.set("shipping", shippingOption);
   const quoteHref = `/contact?${quoteParams.toString()}`;
+  const totalLeadTime = totalLeadTimeDays(
+    construction === "monoblock" ? "one-piece" : "two-piece",
+    shippingOption,
+  );
 
   return (
     <div className={styles.calculator}>
@@ -179,33 +186,21 @@ export function PricingCalculator() {
               </p>
             </div>
           </div>
-          <div className={styles.deliveryOptions}>
-            <div className={styles.includedDelivery}>
-              <span>Standard shipping</span>
-              <strong>Free</strong>
-            </div>
-            <label className={styles.addOn} data-active={expressShipping}>
-              <input
-                checked={expressShipping}
-                onChange={(event) => {
-                  setExpressShipping(event.target.checked);
-                  trackFunnelEvent("PricingConfiguration", {
-                    field: "express_shipping",
-                    value: event.target.checked,
-                  });
-                }}
-                type="checkbox"
-              />
-              <span className={styles.checkmark} aria-hidden="true" />
-              <span className={styles.addOnName}>Express Air Shipping</span>
-              <span className={styles.addOnPrice}>
-                +{formatPrice(
-                  expressAirShippingIncGstAud() * breakdown.currencyRateFromAud,
-                  currency,
-                )}
-              </span>
-            </label>
-          </div>
+          <ShippingSelector
+            value={shippingOption}
+            onChange={(nextOption) => {
+              setShippingOption(nextOption);
+              trackFunnelEvent("PricingConfiguration", {
+                field: "shipping_option",
+                value: nextOption,
+              });
+            }}
+            name="pricing-shipping-option"
+          />
+          <p className={styles.deliveryEstimate} aria-live="polite">
+            <strong>Approximately {totalLeadTime} days total</strong>
+            {construction === "monoblock" ? "20" : "30"} days production + {expressShipping ? "2 weeks" : "40 days"} shipping transit.
+          </p>
         </div>
 
         <div className={styles.controlSection}>
@@ -248,14 +243,14 @@ export function PricingCalculator() {
         <div>
           <p className={styles.resultEyebrow}>Live RRP · GST included</p>
           <p className={styles.resultSpec}>
-            {diameter}&quot; · {breakdown.row.widthLabel} · {expressShipping ? "Express air" : "Free standard shipping"}
+            {diameter}&quot; · {breakdown.row.widthLabel} · {expressShipping ? "Express shipping" : "Standard shipping included"}
           </p>
         </div>
 
         <div className={styles.heroPrice}>
           <span>Set of four</span>
           <strong>{formatPrice(breakdown.displayPerSet, currency)}</strong>
-          <small>{currencySuffix} · includes GST and free standard shipping</small>
+          <small>{currencySuffix} · includes GST · {expressShipping ? "express shipping selected" : "standard shipping included"}</small>
         </div>
 
         <div className={styles.perWheel}>
@@ -276,7 +271,7 @@ export function PricingCalculator() {
           </div>
           {expressShipping ? (
             <div>
-              <span>Express Air Shipping</span>
+              <span>Express Shipping</span>
               <span>+{formatPrice(expressShippingDisplay, currency)}</span>
             </div>
           ) : null}

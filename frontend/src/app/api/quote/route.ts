@@ -103,6 +103,7 @@ function tooBig(payload: QuoteRequestBody): string | null {
     [payload.quoteContext?.productTitle, SHORT_CAP, "productTitle"],
     [payload.quoteContext?.productHandle, 100, "productHandle"],
     [payload.quoteContext?.startingPrice, SHORT_CAP, "startingPrice"],
+    [payload.shipping, 20, "shipping"],
     [payload.tracking?.eventId, 100, "eventId"],
   ];
   for (const [value, max, field] of checks) {
@@ -217,6 +218,10 @@ export async function POST(request: Request) {
       { error: "Please enter a valid email address." },
       { status: 400 },
     );
+  }
+
+  if (body.shipping && body.shipping !== "standard" && body.shipping !== "express") {
+    return NextResponse.json({ error: "Invalid shipping option." }, { status: 400 });
   }
 
   const intakeEmailContent = buildIntakeEmail(body);
