@@ -1,0 +1,11 @@
+.page {
+  min-height: 100vh;
+  padding-top: var(--nav-height);
+  background: #111315;
+}
+
+@media (max-width: 767px) {
+  .page {
+    padding-top: var(--primary-nav-height);
+  }
+}

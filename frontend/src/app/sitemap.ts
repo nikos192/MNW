@@ -6,6 +6,7 @@ import { VEHICLE_SEO_PAGES } from "@/lib/vehicle-seo-pages";
 const staticRoutes = [
   { path: "", priority: 1, changeFrequency: "weekly" as const },
   { path: "/shop", priority: 0.9, changeFrequency: "weekly" as const },
+  { path: "/favourites", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/collections/monoblock", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/collections/multi-piece", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/finishes", priority: 0.7, changeFrequency: "monthly" as const },

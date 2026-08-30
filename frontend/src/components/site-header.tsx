@@ -11,6 +11,7 @@ import styles from "./site-header.module.css";
 
 const leftLinks = [
   { href: "/shop", label: "Shop Wheels" },
+  { href: "/favourites", label: "Our Favourites" },
   { href: "/finishes", label: "Finishes" },
 ];
 
@@ -21,6 +22,7 @@ const rightLinks = [
 
 const mobileLinks = [
   { href: "/shop", label: "Shop Wheels" },
+  { href: "/favourites", label: "Our Favourites" },
   { href: "/finishes", label: "Finishes" },
   { href: "/fitment-tool", label: "Fitment Check" },
   { href: "/pricing", label: "Pricing" },
