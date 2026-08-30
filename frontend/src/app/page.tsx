@@ -6,6 +6,7 @@ import { ConversionLink } from "@/components/conversion-link";
 import { ViewportVideo } from "@/components/viewport-video";
 import { ResponsiveHeroVideo } from "@/components/responsive-hero-video";
 import { OrderJourney } from "@/components/order-journey";
+import { FavouritesSection } from "@/components/favourites-section";
 import { collectionSummaries } from "@/lib/monza-data";
 import { getCatalogData } from "@/lib/catalog";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
@@ -137,6 +138,8 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      <FavouritesSection />
 
       <section className={styles.customDesignSection} aria-labelledby="custom-design-title">
         <div className={`${styles.customDesignInner} container`} data-reveal>
