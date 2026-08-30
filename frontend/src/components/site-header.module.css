@@ -215,6 +215,7 @@
   line-height: 1.5;
   text-transform: uppercase;
   color: var(--text-primary);
+  white-space: nowrap;
 }
 
 .navLink::after {
@@ -358,8 +359,12 @@
 
 @media (max-width: 1100px) {
   .navLink {
-    font-size: 14px;
-    letter-spacing: 0.12em;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+
+  .navList {
+    gap: 14px;
   }
 
   .utilityText {
