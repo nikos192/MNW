@@ -20,7 +20,8 @@ export function trackMetaEvent(
 export function trackFunnelEvent(
   eventName: string,
   parameters?: Record<string, string | number | boolean | string[]>,
+  options?: { eventID?: string },
 ) {
-  window.fbq?.("trackCustom", eventName, parameters);
+  window.fbq?.("trackCustom", eventName, parameters, options);
   window.gtag?.("event", eventName, parameters);
 }

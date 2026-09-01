@@ -70,6 +70,25 @@ export async function sendMetaLeadConversion(event: LeadConversion) {
               lead_type: event.leadType,
             },
           },
+          {
+            action_source: "website",
+            event_id: event.eventId,
+            event_name: "QuoteFormStep",
+            event_source_url: event.eventSourceUrl,
+            event_time: Math.floor(Date.now() / 1000),
+            user_data: userData,
+            custom_data: {
+              content_category: event.leadType === "wheel_quote"
+                ? "Forged wheel quote"
+                : "Custom forged wheel quote",
+              content_ids: event.contentIds,
+              content_name: event.contentName,
+              content_type: "product",
+              lead_type: event.leadType,
+              step: "submitted",
+              step_name: "Enquiry sent",
+            },
+          },
         ],
       }),
     },

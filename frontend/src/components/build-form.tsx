@@ -202,7 +202,6 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
     }
     setSubmitState({ status: "idle", message: "" });
     setStep(2);
-    trackFunnelEvent("QuoteFormStep", { step: 2, step_name: "Optional details" });
     requestAnimationFrame(() => form.scrollIntoView({ behavior: "smooth", block: "start" }));
   }
 
@@ -275,6 +274,11 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
         lead_type: quoteType === "wheel" ? "wheel_quote" : "custom_quote",
       };
       trackMetaEvent("Lead", leadParameters, { eventID: eventId });
+      trackFunnelEvent("QuoteFormStep", {
+        ...leadParameters,
+        step: "submitted",
+        step_name: "Enquiry sent",
+      }, { eventID: eventId });
       form.reset();
       setNotes(initialNotes);
       setCarMake("");
