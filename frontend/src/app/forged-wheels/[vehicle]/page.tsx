@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ConversionLink } from "@/components/conversion-link";
 import { getVehicleFitment } from "@/lib/monza-data";
 import { getVehicleSeoPage, VEHICLE_SEO_PAGES } from "@/lib/vehicle-seo-pages";
+import { breadcrumbJsonLd, jsonLd } from "@/lib/seo";
 import styles from "./page.module.css";
 
 type VehiclePageProps = { params: Promise<{ vehicle: string }> };
@@ -41,6 +42,7 @@ export default async function VehicleForgedWheelsPage({ params }: VehiclePagePro
 
   return (
     <main className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Vehicle fitment", path: "/fitment" }, { name: page.displayName, path: `/forged-wheels/${page.slug}` }]))} />
       <section className={styles.hero}>
         <div className={`${styles.heroInner} container`}>
           <p className="label">{page.displayName} fitment</p>
@@ -78,6 +80,8 @@ export default async function VehicleForgedWheelsPage({ params }: VehiclePagePro
           </dl>
         </div>
       </section>
+
+      {page.provenBuild && <section className={styles.buildProof}><div className={`${styles.buildProofInner} container`}><div><p className="label">A Monza build on this platform</p><h2>{page.provenBuild.wheel}</h2><p>This featured build is visual reference, not a universal fitment specification. Your wheel geometry is still confirmed against your exact car.</p></div><Link className="button-outline" href={page.provenBuild.href}>{page.provenBuild.label}</Link></div></section>}
 
       <section className={styles.decisions}>
         <div className="container">

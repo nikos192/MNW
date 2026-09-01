@@ -13,6 +13,24 @@ export type WheelFinish = {
   name: string;
   swatch: string;
   image: string;
+  family: FinishFamily;
+  treatment: string;
+};
+
+export type FinishFamily =
+  | "Black"
+  | "Silver"
+  | "Bronze"
+  | "Gold"
+  | "Champagne"
+  | "Copper"
+  | "White"
+  | "Custom";
+
+export type ProductDiscovery = {
+  spokeStyle: "5-spoke" | "Split-spoke" | "Multi-spoke" | "Aero";
+  designCharacter: Array<"Performance" | "Grand touring" | "Executive" | "Exotic">;
+  visualForm: Array<"Open" | "Concave" | "Deep lip" | "Directional" | "Mesh" | "Aero">;
 };
 
 export type WheelSpec = {
@@ -37,6 +55,7 @@ export type CatalogProduct = {
   pcdOptions: string[];
   offsetRange: string;
   centreboreOptions: string[];
+  discovery: ProductDiscovery;
 };
 
 export type DeliveredSet = {
@@ -879,7 +898,7 @@ const FINISH_FILES = [
   "Brushed Clear  .jpg",
   "Brushed Copper  .jpg",
   "Brushed Gold  .png",
-  "Brushed Dark Clear.jpg",
+  "brushed dark clear.jpg",
   "Frozen Bronze  .jpg",
   "Frozen Champagne  .jpg",
   "Frozen Clear  .jpg",
@@ -898,11 +917,11 @@ const FINISH_FILES = [
   "Frozen Stone Copper  .jpg",
   "Frozen Stone Gold  .jpg",
   "frozen stone dark clear.jpg",
-  "Gloss Black.jpg",
+  "gloss black.jpg",
   "Gloss Bronze  .jpg",
-  "Gloss Charcoal.jpg",
+  "gloss charcoal.jpg",
   "Gloss Gold  .jpg",
-  "Gloss Silver.jpg",
+  "gloss silver.jpg",
   "Gloss White  .jpg",
   "Gloss White Gold  .jpg",
   "Polished Bronze  .jpg",
@@ -911,11 +930,11 @@ const FINISH_FILES = [
   "Polished Copper  .jpg",
   "Polished Gold  .jpg",
   "polished dark clear.jpg",
-  "Satin Black.jpg",
+  "satin black.jpg",
   "Satin Bronze  .jpg",
-  "Satin Charcoal.jpg",
+  "satin charcoal.jpg",
   "Satin Gold  .jpg",
-  "Satin Silver.jpg",
+  "satin silver.jpg",
   "Satin White Gold  .jpg",
   "Stone Bronze  .jpg",
   "Stone Champagne  .jpg",
@@ -923,7 +942,7 @@ const FINISH_FILES = [
   "Stone Copper  .jpg",
   "Stone Gold  .jpg",
   "Stone Dark Clear.jpg",
-  "Textured Black.jpg",
+  "textured black.jpg",
 ] as const;
 
 function formatFinishName(fileName: string) {
@@ -982,13 +1001,27 @@ function finishTreatment(name: string) {
     .find((treatment) => name.startsWith(treatment)) ?? name;
 }
 
+function finishFamily(name: string): FinishFamily {
+  const value = name.toLowerCase();
+  if (value.includes("black") || value.includes("charcoal") || value.includes("dark clear")) return "Black";
+  if (value.includes("bronze")) return "Bronze";
+  if (value.includes("champagne")) return "Champagne";
+  if (value.includes("copper")) return "Copper";
+  if (value.includes("gold")) return "Gold";
+  if (value.includes("white")) return "White";
+  if (value.includes("silver") || value.includes("clear")) return "Silver";
+  return "Custom";
+}
+
 export const finishOptions: WheelFinish[] = FINISH_FILES
   .map((fileName) => {
     const name = formatFinishName(fileName);
     return {
       name,
       swatch: getFinishSwatch(name),
-      image: `/finishes/${encodeURIComponent(fileName)}`,
+      image: `/finishes/${fileName}`,
+      family: finishFamily(name),
+      treatment: finishTreatment(name),
     };
   })
   .sort((left, right) => {
@@ -1041,6 +1074,33 @@ export function formatAud(amount: number): string {
 // Named production wheels live here. Naming convention: MW-XY where X is the
 // piece count (1 = monoblock, 2 = 2-piece) and Y is the sequential design number.
 type NamedSeries = "1-Piece Forged" | "2-Piece Forged";
+
+const PRODUCT_DISCOVERY: Record<string, ProductDiscovery> = {
+  "MW-11": { spokeStyle: "5-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Open"] },
+  "MW-21": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Grand touring"], visualForm: ["Deep lip", "Open"] },
+  "MW-22": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Deep lip", "Directional"] },
+  "MW-17": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Open", "Concave"] },
+  "MW-28": { spokeStyle: "Aero", designCharacter: ["Exotic", "Grand touring"], visualForm: ["Aero", "Deep lip"] },
+  "MW-12": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Directional", "Open"] },
+  "MW-13": { spokeStyle: "Multi-spoke", designCharacter: ["Performance", "Grand touring"], visualForm: ["Concave", "Open"] },
+  "MW-14": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Open"] },
+  "MW-15": { spokeStyle: "Multi-spoke", designCharacter: ["Performance", "Grand touring"], visualForm: ["Mesh"] },
+  "MW-16": { spokeStyle: "Multi-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Open"] },
+  "MW-18": { spokeStyle: "Multi-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Concave", "Open"] },
+  "MW-19": { spokeStyle: "Multi-spoke", designCharacter: ["Grand touring", "Executive"], visualForm: ["Concave"] },
+  "MW-110": { spokeStyle: "5-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Concave", "Open"] },
+  "MW-111": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Directional", "Open"] },
+  "MW-112": { spokeStyle: "5-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Open", "Concave"] },
+  "MW-113": { spokeStyle: "Multi-spoke", designCharacter: ["Performance", "Grand touring"], visualForm: ["Open"] },
+  "MW-23": { spokeStyle: "Multi-spoke", designCharacter: ["Grand touring", "Executive"], visualForm: ["Mesh", "Deep lip"] },
+  "MW-24": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Directional", "Deep lip"] },
+  "MW-25": { spokeStyle: "5-spoke", designCharacter: ["Grand touring", "Exotic"], visualForm: ["Deep lip", "Open"] },
+  "MW-26": { spokeStyle: "5-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Deep lip", "Concave"] },
+  "MW-27": { spokeStyle: "Multi-spoke", designCharacter: ["Grand touring", "Executive"], visualForm: ["Deep lip", "Mesh"] },
+  "MW-29": { spokeStyle: "Aero", designCharacter: ["Performance", "Exotic"], visualForm: ["Aero", "Deep lip"] },
+  "MW-210": { spokeStyle: "5-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Deep lip", "Open"] },
+  "MW-211": { spokeStyle: "Multi-spoke", designCharacter: ["Grand touring", "Executive"], visualForm: ["Deep lip", "Open"] },
+};
 
 const SERIES_FACTS: Record<
   NamedSeries,
@@ -1121,6 +1181,7 @@ function buildNamedProduct(args: {
     pcdOptions: PCDS,
     offsetRange: facts.offsetRange,
     centreboreOptions: CENTREBORES,
+    discovery: PRODUCT_DISCOVERY[args.handle],
   };
 }
 

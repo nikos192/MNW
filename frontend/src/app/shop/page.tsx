@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { getCatalogData } from "@/lib/catalog";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import { ShopFilter } from "./shop-filter";
+import { ConstructionComparison } from "@/components/construction-comparison";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -45,9 +47,11 @@ export default async function ShopPage() {
 
       <section className={styles.gridSection}>
         <div className="container">
-          <ShopFilter products={products} />
+          <Suspense fallback={<p className={styles.resultCount}>Loading wheel catalogue…</p>}><ShopFilter products={products} /></Suspense>
         </div>
       </section>
+
+      <ConstructionComparison />
 
       <section className={styles.customSection}>
         <div className="container">

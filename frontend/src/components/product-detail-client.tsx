@@ -52,6 +52,10 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const hasTrackedView = useRef(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [activeFinish, setActiveFinish] = useState(product.finishes[0]?.name ?? "");
+  const finishGroups = useMemo(() => Object.entries(product.finishes.reduce<Record<string, typeof product.finishes>>((groups, finish) => {
+    (groups[finish.family] ??= []).push(finish);
+    return groups;
+  }, {})), [product]);
   // Diameter / width are tracked per axle so customers can build staggered sets.
   // When isStaggered is false, only the front picker is shown and we mirror its
   // value into the rear state on each pick.
@@ -651,38 +655,22 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                     <Link className={styles.finishLibraryLink} href="/finishes">Explore &amp; compare all</Link>
                   </div>
                 </div>
-                <div className={styles.swatches} role="radiogroup" aria-label="Finish">
-                  {product.finishes.map((finish) => (
-                    <label key={finish.name} className={styles.swatchItem}>
-                      <input
-                        aria-label={finish.name}
-                        checked={activeFinish === finish.name}
-                        className="visually-hidden"
-                        name="finish"
-                        onChange={() => setActiveFinish(finish.name)}
-                        type="radio"
-                        value={finish.name}
-                      />
-                      <span className={`${styles.finishOption} ${activeFinish === finish.name ? styles.finishOptionActive : ""}`}>
-                        <span className={styles.finishImageWrap}>
-                          <Image
-                            alt={finish.name}
-                            className={styles.finishImage}
-                            src={finish.image}
-                            sizes="(max-width: 767px) 50vw, 180px"
-                            width={320}
-                            height={320}
-                          />
-                        </span>
-                        <span className={styles.finishMeta}>
-                          <span
-                            className={`${styles.swatch} ${getSwatchTone(finish.swatch)}`}
-                            title={finish.name}
-                          />
-                          <span className={styles.finishName}>{finish.name}</span>
-                        </span>
-                      </span>
-                    </label>
+                <div className={styles.finishGroups} role="radiogroup" aria-label="Finish">
+                  {finishGroups.map(([family, finishes]) => (
+                    <section className={styles.finishFamily} key={family} aria-labelledby={`finish-${family.toLowerCase().replaceAll(" ", "-")}`}>
+                      <div className={styles.finishFamilyHeading}><h3 id={`finish-${family.toLowerCase().replaceAll(" ", "-")}`}>{family}</h3><span>{finishes.length} {finishes.length === 1 ? "treatment" : "treatments"}</span></div>
+                      <div className={styles.swatches}>
+                        {finishes.map((finish) => (
+                          <label key={finish.name} className={styles.swatchItem}>
+                            <input aria-label={`${finish.name}, ${finish.family} family, ${finish.treatment} treatment`} checked={activeFinish === finish.name} className="visually-hidden" name="finish" onChange={() => setActiveFinish(finish.name)} type="radio" value={finish.name} />
+                            <span className={`${styles.finishOption} ${activeFinish === finish.name ? styles.finishOptionActive : ""}`}>
+                              <span className={styles.finishImageWrap}><Image alt="" className={styles.finishImage} src={finish.image} sizes="(max-width: 767px) 44vw, 150px" width={320} height={320} /></span>
+                              <span className={styles.finishMeta}><span className={`${styles.swatch} ${getSwatchTone(finish.swatch)}`} aria-hidden="true" /><span><span className={styles.finishName}>{finish.name}</span><span className={styles.finishTreatment}>{finish.treatment}</span></span></span>
+                            </span>
+                          </label>
+                        ))}
+                      </div>
+                    </section>
                   ))}
                 </div>
               </div>

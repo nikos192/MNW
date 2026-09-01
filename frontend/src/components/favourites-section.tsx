@@ -64,7 +64,7 @@ function BuildCarousel({ build, buildIndex }: { build: FavouriteBuild; buildInde
   }
 
   return (
-    <article className={styles.feature} aria-labelledby={titleId}>
+    <article className={styles.feature} aria-labelledby={titleId} id={build.car === "McLaren 720S" ? "mclaren-720s" : build.car === "Mercedes-AMG E63 S" ? "mercedes-amg-e63-s" : "bmw-f82-m4-competition"}>
       <div
         className={styles.carousel}
         role="group"

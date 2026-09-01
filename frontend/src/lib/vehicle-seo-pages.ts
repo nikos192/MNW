@@ -4,9 +4,34 @@ export type VehicleSeoPage = {
   model: string;
   displayName: string;
   audienceCopy: string;
+  provenBuild?: { label: string; wheel: string; href: string };
 };
 
 export const VEHICLE_SEO_PAGES: VehicleSeoPage[] = [
+  {
+    slug: "bmw-m4-f82",
+    make: "BMW",
+    model: "M4 F82",
+    displayName: "BMW F82 M4",
+    audienceCopy: "Develop an F82 M4 wheel around its brake package, suspension and intended stance, with polished multi-piece or restrained monoblock directions resolved before machining.",
+    provenBuild: { label: "See the Yas Marina Blue M4 Competition build", wheel: 'MW-21 “Ascari”', href: "/favourites#bmw-f82-m4-competition" },
+  },
+  {
+    slug: "mercedes-amg-e63-s-w213",
+    make: "Mercedes",
+    model: "E63 S AMG W213",
+    displayName: "Mercedes-AMG E63 S W213",
+    audienceCopy: "Balance the W213 E63 S platform’s executive character and performance intent with geometry reviewed around its brakes, suspension and required load path.",
+    provenBuild: { label: "See the black E63 S build", wheel: 'MW-22 “Lesmo”', href: "/favourites#mercedes-amg-e63-s" },
+  },
+  {
+    slug: "mclaren-720s",
+    make: "McLaren",
+    model: "720S",
+    displayName: "McLaren 720S",
+    audienceCopy: "Shape a bespoke 720S wheel direction around the car’s brake envelope, proportions and sculpted surfacing, then approve the final render before machining.",
+    provenBuild: { label: "See the bespoke white 720S build", wheel: "Custom forged design", href: "/favourites#mclaren-720s" },
+  },
   {
     slug: "bmw-m3-g80",
     make: "BMW",

@@ -5,6 +5,11 @@
 .heroInner > p:not(:first-child) { max-width: 58ch; color: var(--text-muted); font-size: 18px; line-height: 1.65; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .fitment, .decisions, .cta { padding: var(--section-pad-v) 0; }
+.buildProof { padding: 0 0 var(--section-pad-v); }
+.buildProofInner { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 32px; padding-top: 36px; border-top: 1px solid var(--rule); }
+.buildProofInner > div { display: grid; gap: 12px; max-width: 720px; }
+.buildProof h2 { font-size: clamp(2.4rem,5vw,4.5rem); text-transform: uppercase; }
+.buildProof p:not(.label) { color: var(--text-muted); line-height: 1.65; }
 .fitmentGrid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(44px, 8vw, 110px); }
 .fitmentGrid > div { display: grid; gap: 16px; align-content: start; }
 .fitmentGrid h2, .sectionHeading h2, .cta h2 { font-size: clamp(3rem, 6vw, 5.2rem); line-height: .92; text-transform: uppercase; }
@@ -25,7 +30,7 @@
 .ctaInner { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 32px; }
 .ctaInner > div { display: grid; gap: 12px; max-width: 780px; }
 @media (max-width: 800px) {
- .fitmentGrid, .ctaInner { grid-template-columns: 1fr; }
+ .fitmentGrid, .ctaInner, .buildProofInner { grid-template-columns: 1fr; }
  .cards { grid-template-columns: 1fr; }
  .cards article, .cards article + article { padding: 24px 0; border-left: 0; }
 }

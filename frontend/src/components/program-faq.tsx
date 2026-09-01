@@ -17,6 +17,11 @@ const questions = [
       "Full payment is completed at the start of the confirmed production order, after the design, fitment, price and expected timing have been reviewed with you.",
   },
   {
+    question: "Can I request design changes?",
+    answer:
+      "The 3D render is provided for review before production, so feedback can be resolved before you approve machining. The number and scope of revisions depend on the brief and are confirmed with your quote rather than assumed as a fixed allowance.",
+  },
+  {
     question: "How long does production take?",
     answer:
       "Production is approximately 20 days for one-piece forged wheels and 30 days for two-piece forged wheels after approval. Shipping is additional: approximately 40 days standard or 2 weeks express.",

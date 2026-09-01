@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BuildForm } from "@/components/build-form";
 import { ConversionLink } from "@/components/conversion-link";
 import { ProgramFaq } from "@/components/program-faq";
+import { ConstructionComparison } from "@/components/construction-comparison";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import styles from "./page.module.css";
 
@@ -106,6 +107,8 @@ export default function CustomForgedWheelsPage() {
           </ol>
         </div>
       </section>
+
+      <ConstructionComparison />
 
       <section className={styles.quoteSection} id="quote">
         <div className={`${styles.quoteGrid} container`}>
