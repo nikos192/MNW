@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
 import { getCatalogData } from "@/lib/catalog";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import { ShopFilter } from "./shop-filter";
@@ -47,7 +46,7 @@ export default async function ShopPage() {
 
       <section className={styles.gridSection}>
         <div className="container">
-          <Suspense fallback={<p className={styles.resultCount}>Loading wheel catalogue…</p>}><ShopFilter products={products} /></Suspense>
+          <ShopFilter products={products} />
         </div>
       </section>
 
