@@ -7,10 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --test --experimental-strip-types tests/*.test.mts"
+    "format": "prettier --write \"src/lib/merchant/**/*.ts\" \"src/app/api/merchant-sync/route.ts\" \"scripts/merchant-sync.ts\" \"tests/merchant-sync.test.mts\" \"docs/google-merchant-sync.md\" \"vercel.json\" \".env.example\"",
+    "format:check": "prettier --check \"src/lib/merchant/**/*.ts\" \"src/app/api/merchant-sync/route.ts\" \"scripts/merchant-sync.ts\" \"tests/merchant-sync.test.mts\" \"docs/google-merchant-sync.md\" \"vercel.json\" \".env.example\"",
+    "test": "node --test --experimental-strip-types tests/*.test.mts",
+    "typecheck": "tsc --noEmit",
+    "merchant:sync": "tsx scripts/merchant-sync.ts"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.2",
+    "google-auth-library": "^11.0.2",
     "lucide-react": "^1.7.0",
     "next": "^16.2.6",
     "react": "19.2.4",
@@ -26,6 +31,8 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.2",
+    "prettier": "^3.9.6",
+    "tsx": "^4.23.13",
     "typescript": "^5"
   }
 }

@@ -5,3 +5,10 @@
 CUSTOMER-*
 .vercel
 .env*
+
+# Cloud credential files — use environment secrets/ADC, never repository files
+*.pem
+*service-account*.json
+*service_account*.json
+*merchant-credentials*.json
+*merchant_credentials*.json
