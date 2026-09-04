@@ -65,6 +65,7 @@ const footerColumns = [
     links: [
       { href: "/contact?design=custom", label: "Custom Design Quote" },
       { href: "/warranty", label: "Warranty" },
+      { href: "/returns", label: "Returns Policy" },
       { href: "/fitment-tool", label: "Fitment Tool" },
       { href: "/privacypolicy", label: "Privacy Policy" },
     ],

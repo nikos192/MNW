@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { FormEvent, useState, useRef, useEffect } from "react";
 import { BRAND_NAME } from "@/lib/brand";
 import { getVehicleFitment, vehicleData } from "@/lib/monza-data";
@@ -542,6 +543,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
 
       <p className={styles.help}>
         {`Your request goes directly to ${BRAND_NAME}. We confirm fitment, price and delivery choice, then provide a custom 3D render for your approval before production.`}
+        {" "}<Link href="/returns">Made-to-order returns and cancellations</Link>
       </p>
     </form>
   );

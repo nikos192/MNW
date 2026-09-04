@@ -315,6 +315,16 @@
   text-transform: uppercase;
 }
 
+.help a {
+  border-bottom: 1px solid currentColor;
+  color: var(--text-primary);
+}
+
+.help a:hover,
+.help a:focus-visible {
+  color: var(--accent-red);
+}
+
 /* ── Honeypot (off-screen, real users never see it) ── */
 
 .honeypot {
