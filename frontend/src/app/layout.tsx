@@ -6,6 +6,7 @@ import { SiteEffects } from "@/components/site-effects";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { MetaPixel } from "@/components/meta-pixel";
+import { GoogleTag } from "@/components/google-tag";
 import {
   DEFAULT_OG_IMAGE,
   DEFAULT_SEO_DESCRIPTION,
@@ -101,6 +102,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${headingFont.variable} ${bodyFont.variable} ${wordmarkFont.variable}`}>
       <body>
+        <GoogleTag />
         <MetaPixel />
         <script
           type="application/ld+json"
