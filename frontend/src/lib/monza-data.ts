@@ -1062,7 +1062,6 @@ export const customFinishOptions: ReadonlyArray<{ name: string; copy: string }> 
     copy: "Full chrome face for the most reflective, deliberate read.",
   },
 ];
-
 export function formatAud(amount: number): string {
   const hasCents = amount % 1 !== 0;
   return `$${amount.toLocaleString("en-AU", {
@@ -1092,6 +1091,7 @@ const PRODUCT_DISCOVERY: Record<string, ProductDiscovery> = {
   "MW-111": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Directional", "Open"] },
   "MW-112": { spokeStyle: "5-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Open", "Concave"] },
   "MW-113": { spokeStyle: "Multi-spoke", designCharacter: ["Performance", "Grand touring"], visualForm: ["Open"] },
+  "MW-114": { spokeStyle: "Multi-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Open", "Concave"] },
   "MW-23": { spokeStyle: "Multi-spoke", designCharacter: ["Grand touring", "Executive"], visualForm: ["Mesh", "Deep lip"] },
   "MW-24": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Directional", "Deep lip"] },
   "MW-25": { spokeStyle: "5-spoke", designCharacter: ["Grand touring", "Exotic"], visualForm: ["Deep lip", "Open"] },
@@ -1100,6 +1100,8 @@ const PRODUCT_DISCOVERY: Record<string, ProductDiscovery> = {
   "MW-29": { spokeStyle: "Aero", designCharacter: ["Performance", "Exotic"], visualForm: ["Aero", "Deep lip"] },
   "MW-210": { spokeStyle: "5-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Deep lip", "Open"] },
   "MW-211": { spokeStyle: "Multi-spoke", designCharacter: ["Grand touring", "Executive"], visualForm: ["Deep lip", "Open"] },
+  "MW-212": { spokeStyle: "5-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Deep lip", "Open"] },
+  "MW-213": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Directional", "Deep lip", "Open"] },
 };
 
 const SERIES_FACTS: Record<
@@ -1355,6 +1357,16 @@ const namedProducts: CatalogProduct[] = [
     imageBasePath: "/Wheels",
   }),
   buildNamedProduct({
+    handle: "MW-114",
+    title: 'MW-114 "Fiorano"',
+    series: "1-Piece Forged",
+    shortDescription: "A deeply sculpted paired multi-spoke monoblock with layered bridges and an open technical face.",
+    description:
+      'MW-114 "Fiorano" builds a complex monoblock face from fine paired spokes, structural bridges, and precisely relieved pockets around the hub and rim. The layered geometry creates depth without closing off the brake package, giving the wheel a highly technical, lightweight character. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1m.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
     handle: "MW-23",
     title: 'MW-23 "San Donato"',
     series: "2-Piece Forged",
@@ -1432,6 +1444,26 @@ const namedProducts: CatalogProduct[] = [
     description:
       'MW-211 "Palagio" uses ten long, slender spokes to draw the forged centre cleanly from hub to rim. Subtle channels add definition without interrupting the flowing face, while the polished 2-piece barrel brings depth and a crisp outer edge. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["2i.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-212",
+    title: 'MW-212 "Vallelunga"',
+    series: "2-Piece Forged",
+    shortDescription: "A clean five-spoke centre with deep black pockets and a bright polished step lip.",
+    description:
+      'MW-212 "Vallelunga" pairs a broad five-spoke forged centre with deep gloss-black pockets and a polished 2-piece barrel. Softly radiused spoke edges keep the face clean and substantial, while the stepped lip brings a strong period-performance profile. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["2j.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-213",
+    title: 'MW-213 "Misano"',
+    series: "2-Piece Forged",
+    shortDescription: "A sharply directional split-spoke centre framed by exposed hardware and a deep polished barrel.",
+    description:
+      'MW-213 "Misano" uses long, blade-like split spokes to create a strongly directional forged centre with pronounced visual tension. Exposed perimeter hardware and the deep polished 2-piece barrel amplify the layered construction, while generous windows preserve brake visibility. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["2k.png"],
     imageBasePath: "/Wheels",
   }),
 ];
