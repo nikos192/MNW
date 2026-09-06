@@ -1253,7 +1253,7 @@ const namedProducts: CatalogProduct[] = [
     shortDescription: "A directional split-spoke monoblock with a sharply machined outer edge.",
     description:
       'MW-12 "Roggia" brings a directional split-spoke face to the MonzaWheels monoblock library. Ten angular spokes sweep into a deeply relieved centre, while the machined perimeter keeps the profile light and technical. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
-    imageFileNames: ["1A.png"],
+    imageFileNames: ["1a1.png", "1a2.PNG", "1a3.PNG"],
     imageBasePath: "/Wheels",
   }),
   buildNamedProduct({
