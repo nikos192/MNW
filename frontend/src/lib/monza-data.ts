@@ -29,8 +29,12 @@ export type FinishFamily =
 
 export type ProductDiscovery = {
   spokeStyle: "5-spoke" | "Split-spoke" | "Multi-spoke" | "Aero";
-  designCharacter: Array<"Performance" | "Grand touring" | "Executive" | "Exotic">;
-  visualForm: Array<"Open" | "Concave" | "Deep lip" | "Directional" | "Mesh" | "Aero">;
+  designCharacter: Array<
+    "Performance" | "Grand touring" | "Executive" | "Exotic"
+  >;
+  visualForm: Array<
+    "Open" | "Concave" | "Deep lip" | "Directional" | "Mesh" | "Aero"
+  >;
 };
 
 export type WheelSpec = {
@@ -382,7 +386,7 @@ export const vehicleData: Record<string, Record<string, number[]>> = {
     "Panamera 970": yr(2009, 2016),
     "Panamera 971": yr(2016, 2024),
     "Panamera Turbo S 971": yr(2017, 2024),
-    "Taycan": yr(2019, 2024),
+    Taycan: yr(2019, 2024),
   },
 
   Nissan: {
@@ -444,9 +448,9 @@ export const vehicleData: Record<string, Record<string, number[]>> = {
     "Huracán EVO": yr(2019, 2024),
     "Huracán Performante": yr(2017, 2021),
     "Huracán STO": yr(2020, 2024),
-    "Urus": yr(2018, 2024),
+    Urus: yr(2018, 2024),
     "Urus Performante": yr(2022, 2024),
-    "Gallardo": yr(2003, 2013),
+    Gallardo: yr(2003, 2013),
     "Aventador SVJ": yr(2018, 2022),
   },
 
@@ -456,11 +460,11 @@ export const vehicleData: Record<string, Record<string, number[]>> = {
     "F8 Tributo": yr(2019, 2024),
     "F8 Spider": yr(2019, 2024),
     "SF90 Stradale": yr(2020, 2024),
-    "Roma": yr(2020, 2024),
-    "Purosangue": yr(2022, 2024),
+    Roma: yr(2020, 2024),
+    Purosangue: yr(2022, 2024),
     "296 GTB": yr(2022, 2024),
     "812 Superfast": yr(2017, 2022),
-    "F430": yr(2004, 2009),
+    F430: yr(2004, 2009),
     "458 Italia": yr(2009, 2015),
   },
 
@@ -470,8 +474,8 @@ export const vehicleData: Record<string, Record<string, number[]>> = {
     "620R": yr(2020, 2022),
     "720S": yr(2017, 2023),
     "765LT": yr(2020, 2023),
-    "GT": yr(2019, 2024),
-    "Artura": yr(2022, 2024),
+    GT: yr(2019, 2024),
+    Artura: yr(2022, 2024),
     "750S": yr(2023, 2024),
   },
 
@@ -487,9 +491,9 @@ export const vehicleData: Record<string, Record<string, number[]>> = {
     "IS350 XE30": yr(2013, 2024),
     "IS500 XE30": yr(2021, 2024),
     "RC F": yr(2014, 2024),
-    "LC500": yr(2017, 2024),
+    LC500: yr(2017, 2024),
     "GS F": yr(2015, 2020),
-    "LFA": yr(2010, 2012),
+    LFA: yr(2010, 2012),
   },
 
   "Holden / HSV": {
@@ -516,381 +520,1997 @@ export type VehicleFitment = {
 
 export const vehicleFitment: Record<string, Record<string, VehicleFitment>> = {
   BMW: {
-    "1 Series E87": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 17, maxDiameter: 19 },
-    "1 Series F20": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 17, maxDiameter: 19 },
-    "1 Series F40": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 17, maxDiameter: 19 },
-    "2 Series F22 Coupe": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 17, maxDiameter: 20 },
-    "2 Series G42 Coupe": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 20 },
-    "2 Series F44 Gran Coupe": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 17, maxDiameter: 19 },
-    "3 Series E46": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 17, maxDiameter: 19 },
-    "3 Series E90": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 17, maxDiameter: 20 },
-    "3 Series F30": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 17, maxDiameter: 20 },
-    "3 Series G20": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 20 },
-    "4 Series F32": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 18, maxDiameter: 20 },
-    "4 Series G22": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 20 },
-    "5 Series E60": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 17, maxDiameter: 20 },
-    "5 Series F10": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 18, maxDiameter: 21 },
-    "5 Series G30": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 21 },
-    "5 Series G60": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
-    "6 Series E63": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 18, maxDiameter: 20 },
-    "6 Series F12/F13": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 18, maxDiameter: 21 },
-    "7 Series E65": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 18, maxDiameter: 21 },
-    "7 Series F01": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 19, maxDiameter: 21 },
-    "7 Series G11": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
-    "7 Series G70": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 22 },
-    "8 Series E31": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 17, maxDiameter: 19 },
-    "8 Series G14/G15": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
-    "M2 F87": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 18, maxDiameter: 20 },
-    "M2 G87": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
-    "M3 E46": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 18, maxDiameter: 19 },
-    "M3 E90/E92/E93": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 18, maxDiameter: 20 },
-    "M3 F80": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 18, maxDiameter: 20 },
-    "M3 G80": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
-    "M4 F82": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 18, maxDiameter: 20 },
-    "M4 G82": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
-    "M5 E60": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 19, maxDiameter: 20 },
-    "M5 F10": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 19, maxDiameter: 21 },
-    "M5 F90": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
-    "M6 E63": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 18, maxDiameter: 20 },
-    "M6 F12/F13": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 19, maxDiameter: 21 },
-    "M8 G14/G15": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
-    "X1 F48": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 17, maxDiameter: 20 },
-    "X1 U11": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 20 },
-    "X2 F39": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 17, maxDiameter: 20 },
-    "X3 E83": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 17, maxDiameter: 20 },
-    "X3 F25": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 18, maxDiameter: 21 },
-    "X3 G01": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 21 },
-    "X3 M F97": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
-    "X4 F26": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 18, maxDiameter: 21 },
-    "X4 G02": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 21 },
-    "X4 M F98": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
-    "X5 E53": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 18, maxDiameter: 21 },
-    "X5 E70": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 18, maxDiameter: 22 },
-    "X5 F15": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 19, maxDiameter: 22 },
-    "X5 G05": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 22 },
-    "X5 M F85": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 20, maxDiameter: 22 },
-    "X5 M F95": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 20, maxDiameter: 22 },
-    "X6 E71": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 19, maxDiameter: 22 },
-    "X6 F16": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 19, maxDiameter: 22 },
-    "X6 G06": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 22 },
-    "X6 M F86": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 20, maxDiameter: 22 },
-    "X6 M F96": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 20, maxDiameter: 22 },
-    "X7 G07": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 20, maxDiameter: 23 },
-    "Z4 E85/E86": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 17, maxDiameter: 19 },
-    "Z4 E89": { pcd: "5x120", centreBore: "72.6mm", minDiameter: 17, maxDiameter: 19 },
-    "Z4 G29": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 20 },
-    "i4 G26": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 20 },
-    "i5 G60": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
-    "i7 G70": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
+    "1 Series E87": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "1 Series F20": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "1 Series F40": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "2 Series F22 Coupe": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "2 Series G42 Coupe": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "2 Series F44 Gran Coupe": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "3 Series E46": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "3 Series E90": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "3 Series F30": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "3 Series G20": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "4 Series F32": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "4 Series G22": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "5 Series E60": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "5 Series F10": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "5 Series G30": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "5 Series G60": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "6 Series E63": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "6 Series F12/F13": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "7 Series E65": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "7 Series F01": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "7 Series G11": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "7 Series G70": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 22,
+    },
+    "8 Series E31": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "8 Series G14/G15": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "M2 F87": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "M2 G87": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "M3 E46": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 18,
+      maxDiameter: 19,
+    },
+    "M3 E90/E92/E93": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "M3 F80": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "M3 G80": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "M4 F82": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "M4 G82": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "M5 E60": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "M5 F10": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "M5 F90": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "M6 E63": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "M6 F12/F13": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "M8 G14/G15": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "X1 F48": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "X1 U11": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "X2 F39": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "X3 E83": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "X3 F25": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "X3 G01": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "X3 M F97": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "X4 F26": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "X4 G02": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "X4 M F98": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "X5 E53": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "X5 E70": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 18,
+      maxDiameter: 22,
+    },
+    "X5 F15": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 19,
+      maxDiameter: 22,
+    },
+    "X5 G05": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 22,
+    },
+    "X5 M F85": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 20,
+      maxDiameter: 22,
+    },
+    "X5 M F95": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 20,
+      maxDiameter: 22,
+    },
+    "X6 E71": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 19,
+      maxDiameter: 22,
+    },
+    "X6 F16": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 19,
+      maxDiameter: 22,
+    },
+    "X6 G06": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 22,
+    },
+    "X6 M F86": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 20,
+      maxDiameter: 22,
+    },
+    "X6 M F96": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 20,
+      maxDiameter: 22,
+    },
+    "X7 G07": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 20,
+      maxDiameter: 23,
+    },
+    "Z4 E85/E86": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "Z4 E89": {
+      pcd: "5x120",
+      centreBore: "72.6mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "Z4 G29": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "i4 G26": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "i5 G60": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "i7 G70": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
   },
 
   Audi: {
-    "A1 8X": { pcd: "5x100", centreBore: "57.1mm", minDiameter: 16, maxDiameter: 18 },
-    "A1 GB": { pcd: "5x100", centreBore: "57.1mm", minDiameter: 16, maxDiameter: 18 },
-    "A3 8P": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 19 },
-    "A3 8V": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 19 },
-    "A3 8Y": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 19 },
-    "S3 8P": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 19 },
-    "S3 8V": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 19 },
-    "S3 8Y": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 19 },
-    "RS3 8V": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 19 },
-    "RS3 8Y": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 20 },
-    "A4 B6": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 16, maxDiameter: 19 },
-    "A4 B7": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 16, maxDiameter: 19 },
-    "A4 B8": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 20 },
-    "A4 B9": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 17, maxDiameter: 20 },
-    "S4 B8": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 20 },
-    "S4 B9": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 18, maxDiameter: 20 },
-    "RS4 B7": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 20 },
-    "RS4 B8": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 19, maxDiameter: 20 },
-    "RS4 B9": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 19, maxDiameter: 21 },
-    "A5 B8": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 20 },
-    "A5 B9": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 17, maxDiameter: 20 },
-    "S5 B8": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 20 },
-    "S5 B9": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 18, maxDiameter: 20 },
-    "RS5 B8": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 19, maxDiameter: 20 },
-    "RS5 B9": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 19, maxDiameter: 21 },
-    "A6 C6": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 19 },
-    "A6 C7": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 20 },
-    "A6 C8": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 18, maxDiameter: 21 },
-    "S6 C7": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 19, maxDiameter: 20 },
-    "S6 C8": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 19, maxDiameter: 21 },
-    "RS6 C5": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 19 },
-    "RS6 C6": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 19, maxDiameter: 20 },
-    "RS6 C7": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 20, maxDiameter: 21 },
-    "RS6 C8": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 20, maxDiameter: 22 },
-    "A7 C7": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 20 },
-    "A7 C8": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 19, maxDiameter: 21 },
-    "S7 C7": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 19, maxDiameter: 20 },
-    "S7 C8": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 19, maxDiameter: 21 },
-    "RS7 C7": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 20, maxDiameter: 21 },
-    "RS7 C8": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 20, maxDiameter: 22 },
-    "A8 D3": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 20 },
-    "A8 D4": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 21 },
-    "A8 D5": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 19, maxDiameter: 21 },
-    "S8 D4": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 20, maxDiameter: 21 },
-    "S8 D5": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 20, maxDiameter: 21 },
-    "Q2 GA": { pcd: "5x100", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 19 },
-    "Q3 8U": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 19 },
-    "Q3 F3": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 20 },
-    "RS Q3 F3": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 19, maxDiameter: 21 },
-    "Q5 8R": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 18, maxDiameter: 20 },
-    "Q5 FY": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 18, maxDiameter: 21 },
-    "SQ5 8R": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 19, maxDiameter: 20 },
-    "SQ5 FY": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 19, maxDiameter: 21 },
-    "Q7 4L": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 18, maxDiameter: 22 }, // shares Cayenne 92A platform
-    "Q7 4M": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 19, maxDiameter: 22 },
-    "SQ7 4M": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 20, maxDiameter: 22 },
-    "Q8 4MN": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 20, maxDiameter: 22 },
-    "SQ8 4MN": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 20, maxDiameter: 22 },
-    "RS Q8 4MN": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 21, maxDiameter: 23 },
-    "R8 V8 Gen1": { pcd: "5x112", centreBore: "57.1mm front / 66.5mm rear", minDiameter: 19, maxDiameter: 19 },
-    "R8 V10 Gen2": { pcd: "5x112", centreBore: "57.1mm front / 66.5mm rear", minDiameter: 19, maxDiameter: 20 },
-    "TT 8N": { pcd: "5x100", centreBore: "57.1mm", minDiameter: 16, maxDiameter: 18 },
-    "TT 8J": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 19 },
-    "TT 8S": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 20 },
-    "TTS 8J": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 19 },
-    "TTS 8S": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 19, maxDiameter: 20 },
-    "TT RS 8J": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 19, maxDiameter: 20 },
-    "TT RS 8S": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 19, maxDiameter: 20 },
+    "A1 8X": {
+      pcd: "5x100",
+      centreBore: "57.1mm",
+      minDiameter: 16,
+      maxDiameter: 18,
+    },
+    "A1 GB": {
+      pcd: "5x100",
+      centreBore: "57.1mm",
+      minDiameter: 16,
+      maxDiameter: 18,
+    },
+    "A3 8P": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "A3 8V": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "A3 8Y": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "S3 8P": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 19,
+    },
+    "S3 8V": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 19,
+    },
+    "S3 8Y": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 19,
+    },
+    "RS3 8V": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 19,
+    },
+    "RS3 8Y": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "A4 B6": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 16,
+      maxDiameter: 19,
+    },
+    "A4 B7": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 16,
+      maxDiameter: 19,
+    },
+    "A4 B8": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "A4 B9": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "S4 B8": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "S4 B9": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "RS4 B7": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "RS4 B8": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "RS4 B9": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "A5 B8": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "A5 B9": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "S5 B8": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "S5 B9": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "RS5 B8": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "RS5 B9": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "A6 C6": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "A6 C7": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "A6 C8": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "S6 C7": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "S6 C8": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "RS6 C5": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 19,
+    },
+    "RS6 C6": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "RS6 C7": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 20,
+      maxDiameter: 21,
+    },
+    "RS6 C8": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 20,
+      maxDiameter: 22,
+    },
+    "A7 C7": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "A7 C8": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "S7 C7": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "S7 C8": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "RS7 C7": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 20,
+      maxDiameter: 21,
+    },
+    "RS7 C8": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 20,
+      maxDiameter: 22,
+    },
+    "A8 D3": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "A8 D4": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "A8 D5": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "S8 D4": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 20,
+      maxDiameter: 21,
+    },
+    "S8 D5": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 20,
+      maxDiameter: 21,
+    },
+    "Q2 GA": {
+      pcd: "5x100",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "Q3 8U": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "Q3 F3": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "RS Q3 F3": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "Q5 8R": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "Q5 FY": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "SQ5 8R": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "SQ5 FY": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "Q7 4L": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 18,
+      maxDiameter: 22,
+    }, // shares Cayenne 92A platform
+    "Q7 4M": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 19,
+      maxDiameter: 22,
+    },
+    "SQ7 4M": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 20,
+      maxDiameter: 22,
+    },
+    "Q8 4MN": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 20,
+      maxDiameter: 22,
+    },
+    "SQ8 4MN": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 20,
+      maxDiameter: 22,
+    },
+    "RS Q8 4MN": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 21,
+      maxDiameter: 23,
+    },
+    "R8 V8 Gen1": {
+      pcd: "5x112",
+      centreBore: "57.1mm front / 66.5mm rear",
+      minDiameter: 19,
+      maxDiameter: 19,
+    },
+    "R8 V10 Gen2": {
+      pcd: "5x112",
+      centreBore: "57.1mm front / 66.5mm rear",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "TT 8N": {
+      pcd: "5x100",
+      centreBore: "57.1mm",
+      minDiameter: 16,
+      maxDiameter: 18,
+    },
+    "TT 8J": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "TT 8S": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "TTS 8J": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 19,
+    },
+    "TTS 8S": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "TT RS 8J": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "TT RS 8S": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
   },
 
   Mercedes: {
-    "A-Class W176": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 17, maxDiameter: 19 },
-    "A-Class W177": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 17, maxDiameter: 19 },
-    "A45 AMG W176": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 19 },
-    "A45 S AMG W177": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 19 },
-    "CLA C117": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 17, maxDiameter: 19 },
-    "CLA C118": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 17, maxDiameter: 19 },
-    "CLA 45 AMG C117": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 19 },
-    "CLA 45 S AMG C118": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 19 },
-    "C-Class W203": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 16, maxDiameter: 19 },
-    "C-Class W204": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 17, maxDiameter: 19 },
-    "C-Class W205": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 17, maxDiameter: 20 },
-    "C-Class W206": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 20 },
-    "C43 AMG W205": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 20 },
-    "C43 AMG W206": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
-    "C63 AMG W204": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 20 },
-    "C63 AMG W205": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 20 },
-    "C63 S AMG W205": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
-    "C63 S AMG W206": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
-    "E-Class W211": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 17, maxDiameter: 19 },
-    "E-Class W212": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 17, maxDiameter: 20 },
-    "E-Class W213": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 20 },
-    "E43 AMG W213": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
-    "E53 AMG W213": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
-    "E63 AMG W212": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
-    "E63 S AMG W213": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
-    "S-Class W221": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 20 },
-    "S-Class W222": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 21 },
-    "S-Class W223": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
-    "S63 AMG W222": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
-    "S63 AMG W223": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 20, maxDiameter: 21 },
-    "G-Class W463": { pcd: "5x130", centreBore: "84.1mm", minDiameter: 18, maxDiameter: 22 },
-    "G-Class W464": { pcd: "5x130", centreBore: "84.1mm", minDiameter: 19, maxDiameter: 23 },
-    "G63 AMG W463": { pcd: "5x130", centreBore: "84.1mm", minDiameter: 20, maxDiameter: 22 },
-    "G63 AMG W464": { pcd: "5x130", centreBore: "84.1mm", minDiameter: 20, maxDiameter: 23 },
-    "GLC X253": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 21 },
-    "GLC X254": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 21 },
-    "GLC 63 AMG X253": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
-    "GLE W166": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 22 },
-    "GLE W167": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 22 },
-    "GLE 63 AMG W166": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 20, maxDiameter: 22 },
-    "GLE 63 S AMG W167": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 20, maxDiameter: 22 },
-    "AMG GT C190": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
-    "AMG GT 4-Door X290": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
-    "SL R231": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 20 },
-    "SL R232": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 21 },
+    "A-Class W176": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "A-Class W177": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "A45 AMG W176": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 19,
+    },
+    "A45 S AMG W177": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 19,
+    },
+    "CLA C117": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "CLA C118": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "CLA 45 AMG C117": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 19,
+    },
+    "CLA 45 S AMG C118": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 19,
+    },
+    "C-Class W203": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 16,
+      maxDiameter: 19,
+    },
+    "C-Class W204": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "C-Class W205": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "C-Class W206": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "C43 AMG W205": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "C43 AMG W206": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "C63 AMG W204": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "C63 AMG W205": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "C63 S AMG W205": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "C63 S AMG W206": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "E-Class W211": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "E-Class W212": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "E-Class W213": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "E43 AMG W213": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "E53 AMG W213": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "E63 AMG W212": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "E63 S AMG W213": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "S-Class W221": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "S-Class W222": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "S-Class W223": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "S63 AMG W222": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "S63 AMG W223": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 20,
+      maxDiameter: 21,
+    },
+    "G-Class W463": {
+      pcd: "5x130",
+      centreBore: "84.1mm",
+      minDiameter: 18,
+      maxDiameter: 22,
+    },
+    "G-Class W464": {
+      pcd: "5x130",
+      centreBore: "84.1mm",
+      minDiameter: 19,
+      maxDiameter: 23,
+    },
+    "G63 AMG W463": {
+      pcd: "5x130",
+      centreBore: "84.1mm",
+      minDiameter: 20,
+      maxDiameter: 22,
+    },
+    "G63 AMG W464": {
+      pcd: "5x130",
+      centreBore: "84.1mm",
+      minDiameter: 20,
+      maxDiameter: 23,
+    },
+    "GLC X253": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "GLC X254": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "GLC 63 AMG X253": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "GLE W166": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 22,
+    },
+    "GLE W167": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 22,
+    },
+    "GLE 63 AMG W166": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 20,
+      maxDiameter: 22,
+    },
+    "GLE 63 S AMG W167": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 20,
+      maxDiameter: 22,
+    },
+    "AMG GT C190": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "AMG GT 4-Door X290": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "SL R231": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "SL R232": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
   },
 
   Volkswagen: {
-    "Golf Mk4": { pcd: "5x100", centreBore: "57.1mm", minDiameter: 16, maxDiameter: 18 },
-    "Golf Mk5": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 16, maxDiameter: 19 },
-    "Golf Mk6": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 16, maxDiameter: 19 },
-    "Golf Mk7": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 19 },
-    "Golf Mk8": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 20 },
-    "Golf GTI Mk5": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 19 },
-    "Golf GTI Mk6": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 19 },
-    "Golf GTI Mk7": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 20 },
-    "Golf GTI Mk8": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 20 },
-    "Golf R Mk6": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 19 },
-    "Golf R Mk7": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 20 },
-    "Golf R Mk7.5": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 20 },
-    "Golf R Mk8": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 20 },
-    "Polo GTI 6C": { pcd: "5x100", centreBore: "57.1mm", minDiameter: 16, maxDiameter: 18 },
-    "Polo GTI AW": { pcd: "5x100", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 18 },
-    "Scirocco 13": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 19 },
-    "Arteon 3H": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 18, maxDiameter: 20 },
-    "Tiguan R": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 19, maxDiameter: 21 },
-    "Passat B7": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 19 },
-    "Passat B8": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 17, maxDiameter: 20 },
+    "Golf Mk4": {
+      pcd: "5x100",
+      centreBore: "57.1mm",
+      minDiameter: 16,
+      maxDiameter: 18,
+    },
+    "Golf Mk5": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 16,
+      maxDiameter: 19,
+    },
+    "Golf Mk6": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 16,
+      maxDiameter: 19,
+    },
+    "Golf Mk7": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "Golf Mk8": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "Golf GTI Mk5": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "Golf GTI Mk6": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "Golf GTI Mk7": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "Golf GTI Mk8": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "Golf R Mk6": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 19,
+    },
+    "Golf R Mk7": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "Golf R Mk7.5": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "Golf R Mk8": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "Polo GTI 6C": {
+      pcd: "5x100",
+      centreBore: "57.1mm",
+      minDiameter: 16,
+      maxDiameter: 18,
+    },
+    "Polo GTI AW": {
+      pcd: "5x100",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 18,
+    },
+    "Scirocco 13": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "Arteon 3H": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "Tiguan R": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "Passat B7": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "Passat B8": {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
   },
 
   Porsche: {
-    "911 Carrera 992": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 21 },
-    "911 Carrera S 992": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 21 },
-    "911 Carrera 4S 992": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 21 },
-    "911 GT3 992": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 20, maxDiameter: 21 }, // centre-lock optional
-    "911 GT3 RS 992": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 20, maxDiameter: 21 }, // centre-lock common
-    "911 Turbo S 992": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 20, maxDiameter: 21 },
-    "911 Carrera 991": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 20 },
-    "911 Carrera S 991": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 20 },
-    "911 GT3 991": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 20, maxDiameter: 21 },
-    "911 GT3 RS 991": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 20, maxDiameter: 21 },
-    "911 Turbo S 991": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 20 },
-    "911 Carrera 997": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 18, maxDiameter: 19 },
-    "911 GT3 997": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 19 },
-    "911 GT3 RS 997": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 19 },
-    "911 Turbo 997": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 19 },
-    "718 Cayman": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 18, maxDiameter: 20 },
-    "718 Cayman S": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 20 },
-    "718 Cayman GT4": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 20 },
-    "718 Cayman GT4 RS": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 20, maxDiameter: 20 },
-    "718 Boxster": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 18, maxDiameter: 20 },
-    "718 Boxster S": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 20 },
-    "718 Spyder": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 20 },
-    "Cayman GT4 981": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 20 },
-    "Boxster Spyder 981": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 20 },
-    "Cayenne 92A": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 18, maxDiameter: 22 },
-    "Cayenne 9YA": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 19, maxDiameter: 22 },
-    "Cayenne GTS 9YA": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 20, maxDiameter: 22 },
-    "Cayenne Turbo 9YA": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 20, maxDiameter: 22 },
-    "Macan 95B": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 18, maxDiameter: 21 },
-    "Panamera 970": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 18, maxDiameter: 21 },
-    "Panamera 971": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 21 },
-    "Panamera Turbo S 971": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 20, maxDiameter: 21 },
-    "Taycan": { pcd: "5x130", centreBore: "71.6mm", minDiameter: 19, maxDiameter: 21 },
+    "911 Carrera 992": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "911 Carrera S 992": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "911 Carrera 4S 992": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "911 GT3 992": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 20,
+      maxDiameter: 21,
+    }, // centre-lock optional
+    "911 GT3 RS 992": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 20,
+      maxDiameter: 21,
+    }, // centre-lock common
+    "911 Turbo S 992": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 20,
+      maxDiameter: 21,
+    },
+    "911 Carrera 991": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "911 Carrera S 991": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "911 GT3 991": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 20,
+      maxDiameter: 21,
+    },
+    "911 GT3 RS 991": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 20,
+      maxDiameter: 21,
+    },
+    "911 Turbo S 991": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "911 Carrera 997": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 18,
+      maxDiameter: 19,
+    },
+    "911 GT3 997": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 19,
+    },
+    "911 GT3 RS 997": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 19,
+    },
+    "911 Turbo 997": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 19,
+    },
+    "718 Cayman": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "718 Cayman S": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "718 Cayman GT4": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "718 Cayman GT4 RS": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
+    "718 Boxster": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "718 Boxster S": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "718 Spyder": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "Cayman GT4 981": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "Boxster Spyder 981": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "Cayenne 92A": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 18,
+      maxDiameter: 22,
+    },
+    "Cayenne 9YA": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 19,
+      maxDiameter: 22,
+    },
+    "Cayenne GTS 9YA": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 20,
+      maxDiameter: 22,
+    },
+    "Cayenne Turbo 9YA": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 20,
+      maxDiameter: 22,
+    },
+    "Macan 95B": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "Panamera 970": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 18,
+      maxDiameter: 21,
+    },
+    "Panamera 971": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
+    "Panamera Turbo S 971": {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 20,
+      maxDiameter: 21,
+    },
+    Taycan: {
+      pcd: "5x130",
+      centreBore: "71.6mm",
+      minDiameter: 19,
+      maxDiameter: 21,
+    },
   },
 
   Nissan: {
-    "GT-R R35": { pcd: "5x114.3", centreBore: "66.1mm", minDiameter: 19, maxDiameter: 20 },
-    "350Z Z33": { pcd: "5x114.3", centreBore: "66.1mm", minDiameter: 18, maxDiameter: 20 },
-    "370Z Z34": { pcd: "5x114.3", centreBore: "66.1mm", minDiameter: 18, maxDiameter: 20 },
-    "400Z / Z RZ34": { pcd: "5x114.3", centreBore: "66.1mm", minDiameter: 18, maxDiameter: 20 },
+    "GT-R R35": {
+      pcd: "5x114.3",
+      centreBore: "66.1mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "350Z Z33": {
+      pcd: "5x114.3",
+      centreBore: "66.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "370Z Z34": {
+      pcd: "5x114.3",
+      centreBore: "66.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "400Z / Z RZ34": {
+      pcd: "5x114.3",
+      centreBore: "66.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
   },
 
   Toyota: {
-    "GR Supra A90": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 18, maxDiameter: 20 }, // BMW Z4 G29 sister
-    "86 / GT86 ZN6": { pcd: "5x100", centreBore: "56.1mm", minDiameter: 17, maxDiameter: 19 },
-    "GR86 ZN8": { pcd: "5x100", centreBore: "56.1mm", minDiameter: 17, maxDiameter: 19 },
-    "GR Yaris GXPA16": { pcd: "5x114.3", centreBore: "60.1mm", minDiameter: 17, maxDiameter: 18 },
-    "Camry XV70": { pcd: "5x114.3", centreBore: "60.1mm", minDiameter: 17, maxDiameter: 19 },
-    "GR Corolla": { pcd: "5x114.3", centreBore: "60.1mm", minDiameter: 17, maxDiameter: 19 },
+    "GR Supra A90": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    }, // BMW Z4 G29 sister
+    "86 / GT86 ZN6": {
+      pcd: "5x100",
+      centreBore: "56.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "GR86 ZN8": {
+      pcd: "5x100",
+      centreBore: "56.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "GR Yaris GXPA16": {
+      pcd: "5x114.3",
+      centreBore: "60.1mm",
+      minDiameter: 17,
+      maxDiameter: 18,
+    },
+    "Camry XV70": {
+      pcd: "5x114.3",
+      centreBore: "60.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "GR Corolla": {
+      pcd: "5x114.3",
+      centreBore: "60.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
   },
 
   Subaru: {
-    "WRX STI GD": { pcd: "5x114.3", centreBore: "56.1mm", minDiameter: 17, maxDiameter: 18 }, // 2005-2007 cars; 2001-2004 STI used 5x100/56.1mm
-    "WRX STI GR/GV": { pcd: "5x114.3", centreBore: "56.1mm", minDiameter: 17, maxDiameter: 19 },
-    "WRX STI VA": { pcd: "5x114.3", centreBore: "56.1mm", minDiameter: 18, maxDiameter: 19 },
-    "WRX VB": { pcd: "5x114.3", centreBore: "56.1mm", minDiameter: 17, maxDiameter: 19 },
-    "BRZ ZC6": { pcd: "5x100", centreBore: "56.1mm", minDiameter: 17, maxDiameter: 19 },
-    "BRZ ZD8": { pcd: "5x100", centreBore: "56.1mm", minDiameter: 17, maxDiameter: 19 },
-    "Forester SH": { pcd: "5x100", centreBore: "56.1mm", minDiameter: 16, maxDiameter: 19 },
-    "Forester SK": { pcd: "5x114.3", centreBore: "56.1mm", minDiameter: 17, maxDiameter: 19 },
+    "WRX STI GD": {
+      pcd: "5x114.3",
+      centreBore: "56.1mm",
+      minDiameter: 17,
+      maxDiameter: 18,
+    }, // 2005-2007 cars; 2001-2004 STI used 5x100/56.1mm
+    "WRX STI GR/GV": {
+      pcd: "5x114.3",
+      centreBore: "56.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "WRX STI VA": {
+      pcd: "5x114.3",
+      centreBore: "56.1mm",
+      minDiameter: 18,
+      maxDiameter: 19,
+    },
+    "WRX VB": {
+      pcd: "5x114.3",
+      centreBore: "56.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "BRZ ZC6": {
+      pcd: "5x100",
+      centreBore: "56.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "BRZ ZD8": {
+      pcd: "5x100",
+      centreBore: "56.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "Forester SH": {
+      pcd: "5x100",
+      centreBore: "56.1mm",
+      minDiameter: 16,
+      maxDiameter: 19,
+    },
+    "Forester SK": {
+      pcd: "5x114.3",
+      centreBore: "56.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
   },
 
   Honda: {
-    "Civic Type R FK2": { pcd: "5x120", centreBore: "64.1mm", minDiameter: 18, maxDiameter: 20 },
-    "Civic Type R FK8": { pcd: "5x120", centreBore: "64.1mm", minDiameter: 18, maxDiameter: 20 },
-    "Civic Type R FL5": { pcd: "5x120", centreBore: "64.1mm", minDiameter: 18, maxDiameter: 20 },
-    "Integra Type R DC2": { pcd: "4x114.3", centreBore: "64.1mm", minDiameter: 15, maxDiameter: 17 },
-    "Integra Type R DC5": { pcd: "5x114.3", centreBore: "64.1mm", minDiameter: 17, maxDiameter: 18 },
-    "NSX NC1": { pcd: "5x120", centreBore: "70.1mm front / 64.1mm rear", minDiameter: 19, maxDiameter: 20 },
-    "S2000 AP1/AP2": { pcd: "5x114.3", centreBore: "64.1mm", minDiameter: 17, maxDiameter: 18 },
+    "Civic Type R FK2": {
+      pcd: "5x120",
+      centreBore: "64.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "Civic Type R FK8": {
+      pcd: "5x120",
+      centreBore: "64.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "Civic Type R FL5": {
+      pcd: "5x120",
+      centreBore: "64.1mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "Integra Type R DC2": {
+      pcd: "4x114.3",
+      centreBore: "64.1mm",
+      minDiameter: 15,
+      maxDiameter: 17,
+    },
+    "Integra Type R DC5": {
+      pcd: "5x114.3",
+      centreBore: "64.1mm",
+      minDiameter: 17,
+      maxDiameter: 18,
+    },
+    "NSX NC1": {
+      pcd: "5x120",
+      centreBore: "70.1mm front / 64.1mm rear",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "S2000 AP1/AP2": {
+      pcd: "5x114.3",
+      centreBore: "64.1mm",
+      minDiameter: 17,
+      maxDiameter: 18,
+    },
   },
 
   Ford: {
-    "Mustang S550": { pcd: "5x114.3", centreBore: "70.5mm", minDiameter: 18, maxDiameter: 20 },
-    "Mustang S650": { pcd: "5x114.3", centreBore: "70.5mm", minDiameter: 18, maxDiameter: 20 },
-    "Mustang GT500 S550": { pcd: "5x114.3", centreBore: "70.5mm", minDiameter: 19, maxDiameter: 20 },
-    "Focus RS Mk3": { pcd: "5x108", centreBore: "63.4mm", minDiameter: 17, maxDiameter: 19 },
-    "Falcon FG X": { pcd: "5x114.3", centreBore: "70.3mm", minDiameter: 17, maxDiameter: 20 },
-    "Falcon GT": { pcd: "5x114.3", centreBore: "70.3mm", minDiameter: 18, maxDiameter: 20 },
+    "Mustang S550": {
+      pcd: "5x114.3",
+      centreBore: "70.5mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "Mustang S650": {
+      pcd: "5x114.3",
+      centreBore: "70.5mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "Mustang GT500 S550": {
+      pcd: "5x114.3",
+      centreBore: "70.5mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "Focus RS Mk3": {
+      pcd: "5x108",
+      centreBore: "63.4mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "Falcon FG X": {
+      pcd: "5x114.3",
+      centreBore: "70.3mm",
+      minDiameter: 17,
+      maxDiameter: 20,
+    },
+    "Falcon GT": {
+      pcd: "5x114.3",
+      centreBore: "70.3mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
   },
 
   Chevrolet: {
-    "Corvette C7": { pcd: "5x120", centreBore: "70.3mm", minDiameter: 18, maxDiameter: 20 }, // C7 stud spec is 5x120.65 (5x4.75")
-    "Corvette Z06 C7": { pcd: "5x120", centreBore: "70.3mm", minDiameter: 19, maxDiameter: 20 },
-    "Corvette C8": { pcd: "5x120", centreBore: "70.3mm", minDiameter: 19, maxDiameter: 20 },
-    "Corvette Z06 C8": { pcd: "5x120", centreBore: "70.3mm", minDiameter: 19, maxDiameter: 20 },
-    "Camaro ZL1": { pcd: "5x120", centreBore: "70.3mm", minDiameter: 19, maxDiameter: 20 },
+    "Corvette C7": {
+      pcd: "5x120",
+      centreBore: "70.3mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    }, // C7 stud spec is 5x120.65 (5x4.75")
+    "Corvette Z06 C7": {
+      pcd: "5x120",
+      centreBore: "70.3mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "Corvette C8": {
+      pcd: "5x120",
+      centreBore: "70.3mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "Corvette Z06 C8": {
+      pcd: "5x120",
+      centreBore: "70.3mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "Camaro ZL1": {
+      pcd: "5x120",
+      centreBore: "70.3mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
   },
 
   Lamborghini: {
-    "Huracán LP610-4": { pcd: "5x112", centreBore: "57.1mm front / 66.5mm rear", minDiameter: 19, maxDiameter: 20 },
-    "Huracán EVO": { pcd: "5x112", centreBore: "57.1mm front / 66.5mm rear", minDiameter: 20, maxDiameter: 20 },
-    "Huracán Performante": { pcd: "5x112", centreBore: "57.1mm front / 66.5mm rear", minDiameter: 20, maxDiameter: 20 },
-    "Huracán STO": { pcd: "Centre lock", centreBore: "Centre lock", minDiameter: 20, maxDiameter: 20 },
-    "Urus": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 21, maxDiameter: 23 },
-    "Urus Performante": { pcd: "5x112", centreBore: "66.5mm", minDiameter: 22, maxDiameter: 23 },
-    "Gallardo": { pcd: "5x112", centreBore: "57.1mm", minDiameter: 19, maxDiameter: 19 },
-    "Aventador SVJ": { pcd: "Centre lock", centreBore: "Centre lock", minDiameter: 20, maxDiameter: 20 },
+    "Huracán LP610-4": {
+      pcd: "5x112",
+      centreBore: "57.1mm front / 66.5mm rear",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "Huracán EVO": {
+      pcd: "5x112",
+      centreBore: "57.1mm front / 66.5mm rear",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
+    "Huracán Performante": {
+      pcd: "5x112",
+      centreBore: "57.1mm front / 66.5mm rear",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
+    "Huracán STO": {
+      pcd: "Centre lock",
+      centreBore: "Centre lock",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
+    Urus: {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 21,
+      maxDiameter: 23,
+    },
+    "Urus Performante": {
+      pcd: "5x112",
+      centreBore: "66.5mm",
+      minDiameter: 22,
+      maxDiameter: 23,
+    },
+    Gallardo: {
+      pcd: "5x112",
+      centreBore: "57.1mm",
+      minDiameter: 19,
+      maxDiameter: 19,
+    },
+    "Aventador SVJ": {
+      pcd: "Centre lock",
+      centreBore: "Centre lock",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
   },
 
   Ferrari: {
-    "488 GTB": { pcd: "5x114.3", centreBore: "67.1mm", minDiameter: 20, maxDiameter: 20 },
-    "488 Pista": { pcd: "5x114.3", centreBore: "67.1mm", minDiameter: 20, maxDiameter: 20 },
-    "F8 Tributo": { pcd: "5x114.3", centreBore: "67.1mm", minDiameter: 20, maxDiameter: 20 },
-    "F8 Spider": { pcd: "5x114.3", centreBore: "67.1mm", minDiameter: 20, maxDiameter: 20 },
-    "SF90 Stradale": { pcd: "5x114.3", centreBore: "67.1mm", minDiameter: 20, maxDiameter: 20 },
-    "Roma": { pcd: "5x114.3", centreBore: "67.1mm", minDiameter: 20, maxDiameter: 20 },
-    "Purosangue": { pcd: "5x114.3", centreBore: "67.1mm", minDiameter: 22, maxDiameter: 23 },
-    "296 GTB": { pcd: "5x114.3", centreBore: "67.1mm", minDiameter: 20, maxDiameter: 20 },
-    "812 Superfast": { pcd: "5x114.3", centreBore: "67.1mm", minDiameter: 20, maxDiameter: 20 },
-    "F430": { pcd: "5x114.3", centreBore: "67.1mm", minDiameter: 19, maxDiameter: 19 },
-    "458 Italia": { pcd: "5x114.3", centreBore: "67.1mm", minDiameter: 20, maxDiameter: 20 },
+    "488 GTB": {
+      pcd: "5x114.3",
+      centreBore: "67.1mm",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
+    "488 Pista": {
+      pcd: "5x114.3",
+      centreBore: "67.1mm",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
+    "F8 Tributo": {
+      pcd: "5x114.3",
+      centreBore: "67.1mm",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
+    "F8 Spider": {
+      pcd: "5x114.3",
+      centreBore: "67.1mm",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
+    "SF90 Stradale": {
+      pcd: "5x114.3",
+      centreBore: "67.1mm",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
+    Roma: {
+      pcd: "5x114.3",
+      centreBore: "67.1mm",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
+    Purosangue: {
+      pcd: "5x114.3",
+      centreBore: "67.1mm",
+      minDiameter: 22,
+      maxDiameter: 23,
+    },
+    "296 GTB": {
+      pcd: "5x114.3",
+      centreBore: "67.1mm",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
+    "812 Superfast": {
+      pcd: "5x114.3",
+      centreBore: "67.1mm",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
+    F430: {
+      pcd: "5x114.3",
+      centreBore: "67.1mm",
+      minDiameter: 19,
+      maxDiameter: 19,
+    },
+    "458 Italia": {
+      pcd: "5x114.3",
+      centreBore: "67.1mm",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
   },
 
   McLaren: {
-    "570S": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
-    "600LT": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
-    "620R": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
-    "720S": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
-    "765LT": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
-    "GT": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 20, maxDiameter: 21 },
-    "Artura": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
-    "750S": { pcd: "5x112", centreBore: "66.6mm", minDiameter: 19, maxDiameter: 20 },
+    "570S": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "600LT": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "620R": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "720S": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "765LT": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    GT: {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 20,
+      maxDiameter: 21,
+    },
+    Artura: {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "750S": {
+      pcd: "5x112",
+      centreBore: "66.6mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
   },
 
   "Alfa Romeo": {
-    "Giulia Quadrifoglio": { pcd: "5x110", centreBore: "65.1mm", minDiameter: 19, maxDiameter: 20 },
-    "Stelvio Quadrifoglio": { pcd: "5x110", centreBore: "65.1mm", minDiameter: 20, maxDiameter: 21 },
-    "Giulia Ti": { pcd: "5x110", centreBore: "65.1mm", minDiameter: 17, maxDiameter: 19 },
-    "4C": { pcd: "5x98", centreBore: "58.1mm", minDiameter: 17, maxDiameter: 18 },
+    "Giulia Quadrifoglio": {
+      pcd: "5x110",
+      centreBore: "65.1mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "Stelvio Quadrifoglio": {
+      pcd: "5x110",
+      centreBore: "65.1mm",
+      minDiameter: 20,
+      maxDiameter: 21,
+    },
+    "Giulia Ti": {
+      pcd: "5x110",
+      centreBore: "65.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "4C": {
+      pcd: "5x98",
+      centreBore: "58.1mm",
+      minDiameter: 17,
+      maxDiameter: 18,
+    },
   },
 
   Lexus: {
-    "IS300 XE30": { pcd: "5x114.3", centreBore: "60.1mm", minDiameter: 17, maxDiameter: 19 },
-    "IS350 XE30": { pcd: "5x114.3", centreBore: "60.1mm", minDiameter: 17, maxDiameter: 19 },
-    "IS500 XE30": { pcd: "5x114.3", centreBore: "60.1mm", minDiameter: 19, maxDiameter: 19 },
-    "RC F": { pcd: "5x114.3", centreBore: "60.1mm", minDiameter: 19, maxDiameter: 19 },
-    "LC500": { pcd: "5x114.3", centreBore: "60.1mm", minDiameter: 20, maxDiameter: 21 },
-    "GS F": { pcd: "5x114.3", centreBore: "60.1mm", minDiameter: 19, maxDiameter: 19 },
-    "LFA": { pcd: "5x114.3", centreBore: "60.1mm", minDiameter: 20, maxDiameter: 20 },
+    "IS300 XE30": {
+      pcd: "5x114.3",
+      centreBore: "60.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "IS350 XE30": {
+      pcd: "5x114.3",
+      centreBore: "60.1mm",
+      minDiameter: 17,
+      maxDiameter: 19,
+    },
+    "IS500 XE30": {
+      pcd: "5x114.3",
+      centreBore: "60.1mm",
+      minDiameter: 19,
+      maxDiameter: 19,
+    },
+    "RC F": {
+      pcd: "5x114.3",
+      centreBore: "60.1mm",
+      minDiameter: 19,
+      maxDiameter: 19,
+    },
+    LC500: {
+      pcd: "5x114.3",
+      centreBore: "60.1mm",
+      minDiameter: 20,
+      maxDiameter: 21,
+    },
+    "GS F": {
+      pcd: "5x114.3",
+      centreBore: "60.1mm",
+      minDiameter: 19,
+      maxDiameter: 19,
+    },
+    LFA: {
+      pcd: "5x114.3",
+      centreBore: "60.1mm",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
   },
 
   "Holden / HSV": {
-    "Commodore VF": { pcd: "5x120", centreBore: "70.3mm", minDiameter: 18, maxDiameter: 20 },
-    "Commodore ZB": { pcd: "5x115", centreBore: "70.3mm", minDiameter: 18, maxDiameter: 20 }, // Opel Insignia B / Buick Regal sister
-    "HSV GTS Gen F": { pcd: "5x120", centreBore: "70.3mm", minDiameter: 19, maxDiameter: 20 },
-    "HSV GTSR W1": { pcd: "5x120", centreBore: "70.3mm", minDiameter: 20, maxDiameter: 20 },
-    "Camaro 6th Gen": { pcd: "5x120", centreBore: "70.3mm", minDiameter: 19, maxDiameter: 20 },
+    "Commodore VF": {
+      pcd: "5x120",
+      centreBore: "70.3mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    },
+    "Commodore ZB": {
+      pcd: "5x115",
+      centreBore: "70.3mm",
+      minDiameter: 18,
+      maxDiameter: 20,
+    }, // Opel Insignia B / Buick Regal sister
+    "HSV GTS Gen F": {
+      pcd: "5x120",
+      centreBore: "70.3mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
+    "HSV GTSR W1": {
+      pcd: "5x120",
+      centreBore: "70.3mm",
+      minDiameter: 20,
+      maxDiameter: 20,
+    },
+    "Camaro 6th Gen": {
+      pcd: "5x120",
+      centreBore: "70.3mm",
+      minDiameter: 19,
+      maxDiameter: 20,
+    },
   },
 };
 
-export function getVehicleFitment(make?: string, model?: string): VehicleFitment | null {
+export function getVehicleFitment(
+  make?: string,
+  model?: string,
+): VehicleFitment | null {
   if (!make || !model) return null;
   return vehicleFitment[make]?.[model] ?? null;
 }
 
-export const defaultMediaImage = "/media/hero-wheel-poster.jpg";
+export const defaultMediaImage = "/products/MW-11%20%22Serraglio%22%201.png";
 
-const DIAMETERS_1PC = ["16\"", "17\"", "18\"", "19\"", "20\"", "21\"", "22\"", "23\"", "24\""];
-const DIAMETERS_2PC = ["18\"", "19\"", "20\"", "21\"", "22\"", "23\"", "24\""];
-const WIDTHS_1PC = ["6.0\"", "6.5\"", "7.0\"", "7.5\"", "8.0\"", "8.5\"", "9.0\"", "9.5\"", "10.0\"", "10.5\"", "11.0\"", "11.5\"", "12.0\"", "12.5\"", "13.0\""];
-const WIDTHS_2PC = ["8.0\"", "8.5\"", "9.0\"", "9.5\"", "10.0\"", "10.5\"", "11.0\"", "11.5\"", "12.0\""];
-const PCDS = ["4x100", "4x108", "5x100", "5x108", "5x112", "5x114.3", "5x120", "5x130", "Centre lock"];
-const CENTREBORES = ["54.1mm", "56.6mm", "57.1mm", "60.1mm", "63.4mm", "66.6mm", "67.1mm", "72.6mm", "73.1mm", "74.1mm", "77.0mm"];
+const DIAMETERS_1PC = [
+  '16"',
+  '17"',
+  '18"',
+  '19"',
+  '20"',
+  '21"',
+  '22"',
+  '23"',
+  '24"',
+];
+const DIAMETERS_2PC = ['18"', '19"', '20"', '21"', '22"', '23"', '24"'];
+const WIDTHS_1PC = [
+  '6.0"',
+  '6.5"',
+  '7.0"',
+  '7.5"',
+  '8.0"',
+  '8.5"',
+  '9.0"',
+  '9.5"',
+  '10.0"',
+  '10.5"',
+  '11.0"',
+  '11.5"',
+  '12.0"',
+  '12.5"',
+  '13.0"',
+];
+const WIDTHS_2PC = [
+  '8.0"',
+  '8.5"',
+  '9.0"',
+  '9.5"',
+  '10.0"',
+  '10.5"',
+  '11.0"',
+  '11.5"',
+  '12.0"',
+];
+const PCDS = [
+  "4x100",
+  "4x108",
+  "5x100",
+  "5x108",
+  "5x112",
+  "5x114.3",
+  "5x120",
+  "5x130",
+  "Centre lock",
+];
+const CENTREBORES = [
+  "54.1mm",
+  "56.6mm",
+  "57.1mm",
+  "60.1mm",
+  "63.4mm",
+  "66.6mm",
+  "67.1mm",
+  "72.6mm",
+  "73.1mm",
+  "74.1mm",
+  "77.0mm",
+];
 
 const FINISH_FILES = [
   "brushed-bronze.jpg",
@@ -958,9 +2578,19 @@ function getFinishSwatch(name: string) {
 
   if (value.includes("black")) return "#0F0F0F";
   if (value.includes("charcoal") || value.includes("dark")) return "#2A2A2A";
-  if (value.includes("bronze") || value.includes("champagne") || value.includes("gold")) return "#B08B57";
+  if (
+    value.includes("bronze") ||
+    value.includes("champagne") ||
+    value.includes("gold")
+  )
+    return "#B08B57";
   if (value.includes("white")) return "#F5F5F3";
-  if (value.includes("silver") || value.includes("clear") || value.includes("polished")) return "#AFAFAD";
+  if (
+    value.includes("silver") ||
+    value.includes("clear") ||
+    value.includes("polished")
+  )
+    return "#AFAFAD";
 
   return "#F5F5F3";
 }
@@ -996,14 +2626,21 @@ function finishColour(name: string) {
 }
 
 function finishTreatment(name: string) {
-  return [...FINISH_TREATMENT_ORDER]
-    .reverse()
-    .find((treatment) => name.startsWith(treatment)) ?? name;
+  return (
+    [...FINISH_TREATMENT_ORDER]
+      .reverse()
+      .find((treatment) => name.startsWith(treatment)) ?? name
+  );
 }
 
 function finishFamily(name: string): FinishFamily {
   const value = name.toLowerCase();
-  if (value.includes("black") || value.includes("charcoal") || value.includes("dark clear")) return "Black";
+  if (
+    value.includes("black") ||
+    value.includes("charcoal") ||
+    value.includes("dark clear")
+  )
+    return "Black";
   if (value.includes("bronze")) return "Bronze";
   if (value.includes("champagne")) return "Champagne";
   if (value.includes("copper")) return "Copper";
@@ -1013,26 +2650,32 @@ function finishFamily(name: string): FinishFamily {
   return "Custom";
 }
 
-export const finishOptions: WheelFinish[] = FINISH_FILES
-  .map((fileName) => {
-    const name = formatFinishName(fileName);
-    return {
-      name,
-      swatch: getFinishSwatch(name),
-      image: `/finishes/${fileName}`,
-      family: finishFamily(name),
-      treatment: finishTreatment(name),
-    };
-  })
-  .sort((left, right) => {
-    const leftColour = FINISH_COLOUR_ORDER.indexOf(finishColour(left.name) as typeof FINISH_COLOUR_ORDER[number]);
-    const rightColour = FINISH_COLOUR_ORDER.indexOf(finishColour(right.name) as typeof FINISH_COLOUR_ORDER[number]);
-    if (leftColour !== rightColour) return leftColour - rightColour;
+export const finishOptions: WheelFinish[] = FINISH_FILES.map((fileName) => {
+  const name = formatFinishName(fileName);
+  return {
+    name,
+    swatch: getFinishSwatch(name),
+    image: `/finishes/${fileName}`,
+    family: finishFamily(name),
+    treatment: finishTreatment(name),
+  };
+}).sort((left, right) => {
+  const leftColour = FINISH_COLOUR_ORDER.indexOf(
+    finishColour(left.name) as (typeof FINISH_COLOUR_ORDER)[number],
+  );
+  const rightColour = FINISH_COLOUR_ORDER.indexOf(
+    finishColour(right.name) as (typeof FINISH_COLOUR_ORDER)[number],
+  );
+  if (leftColour !== rightColour) return leftColour - rightColour;
 
-    const leftTreatment = FINISH_TREATMENT_ORDER.indexOf(finishTreatment(left.name) as typeof FINISH_TREATMENT_ORDER[number]);
-    const rightTreatment = FINISH_TREATMENT_ORDER.indexOf(finishTreatment(right.name) as typeof FINISH_TREATMENT_ORDER[number]);
-    return leftTreatment - rightTreatment;
-  });
+  const leftTreatment = FINISH_TREATMENT_ORDER.indexOf(
+    finishTreatment(left.name) as (typeof FINISH_TREATMENT_ORDER)[number],
+  );
+  const rightTreatment = FINISH_TREATMENT_ORDER.indexOf(
+    finishTreatment(right.name) as (typeof FINISH_TREATMENT_ORDER)[number],
+  );
+  return leftTreatment - rightTreatment;
+});
 
 // Two-colour paint is the baseline used for the generic custom-finish estimate.
 // Finish-specific pricing is available in the pricing calculator.
@@ -1040,7 +2683,10 @@ export const CUSTOM_FINISH_PRICE_AUD_PER_WHEEL =
   (addOnRrpIncGstAudPerSet("two-colour-paint") ?? 0) / 4;
 
 // Treatments available under the 1-piece custom appearance surcharge.
-export const customFinishOptions: ReadonlyArray<{ name: string; copy: string }> = [
+export const customFinishOptions: ReadonlyArray<{
+  name: string;
+  copy: string;
+}> = [
   {
     name: "Dual-tone brushed / polished",
     copy: "Two surface treatments combined on the same face — brushed centre with polished spokes, or any pairing.",
@@ -1075,33 +2721,141 @@ export function formatAud(amount: number): string {
 type NamedSeries = "1-Piece Forged" | "2-Piece Forged";
 
 const PRODUCT_DISCOVERY: Record<string, ProductDiscovery> = {
-  "MW-11": { spokeStyle: "5-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Open"] },
-  "MW-21": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Grand touring"], visualForm: ["Deep lip", "Open"] },
-  "MW-22": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Deep lip", "Directional"] },
-  "MW-17": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Open", "Concave"] },
-  "MW-28": { spokeStyle: "Aero", designCharacter: ["Exotic", "Grand touring"], visualForm: ["Aero", "Deep lip"] },
-  "MW-12": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Directional", "Open"] },
-  "MW-13": { spokeStyle: "Multi-spoke", designCharacter: ["Performance", "Grand touring"], visualForm: ["Concave", "Open"] },
-  "MW-14": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Open"] },
-  "MW-15": { spokeStyle: "Multi-spoke", designCharacter: ["Performance", "Grand touring"], visualForm: ["Mesh"] },
-  "MW-16": { spokeStyle: "Multi-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Open"] },
-  "MW-18": { spokeStyle: "Multi-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Concave", "Open"] },
-  "MW-19": { spokeStyle: "Multi-spoke", designCharacter: ["Grand touring", "Executive"], visualForm: ["Concave"] },
-  "MW-110": { spokeStyle: "5-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Concave", "Open"] },
-  "MW-111": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Directional", "Open"] },
-  "MW-112": { spokeStyle: "5-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Open", "Concave"] },
-  "MW-113": { spokeStyle: "Multi-spoke", designCharacter: ["Performance", "Grand touring"], visualForm: ["Open"] },
-  "MW-114": { spokeStyle: "Multi-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Open", "Concave"] },
-  "MW-23": { spokeStyle: "Multi-spoke", designCharacter: ["Grand touring", "Executive"], visualForm: ["Mesh", "Deep lip"] },
-  "MW-24": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Directional", "Deep lip"] },
-  "MW-25": { spokeStyle: "5-spoke", designCharacter: ["Grand touring", "Exotic"], visualForm: ["Deep lip", "Open"] },
-  "MW-26": { spokeStyle: "5-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Deep lip", "Concave"] },
-  "MW-27": { spokeStyle: "Multi-spoke", designCharacter: ["Grand touring", "Executive"], visualForm: ["Deep lip", "Mesh"] },
-  "MW-29": { spokeStyle: "Aero", designCharacter: ["Performance", "Exotic"], visualForm: ["Aero", "Deep lip"] },
-  "MW-210": { spokeStyle: "5-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Deep lip", "Open"] },
-  "MW-211": { spokeStyle: "Multi-spoke", designCharacter: ["Grand touring", "Executive"], visualForm: ["Deep lip", "Open"] },
-  "MW-212": { spokeStyle: "5-spoke", designCharacter: ["Performance", "Executive"], visualForm: ["Deep lip", "Open"] },
-  "MW-213": { spokeStyle: "Split-spoke", designCharacter: ["Performance", "Exotic"], visualForm: ["Directional", "Deep lip", "Open"] },
+  "MW-11": {
+    spokeStyle: "5-spoke",
+    designCharacter: ["Performance", "Executive"],
+    visualForm: ["Open"],
+  },
+  "MW-21": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Grand touring"],
+    visualForm: ["Deep lip", "Open"],
+  },
+  "MW-22": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Executive"],
+    visualForm: ["Deep lip", "Directional"],
+  },
+  "MW-17": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Open", "Concave"],
+  },
+  "MW-28": {
+    spokeStyle: "Aero",
+    designCharacter: ["Exotic", "Grand touring"],
+    visualForm: ["Aero", "Deep lip"],
+  },
+  "MW-12": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Directional", "Open"],
+  },
+  "MW-13": {
+    spokeStyle: "Multi-spoke",
+    designCharacter: ["Performance", "Grand touring"],
+    visualForm: ["Concave", "Open"],
+  },
+  "MW-14": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Executive"],
+    visualForm: ["Open"],
+  },
+  "MW-15": {
+    spokeStyle: "Multi-spoke",
+    designCharacter: ["Performance", "Grand touring"],
+    visualForm: ["Mesh"],
+  },
+  "MW-16": {
+    spokeStyle: "Multi-spoke",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Open"],
+  },
+  "MW-18": {
+    spokeStyle: "Multi-spoke",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Concave", "Open"],
+  },
+  "MW-19": {
+    spokeStyle: "Multi-spoke",
+    designCharacter: ["Grand touring", "Executive"],
+    visualForm: ["Concave"],
+  },
+  "MW-110": {
+    spokeStyle: "5-spoke",
+    designCharacter: ["Performance", "Executive"],
+    visualForm: ["Concave", "Open"],
+  },
+  "MW-111": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Directional", "Open"],
+  },
+  "MW-112": {
+    spokeStyle: "5-spoke",
+    designCharacter: ["Performance", "Executive"],
+    visualForm: ["Open", "Concave"],
+  },
+  "MW-113": {
+    spokeStyle: "Multi-spoke",
+    designCharacter: ["Performance", "Grand touring"],
+    visualForm: ["Open"],
+  },
+  "MW-114": {
+    spokeStyle: "Multi-spoke",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Open", "Concave"],
+  },
+  "MW-23": {
+    spokeStyle: "Multi-spoke",
+    designCharacter: ["Grand touring", "Executive"],
+    visualForm: ["Mesh", "Deep lip"],
+  },
+  "MW-24": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Directional", "Deep lip"],
+  },
+  "MW-25": {
+    spokeStyle: "5-spoke",
+    designCharacter: ["Grand touring", "Exotic"],
+    visualForm: ["Deep lip", "Open"],
+  },
+  "MW-26": {
+    spokeStyle: "5-spoke",
+    designCharacter: ["Performance", "Executive"],
+    visualForm: ["Deep lip", "Concave"],
+  },
+  "MW-27": {
+    spokeStyle: "Multi-spoke",
+    designCharacter: ["Grand touring", "Executive"],
+    visualForm: ["Deep lip", "Mesh"],
+  },
+  "MW-29": {
+    spokeStyle: "Aero",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Aero", "Deep lip"],
+  },
+  "MW-210": {
+    spokeStyle: "5-spoke",
+    designCharacter: ["Performance", "Executive"],
+    visualForm: ["Deep lip", "Open"],
+  },
+  "MW-211": {
+    spokeStyle: "Multi-spoke",
+    designCharacter: ["Grand touring", "Executive"],
+    visualForm: ["Deep lip", "Open"],
+  },
+  "MW-212": {
+    spokeStyle: "5-spoke",
+    designCharacter: ["Performance", "Executive"],
+    visualForm: ["Deep lip", "Open"],
+  },
+  "MW-213": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Directional", "Deep lip", "Open"],
+  },
 };
 
 const SERIES_FACTS: Record<
@@ -1192,7 +2946,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-11",
     title: 'MW-11 "Serraglio"',
     series: "1-Piece Forged",
-    shortDescription: "The first design in the MonzaWheels 1-piece forged library.",
+    shortDescription:
+      "The first design in the MonzaWheels 1-piece forged library.",
     description:
       'MW-11 "Serraglio" is the inaugural design in the MonzaWheels 1-piece forged library. The face and barrel are machined from a single forged 6061-T6 billet for the lowest weight, the stiffest structure, and the cleanest visual read. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: [
@@ -1205,7 +2960,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-21",
     title: 'MW-21 "Ascari"',
     series: "2-Piece Forged",
-    shortDescription: "The first design in the MonzaWheels 2-piece forged library.",
+    shortDescription:
+      "The first design in the MonzaWheels 2-piece forged library.",
     description:
       'MW-21 "Ascari" is the inaugural design in the MonzaWheels 2-piece forged library. Disc and barrel are forged separately and bolted together for deeper dish, extended offsets, and a stronger visual contrast against the chassis. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: [
@@ -1218,7 +2974,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-22",
     title: 'MW-22 "Lesmo"',
     series: "2-Piece Forged",
-    shortDescription: "The second design in the MonzaWheels 2-piece forged library.",
+    shortDescription:
+      "The second design in the MonzaWheels 2-piece forged library.",
     description:
       'MW-22 "Lesmo" extends the MonzaWheels 2-piece forged library with a new split construction for deeper dish, stronger contrast, and a more technical visual read. Final diameter, width, PCD, centre bore, and offset are still confirmed around the exact vehicle before production.',
     imageFileNames: [
@@ -1231,7 +2988,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-17",
     title: 'MW-17 "Sopraelevata"',
     series: "1-Piece Forged",
-    shortDescription: "A sharply sculpted split-five monoblock with fine spoke bridges and an open, technical face.",
+    shortDescription:
+      "A sharply sculpted split-five monoblock with fine spoke bridges and an open, technical face.",
     description:
       'MW-17 "Sopraelevata" combines five divided spoke groups with slim connecting bridges and deeply relieved pockets around the hub. The long, angular geometry opens the face around the brake package while giving the forged monoblock a light, highly technical profile. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["a1.PNG", "a2.PNG", "a3.PNG"],
@@ -1240,17 +2998,24 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-28",
     title: 'MW-28 "Biondetti"',
     series: "2-Piece Forged",
-    shortDescription: "A near-solid aero disc punctuated by five sculpted windows and a polished deep lip.",
+    shortDescription:
+      "A near-solid aero disc punctuated by five sculpted windows and a polished deep lip.",
     description:
       'MW-28 "Biondetti" gives the classic aero-disc form a technical 2-piece treatment. Five deeply machined perimeter windows break the broad brushed face, while exposed hardware and a mirror-polished step lip add contrast and depth. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
-    imageFileNames: ["/products/b1.PNG", "/products/b2.PNG", "/products/b3.PNG", "2f.png"],
+    imageFileNames: [
+      "/products/b1.PNG",
+      "/products/b2.PNG",
+      "/products/b3.PNG",
+      "2f.png",
+    ],
     imageBasePath: "/Wheels",
   }),
   buildNamedProduct({
     handle: "MW-12",
     title: 'MW-12 "Roggia"',
     series: "1-Piece Forged",
-    shortDescription: "A directional split-spoke monoblock with a sharply machined outer edge.",
+    shortDescription:
+      "A directional split-spoke monoblock with a sharply machined outer edge.",
     description:
       'MW-12 "Roggia" brings a directional split-spoke face to the MonzaWheels monoblock library. Ten angular spokes sweep into a deeply relieved centre, while the machined perimeter keeps the profile light and technical. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1a1.png", "1a2.PNG", "1a3.PNG"],
@@ -1260,7 +3025,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-13",
     title: 'MW-13 "Parabolica"',
     series: "1-Piece Forged",
-    shortDescription: "A fine split-ten-spoke design with long, tensioned lines and subtle concavity.",
+    shortDescription:
+      "A fine split-ten-spoke design with long, tensioned lines and subtle concavity.",
     description:
       'MW-13 "Parabolica" uses ten fine split spokes to draw the eye from the hub to the rim in one continuous movement. Its long machined edges and restrained concavity create an elegant motorsport profile without visual weight. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1B.png"],
@@ -1270,7 +3036,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-14",
     title: 'MW-14 "Curva Grande"',
     series: "1-Piece Forged",
-    shortDescription: "A sculpted twin-five-spoke monoblock with open brake visibility.",
+    shortDescription:
+      "A sculpted twin-five-spoke monoblock with open brake visibility.",
     description:
       'MW-14 "Curva Grande" is shaped around five broad spoke pairs that fork cleanly toward the outer rim. Deep pockets around the hub and generous openings expose the brake package while giving the face a planted, structural stance. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1C.png"],
@@ -1280,7 +3047,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-15",
     title: 'MW-15 "Variante"',
     series: "1-Piece Forged",
-    shortDescription: "A dense multi-spoke monoblock with a classic competition rhythm.",
+    shortDescription:
+      "A dense multi-spoke monoblock with a classic competition rhythm.",
     description:
       'MW-15 "Variante" translates a classic endurance-racing mesh into a clean forged monoblock. Closely spaced spokes, a stepped outer edge, and a compact centre create a precise, mechanical read suited to both modern and period-inspired builds. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1D.png"],
@@ -1290,7 +3058,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-16",
     title: 'MW-16 "Tamburello"',
     series: "1-Piece Forged",
-    shortDescription: "A lightweight ten-spoke face defined by crisp channels and open geometry.",
+    shortDescription:
+      "A lightweight ten-spoke face defined by crisp channels and open geometry.",
     description:
       'MW-16 "Tamburello" pairs ten slender spokes with crisp recessed channels that sharpen the face without adding visual mass. The open windows and gentle concavity make the design feel fast at rest and leave the brake hardware fully visible. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1E.png"],
@@ -1300,7 +3069,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-18",
     title: 'MW-18 "Acque Minerali"',
     series: "1-Piece Forged",
-    shortDescription: "A deep-concave ten-spoke monoblock with a dark, machined-face finish.",
+    shortDescription:
+      "A deep-concave ten-spoke monoblock with a dark, machined-face finish.",
     description:
       'MW-18 "Acque Minerali" combines ten slender spokes with a pronounced drop into the centre bowl. A dark finish and fine machined edges emphasise the concavity, producing a technical silhouette with a restrained motorsport character. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1g.PNG"],
@@ -1310,7 +3080,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-19",
     title: 'MW-19 "Tosa"',
     series: "1-Piece Forged",
-    shortDescription: "A fine multi-spoke monoblock with a warm satin finish and stepped rim.",
+    shortDescription:
+      "A fine multi-spoke monoblock with a warm satin finish and stepped rim.",
     description:
       'MW-19 "Tosa" is built around a dense field of fine spokes that meet a subtly stepped outer rim. The warm satin finish and restrained centre bowl give the design an elegant touring character while retaining clear competition influence. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1h.PNG"],
@@ -1320,7 +3091,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-110",
     title: 'MW-110 "Piratella"',
     series: "1-Piece Forged",
-    shortDescription: "A bold five-spoke monoblock with broad surfaces and a deep gloss finish.",
+    shortDescription:
+      "A bold five-spoke monoblock with broad surfaces and a deep gloss finish.",
     description:
       'MW-20 "Piratella" reduces the monoblock form to five broad spokes and a clean, uninterrupted centre. Strong planar surfaces, softened spoke roots, and a deep gloss finish create a deliberately simple wheel with substantial visual presence. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1i.PNG"],
@@ -1330,7 +3102,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-111",
     title: 'MW-111 "Rivazza"',
     series: "1-Piece Forged",
-    shortDescription: "A machined split-five monoblock with layered spokes and strong directional tension.",
+    shortDescription:
+      "A machined split-five monoblock with layered spokes and strong directional tension.",
     description:
       'MW-111 "Rivazza" builds a sharply layered face from five divided spoke groups. Bright machined edges trace each spoke over deep graphite pockets, creating pronounced direction and generous openings around the brake package. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1j.png"],
@@ -1340,7 +3113,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-112",
     title: 'MW-112 "Villeneuve"',
     series: "1-Piece Forged",
-    shortDescription: "A clean broad five-spoke monoblock with deep windows and uncompromised visual strength.",
+    shortDescription:
+      "A clean broad five-spoke monoblock with deep windows and uncompromised visual strength.",
     description:
       'MW-112 "Villeneuve" distils the forged monoblock into five broad, sharply defined spokes. Deep triangular windows and recessed spoke faces remove visual weight from the substantial structure, while the brushed finish keeps the profile technical and precise. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1k.png"],
@@ -1350,7 +3124,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-113",
     title: 'MW-113 "Gresini"',
     series: "1-Piece Forged",
-    shortDescription: "A lightweight paired multi-spoke monoblock with open brake visibility and a clean stepped rim.",
+    shortDescription:
+      "A lightweight paired multi-spoke monoblock with open brake visibility and a clean stepped rim.",
     description:
       'MW-113 "Gresini" uses ten slender spokes arranged in close pairs to create a light, competition-led face. Alternating open windows and a restrained centre bowl keep the geometry precise, while the stepped outer rim gives the design a subtle touring-car character. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1l.png"],
@@ -1360,7 +3135,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-114",
     title: 'MW-114 "Fiorano"',
     series: "1-Piece Forged",
-    shortDescription: "A deeply sculpted paired multi-spoke monoblock with layered bridges and an open technical face.",
+    shortDescription:
+      "A deeply sculpted paired multi-spoke monoblock with layered bridges and an open technical face.",
     description:
       'MW-114 "Fiorano" builds a complex monoblock face from fine paired spokes, structural bridges, and precisely relieved pockets around the hub and rim. The layered geometry creates depth without closing off the brake package, giving the wheel a highly technical, lightweight character. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1m.png"],
@@ -1370,7 +3146,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-23",
     title: 'MW-23 "San Donato"',
     series: "2-Piece Forged",
-    shortDescription: "An intricate mesh centre paired with exposed hardware and a polished step lip.",
+    shortDescription:
+      "An intricate mesh centre paired with exposed hardware and a polished step lip.",
     description:
       'MW-23 "San Donato" brings an intricate cross-laced mesh centre to the MonzaWheels 2-piece library. Exposed assembly hardware and a deep polished step lip frame the dense forged face, creating a layered, technical profile with strong heritage influence. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["2A.PNG"],
@@ -1380,7 +3157,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-24",
     title: 'MW-24 "Casanova"',
     series: "2-Piece Forged",
-    shortDescription: "A directional split-five centre set inside a deep polished barrel.",
+    shortDescription:
+      "A directional split-five centre set inside a deep polished barrel.",
     description:
       'MW-24 "Casanova" sets a sharply directional split-five centre inside a deep polished barrel. The slender spoke tips overlap the exposed fastener line, adding movement and depth while keeping the brake package open to view. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["2B.png"],
@@ -1390,7 +3168,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-25",
     title: 'MW-25 "Savelli"',
     series: "2-Piece Forged",
-    shortDescription: "A fluid five-spoke centre with sculpted surfaces and a mirror-polished lip.",
+    shortDescription:
+      "A fluid five-spoke centre with sculpted surfaces and a mirror-polished lip.",
     description:
       'MW-25 "Savelli" shapes five broad spokes into a fluid, almost turbine-like forged centre. The dark reflective face rolls into a polished outer lip and exposed hardware, balancing a clean five-spoke layout with the depth of 2-piece construction. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["2c.PNG"],
@@ -1400,7 +3179,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-26",
     title: 'MW-26 "Arrabbiata"',
     series: "2-Piece Forged",
-    shortDescription: "A muscular five-spoke centre contrasted against a polished deep-dish barrel.",
+    shortDescription:
+      "A muscular five-spoke centre contrasted against a polished deep-dish barrel.",
     description:
       'MW-26 "Arrabbiata" pairs a muscular five-spoke centre with the pronounced depth of a polished 2-piece barrel. Broad bronze faces, exposed perimeter hardware, and a simple hub treatment give the design a purposeful GT-era stance. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["2d.png"],
@@ -1410,7 +3190,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-27",
     title: 'MW-27 "Bucine"',
     series: "2-Piece Forged",
-    shortDescription: "A fine radial multi-spoke centre framed by a polished step lip.",
+    shortDescription:
+      "A fine radial multi-spoke centre framed by a polished step lip.",
     description:
       'MW-27 "Bucine" uses a fine radial multi-spoke centre to create a clean, almost continuous sweep around the wheel face. The bright forged centre, exposed fasteners, and polished step lip deliver a precise touring profile with unmistakable multi-piece depth. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["2e.png"],
@@ -1420,7 +3201,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-29",
     title: 'MW-29 "Correntaio"',
     series: "2-Piece Forged",
-    shortDescription: "A full aero face ringed by precision cooling slots and a polished outer barrel.",
+    shortDescription:
+      "A full aero face ringed by precision cooling slots and a polished outer barrel.",
     description:
       'MW-29 "Correntaio" pairs a clean forged aero face with a ring of precisely machined ventilation slots. The stepped perimeter creates a turbine-like rhythm around the solid centre, framed by the depth and bright edge of a polished 2-piece barrel. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["2g.png"],
@@ -1430,7 +3212,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-210",
     title: 'MW-210 "Scarperia"',
     series: "2-Piece Forged",
-    shortDescription: "A broad five-spoke centre with deep relief, exposed hardware, and a polished step lip.",
+    shortDescription:
+      "A broad five-spoke centre with deep relief, exposed hardware, and a polished step lip.",
     description:
       'MW-210 "Scarperia" sets five substantial forged spokes inside a deep polished 2-piece barrel. Recessed spoke faces and dark machined pockets sharpen the centre, while the exposed perimeter hardware gives the clean five-spoke form a distinctly mechanical edge. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["2h.png"],
@@ -1440,7 +3223,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-211",
     title: 'MW-211 "Palagio"',
     series: "2-Piece Forged",
-    shortDescription: "An elegant ten-spoke centre with long tapered lines and a bright polished barrel.",
+    shortDescription:
+      "An elegant ten-spoke centre with long tapered lines and a bright polished barrel.",
     description:
       'MW-211 "Palagio" uses ten long, slender spokes to draw the forged centre cleanly from hub to rim. Subtle channels add definition without interrupting the flowing face, while the polished 2-piece barrel brings depth and a crisp outer edge. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["2i.png"],
@@ -1450,7 +3234,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-212",
     title: 'MW-212 "Vallelunga"',
     series: "2-Piece Forged",
-    shortDescription: "A clean five-spoke centre with deep black pockets and a bright polished step lip.",
+    shortDescription:
+      "A clean five-spoke centre with deep black pockets and a bright polished step lip.",
     description:
       'MW-212 "Vallelunga" pairs a broad five-spoke forged centre with deep gloss-black pockets and a polished 2-piece barrel. Softly radiused spoke edges keep the face clean and substantial, while the stepped lip brings a strong period-performance profile. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["2j.png"],
@@ -1460,7 +3245,8 @@ const namedProducts: CatalogProduct[] = [
     handle: "MW-213",
     title: 'MW-213 "Misano"',
     series: "2-Piece Forged",
-    shortDescription: "A sharply directional split-spoke centre framed by exposed hardware and a deep polished barrel.",
+    shortDescription:
+      "A sharply directional split-spoke centre framed by exposed hardware and a deep polished barrel.",
     description:
       'MW-213 "Misano" uses long, blade-like split spokes to create a strongly directional forged centre with pronounced visual tension. Exposed perimeter hardware and the deep polished 2-piece barrel amplify the layered construction, while generous windows preserve brake visibility. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["2k.png"],
@@ -1554,7 +3340,8 @@ export const collectionSummaries: CollectionSummary[] = [
     slug: "monoblock",
     label: "1-Piece Forged",
     title: "Monoblock",
-    description: "Single-piece forged wheels for clean street, OEM-plus, and track-focused builds. Choose a face, then MonzaWheels confirms sizing around the car. Available 15–24 inches.",
+    description:
+      "Single-piece forged wheels for clean street, OEM-plus, and track-focused builds. Choose a face, then MonzaWheels confirms sizing around the car. Available 15–24 inches.",
     handles: fallbackProducts
       .filter((product) => product.series === "1-Piece Forged")
       .map((product) => product.handle),
@@ -1563,7 +3350,8 @@ export const collectionSummaries: CollectionSummary[] = [
     slug: "multi-piece",
     label: "2-Piece Forged",
     title: "Multi-Piece",
-    description: "Two-piece forged wheels for deeper dish, exposed lip detail, and aggressive staggered builds. Choose the look, then MonzaWheels confirms geometry around the car. Available 18–24 inches.",
+    description:
+      "Two-piece forged wheels for deeper dish, exposed lip detail, and aggressive staggered builds. Choose the look, then MonzaWheels confirms geometry around the car. Available 18–24 inches.",
     handles: fallbackProducts
       .filter((product) => product.series === "2-Piece Forged")
       .map((product) => product.handle),

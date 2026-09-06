@@ -25,6 +25,7 @@ export const metadata = {
   title: "Engineering",
   description:
     "See how MonzaWheels resolves forged wheel geometry, brake clearance, and finish around the exact vehicle.",
+  alternates: { canonical: "/engineering" },
 };
 
 export default function EngineeringPage() {
@@ -33,11 +34,13 @@ export default function EngineeringPage() {
       <section className={styles.hero}>
         <div className={`${styles.heroInner} container`}>
           <p className="label">Engineering</p>
-          <h1 className={styles.heroTitle}>Every wheel program starts with the chassis.</h1>
+          <h1 className={styles.heroTitle}>
+            Every wheel program starts with the chassis.
+          </h1>
           <p className={styles.heroCopy}>
-            MonzaWheels resolves diameter, width, offset, brake clearance, and finish as
-            one system around the exact car. The wheel face is only the
-            starting point.
+            MonzaWheels resolves diameter, width, offset, brake clearance, and
+            finish as one system around the exact car. The wheel face is only
+            the starting point.
           </p>
           <div className={styles.heroActions}>
             <Link className="button-outline" href="/contact">
@@ -54,7 +57,9 @@ export default function EngineeringPage() {
         <div className="container">
           <div className={styles.sectionHeader}>
             <p className="label">Process</p>
-            <h2 className={styles.sectionTitle}>How a brief turns into a finished set.</h2>
+            <h2 className={styles.sectionTitle}>
+              How a brief turns into a finished set.
+            </h2>
           </div>
 
           <div className={styles.cardGrid}>
@@ -73,7 +78,9 @@ export default function EngineeringPage() {
         <div className="container">
           <div className={styles.sectionHeader}>
             <p className="label">Fitment Logic</p>
-            <h2 className={styles.sectionTitle}>Built around the car, not a shelf offset.</h2>
+            <h2 className={styles.sectionTitle}>
+              Built around the car, not a shelf offset.
+            </h2>
           </div>
 
           <div className={styles.cardGrid}>

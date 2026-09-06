@@ -6,6 +6,7 @@ export const metadata = {
   title: "Find a Dealer",
   description:
     "See where MonzaWheels currently supports dealer and direct-fitment enquiries from Brisbane outward.",
+  alternates: { canonical: "/find-a-dealer" },
 };
 
 export default function FindDealerPage() {
@@ -16,8 +17,8 @@ export default function FindDealerPage() {
           <p className="label">Find a Dealer</p>
           <h1 className={styles.heroTitle}>Quote directly from Brisbane.</h1>
           <p className={styles.heroCopy}>
-            All enquiries — regardless of location — are handled directly from Brisbane.
-            There are no intermediaries in the quote process.
+            All enquiries — regardless of location — are handled directly from
+            Brisbane. There are no intermediaries in the quote process.
           </p>
         </div>
       </section>
@@ -35,7 +36,10 @@ export default function FindDealerPage() {
                 <p className={styles.cardOverline}>{region.region}</p>
                 <h3 className={styles.cardTitle}>{region.city}</h3>
                 <p className={styles.cardCopy}>{region.note}</p>
-                <a className={styles.inlineLink} href={`mailto:${region.contact}`}>
+                <a
+                  className={styles.inlineLink}
+                  href={`mailto:${region.contact}`}
+                >
                   {region.contact}
                 </a>
               </article>
@@ -48,8 +52,13 @@ export default function FindDealerPage() {
         <div className={`${styles.ctaPanel} container`}>
           <div>
             <p className="label">Outside Australia</p>
-            <h2 className={styles.sectionTitle}>International orders welcome.</h2>
-            <p className={styles.note}>Send the brief directly from anywhere in the world. MonzaWheels manages the quote and logistics from Brisbane.</p>
+            <h2 className={styles.sectionTitle}>
+              International orders welcome.
+            </h2>
+            <p className={styles.note}>
+              Send the brief directly from anywhere in the world. MonzaWheels
+              manages the quote and logistics from Brisbane.
+            </p>
           </div>
           <Link className="button-outline" href="/contact">
             Request a Quote

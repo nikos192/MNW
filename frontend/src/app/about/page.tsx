@@ -12,6 +12,7 @@ export const metadata = {
   title: "About",
   description:
     "MonzaWheels is a forged wheel brand built around fitment-led quoting, restrained design, and made-to-order delivery.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
@@ -25,8 +26,8 @@ export default function AboutPage() {
           </h1>
           <p className={styles.copy}>
             MonzaWheels is not a catalogue of generic inventory. The wheel, the
-            fitment, and the finish are resolved together so the final set
-            feels native to the car.
+            fitment, and the finish are resolved together so the final set feels
+            native to the car.
           </p>
         </div>
       </section>

@@ -7,6 +7,8 @@ export const metadata = {
   title: "Gallery",
   description:
     "Browse MonzaWheels forged wheel designs by wheel model and delivered vehicle. Customer build photography is added as sets are delivered.",
+  alternates: { canonical: "/gallery" },
+  robots: { index: false, follow: true },
 };
 
 export default async function GalleryPage() {
@@ -17,7 +19,9 @@ export default async function GalleryPage() {
       <section className={styles.hero}>
         <div className={`${styles.heroInner} container`}>
           <p className="label">Gallery</p>
-          <h1 className={styles.heroTitle}>Completed cars, resolved fitment, and finish programs.</h1>
+          <h1 className={styles.heroTitle}>
+            Completed cars, resolved fitment, and finish programs.
+          </h1>
           <p className={styles.heroCopy}>
             Browse the range by wheel face or by delivered vehicle. Customer
             build photography is added here as sets are delivered — nothing is
@@ -36,7 +40,9 @@ export default async function GalleryPage() {
         <div className={`${styles.ctaPanel} container`}>
           <div>
             <p className="label">Need the exact fitment?</p>
-            <h2 className={styles.sectionTitle}>Start with the car and we’ll resolve the rest.</h2>
+            <h2 className={styles.sectionTitle}>
+              Start with the car and we’ll resolve the rest.
+            </h2>
           </div>
           <Link className="button-outline" href="/contact">
             Request a Quote

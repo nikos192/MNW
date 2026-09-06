@@ -5,6 +5,8 @@
 CUSTOMER-*
 .vercel
 .env*
+.playwright-cli/
+output/playwright/
 
 # Cloud credential files — use environment secrets/ADC, never repository files
 *.pem

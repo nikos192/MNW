@@ -2,7 +2,7 @@
 .header { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: start; padding-bottom: clamp(42px, 7vw, 82px); border-bottom: 1px solid rgba(255,255,255,.18); }
 .eyebrow, .number { color: #d4c7aa; font-family: var(--font-body), sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .22em; line-height: 1.5; text-transform: uppercase; }
 .header > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .55fr); gap: clamp(30px, 4vw, 60px); align-items: end; }
-.header h2 { min-width: 0; color: #fff; font-size: clamp(52px, 6vw, 82px); font-weight: 600; letter-spacing: -.045em; line-height: .84; text-transform: uppercase; }
+.header h1, .header h2 { min-width: 0; color: #fff; font-size: clamp(52px, 6vw, 82px); font-weight: 600; letter-spacing: -.045em; line-height: .84; text-transform: uppercase; }
 .header div > p { max-width: 48ch; color: rgba(255,255,255,.64); font-size: 15px; line-height: 1.72; }
 .features { display: grid; gap: clamp(72px, 11vw, 150px); padding-top: clamp(54px, 8vw, 94px); }
 .feature { display: grid; grid-template-columns: minmax(0, 1.42fr) minmax(280px, .58fr); gap: clamp(32px, 7vw, 104px); align-items: center; }
@@ -48,7 +48,7 @@
   .header { grid-template-columns: 1fr; gap: 18px; }
 }
 @media (max-width: 720px) {
-  .header h2 { font-size: clamp(48px, 16vw, 72px); }
+  .header h1, .header h2 { font-size: clamp(48px, 16vw, 72px); }
   .feature, .feature:nth-child(even) { grid-template-columns: 1fr; gap: 28px; }
   .feature:nth-child(even) .carousel, .feature:nth-child(even) .copy { grid-column: 1; grid-row: auto; }
   .carousel { width: calc(100% + 36px); margin-left: -18px; }

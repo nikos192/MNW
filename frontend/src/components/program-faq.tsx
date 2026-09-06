@@ -1,6 +1,6 @@
 import styles from "./program-faq.module.css";
 
-const questions = [
+export const programFaqQuestions = [
   {
     question: "What do I need to send?",
     answer:
@@ -51,7 +51,7 @@ const questions = [
 export function ProgramFaq() {
   return (
     <div className={styles.faq}>
-      {questions.map((item) => (
+      {programFaqQuestions.map((item) => (
         <details key={item.question}>
           <summary>{item.question}</summary>
           <p>{item.answer}</p>

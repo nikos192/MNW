@@ -14,6 +14,7 @@ export const metadata = {
   title: "Fitment",
   description:
     "See the vehicle platforms and fitment process MonzaWheels uses to quote forged wheel sets around each chassis.",
+  alternates: { canonical: "/fitment" },
 };
 
 export default async function FitmentPage({ searchParams }: FitmentPageProps) {
@@ -27,7 +28,9 @@ export default async function FitmentPage({ searchParams }: FitmentPageProps) {
       <section className={styles.hero}>
         <div className="container">
           <p className="label">Fitment</p>
-          <h1 className={styles.title}>Every set starts from the exact chassis.</h1>
+          <h1 className={styles.title}>
+            Every set starts from the exact chassis.
+          </h1>
           <p className={styles.copy}>
             Fitment is resolved around the vehicle, the brake package, the ride
             height, and the finish brief. The catalogue is only the starting

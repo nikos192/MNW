@@ -26,9 +26,9 @@ type ContactPageProps = {
 };
 
 export const metadata = {
-  title: "Contact",
-  description:
-    `Request a bespoke forged wheel quote from ${BRAND_NAME}. Send a design reference, sketch, or idea and we will engineer it around your vehicle.`,
+  title: "Forged Wheel Enquiries",
+  description: `Request a bespoke forged wheel quote from ${BRAND_NAME}. Send a design reference, sketch, or idea and we will engineer it around your vehicle.`,
+  alternates: { canonical: "/contact" },
 };
 
 export default async function ContactPage({ searchParams }: ContactPageProps) {
@@ -79,7 +79,9 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
     <main className={styles.page}>
       <section className={styles.hero}>
         <div className="container">
-          <p className="label">{isCustomDesign ? "Custom design quote" : "Contact"}</p>
+          <p className="label">
+            {isCustomDesign ? "Custom design quote" : "Contact"}
+          </p>
           <h1 className={styles.title}>
             {isCustomDesign
               ? "Send the idea. We will engineer the wheel."
@@ -108,7 +110,8 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                 productHandle: params.product,
                 productTitle: params.title,
                 startingPrice: params.startingPrice,
-                quoteType: isCustomDesign || !params.product ? "custom" : "wheel",
+                quoteType:
+                  isCustomDesign || !params.product ? "custom" : "wheel",
                 shippingOption: params.shipping,
               }}
             />
@@ -116,7 +119,9 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
 
           <aside className={styles.sidePanel} data-reveal>
             <div>
-              <p className="label">{isCustomDesign ? "How it works" : "Quote review"}</p>
+              <p className="label">
+                {isCustomDesign ? "How it works" : "Quote review"}
+              </p>
               <h2 className={styles.sectionHeading}>
                 {isCustomDesign
                   ? "Your reference becomes a buildable forged wheel."
@@ -130,7 +135,9 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               <div className={styles.contextBox}>
                 <p className="label">Selected configuration</p>
                 {contextLines.map((line) => (
-                  <p key={line} className={styles.contextLine}>{line}</p>
+                  <p key={line} className={styles.contextLine}>
+                    {line}
+                  </p>
                 ))}
               </div>
             ) : null}

@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/early-access",
   },
+  robots: { index: false, follow: true },
   openGraph: {
     type: "website",
     url: "/early-access",
@@ -53,7 +54,11 @@ export default function EarlyAccessPage() {
   return (
     <main className={styles.page}>
       <header className={styles.topbar}>
-        <MonzaLogo className={styles.logo} priority title={`${BRAND_NAME} logo`} />
+        <MonzaLogo
+          className={styles.logo}
+          priority
+          title={`${BRAND_NAME} logo`}
+        />
         <span className={styles.badge}>Early Access</span>
       </header>
 
@@ -98,8 +103,8 @@ export default function EarlyAccessPage() {
             The first designs
           </h2>
           <p className={styles.designsCopy}>
-            Two forged programs to open the range. Final size, offset, and finish
-            are resolved around your vehicle.
+            Two forged programs to open the range. Final size, offset, and
+            finish are resolved around your vehicle.
           </p>
         </div>
 
@@ -141,8 +146,8 @@ export default function EarlyAccessPage() {
           </a>
         </div>
         <p className={styles.footerNote}>
-          &copy; {new Date().getFullYear()} {BRAND_NAME}. Designed and engineered in
-          Australia.
+          &copy; {new Date().getFullYear()} {BRAND_NAME}. Designed and
+          engineered in Australia.
         </p>
       </footer>
     </main>

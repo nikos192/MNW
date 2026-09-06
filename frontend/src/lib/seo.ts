@@ -1,4 +1,10 @@
-import { BRAND_EMAIL, BRAND_FACEBOOK_URL, BRAND_INSTAGRAM_URL, BRAND_LEGAL_NAME, BRAND_NAME } from "@/lib/brand";
+import {
+  BRAND_EMAIL,
+  BRAND_FACEBOOK_URL,
+  BRAND_INSTAGRAM_URL,
+  BRAND_LEGAL_NAME,
+  BRAND_NAME,
+} from "@/lib/brand";
 import type { CatalogProduct } from "@/lib/monza-data";
 import { priceRangeForSeries } from "@/lib/wheel-pricing";
 
@@ -21,8 +27,12 @@ export function normalizedSiteUrl() {
   const vercelUrl = process.env.VERCEL_URL?.trim();
   const configuredSiteUrl =
     explicitSiteUrl ||
-    (process.env.VERCEL_ENV === "production" ? CANONICAL_PRODUCTION_URL : vercelUrl) ||
-    (process.env.NODE_ENV === "production" ? CANONICAL_PRODUCTION_URL : DEFAULT_LOCAL_SITE_URL);
+    (process.env.VERCEL_ENV === "production"
+      ? CANONICAL_PRODUCTION_URL
+      : vercelUrl) ||
+    (process.env.NODE_ENV === "production"
+      ? CANONICAL_PRODUCTION_URL
+      : DEFAULT_LOCAL_SITE_URL);
   const absoluteSiteUrl = /^https?:\/\//i.test(configuredSiteUrl)
     ? configuredSiteUrl
     : `https://${configuredSiteUrl}`;
@@ -99,6 +109,23 @@ export function breadcrumbJsonLd(items: Array<{ name: string; path: string }>) {
   };
 }
 
+export function faqPageJsonLd(
+  items: Array<{ question: string; answer: string }>,
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+}
+
 export function productJsonLd(product: CatalogProduct) {
   const priceRange = priceRangeForSeries(product.series);
   const productUrl = absoluteUrl(`/shop/${product.handle}`);
@@ -108,7 +135,7 @@ export function productJsonLd(product: CatalogProduct) {
     "@type": "Product",
     productID: product.id,
     sku: product.handle,
-    name: product.title,
+    name: `${product.title} Forged Wheel`,
     description: product.description,
     image: product.images.map((image) => absoluteUrl(image.url)),
     url: productUrl,
@@ -122,10 +149,9 @@ export function productJsonLd(product: CatalogProduct) {
       ? {
           "@type": "AggregateOffer",
           priceCurrency: "AUD",
-          lowPrice: priceRange.minPerSet,
-          highPrice: priceRange.maxPerSet,
+          lowPrice: priceRange.minPerSet.toFixed(2),
+          highPrice: priceRange.maxPerSet.toFixed(2),
           offerCount: product.diameterOptions.length,
-          availability: "https://schema.org/PreOrder",
           itemCondition: "https://schema.org/NewCondition",
           url: productUrl,
         }

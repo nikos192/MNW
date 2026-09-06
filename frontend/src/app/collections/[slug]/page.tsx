@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { collectionSummaries, defaultMediaImage } from "@/lib/monza-data";
 import { getCatalogData } from "@/lib/catalog";
-import { breadcrumbJsonLd, jsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, DEFAULT_OG_IMAGE, jsonLd } from "@/lib/seo";
 import styles from "../../page-shell.module.css";
 
 type CollectionPageProps = {
@@ -17,7 +17,9 @@ function resolveCollection(slug: string) {
   return collectionSummaries.find((collection) => collection.slug === slug);
 }
 
-export async function generateMetadata({ params }: CollectionPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: CollectionPageProps): Promise<Metadata> {
   const { slug } = await params;
   const collection = resolveCollection(slug);
 
@@ -28,8 +30,27 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
   }
 
   return {
-    title: collection.title,
-    description: collection.description,
+    title: {
+      absolute:
+        slug === "monoblock"
+          ? "Monoblock Forged Wheels | Monza Wheels"
+          : "Two-Piece Forged Wheels | Monza Wheels",
+    },
+    description:
+      slug === "monoblock"
+        ? "Explore Monza one-piece monoblock forged wheels, made to order with vehicle-specific fitment, custom finishes and 3D render approval."
+        : "Explore Monza two-piece forged wheels with custom centres, barrels and finishes, engineered to suit your vehicle and approved before production.",
+    alternates: { canonical: `/collections/${slug}` },
+    openGraph: {
+      type: "website",
+      url: `/collections/${slug}`,
+      title:
+        slug === "monoblock"
+          ? "Monoblock Forged Wheels"
+          : "Two-Piece Forged Wheels",
+      description: collection.description,
+      images: [DEFAULT_OG_IMAGE],
+    },
   };
 }
 
@@ -75,7 +96,11 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
               </span>
             </nav>
             <p className="label">{collection.label}</p>
-            <h1 className={styles.heroTitle}>{collection.title}</h1>
+            <h1 className={styles.heroTitle}>
+              {slug === "monoblock"
+                ? "Monoblock forged wheels."
+                : "Two-piece forged wheels."}
+            </h1>
             <p className={styles.heroCopy}>
               {collection.description} Final diameter, width, offset, and finish
               are still resolved around the exact vehicle.
@@ -102,8 +127,9 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
               </h2>
               {collectionProducts.length === 0 && (
                 <p className={styles.heroCopy}>
-                  The {collection.title.toLowerCase()} program is quoted directly around your
-                  chassis while the published design library grows.{" "}
+                  The {collection.title.toLowerCase()} program is quoted
+                  directly around your chassis while the published design
+                  library grows.{" "}
                   <Link className={styles.inlineLink} href="/contact">
                     Request a quote →
                   </Link>
@@ -113,10 +139,20 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
 
             <div className={styles.collectionGrid}>
               {collectionProducts.map((product) => (
-                <article key={product.id} className={styles.collectionCard} data-reveal>
-                  <Link className={styles.collectionMedia} href={`/shop/${product.handle}`}>
+                <article
+                  key={product.id}
+                  className={styles.collectionCard}
+                  data-reveal
+                >
+                  <Link
+                    className={styles.collectionMedia}
+                    href={`/shop/${product.handle}`}
+                  >
                     <Image
-                      alt={product.title}
+                      alt={
+                        product.images[0]?.alt ||
+                        `${product.title} forged wheel`
+                      }
                       className={styles.collectionImage}
                       height={1200}
                       sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 33vw"
@@ -128,12 +164,21 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
                   <div className={styles.collectionBody}>
                     <p className={styles.cardOverline}>{product.series}</p>
                     <h2 className={styles.collectionTitle}>{product.title}</h2>
-                    <p className={styles.collectionCopy}>{product.shortDescription}</p>
+                    <p className={styles.collectionCopy}>
+                      {product.shortDescription}
+                    </p>
                     <div className={styles.collectionMeta}>
-                      <span className={styles.cardMeta}>Starting at {product.price}</span>
-                      <span className={styles.cardMeta}>{product.leadTime}</span>
+                      <span className={styles.cardMeta}>
+                        Starting at {product.price}
+                      </span>
+                      <span className={styles.cardMeta}>
+                        {product.leadTime}
+                      </span>
                     </div>
-                    <Link className={styles.inlineLink} href={`/shop/${product.handle}`}>
+                    <Link
+                      className={styles.inlineLink}
+                      href={`/shop/${product.handle}`}
+                    >
                       Open product →
                     </Link>
                   </div>
@@ -147,26 +192,12 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
           <div className={`${styles.ctaPanel} container`}>
             <div>
               <p className="label">Custom design program</p>
-              <h2 className={styles.sectionTitle}>Can&apos;t find what you&apos;re looking for?</h2>
+              <h2 className={styles.sectionTitle}>
+                Can&apos;t find what you&apos;re looking for?
+              </h2>
               <p className={styles.note}>
-                Bring us a sketch, reference or idea and we can develop a one-off
-                forged wheel around your vehicle and fitment.
-              </p>
-            </div>
-            <Link className="button-outline" href="/contact?design=custom">
-              Start a custom enquiry
-            </Link>
-          </div>
-        </section>
-
-        <section className={styles.ctaSection}>
-          <div className={`${styles.ctaPanel} container`}>
-            <div>
-              <p className="label">Custom design program</p>
-              <h2 className={styles.sectionTitle}>Can&apos;t find what you&apos;re looking for?</h2>
-              <p className={styles.note}>
-                Bring us a sketch, reference or idea and we can develop a one-off
-                forged design around your chassis, fitment and finish direction.
+                Bring us a sketch, reference or idea and we can develop a
+                one-off forged wheel around your vehicle and fitment.
               </p>
             </div>
             <Link className="button-outline" href="/contact?design=custom">

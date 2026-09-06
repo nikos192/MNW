@@ -13,19 +13,21 @@ export const metadata: Metadata = {
     title: "Our Favourite Wheel Builds | MonzaWheels",
     description:
       "See how bespoke MonzaWheels forged wheel combinations transform the character of standout performance cars.",
-    images: [{
-      url: "/favourites/720s%201.png",
-      width: 1072,
-      height: 1074,
-      alt: "White McLaren 720S on bespoke Monza forged wheels",
-    }],
+    images: [
+      {
+        url: "/favourites/720s%201.png",
+        width: 1072,
+        height: 1074,
+        alt: "White McLaren 720S on bespoke Monza forged wheels",
+      },
+    ],
   },
 };
 
 export default function FavouritesPage() {
   return (
     <main className={styles.page}>
-      <FavouritesSection />
+      <FavouritesSection headingLevel="h1" />
     </main>
   );
 }

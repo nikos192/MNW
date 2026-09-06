@@ -20,6 +20,7 @@ export const metadata = {
   title: "Warranty",
   description:
     "Understand the support process around MonzaWheels forged wheel programs, from pre-dispatch checks to post-delivery review.",
+  alternates: { canonical: "/warranty" },
 };
 
 export default function WarrantyPage() {
@@ -30,8 +31,9 @@ export default function WarrantyPage() {
           <p className="label">Warranty</p>
           <h1 className={styles.heroTitle}>Five-year warranty on every set.</h1>
           <p className={styles.heroCopy}>
-            Every MonzaWheels wheel is covered for 5 years from the date of delivery.
-            Two separate coverages — structural and finish — are included in every program.
+            Every MonzaWheels wheel is covered for 5 years from the date of
+            delivery. Two separate coverages — structural and finish — are
+            included in every program.
           </p>
         </div>
       </section>
@@ -54,7 +56,9 @@ export default function WarrantyPage() {
         <div className={`${styles.ctaPanel} container`}>
           <div>
             <p className="label">Need Help</p>
-            <h2 className={styles.sectionTitle}>Send the brief or the issue directly.</h2>
+            <h2 className={styles.sectionTitle}>
+              Send the brief or the issue directly.
+            </h2>
           </div>
           <Link className="button-outline" href="/contact">
             Contact Support
