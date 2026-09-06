@@ -3,6 +3,7 @@
 import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { GOOGLE_ADS_ID } from "@/lib/google-ads";
 
 export const GOOGLE_TAG_ID = "G-TVES56XZQZ";
 
@@ -32,6 +33,7 @@ export function GoogleTag() {
           window.gtag = gtag;
           gtag('js', new Date());
           gtag('config', '${GOOGLE_TAG_ID}');
+          gtag('config', '${GOOGLE_ADS_ID}');
         `}
       </Script>
     </>

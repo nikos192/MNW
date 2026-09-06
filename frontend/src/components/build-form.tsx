@@ -6,6 +6,7 @@ import { BRAND_NAME } from "@/lib/brand";
 import { getVehicleFitment, vehicleData } from "@/lib/monza-data";
 import styles from "./build-form.module.css";
 import { trackFunnelEvent, trackMetaEvent } from "@/lib/meta-pixel";
+import { trackGoogleAdsLeadConversion } from "@/lib/google-ads";
 import type { ShippingOption } from "@/lib/order-timelines";
 
 type InitialValues = {
@@ -275,6 +276,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
         lead_type: quoteType === "wheel" ? "wheel_quote" : "custom_quote",
       };
       trackMetaEvent("Lead", leadParameters, { eventID: eventId });
+      trackGoogleAdsLeadConversion();
       trackFunnelEvent("QuoteFormStep", {
         ...leadParameters,
         step: "submitted",
