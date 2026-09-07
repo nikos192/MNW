@@ -60,7 +60,7 @@ export default function FindDealerPage() {
               manages the quote and logistics from Brisbane.
             </p>
           </div>
-          <Link className="button-outline" href="/contact">
+          <Link className="button-outline" href="/contact?enquiry=quote">
             Request a Quote
           </Link>
         </div>

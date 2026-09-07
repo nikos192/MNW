@@ -220,7 +220,7 @@ export function FavouritesSection({
             <p>Your car, resolved properly.</p>
             <span>Fitment and design confirmed before production.</span>
           </div>
-          <Link className="button-primary" href="/contact">
+          <Link className="button-primary" href="/contact?enquiry=quote">
             Build Your Setup
           </Link>
         </footer>

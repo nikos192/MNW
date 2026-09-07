@@ -44,7 +44,7 @@ export default async function GalleryPage() {
               Start with the car and we’ll resolve the rest.
             </h2>
           </div>
-          <Link className="button-outline" href="/contact">
+          <Link className="button-outline" href="/contact?enquiry=quote">
             Request a Quote
           </Link>
         </div>

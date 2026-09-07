@@ -12,7 +12,7 @@ type LeadConversion = {
   phone?: string;
   fbc?: string;
   fbp?: string;
-  leadType: "wheel_quote" | "custom_quote";
+  leadType: "wheel_quote" | "custom_quote" | "contact_enquiry";
 };
 
 function sha256(value: string) {
@@ -25,7 +25,8 @@ export function normalizeEmail(value: string) {
 
 export function normalizePhone(value: string) {
   const digits = value.replace(/\D/g, "");
-  if (digits.startsWith("0") && digits.length === 10) return `61${digits.slice(1)}`;
+  if (digits.startsWith("0") && digits.length === 10)
+    return `61${digits.slice(1)}`;
   return digits;
 }
 
@@ -61,9 +62,12 @@ export async function sendMetaLeadConversion(event: LeadConversion) {
             event_time: Math.floor(Date.now() / 1000),
             user_data: userData,
             custom_data: {
-              content_category: event.leadType === "wheel_quote"
-                ? "Forged wheel quote"
-                : "Custom forged wheel quote",
+              content_category:
+                event.leadType === "contact_enquiry"
+                  ? "Contact enquiry"
+                  : event.leadType === "wheel_quote"
+                    ? "Forged wheel quote"
+                    : "Custom forged wheel quote",
               content_ids: event.contentIds,
               content_name: event.contentName,
               content_type: "product",
@@ -78,9 +82,12 @@ export async function sendMetaLeadConversion(event: LeadConversion) {
             event_time: Math.floor(Date.now() / 1000),
             user_data: userData,
             custom_data: {
-              content_category: event.leadType === "wheel_quote"
-                ? "Forged wheel quote"
-                : "Custom forged wheel quote",
+              content_category:
+                event.leadType === "contact_enquiry"
+                  ? "Contact enquiry"
+                  : event.leadType === "wheel_quote"
+                    ? "Forged wheel quote"
+                    : "Custom forged wheel quote",
               content_ids: event.contentIds,
               content_name: event.contentName,
               content_type: "product",
@@ -96,7 +103,9 @@ export async function sendMetaLeadConversion(event: LeadConversion) {
 
   if (!response.ok) {
     const detail = await response.text();
-    throw new Error(`Meta Conversions API returned ${response.status}: ${detail.slice(0, 500)}`);
+    throw new Error(
+      `Meta Conversions API returned ${response.status}: ${detail.slice(0, 500)}`,
+    );
   }
 
   return { sent: true } as const;

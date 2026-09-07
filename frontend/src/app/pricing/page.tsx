@@ -77,7 +77,7 @@ export default function PricingPage() {
                   review rather than estimated online.
                 </p>
               </div>
-              <Link className="button-outline" href="/contact">
+              <Link className="button-outline" href="/contact?enquiry=quote">
                 Request carbon pricing
               </Link>
             </div>
@@ -124,7 +124,7 @@ export default function PricingPage() {
                 before production.
               </p>
             </div>
-            <Link className="button-outline" href="/contact">
+            <Link className="button-outline" href="/contact?enquiry=quote">
               Request a Quote
             </Link>
           </div>

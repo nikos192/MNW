@@ -279,7 +279,7 @@ export function PricingCalculator() {
             <div key={addOn.id}>
               <span>{addOn.name}</span>
               {addOn.displayAmount === null ? (
-                <Link href="/contact">Request price</Link>
+                <Link href="/contact?enquiry=quote">Request price</Link>
               ) : (
                 <span>+{formatPrice(addOn.displayAmount, currency)}</span>
               )}
@@ -295,7 +295,7 @@ export function PricingCalculator() {
         {breakdown.hasPriceOnRequestAddOn ? (
           <p className={styles.requestNote}>
             The displayed total excludes price-on-request upgrades.{" "}
-            <Link href="/contact">Ask for a complete quote.</Link>
+            <Link href="/contact?enquiry=quote">Ask for a complete quote.</Link>
           </p>
         ) : null}
 

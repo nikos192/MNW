@@ -85,7 +85,7 @@ export default async function FitmentPage({ searchParams }: FitmentPageProps) {
               Need the exact numbers for your car?
             </h2>
           </div>
-          <Link className="button-outline" href="/contact">
+          <Link className="button-outline" href="/contact?enquiry=quote">
             Request a quote
           </Link>
         </div>

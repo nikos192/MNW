@@ -73,7 +73,7 @@ export function GallerySwitcher({ deliveredSets, products }: GallerySwitcherProp
               Delivered sets are photographed on the car before they appear here. In the
               meantime, browse the range by wheel or request a quote for your chassis.
             </p>
-            <Link className={styles.viewAllLink} href="/contact">
+            <Link className={styles.viewAllLink} href="/contact?enquiry=quote">
               Request a quote →
             </Link>
           </article>

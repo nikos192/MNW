@@ -106,7 +106,7 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
               are still resolved around the exact vehicle.
             </p>
             <div className={styles.heroActions}>
-              <Link className="button-outline" href="/contact">
+              <Link className="button-outline" href="/contact?enquiry=quote">
                 Request a Quote
               </Link>
               <Link className="button-outline" href="/fitment">
@@ -130,7 +130,7 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
                   The {collection.title.toLowerCase()} program is quoted
                   directly around your chassis while the published design
                   library grows.{" "}
-                  <Link className={styles.inlineLink} href="/contact">
+                  <Link className={styles.inlineLink} href="/contact?enquiry=quote">
                     Request a quote →
                   </Link>
                 </p>

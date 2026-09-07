@@ -1,6 +1,6 @@
 import { BRAND_NAME } from "@/lib/brand";
 import { BuildForm } from "@/components/build-form";
-import { OrderJourney } from "@/components/order-journey";
+import Link from "next/link";
 import { shippingLabel, type ShippingOption } from "@/lib/order-timelines";
 import styles from "./page.module.css";
 
@@ -21,6 +21,7 @@ type ContactPageProps = {
     capColour?: string;
     notes?: string;
     design?: string;
+    enquiry?: string;
     shipping?: ShippingOption;
   }>;
 };
@@ -34,6 +35,26 @@ export const metadata = {
 export default async function ContactPage({ searchParams }: ContactPageProps) {
   const params = await searchParams;
   const isCustomDesign = params.design === "custom";
+  const isQuote =
+    isCustomDesign ||
+    [
+      params.product,
+      params.title,
+      params.startingPrice,
+      params.make,
+      params.model,
+      params.year,
+      params.diameter,
+      params.width,
+      params.pcd,
+      params.offset,
+      params.centrebore,
+      params.finish,
+      params.capColour,
+      params.notes,
+      params.shipping,
+    ].some(Boolean) ||
+    params.enquiry === "quote";
 
   const contextLines = [
     params.title ? `Product: ${params.title}` : "",
@@ -78,70 +99,69 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
   return (
     <main className={styles.page}>
       <section className={styles.hero}>
-        <div className="container">
+        <div className={`${styles.content} container`}>
           <p className="label">
-            {isCustomDesign ? "Custom design quote" : "Contact"}
+            {isCustomDesign
+              ? "Custom design"
+              : isQuote
+                ? "Wheel quote"
+                : "Contact"}
           </p>
           <h1 className={styles.title}>
             {isCustomDesign
-              ? "Send the idea. We will engineer the wheel."
-              : "Send the car. We will confirm the wheel spec."}
+              ? "Your idea. Your wheels."
+              : isQuote
+                ? "Let’s find your wheels."
+                : "Let’s talk."}
           </h1>
           <p className={styles.copy}>
-            {isCustomDesign
-              ? "Upload the wheel, sketch, render, or style you want. Name, email and vehicle make are enough to start—we will develop the design around your exact car."
-              : "Name, email, and vehicle are enough to start. Leave fitment numbers blank and we will confirm size, offset, brake clearance, finish, price, and lead time."}
+            {isQuote
+              ? "Unsure about fitment? We’ll confirm everything with you."
+              : "Questions about wheels, orders or anything else? We’re here to help."}
           </p>
+          {!isQuote && (
+            <p className={styles.quoteLink}>
+              Looking for wheels?{" "}
+              <Link href="/contact?enquiry=quote">Request a quote →</Link>
+            </p>
+          )}
         </div>
       </section>
-
       <section className={styles.formSection}>
-        <div className={`${styles.grid} container`}>
-          <div className={styles.formPanel} data-reveal>
+        <div className={`${styles.content} container`}>
+          <div className={styles.formPanel}>
+            {hasConfig && contextLines.length > 0 && (
+              <details className={styles.contextBox}>
+                <summary>
+                  {params.title || "Your selected configuration"}
+                  <span>Included with your enquiry</span>
+                </summary>
+                <div>
+                  {contextLines.map((line) => (
+                    <p key={line} className={styles.contextLine}>
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              </details>
+            )}
             <BuildForm
-              initialNotes={
-                params.notes ??
-                (isCustomDesign
-                  ? "Custom design request\n\nDesign direction or reference:\n"
-                  : undefined)
-              }
+              key={JSON.stringify(params)}
+              initialNotes={params.notes}
               initialValues={initialValues}
               quoteContext={{
                 productHandle: params.product,
                 productTitle: params.title,
                 startingPrice: params.startingPrice,
-                quoteType:
-                  isCustomDesign || !params.product ? "custom" : "wheel",
+                quoteType: !isQuote
+                  ? "contact"
+                  : isCustomDesign
+                    ? "custom"
+                    : "wheel",
                 shippingOption: params.shipping,
               }}
             />
           </div>
-
-          <aside className={styles.sidePanel} data-reveal>
-            <div>
-              <p className="label">
-                {isCustomDesign ? "How it works" : "Quote review"}
-              </p>
-              <h2 className={styles.sectionHeading}>
-                {isCustomDesign
-                  ? "Your reference becomes a buildable forged wheel."
-                  : "We confirm the fitment before production."}
-              </h2>
-            </div>
-
-            <OrderJourney compact />
-
-            {hasConfig && contextLines.length ? (
-              <div className={styles.contextBox}>
-                <p className="label">Selected configuration</p>
-                {contextLines.map((line) => (
-                  <p key={line} className={styles.contextLine}>
-                    {line}
-                  </p>
-                ))}
-              </div>
-            ) : null}
-          </aside>
         </div>
       </section>
     </main>

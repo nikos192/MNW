@@ -43,7 +43,9 @@ const recentRequests = new Map<string, number[]>();
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
   const cutoff = now - RATE_LIMIT_WINDOW_MS;
-  const history = (recentRequests.get(ip) ?? []).filter((time) => time > cutoff);
+  const history = (recentRequests.get(ip) ?? []).filter(
+    (time) => time > cutoff,
+  );
   if (history.length >= RATE_LIMIT_MAX) {
     recentRequests.set(ip, history);
     return true;
@@ -75,7 +77,10 @@ function getClientIp(request: Request): string {
 function getCookie(request: Request, name: string) {
   const cookieHeader = request.headers.get("cookie") ?? "";
   const prefix = `${name}=`;
-  const cookie = cookieHeader.split(";").map((item) => item.trim()).find((item) => item.startsWith(prefix));
+  const cookie = cookieHeader
+    .split(";")
+    .map((item) => item.trim())
+    .find((item) => item.startsWith(prefix));
   return cookie ? decodeURIComponent(cookie.slice(prefix.length)) : undefined;
 }
 
@@ -86,6 +91,7 @@ function tooBig(payload: QuoteRequestBody): string | null {
     [payload.customer?.name, SHORT_CAP, "name"],
     [payload.customer?.email, EMAIL_CAP, "email"],
     [payload.customer?.phone, 60, "phone"],
+    [payload.vehicle?.description, SHORT_CAP, "vehicle"],
     [payload.vehicle?.make, 100, "make"],
     [payload.vehicle?.model, 100, "model"],
     [payload.vehicle?.year, 20, "year"],
@@ -114,7 +120,8 @@ function tooBig(payload: QuoteRequestBody): string | null {
 
 export async function POST(request: Request) {
   const resendKey = process.env.RESEND_KEY || process.env.RESEND_API_KEY;
-  const fromEmail = process.env.RESEND_FROM_EMAIL || `${BRAND_NAME} <onboarding@resend.dev>`;
+  const fromEmail =
+    process.env.RESEND_FROM_EMAIL || `${BRAND_NAME} <onboarding@resend.dev>`;
   const intakeEmail = process.env.BUILD_INTAKE_EMAIL || BRAND_EMAIL;
 
   if (!resendKey) {
@@ -143,10 +150,14 @@ export async function POST(request: Request) {
   try {
     if (request.headers.get("content-type")?.includes("multipart/form-data")) {
       const formData = await request.formData();
-      body = JSON.parse(String(formData.get("payload") ?? "")) as QuoteRequestBody;
+      body = JSON.parse(
+        String(formData.get("payload") ?? ""),
+      ) as QuoteRequestBody;
       const files = formData
         .getAll("references")
-        .filter((entry): entry is File => entry instanceof File && entry.size > 0);
+        .filter(
+          (entry): entry is File => entry instanceof File && entry.size > 0,
+        );
 
       if (files.length > MAX_ATTACHMENTS) {
         return NextResponse.json(
@@ -154,7 +165,10 @@ export async function POST(request: Request) {
           { status: 413 },
         );
       }
-      if (files.reduce((total, file) => total + file.size, 0) > MAX_TOTAL_ATTACHMENT_BYTES) {
+      if (
+        files.reduce((total, file) => total + file.size, 0) >
+        MAX_TOTAL_ATTACHMENT_BYTES
+      ) {
         return NextResponse.json(
           { error: "Reference uploads must be 4MB or smaller in total." },
           { status: 413 },
@@ -170,7 +184,9 @@ export async function POST(request: Request) {
         }
         if (file.size > MAX_ATTACHMENT_BYTES) {
           return NextResponse.json(
-            { error: `Each reference file must be 4MB or smaller (${file.name}).` },
+            {
+              error: `Each reference file must be 4MB or smaller (${file.name}).`,
+            },
             { status: 413 },
           );
         }
@@ -186,7 +202,10 @@ export async function POST(request: Request) {
       body = (await request.json()) as QuoteRequestBody;
     }
   } catch {
-    return NextResponse.json({ error: "Invalid request payload." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid request payload." },
+      { status: 400 },
+    );
   }
 
   // Honeypot — legitimate forms leave this blank.
@@ -208,7 +227,7 @@ export async function POST(request: Request) {
 
   if (!customerName || !customerEmail) {
     return NextResponse.json(
-      { error: "Name and email are required so we can reply to the quote request." },
+      { error: "Name and email are required so we can reply to your enquiry." },
       { status: 400 },
     );
   }
@@ -220,8 +239,22 @@ export async function POST(request: Request) {
     );
   }
 
-  if (body.shipping && body.shipping !== "standard" && body.shipping !== "express") {
-    return NextResponse.json({ error: "Invalid shipping option." }, { status: 400 });
+  if (body.quoteContext?.quoteType === "contact" && !clean(body.notes)) {
+    return NextResponse.json(
+      { error: "Please enter a message." },
+      { status: 400 },
+    );
+  }
+
+  if (
+    body.shipping &&
+    body.shipping !== "standard" &&
+    body.shipping !== "express"
+  ) {
+    return NextResponse.json(
+      { error: "Invalid shipping option." },
+      { status: 400 },
+    );
   }
 
   const intakeEmailContent = buildIntakeEmail(body);
@@ -252,12 +285,19 @@ export async function POST(request: Request) {
 
     const eventId = clean(body.tracking?.eventId);
     if (eventId) {
-      const quoteType = body.quoteContext?.quoteType ?? (body.quoteContext?.productHandle ? "wheel" : "custom");
+      const quoteType =
+        body.quoteContext?.quoteType ??
+        (body.quoteContext?.productHandle ? "wheel" : "custom");
 
       try {
         await sendMetaLeadConversion({
-          contentIds: [body.quoteContext?.productHandle || "custom-forged-wheel"],
-          contentName: body.quoteContext?.productTitle || "Custom design quote",
+          contentIds: [
+            body.quoteContext?.productHandle ||
+              (quoteType === "contact" ? "contact" : "custom-forged-wheel"),
+          ],
+          contentName:
+            body.quoteContext?.productTitle ||
+            (quoteType === "contact" ? "Contact enquiry" : "Wheel quote"),
           eventId,
           eventSourceUrl: request.headers.get("referer") ?? undefined,
           clientIpAddress: ip,
@@ -266,7 +306,12 @@ export async function POST(request: Request) {
           phone: clean(body.customer?.phone),
           fbc: getCookie(request, "_fbc"),
           fbp: getCookie(request, "_fbp"),
-          leadType: quoteType === "wheel" ? "wheel_quote" : "custom_quote",
+          leadType:
+            quoteType === "contact"
+              ? "contact_enquiry"
+              : quoteType === "wheel"
+                ? "wheel_quote"
+                : "custom_quote",
         });
       } catch (metaError) {
         console.error("Failed to send Meta Lead conversion:", metaError);

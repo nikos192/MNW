@@ -68,7 +68,7 @@ export default function AboutPage() {
             <p className="label">Contact</p>
             <h2 className={styles.sectionHeading}>Have a chassis in mind?</h2>
           </div>
-          <Link className="button-outline" href="/contact">
+          <Link className="button-outline" href="/contact?enquiry=quote">
             Request a quote
           </Link>
         </div>

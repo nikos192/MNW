@@ -7,7 +7,7 @@ export type QuoteEmailPayload = {
     productHandle?: string;
     productTitle?: string;
     startingPrice?: string;
-    quoteType?: "wheel" | "custom";
+    quoteType?: "wheel" | "custom" | "contact";
     shippingOption?: ShippingOption;
   };
   tracking?: { eventId?: string };
@@ -17,6 +17,7 @@ export type QuoteEmailPayload = {
     phone?: string;
   };
   vehicle?: {
+    description?: string;
     make?: string;
     model?: string;
     year?: string;
@@ -80,7 +81,9 @@ function resolveSiteUrl() {
 }
 
 function buildProductUrl(handle?: string) {
-  return handle ? `${resolveSiteUrl()}/shop/${handle}` : `${resolveSiteUrl()}/contact`;
+  return handle
+    ? `${resolveSiteUrl()}/shop/${handle}`
+    : `${resolveSiteUrl()}/contact`;
 }
 
 function sectionRows(payload: QuoteEmailPayload) {
@@ -91,29 +94,56 @@ function sectionRows(payload: QuoteEmailPayload) {
   ];
 
   const productRows: SummaryRow[] = [
-    { label: "Product", value: displayValue(payload.quoteContext?.productTitle) },
-    { label: "Product handle", value: displayValue(payload.quoteContext?.productHandle) },
-    { label: "Starting price shown", value: displayValue(payload.quoteContext?.startingPrice) },
-    { label: "Shipping selection", value: shippingLabel(payload.shipping ?? "standard") },
+    {
+      label: "Product",
+      value: displayValue(payload.quoteContext?.productTitle),
+    },
+    {
+      label: "Product handle",
+      value: displayValue(payload.quoteContext?.productHandle),
+    },
+    {
+      label: "Starting price shown",
+      value: displayValue(payload.quoteContext?.startingPrice),
+    },
+    {
+      label: "Shipping selection",
+      value: shippingLabel(payload.shipping ?? "standard"),
+    },
   ];
 
   const vehicleRows: SummaryRow[] = [
+    ...(clean(payload.vehicle?.description)
+      ? [{ label: "Vehicle", value: clean(payload.vehicle?.description) }]
+      : []),
     { label: "Vehicle make", value: displayValue(payload.vehicle?.make) },
     { label: "Vehicle model", value: displayValue(payload.vehicle?.model) },
     { label: "Vehicle year", value: displayValue(payload.vehicle?.year) },
     { label: "Brake package", value: displayValue(payload.vehicle?.brakes) },
-    { label: "Suspension / ride height", value: displayValue(payload.vehicle?.suspension) },
+    {
+      label: "Suspension / ride height",
+      value: displayValue(payload.vehicle?.suspension),
+    },
   ];
 
   const wheelRows: SummaryRow[] = [
-    { label: "Preferred diameter", value: displayValue(payload.wheel?.diameter) },
+    {
+      label: "Preferred diameter",
+      value: displayValue(payload.wheel?.diameter),
+    },
     { label: "Preferred width", value: displayValue(payload.wheel?.width) },
     { label: "PCD", value: displayValue(payload.wheel?.pcd) },
     { label: "Offset (ET)", value: displayValue(payload.wheel?.offset) },
     { label: "Centre bore", value: displayValue(payload.wheel?.centrebore) },
     { label: "Finish direction", value: displayValue(payload.wheel?.finish) },
-    { label: "Centre cap colour", value: displayValue(payload.wheel?.capColour) },
-    { label: "Reference links", value: displayValue(payload.wheel?.references) },
+    {
+      label: "Centre cap colour",
+      value: displayValue(payload.wheel?.capColour),
+    },
+    {
+      label: "Reference links",
+      value: displayValue(payload.wheel?.references),
+    },
   ];
 
   return { customerRows, productRows, vehicleRows, wheelRows };
@@ -143,12 +173,12 @@ function renderSection(title: string, rows: SummaryRow[]) {
   `;
 }
 
-function renderNotes(notes?: string) {
+function renderNotes(notes?: string, label = "Project notes") {
   const value = displayValue(notes).replaceAll("\n", "<br />");
 
   return `
     <div style="margin-top: 28px;">
-      <p style="margin: 0 0 12px; color: #b08b57; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;">Project notes</p>
+      <p style="margin: 0 0 12px; color: #b08b57; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;">${escapeHtml(label)}</p>
       <div style="padding: 18px 20px; background: #111111; border: 1px solid #2a2a2a; color: #f4f1ea; font-size: 14px; line-height: 1.8;">${escapeHtml(value)}</div>
     </div>
   `;
@@ -163,13 +193,14 @@ function wrapEmail(args: {
   ctaLabel?: string;
   ctaUrl?: string;
 }) {
-  const cta = args.ctaLabel && args.ctaUrl
-    ? `
+  const cta =
+    args.ctaLabel && args.ctaUrl
+      ? `
       <div style="margin-top: 32px;">
         <a href="${escapeHtml(args.ctaUrl)}" style="display: inline-block; padding: 14px 22px; border: 1px solid #b08b57; background: #b08b57; color: #0c0c0c; text-decoration: none; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600;">${escapeHtml(args.ctaLabel)}</a>
       </div>
     `
-    : "";
+      : "";
 
   const outro = args.outro
     ? `<p style="margin: 28px 0 0; color: #bcb8ae; font-size: 14px; line-height: 1.8;">${escapeHtml(args.outro)}</p>`
@@ -202,11 +233,36 @@ function wrapEmail(args: {
 }
 
 export function buildIntakeEmail(payload: QuoteEmailPayload): EmailContent {
+  if (payload.quoteContext?.quoteType === "contact") {
+    const subject = `${BRAND_NAME} Contact Enquiry`;
+    const { customerRows } = sectionRows(payload);
+    return {
+      subject,
+      html: wrapEmail({
+        eyebrow: "Contact enquiry",
+        title: "New message received",
+        intro: "A customer has sent a message through the site.",
+        body:
+          renderSection(
+            "Customer",
+            customerRows.filter((row) => row.label !== "Phone"),
+          ) + renderNotes(payload.notes, "Message"),
+      }),
+      text: [
+        subject,
+        formatLine("Name", payload.customer?.name),
+        formatLine("Email", payload.customer?.email),
+        "",
+        clean(payload.notes),
+      ].join("\n"),
+    };
+  }
   const safeTitle = sanitizeHeader(payload.quoteContext?.productTitle);
   const subject = safeTitle
     ? `${BRAND_NAME} Quote Request - ${safeTitle}`
     : `${BRAND_NAME} Quote Request`;
-  const { customerRows, productRows, vehicleRows, wheelRows } = sectionRows(payload);
+  const { customerRows, productRows, vehicleRows, wheelRows } =
+    sectionRows(payload);
   const productUrl = buildProductUrl(payload.quoteContext?.productHandle);
 
   const html = wrapEmail({
@@ -249,8 +305,32 @@ export function buildIntakeEmail(payload: QuoteEmailPayload): EmailContent {
   return { subject, html, text };
 }
 
-export function buildCustomerConfirmationEmail(payload: QuoteEmailPayload): EmailContent {
-  const firstName = sanitizeHeader(payload.customer?.name).split(/\s+/)[0] || "there";
+export function buildCustomerConfirmationEmail(
+  payload: QuoteEmailPayload,
+): EmailContent {
+  const firstName =
+    sanitizeHeader(payload.customer?.name).split(/\s+/)[0] || "there";
+  if (payload.quoteContext?.quoteType === "contact") {
+    const subject = `${BRAND_NAME} enquiry received`;
+    const intro =
+      "We’ve received your message and will be in touch soon. You can reply to this email if there’s anything else you’d like to add.";
+    return {
+      subject,
+      html: wrapEmail({
+        eyebrow: "Message received",
+        title: `Thanks ${firstName}, we’ll be in touch.`,
+        intro,
+        body: renderNotes(payload.notes, "Your message"),
+      }),
+      text: [
+        `Thanks ${firstName},`,
+        intro,
+        "",
+        "Your message:",
+        clean(payload.notes),
+      ].join("\n"),
+    };
+  }
   const safeTitle = sanitizeHeader(payload.quoteContext?.productTitle);
   const subject = safeTitle
     ? `${BRAND_NAME} quote request received for ${safeTitle}`
@@ -265,7 +345,8 @@ export function buildCustomerConfirmationEmail(payload: QuoteEmailPayload): Emai
       "We have received your quote request and will review the chassis, fitment direction, and finish brief before coming back with the right forged wheel program.",
     ctaLabel: "Review Product",
     ctaUrl: productUrl,
-    outro: "Reply to this email with any wheel references, sketches, renders, brake photos, or extra fitment notes and they will be added to your quote review.",
+    outro:
+      "Reply to this email with any wheel references, sketches, renders, brake photos, or extra fitment notes and they will be added to your quote review.",
     body: [
       `<div style="padding: 18px 20px; background: #111111; border: 1px solid #2a2a2a; color: #f4f1ea; font-size: 14px; line-height: 1.8;">
         We use the submitted spec as a starting point only. Final pricing, offset, centre bore, and chassis-specific details are confirmed during review.

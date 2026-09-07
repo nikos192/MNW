@@ -43,7 +43,7 @@ export default function EngineeringPage() {
             the starting point.
           </p>
           <div className={styles.heroActions}>
-            <Link className="button-outline" href="/contact">
+            <Link className="button-outline" href="/contact?enquiry=quote">
               Request a Quote
             </Link>
             <Link className="button-outline" href="/fitment">
