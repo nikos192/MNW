@@ -23,6 +23,13 @@ export const DEFAULT_OG_IMAGE = {
   alt: `${BRAND_NAME} MW-11 Serraglio forged wheel`,
 } as const;
 
+export const BRAND_LOGO_IMAGE = {
+  url: "/brand/Logo%20White.png",
+  width: 500,
+  height: 500,
+  alt: `${BRAND_NAME} logo`,
+} as const;
+
 export function normalizedSiteUrl() {
   const explicitSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   const vercelUrl = process.env.VERCEL_URL?.trim();
@@ -73,6 +80,14 @@ export function organizationJsonLd() {
     alternateName: BRAND_ALTERNATE_NAME,
     legalName: BRAND_LEGAL_NAME,
     url: absoluteUrl("/"),
+    logo: {
+      "@type": "ImageObject",
+      url: absoluteUrl(BRAND_LOGO_IMAGE.url),
+      contentUrl: absoluteUrl(BRAND_LOGO_IMAGE.url),
+      width: BRAND_LOGO_IMAGE.width,
+      height: BRAND_LOGO_IMAGE.height,
+      caption: BRAND_LOGO_IMAGE.alt,
+    },
     email: BRAND_EMAIL,
     sameAs: [BRAND_INSTAGRAM_URL, BRAND_FACEBOOK_URL],
     contactPoint: [

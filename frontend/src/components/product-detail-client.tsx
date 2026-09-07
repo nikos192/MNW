@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ConversionLink } from "@/components/conversion-link";
+import { ConfigurationStep } from "@/components/configuration-step";
+import { favouriteBuilds } from "@/lib/approved-builds";
 import { OrderJourney } from "@/components/order-journey";
 import { ShippingSelector } from "@/components/shipping-selector";
 import type { CatalogProduct, VehicleFitment } from "@/lib/monza-data";
@@ -24,7 +26,8 @@ import {
 } from "@/lib/wheel-pricing";
 import styles from "./product-detail-client.module.css";
 import {
-  shippingLabel,
+  productionDays,
+  shippingDays,
   totalLeadTimeDays,
   type ShippingOption,
 } from "@/lib/order-timelines";
@@ -50,27 +53,82 @@ function diameterOptionsForFitment(
 
 export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const hasTrackedView = useRef(false);
+  const [openStep, setOpenStep] = useState(0);
+  const [unlockedStep, setUnlockedStep] = useState(0);
+  const [selectionNotice, setSelectionNotice] = useState("");
+  const configRef = useRef<HTMLDivElement>(null);
+  function continueStep(current: number) {
+    setUnlockedStep((last) => Math.max(last, current + 1));
+    setOpenStep(current + 1);
+    requestAnimationFrame(() => {
+      const next =
+        configRef.current?.querySelectorAll<HTMLButtonElement>("h2 > button")[
+          current + 1
+        ];
+      const target = next ?? document.getElementById("build-review");
+      target?.focus({ preventScroll: true });
+      target?.scrollIntoView({ block: "nearest", behavior: "instant" });
+    });
+  }
+  const onCarBuild = favouriteBuilds.find(
+    (build) => build.href === `/shop/${product.handle}`,
+  );
+  const galleryImages = useMemo(() => {
+    const build = favouriteBuilds.find(
+      (item) => item.href === `/shop/${product.handle}`,
+    );
+    if (!build) return product.images;
+    return [
+      product.images[0],
+      ...build.images.map((url) => ({ url, alt: build.imageAlt })),
+      ...product.images.slice(1),
+    ].filter((item): item is (typeof product.images)[number] => Boolean(item));
+  }, [product]);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [activeFinish, setActiveFinish] = useState(product.finishes[0]?.name ?? "");
-  const finishGroups = useMemo(() => Object.entries(product.finishes.reduce<Record<string, typeof product.finishes>>((groups, finish) => {
-    (groups[finish.family] ??= []).push(finish);
-    return groups;
-  }, {})), [product]);
+  const [activeFinish, setActiveFinish] = useState(
+    product.finishes[0]?.name ?? "",
+  );
+  const finishGroups = useMemo(
+    () =>
+      Object.entries(
+        product.finishes.reduce<Record<string, typeof product.finishes>>(
+          (groups, finish) => {
+            (groups[finish.family] ??= []).push(finish);
+            return groups;
+          },
+          {},
+        ),
+      ),
+    [product],
+  );
+  const [finishFamily, setFinishFamily] = useState(
+    product.finishes[0]?.family ?? "",
+  );
   // Diameter / width are tracked per axle so customers can build staggered sets.
   // When isStaggered is false, only the front picker is shown and we mirror its
   // value into the rear state on each pick.
   const [isStaggered, setIsStaggered] = useState(false);
-  const [activeDiameterFront, setActiveDiameterFront] = useState(product.diameterOptions[0] ?? "");
-  const [activeDiameterRear, setActiveDiameterRear] = useState(product.diameterOptions[0] ?? "");
-  const [activeWidthFront, setActiveWidthFront] = useState(product.widthOptions[0] ?? "");
-  const [activeWidthRear, setActiveWidthRear] = useState(product.widthOptions[0] ?? "");
+  const [activeDiameterFront, setActiveDiameterFront] = useState(
+    product.diameterOptions[0] ?? "",
+  );
+  const [activeDiameterRear, setActiveDiameterRear] = useState(
+    product.diameterOptions[0] ?? "",
+  );
+  const [activeWidthFront, setActiveWidthFront] = useState(
+    product.widthOptions[0] ?? "",
+  );
+  const [activeWidthRear, setActiveWidthRear] = useState(
+    product.widthOptions[0] ?? "",
+  );
   // PCD, CB, and offset are optional — start unselected so customer can skip
   const [activePcd, setActivePcd] = useState("");
   const [activeOffset, setActiveOffset] = useState("");
   const [activeCentrebore, setActiveCentrebore] = useState("");
 
   // Centre cap colour — Black/White logos plus a custom text fallback.
-  const [capColour, setCapColour] = useState<"Black" | "White" | "Custom">("Black");
+  const [capColour, setCapColour] = useState<"Black" | "White" | "Custom">(
+    "Black",
+  );
   const [capColourCustom, setCapColourCustom] = useState("");
 
   useEffect(() => {
@@ -89,7 +147,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   function validWidthsForDiameter(value: string): string[] {
     const construction = constructionFromSeries(product.series);
     const parsedDiameter = Number.parseInt(value, 10);
-    if (!construction || !Number.isFinite(parsedDiameter)) return product.widthOptions;
+    if (!construction || !Number.isFinite(parsedDiameter))
+      return product.widthOptions;
     const bands = getWidthOptions(construction, parsedDiameter);
     return product.widthOptions.filter((option) => {
       const parsedWidth = Number.parseFloat(option);
@@ -101,20 +160,29 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
   function pickDiameter(value: string, axle: "front" | "rear") {
     const validWidths = validWidthsForDiameter(value);
+    const currentWidth = axle === "front" ? activeWidthFront : activeWidthRear;
+    if (!validWidths.includes(currentWidth)) {
+      setSelectionNotice(
+        "That diameter needs a different width. We’ve selected an available starting width; please confirm it in the next step.",
+      );
+      setUnlockedStep((last) => Math.min(last, 2));
+    } else setSelectionNotice("");
     if (isStaggered) {
       if (axle === "front") {
         setActiveDiameterFront(value);
-        if (!validWidths.includes(activeWidthFront)) setActiveWidthFront(validWidths[0] ?? "");
+        if (!validWidths.includes(activeWidthFront))
+          setActiveWidthFront(validWidths[0] ?? "");
       } else {
         setActiveDiameterRear(value);
-        if (!validWidths.includes(activeWidthRear)) setActiveWidthRear(validWidths[0] ?? "");
+        if (!validWidths.includes(activeWidthRear))
+          setActiveWidthRear(validWidths[0] ?? "");
       }
     } else {
       setActiveDiameterFront(value);
       setActiveDiameterRear(value);
       const nextWidth = validWidths.includes(activeWidthFront)
         ? activeWidthFront
-        : validWidths[0] ?? "";
+        : (validWidths[0] ?? "");
       setActiveWidthFront(nextWidth);
       setActiveWidthRear(nextWidth);
     }
@@ -146,20 +214,26 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [carYear, setCarYear] = useState("");
 
   const [includeCustomFinish, setIncludeCustomFinish] = useState(false);
-  const [shippingOption, setShippingOption] = useState<ShippingOption>("standard");
+  const [shippingOption, setShippingOption] =
+    useState<ShippingOption>("standard");
   const includeExpressShipping = shippingOption === "express";
 
-  const carModels = carMake && carMake !== "Other" ? Object.keys(vehicleData[carMake] ?? {}) : [];
+  const carModels =
+    carMake && carMake !== "Other"
+      ? Object.keys(vehicleData[carMake] ?? {})
+      : [];
   const carYears =
     carMake && carModel && carMake !== "Other" && carModel !== "Other"
       ? (vehicleData[carMake]?.[carModel] ?? [])
       : [];
 
   const fitment = getVehicleFitment(carMake, carModel);
-  const collectionHref = product.series === "1-Piece Forged"
-    ? "/collections/monoblock"
-    : "/collections/multi-piece";
-  const collectionLabel = product.series === "1-Piece Forged" ? "Monoblock" : "Multi-Piece";
+  const collectionHref =
+    product.series === "1-Piece Forged"
+      ? "/collections/monoblock"
+      : "/collections/multi-piece";
+  const collectionLabel =
+    product.series === "1-Piece Forged" ? "Monoblock" : "Multi-Piece";
 
   const filteredDiameterOptions = useMemo(
     () => diameterOptionsForFitment(product.diameterOptions, fitment),
@@ -170,6 +244,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     setCarMake(make);
     setCarModel("");
     setCarYear("");
+    setSelectionNotice("");
   }
 
   function handleModelChange(model: string) {
@@ -179,29 +254,48 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       product.diameterOptions,
       getVehicleFitment(carMake, model),
     );
-    const fallbackDiameter = nextDiameterOptions[0];
-    if (!fallbackDiameter) return;
-    setActiveDiameterFront((current) =>
-      nextDiameterOptions.includes(current) ? current : fallbackDiameter,
-    );
-    setActiveDiameterRear((current) =>
-      nextDiameterOptions.includes(current) ? current : fallbackDiameter,
-    );
-    const fallbackWidths = validWidthsForDiameter(fallbackDiameter);
-    setActiveWidthFront((current) =>
-      fallbackWidths.includes(current) ? current : fallbackWidths[0] ?? "",
-    );
-    setActiveWidthRear((current) =>
-      fallbackWidths.includes(current) ? current : fallbackWidths[0] ?? "",
-    );
+    const fallbackDiameter = nextDiameterOptions[0] ?? "";
+    const nextFront = nextDiameterOptions.includes(activeDiameterFront)
+      ? activeDiameterFront
+      : fallbackDiameter;
+    const nextRear = nextDiameterOptions.includes(activeDiameterRear)
+      ? activeDiameterRear
+      : fallbackDiameter;
+    const frontWidths = validWidthsForDiameter(nextFront);
+    const rearWidths = validWidthsForDiameter(nextRear);
+    const nextFrontWidth = frontWidths.includes(activeWidthFront)
+      ? activeWidthFront
+      : (frontWidths[0] ?? "");
+    const nextRearWidth = rearWidths.includes(activeWidthRear)
+      ? activeWidthRear
+      : (rearWidths[0] ?? "");
+    if (
+      nextFront !== activeDiameterFront ||
+      nextRear !== activeDiameterRear ||
+      nextFrontWidth !== activeWidthFront ||
+      nextRearWidth !== activeWidthRear
+    ) {
+      setSelectionNotice(
+        "Sizes have been adjusted for this vehicle. Please review diameter and width again; your finish and shipping choices are saved.",
+      );
+      setUnlockedStep((last) => Math.min(last, 1));
+    } else setSelectionNotice("");
+    setActiveDiameterFront(nextFront);
+    setActiveDiameterRear(nextRear);
+    setActiveWidthFront(nextFrontWidth);
+    setActiveWidthRear(nextRearWidth);
   }
 
-  const activeImage = product.images[activeImageIndex] ?? product.images[0];
+  const activeImage = galleryImages[activeImageIndex] ?? galleryImages[0];
   const frontWidthOptions = validWidthsForDiameter(activeDiameterFront);
   const rearWidthOptions = validWidthsForDiameter(activeDiameterRear);
   const tierRange = priceRangeForSeries(product.series);
   const chassisRange = fitment
-    ? priceRangeForSeries(product.series, fitment.minDiameter, fitment.maxDiameter)
+    ? priceRangeForSeries(
+        product.series,
+        fitment.minDiameter,
+        fitment.maxDiameter,
+      )
     : null;
   const activeRange = chassisRange ?? tierRange;
   const formatRange = (range: {
@@ -212,12 +306,12 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   }) => {
     if (range.minPerSet === range.maxPerSet) {
       return {
-        set: `AUD ${formatAud(range.minPerSet)} / set inc. GST & standard shipping included`,
+        set: `AUD ${formatAud(range.minPerSet)}`,
         wheel: `AUD ${formatAud(range.minPerWheel)} per wheel`,
       };
     }
     return {
-      set: `AUD ${formatAud(range.minPerSet)} – ${formatAud(range.maxPerSet)} / set inc. GST & standard shipping included`,
+      set: `AUD ${formatAud(range.minPerSet)} – ${formatAud(range.maxPerSet)}`,
       wheel: `AUD ${formatAud(range.minPerWheel)} – ${formatAud(range.maxPerWheel)} per wheel`,
     };
   };
@@ -266,13 +360,16 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       "centre caps incl.",
       isStaggered ? "staggered" : null,
       includeCustomFinish && isOnePiece ? "custom finish" : null,
-      includeExpressShipping ? "express shipping" : "standard shipping included",
+      includeExpressShipping
+        ? "express shipping"
+        : "standard shipping included",
     ].filter(Boolean);
-    const quotedPrice = estimatedTotal !== null
-      ? `Est. AUD ${formatAud(estimatedTotal)} / set (${estimateExtras.join(", ")})`
-      : formattedActiveRange
-        ? `${formattedActiveRange.set} (${formattedActiveRange.wheel})`
-        : product.price;
+    const quotedPrice =
+      estimatedTotal !== null
+        ? `Est. AUD ${formatAud(estimatedTotal)} / set (${estimateExtras.join(", ")})`
+        : formattedActiveRange
+          ? `${formattedActiveRange.set} (${formattedActiveRange.wheel})`
+          : product.price;
     const params = new URLSearchParams({
       product: product.handle,
       title: product.title,
@@ -311,10 +408,17 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   // Centre caps are bundled into every wheel set; only custom finish is an extra.
   const isOnePiece = product.series === "1-Piece Forged";
   const construction = isOnePiece ? "one-piece" : "two-piece";
-  const productionTime = isOnePiece ? 20 : 30;
-  const estimatedTotalLeadTime = totalLeadTimeDays(construction, shippingOption);
-  const frontDiameterNum = activeDiameterFront ? parseInt(activeDiameterFront, 10) : NaN;
-  const rearDiameterNum = activeDiameterRear ? parseInt(activeDiameterRear, 10) : NaN;
+  const productionTime = productionDays[construction];
+  const estimatedTotalLeadTime = totalLeadTimeDays(
+    construction,
+    shippingOption,
+  );
+  const frontDiameterNum = activeDiameterFront
+    ? parseInt(activeDiameterFront, 10)
+    : NaN;
+  const rearDiameterNum = activeDiameterRear
+    ? parseInt(activeDiameterRear, 10)
+    : NaN;
   const frontPerWheelPrice = Number.isFinite(frontDiameterNum)
     ? priceForDiameter(product.series, frontDiameterNum, activeWidthFront)
     : null;
@@ -323,17 +427,22 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     : null;
   // Square fitment uses the front price × 4. Staggered = 2 × front + 2 × rear.
   const wheelOnlySubtotal = (() => {
-    if (!isStaggered) return frontPerWheelPrice !== null ? frontPerWheelPrice * 4 : null;
+    if (!isStaggered)
+      return frontPerWheelPrice !== null ? frontPerWheelPrice * 4 : null;
     if (frontPerWheelPrice === null || rearPerWheelPrice === null) return null;
     return frontPerWheelPrice * 2 + rearPerWheelPrice * 2;
   })();
-  const customFinishSubtotal = includeCustomFinish && isOnePiece ? CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4 : 0;
+  const customFinishSubtotal =
+    includeCustomFinish && isOnePiece
+      ? CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4
+      : 0;
   const expressShippingSubtotal = includeExpressShipping
     ? expressAirShippingIncGstAud()
     : 0;
-  const estimatedTotal = wheelOnlySubtotal !== null
-    ? wheelOnlySubtotal + customFinishSubtotal + expressShippingSubtotal
-    : null;
+  const estimatedTotal =
+    wheelOnlySubtotal !== null
+      ? wheelOnlySubtotal + customFinishSubtotal + expressShippingSubtotal
+      : null;
 
   return (
     <main className={styles.page}>
@@ -356,7 +465,6 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       </nav>
 
       <div className={`${styles.grid} container`}>
-
         {/* ── Gallery ── */}
         <div className={styles.gallery}>
           <div className={styles.primaryMedia}>
@@ -375,12 +483,24 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             )}
           </div>
 
-          {product.images.length > 1 ? (
-            <div className={styles.thumbs} role="group" aria-label="Product gallery">
-              {product.images.slice(0, 8).map((image, index) => (
+          {onCarBuild &&
+            activeImageIndex > 0 &&
+            activeImageIndex <= onCarBuild.images.length && (
+              <p className={styles.imageCaption}>
+                {onCarBuild.car} · {onCarBuild.wheel}
+              </p>
+            )}
+          {galleryImages.length > 1 ? (
+            <div
+              className={styles.thumbs}
+              role="group"
+              aria-label="Product gallery"
+            >
+              {galleryImages.map((image, index) => (
                 <button
                   key={`${image.url}-${index}`}
-                  aria-label={`Show ${image.alt || `${product.title} view ${index + 1}`}`}
+                  aria-label={`Show ${image.alt || product.title}, image ${index + 1}`}
+                  aria-pressed={index === activeImageIndex}
                   className={`${styles.thumb} ${index === activeImageIndex ? styles.thumbActive : ""}`}
                   onClick={() => setActiveImageIndex(index)}
                   type="button"
@@ -406,348 +526,723 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               <p className={`label ${styles.series}`}>{product.series}</p>
               <h1 className={styles.title}>{product.title}</h1>
               <p className={styles.price}>{headlinePrice}</p>
+              <p className={styles.priceContext}>
+                Set of 4 · GST &amp; standard shipping included
+              </p>
+              <p className={styles.introReassurance}>
+                Made for your car. Fitment and a custom 3D render confirmed
+                before production.
+              </p>
+              <Link
+                className={styles.guidanceLink}
+                href={`/contact?product=${encodeURIComponent(product.handle)}&title=${encodeURIComponent(product.title)}`}
+              >
+                Unsure where to start? Ask us for help →
+              </Link>
             </div>
 
-            {/* ── Your Vehicle ── */}
-            <div className={styles.optionGroup}>
-              <div className={styles.optionHeader}>
-                <p className={`label ${styles.optionLabel}`}>Your Vehicle</p>
-                {carLabel && <span className={styles.optionSelected}>{carLabel}</span>}
-              </div>
-              <div className={styles.vehicleSelects}>
-                <select
-                  aria-label="Vehicle make"
-                  className={styles.vehicleSelect}
-                  value={carMake}
-                  onChange={(e) => handleMakeChange(e.target.value)}
-                >
-                  <option value="">Select make</option>
-                  {Object.keys(vehicleData).map((make) => (
-                    <option key={make} value={make}>{make}</option>
-                  ))}
-                  <option value="Other">Other (add in notes)</option>
-                </select>
-
-                {carMake && carMake !== "Other" && (
-                  <select
-                    aria-label="Vehicle model"
-                    className={styles.vehicleSelect}
-                    value={carModel}
-                    onChange={(e) => handleModelChange(e.target.value)}
-                  >
-                    <option value="">Select model</option>
-                    {carModels.map((model) => (
-                      <option key={model} value={model}>{model}</option>
-                    ))}
-                    <option value="Other">Other model</option>
-                  </select>
-                )}
-
-                {carModel && carModel !== "Other" && carYears.length > 0 && (
-                  <select
-                    aria-label="Vehicle year"
-                    className={styles.vehicleSelect}
-                    value={carYear}
-                    onChange={(e) => setCarYear(e.target.value)}
-                  >
-                    <option value="">Select year</option>
-                    {carYears.map((year) => (
-                      <option key={year} value={String(year)}>{year}</option>
-                    ))}
-                  </select>
-                )}
-              </div>
-              {fitment ? (
-                <div className={styles.autoFitment}>
-                  <div className={styles.autoFitmentItem}>
-                    <span className={styles.autoFitmentLabel}>PCD</span>
-                    <span className={styles.autoFitmentValue}>{fitment.pcd}</span>
-                  </div>
-                  <div className={styles.autoFitmentItem}>
-                    <span className={styles.autoFitmentLabel}>Centre bore</span>
-                    <span className={styles.autoFitmentValue}>{fitment.centreBore}</span>
-                  </div>
-                  <p className={styles.autoFitmentNote}>
-                    Matched to your {carLabel || `${carMake} ${carModel}`.trim()}. Offset is confirmed per build after chassis review.
-                  </p>
-                </div>
-              ) : (
-                <p className={styles.offsetNote}>
-                  PCD, offset, and centre bore will be matched to your vehicle — no need to specify unless you have a preference.
+            <div ref={configRef} className={styles.configurator}>
+              {selectionNotice && (
+                <p className={styles.selectionNotice} role="status">
+                  {selectionNotice}
                 </p>
               )}
-            </div>
-
-            {/* ── Staggered toggle ── */}
-            <div className={styles.optionGroup}>
-              <label className={styles.staggeredToggle}>
-                <input
-                  type="checkbox"
-                  checked={isStaggered}
-                  onChange={(event) => toggleStaggered(event.target.checked)}
-                />
-                <span className={styles.staggeredToggleText}>
-                  <span className={styles.staggeredToggleLabel}>Staggered fitment</span>
-                  <span className={styles.staggeredToggleHint}>
-                    Different sizes front and rear (e.g. 19F / 20R)
-                  </span>
-                </span>
-              </label>
-            </div>
-
-            {/* ── Diameter ── */}
-            {filteredDiameterOptions.length > 0 && (
-              <div className={styles.optionGroup}>
-                <div className={styles.optionHeader}>
-                  <p className={`label ${styles.optionLabel}`}>Diameter</p>
-                  {displayDiameter && <span className={styles.optionSelected}>{displayDiameter}</span>}
-                </div>
-                {isStaggered ? (
-                  <div className={styles.axleStack}>
-                    <div className={styles.axleRow}>
-                      <span className={styles.axleLabel}>Front</span>
-                      <div className={styles.pills} role="radiogroup" aria-label="Front diameter">
-                        {filteredDiameterOptions.map((opt) => (
-                          <label key={`d-front-${opt}`} className={styles.pillItem}>
-                            <input
-                              aria-label={`Front ${opt}`}
-                              checked={activeDiameterFront === opt}
-                              className="visually-hidden"
-                              name="diameter-front"
-                              onChange={() => pickDiameter(opt, "front")}
-                              type="radio"
-                              value={opt}
-                            />
-                            <span className={`${styles.pill} ${activeDiameterFront === opt ? styles.pillActive : ""}`}>
-                              {opt}
-                            </span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-                    <div className={styles.axleRow}>
-                      <span className={styles.axleLabel}>Rear</span>
-                      <div className={styles.pills} role="radiogroup" aria-label="Rear diameter">
-                        {filteredDiameterOptions.map((opt) => (
-                          <label key={`d-rear-${opt}`} className={styles.pillItem}>
-                            <input
-                              aria-label={`Rear ${opt}`}
-                              checked={activeDiameterRear === opt}
-                              className="visually-hidden"
-                              name="diameter-rear"
-                              onChange={() => pickDiameter(opt, "rear")}
-                              type="radio"
-                              value={opt}
-                            />
-                            <span className={`${styles.pill} ${activeDiameterRear === opt ? styles.pillActive : ""}`}>
-                              {opt}
-                            </span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className={styles.pills} role="radiogroup" aria-label="Diameter">
-                    {filteredDiameterOptions.map((opt) => (
-                      <label key={opt} className={styles.pillItem}>
-                        <input
-                          aria-label={opt}
-                          checked={activeDiameterFront === opt}
-                          className="visually-hidden"
-                          name="diameter"
-                          onChange={() => pickDiameter(opt, "front")}
-                          type="radio"
-                          value={opt}
-                        />
-                        <span className={`${styles.pill} ${activeDiameterFront === opt ? styles.pillActive : ""}`}>
-                          {opt}
+              {unlockedStep >= 0 && (
+                <ConfigurationStep
+                  number={1}
+                  title="Your vehicle"
+                  summary={carLabel || "We’ll confirm your vehicle"}
+                  open={openStep === 0}
+                  onEdit={() =>
+                    setOpenStep((current) => (current === 0 ? -1 : 0))
+                  }
+                  onContinue={() => continueStep(0)}
+                  nextLabel={
+                    carMake ? "Choose diameter" : "Choose wheels first"
+                  }
+                >
+                  {/* ── Your Vehicle ── */}
+                  <div className={styles.optionGroup}>
+                    <div className={styles.optionHeader}>
+                      <p className={`label ${styles.optionLabel}`}>
+                        Your Vehicle
+                      </p>
+                      {carLabel && (
+                        <span className={styles.optionSelected}>
+                          {carLabel}
                         </span>
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* ── Width ── */}
-            {product.widthOptions.length > 0 && (
-              <div className={styles.optionGroup}>
-                <div className={styles.optionHeader}>
-                  <p className={`label ${styles.optionLabel}`}>Width</p>
-                  {displayWidth && <span className={styles.optionSelected}>{displayWidth}</span>}
-                </div>
-                {isStaggered ? (
-                  <div className={styles.axleStack}>
-                    <div className={styles.axleRow}>
-                      <span className={styles.axleLabel}>Front</span>
-                      <div className={styles.pills} role="radiogroup" aria-label="Front width">
-                        {frontWidthOptions.map((opt) => (
-                          <label key={`w-front-${opt}`} className={styles.pillItem}>
-                            <input
-                              aria-label={`Front ${opt}`}
-                              checked={activeWidthFront === opt}
-                              className="visually-hidden"
-                              name="width-front"
-                              onChange={() => pickWidth(opt, "front")}
-                              type="radio"
-                              value={opt}
-                            />
-                            <span className={`${styles.pill} ${activeWidthFront === opt ? styles.pillActive : ""}`}>
-                              {opt}
-                            </span>
-                          </label>
-                        ))}
-                      </div>
+                      )}
                     </div>
-                    <div className={styles.axleRow}>
-                      <span className={styles.axleLabel}>Rear</span>
-                      <div className={styles.pills} role="radiogroup" aria-label="Rear width">
-                        {rearWidthOptions.map((opt) => (
-                          <label key={`w-rear-${opt}`} className={styles.pillItem}>
-                            <input
-                              aria-label={`Rear ${opt}`}
-                              checked={activeWidthRear === opt}
-                              className="visually-hidden"
-                              name="width-rear"
-                              onChange={() => pickWidth(opt, "rear")}
-                              type="radio"
-                              value={opt}
-                            />
-                            <span className={`${styles.pill} ${activeWidthRear === opt ? styles.pillActive : ""}`}>
-                              {opt}
-                            </span>
-                          </label>
+                    <div className={styles.vehicleSelects}>
+                      <select
+                        aria-label="Vehicle make"
+                        className={styles.vehicleSelect}
+                        value={carMake}
+                        onChange={(e) => handleMakeChange(e.target.value)}
+                      >
+                        <option value="">Select make</option>
+                        {Object.keys(vehicleData).map((make) => (
+                          <option key={make} value={make}>
+                            {make}
+                          </option>
                         ))}
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className={styles.pills} role="radiogroup" aria-label="Width">
-                    {frontWidthOptions.map((opt) => (
-                      <label key={opt} className={styles.pillItem}>
-                        <input
-                          aria-label={opt}
-                          checked={activeWidthFront === opt}
-                          className="visually-hidden"
-                          name="width"
-                          onChange={() => pickWidth(opt, "front")}
-                          type="radio"
-                          value={opt}
-                        />
-                        <span className={`${styles.pill} ${activeWidthFront === opt ? styles.pillActive : ""}`}>
-                          {opt}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
+                        <option value="Other">Other / not listed</option>
+                      </select>
 
-            {/* ── Finish ── */}
-            {product.finishes.length > 0 && (
-              <div className={styles.optionGroup}>
-                <div className={styles.optionHeader}>
-                  <p className={`label ${styles.optionLabel}`}>Finish</p>
-                  <div className={styles.finishHeaderMeta}>
-                    {activeFinish && <span className={styles.optionSelected}>{activeFinish}</span>}
-                    <Link className={styles.finishLibraryLink} href="/finishes">Explore &amp; compare all</Link>
-                  </div>
-                </div>
-                <div className={styles.finishGroups} role="radiogroup" aria-label="Finish">
-                  {finishGroups.map(([family, finishes]) => (
-                    <section className={styles.finishFamily} key={family} aria-labelledby={`finish-${family.toLowerCase().replaceAll(" ", "-")}`}>
-                      <div className={styles.finishFamilyHeading}><h3 id={`finish-${family.toLowerCase().replaceAll(" ", "-")}`}>{family}</h3><span>{finishes.length} {finishes.length === 1 ? "treatment" : "treatments"}</span></div>
-                      <div className={styles.swatches}>
-                        {finishes.map((finish) => (
-                          <label key={finish.name} className={styles.swatchItem}>
-                            <input aria-label={`${finish.name}, ${finish.family} family, ${finish.treatment} treatment`} checked={activeFinish === finish.name} className="visually-hidden" name="finish" onChange={() => setActiveFinish(finish.name)} type="radio" value={finish.name} />
-                            <span className={`${styles.finishOption} ${activeFinish === finish.name ? styles.finishOptionActive : ""}`}>
-                              <span className={styles.finishImageWrap}><Image alt="" className={styles.finishImage} src={finish.image} sizes="(max-width: 767px) 44vw, 150px" width={320} height={320} /></span>
-                              <span className={styles.finishMeta}><span className={`${styles.swatch} ${getSwatchTone(finish.swatch)}`} aria-hidden="true" /><span><span className={styles.finishName}>{finish.name}</span><span className={styles.finishTreatment}>{finish.treatment}</span></span></span>
-                            </span>
-                          </label>
-                        ))}
-                      </div>
-                    </section>
-                  ))}
-                </div>
-              </div>
-            )}
+                      {carMake && carMake !== "Other" && (
+                        <select
+                          aria-label="Vehicle model"
+                          className={styles.vehicleSelect}
+                          value={carModel}
+                          onChange={(e) => handleModelChange(e.target.value)}
+                        >
+                          <option value="">Select model</option>
+                          {carModels.map((model) => (
+                            <option key={model} value={model}>
+                              {model}
+                            </option>
+                          ))}
+                          <option value="Other">Other model</option>
+                        </select>
+                      )}
 
-            {/* ── Centre cap colour ── */}
-            <div className={styles.optionGroup}>
-              <div className={styles.optionHeader}>
-                <p className={`label ${styles.optionLabel}`}>Centre cap colour</p>
-                <span className={styles.optionSelected}>{formattedCapColour}</span>
-              </div>
-              <div className={styles.capColours} role="radiogroup" aria-label="Centre cap colour">
-                {(["Black", "White", "Custom"] as const).map((option) => (
-                  <label key={option} className={styles.capColourItem}>
-                    <input
-                      aria-label={option}
-                      checked={capColour === option}
-                      className="visually-hidden"
-                      name="capColour"
-                      onChange={() => setCapColour(option)}
-                      type="radio"
-                      value={option}
-                    />
-                    <span
-                      className={`${styles.capColourCard} ${capColour === option ? styles.capColourCardActive : ""}`}
-                    >
-                      <span className={styles.capColourImageWrap}>
-                        {option === "Custom" ? (
-                          <span className={styles.capColourCustomMark} aria-hidden="true">
-                            ?
-                          </span>
-                        ) : (
-                          <Image
-                            alt={`${option} centre cap logo`}
-                            className={styles.capColourImage}
-                            src={
-                              option === "Black"
-                                ? "/brand/Logo%20Black.jpg"
-                                : "/brand/Logo%20White.png"
-                            }
-                            sizes="48px"
-                            width={96}
-                            height={96}
-                          />
+                      {carModel &&
+                        carModel !== "Other" &&
+                        carYears.length > 0 && (
+                          <select
+                            aria-label="Vehicle year"
+                            className={styles.vehicleSelect}
+                            value={carYear}
+                            onChange={(e) => setCarYear(e.target.value)}
+                          >
+                            <option value="">Select year</option>
+                            {carYears.map((year) => (
+                              <option key={year} value={String(year)}>
+                                {year}
+                              </option>
+                            ))}
+                          </select>
                         )}
+                    </div>
+                    {carMake === "Other" && (
+                      <input
+                        className={styles.vehicleSelect}
+                        aria-label="Vehicle details"
+                        placeholder="Make, model and year"
+                        value={carModel}
+                        onChange={(event) => setCarModel(event.target.value)}
+                      />
+                    )}
+                    {carModel === "Other" && (
+                      <p className={styles.offsetNote}>
+                        You can add your exact model in the enquiry notes.
+                      </p>
+                    )}
+                    {fitment ? (
+                      <p className={styles.offsetNote}>
+                        Fitment matched to {carLabel}. We’ll confirm offset and
+                        brake clearance with you.
+                      </p>
+                    ) : (
+                      <p className={styles.offsetNote}>
+                        We’ll confirm the technical fitment. You can also choose
+                        wheels first and add your car when enquiring.
+                      </p>
+                    )}
+                  </div>
+                </ConfigurationStep>
+              )}
+              {unlockedStep >= 1 && (
+                <ConfigurationStep
+                  number={2}
+                  title="Diameter & layout"
+                  summary={
+                    displayDiameter +
+                    (isStaggered
+                      ? " · Staggered"
+                      : " · Same size front and rear")
+                  }
+                  open={openStep === 1}
+                  onEdit={() =>
+                    setOpenStep((current) => (current === 1 ? -1 : 1))
+                  }
+                  onContinue={() => continueStep(1)}
+                  nextLabel="Choose width"
+                  disabled={!filteredDiameterOptions.length}
+                >
+                  {/* ── Staggered toggle ── */}
+                  <div className={styles.optionGroup}>
+                    <label className={styles.staggeredToggle}>
+                      <input
+                        type="checkbox"
+                        checked={isStaggered}
+                        onChange={(event) =>
+                          toggleStaggered(event.target.checked)
+                        }
+                      />
+                      <span className={styles.staggeredToggleText}>
+                        <span className={styles.staggeredToggleLabel}>
+                          Staggered fitment
+                        </span>
+                        <span className={styles.staggeredToggleHint}>
+                          Different sizes front and rear (e.g. 19F / 20R)
+                        </span>
                       </span>
-                      <span className={styles.capColourLabel}>{option}</span>
-                    </span>
-                  </label>
-                ))}
-              </div>
-              {capColour === "Custom" ? (
-                <input
-                  className={styles.capColourCustomInput}
-                  type="text"
-                  placeholder="Describe the colour you want (e.g. cherry red, brushed gold)"
-                  value={capColourCustom}
-                  onChange={(event) => setCapColourCustom(event.target.value)}
-                  aria-label="Custom centre cap colour"
-                />
-              ) : null}
+                    </label>
+                  </div>
+
+                  {/* ── Diameter ── */}
+                  {filteredDiameterOptions.length > 0 && (
+                    <div className={styles.optionGroup}>
+                      <div className={styles.optionHeader}>
+                        <p className={`label ${styles.optionLabel}`}>
+                          Diameter
+                        </p>
+                        {displayDiameter && (
+                          <span className={styles.optionSelected}>
+                            {displayDiameter}
+                          </span>
+                        )}
+                      </div>
+                      {isStaggered ? (
+                        <div className={styles.axleStack}>
+                          <div className={styles.axleRow}>
+                            <span className={styles.axleLabel}>Front</span>
+                            <div
+                              className={styles.pills}
+                              role="radiogroup"
+                              aria-label="Front diameter"
+                            >
+                              {filteredDiameterOptions.map((opt) => (
+                                <label
+                                  key={`d-front-${opt}`}
+                                  className={styles.pillItem}
+                                >
+                                  <input
+                                    aria-label={`Front ${opt}`}
+                                    checked={activeDiameterFront === opt}
+                                    className="visually-hidden"
+                                    name="diameter-front"
+                                    onChange={() => pickDiameter(opt, "front")}
+                                    type="radio"
+                                    value={opt}
+                                  />
+                                  <span
+                                    className={`${styles.pill} ${activeDiameterFront === opt ? styles.pillActive : ""}`}
+                                  >
+                                    {opt}
+                                  </span>
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                          <div className={styles.axleRow}>
+                            <span className={styles.axleLabel}>Rear</span>
+                            <div
+                              className={styles.pills}
+                              role="radiogroup"
+                              aria-label="Rear diameter"
+                            >
+                              {filteredDiameterOptions.map((opt) => (
+                                <label
+                                  key={`d-rear-${opt}`}
+                                  className={styles.pillItem}
+                                >
+                                  <input
+                                    aria-label={`Rear ${opt}`}
+                                    checked={activeDiameterRear === opt}
+                                    className="visually-hidden"
+                                    name="diameter-rear"
+                                    onChange={() => pickDiameter(opt, "rear")}
+                                    type="radio"
+                                    value={opt}
+                                  />
+                                  <span
+                                    className={`${styles.pill} ${activeDiameterRear === opt ? styles.pillActive : ""}`}
+                                  >
+                                    {opt}
+                                  </span>
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          className={styles.pills}
+                          role="radiogroup"
+                          aria-label="Diameter"
+                        >
+                          {filteredDiameterOptions.map((opt) => (
+                            <label key={opt} className={styles.pillItem}>
+                              <input
+                                aria-label={opt}
+                                checked={activeDiameterFront === opt}
+                                className="visually-hidden"
+                                name="diameter"
+                                onChange={() => pickDiameter(opt, "front")}
+                                type="radio"
+                                value={opt}
+                              />
+                              <span
+                                className={`${styles.pill} ${activeDiameterFront === opt ? styles.pillActive : ""}`}
+                              >
+                                {opt}
+                              </span>
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </ConfigurationStep>
+              )}
+              {unlockedStep >= 2 && (
+                <ConfigurationStep
+                  number={3}
+                  title="Width"
+                  summary={displayWidth}
+                  open={openStep === 2}
+                  onEdit={() =>
+                    setOpenStep((current) => (current === 2 ? -1 : 2))
+                  }
+                  onContinue={() => continueStep(2)}
+                  nextLabel="Choose finish"
+                  disabled={
+                    !activeWidthFront || (isStaggered && !activeWidthRear)
+                  }
+                >
+                  {/* ── Width ── */}
+                  {product.widthOptions.length > 0 && (
+                    <div className={styles.optionGroup}>
+                      <div className={styles.optionHeader}>
+                        <p className={`label ${styles.optionLabel}`}>Width</p>
+                        {displayWidth && (
+                          <span className={styles.optionSelected}>
+                            {displayWidth}
+                          </span>
+                        )}
+                      </div>
+                      {isStaggered ? (
+                        <div className={styles.axleStack}>
+                          <div className={styles.axleRow}>
+                            <span className={styles.axleLabel}>Front</span>
+                            <div
+                              className={styles.pills}
+                              role="radiogroup"
+                              aria-label="Front width"
+                            >
+                              {frontWidthOptions.map((opt) => (
+                                <label
+                                  key={`w-front-${opt}`}
+                                  className={styles.pillItem}
+                                >
+                                  <input
+                                    aria-label={`Front ${opt}`}
+                                    checked={activeWidthFront === opt}
+                                    className="visually-hidden"
+                                    name="width-front"
+                                    onChange={() => pickWidth(opt, "front")}
+                                    type="radio"
+                                    value={opt}
+                                  />
+                                  <span
+                                    className={`${styles.pill} ${activeWidthFront === opt ? styles.pillActive : ""}`}
+                                  >
+                                    {opt}
+                                  </span>
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                          <div className={styles.axleRow}>
+                            <span className={styles.axleLabel}>Rear</span>
+                            <div
+                              className={styles.pills}
+                              role="radiogroup"
+                              aria-label="Rear width"
+                            >
+                              {rearWidthOptions.map((opt) => (
+                                <label
+                                  key={`w-rear-${opt}`}
+                                  className={styles.pillItem}
+                                >
+                                  <input
+                                    aria-label={`Rear ${opt}`}
+                                    checked={activeWidthRear === opt}
+                                    className="visually-hidden"
+                                    name="width-rear"
+                                    onChange={() => pickWidth(opt, "rear")}
+                                    type="radio"
+                                    value={opt}
+                                  />
+                                  <span
+                                    className={`${styles.pill} ${activeWidthRear === opt ? styles.pillActive : ""}`}
+                                  >
+                                    {opt}
+                                  </span>
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          className={styles.pills}
+                          role="radiogroup"
+                          aria-label="Width"
+                        >
+                          {frontWidthOptions.map((opt) => (
+                            <label key={opt} className={styles.pillItem}>
+                              <input
+                                aria-label={opt}
+                                checked={activeWidthFront === opt}
+                                className="visually-hidden"
+                                name="width"
+                                onChange={() => pickWidth(opt, "front")}
+                                type="radio"
+                                value={opt}
+                              />
+                              <span
+                                className={`${styles.pill} ${activeWidthFront === opt ? styles.pillActive : ""}`}
+                              >
+                                {opt}
+                              </span>
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </ConfigurationStep>
+              )}
+              {unlockedStep >= 3 && (
+                <ConfigurationStep
+                  number={4}
+                  title="Finish"
+                  summary={
+                    activeFinish +
+                    (includeCustomFinish && isOnePiece
+                      ? " · Custom finish extra"
+                      : "")
+                  }
+                  open={openStep === 3}
+                  onEdit={() =>
+                    setOpenStep((current) => (current === 3 ? -1 : 3))
+                  }
+                  onContinue={() => continueStep(3)}
+                  nextLabel="Choose centre caps"
+                  disabled={
+                    product.finishes.length > 0 &&
+                    !product.finishes.some(
+                      (finish) =>
+                        finish.name === activeFinish &&
+                        finish.family === finishFamily,
+                    )
+                  }
+                >
+                  {/* ── Finish ── */}
+                  {product.finishes.length > 0 && (
+                    <div className={styles.optionGroup}>
+                      <div className={styles.optionHeader}>
+                        <p className={`label ${styles.optionLabel}`}>Finish</p>
+                        <div className={styles.finishHeaderMeta}>
+                          {activeFinish && (
+                            <span className={styles.optionSelected}>
+                              {activeFinish}
+                            </span>
+                          )}
+                          <Link
+                            className={styles.finishLibraryLink}
+                            href="/finishes"
+                          >
+                            Explore &amp; compare all
+                          </Link>
+                        </div>
+                      </div>
+                      <label className={styles.familyPicker}>
+                        Colour family
+                        <select
+                          className={styles.vehicleSelect}
+                          value={finishFamily}
+                          onChange={(event) =>
+                            setFinishFamily(
+                              event.target.value as typeof finishFamily,
+                            )
+                          }
+                        >
+                          {finishGroups.map(([family]) => (
+                            <option key={family} value={family}>
+                              {family}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      {product.finishes.some(
+                        (finish) =>
+                          finish.name === activeFinish &&
+                          finish.family !== finishFamily,
+                      ) && (
+                        <p className={styles.offsetNote}>
+                          Choose a {finishFamily.toLowerCase()} finish to
+                          continue, or return to your selected colour family.
+                        </p>
+                      )}
+                      <div
+                        className={styles.finishGroups}
+                        role="radiogroup"
+                        aria-label="Finish"
+                      >
+                        {finishGroups
+                          .filter(([family]) => family === finishFamily)
+                          .map(([family, finishes]) => (
+                            <section
+                              className={styles.finishFamily}
+                              key={family}
+                              aria-labelledby={`finish-${family.toLowerCase().replaceAll(" ", "-")}`}
+                            >
+                              <div className={styles.finishFamilyHeading}>
+                                <h3
+                                  id={`finish-${family.toLowerCase().replaceAll(" ", "-")}`}
+                                >
+                                  {family}
+                                </h3>
+                                <span>
+                                  {finishes.length}{" "}
+                                  {finishes.length === 1
+                                    ? "treatment"
+                                    : "treatments"}
+                                </span>
+                              </div>
+                              <div className={styles.swatches}>
+                                {finishes.map((finish) => (
+                                  <label
+                                    key={finish.name}
+                                    className={styles.swatchItem}
+                                  >
+                                    <input
+                                      aria-label={`${finish.name}, ${finish.family} family, ${finish.treatment} treatment`}
+                                      checked={activeFinish === finish.name}
+                                      className="visually-hidden"
+                                      name="finish"
+                                      onChange={() =>
+                                        setActiveFinish(finish.name)
+                                      }
+                                      type="radio"
+                                      value={finish.name}
+                                    />
+                                    <span
+                                      className={`${styles.finishOption} ${activeFinish === finish.name ? styles.finishOptionActive : ""}`}
+                                    >
+                                      <span className={styles.finishImageWrap}>
+                                        <Image
+                                          alt=""
+                                          className={styles.finishImage}
+                                          src={finish.image}
+                                          sizes="(max-width: 767px) 44vw, 150px"
+                                          width={320}
+                                          height={320}
+                                        />
+                                      </span>
+                                      <span className={styles.finishMeta}>
+                                        <span
+                                          className={`${styles.swatch} ${getSwatchTone(finish.swatch)}`}
+                                          aria-hidden="true"
+                                        />
+                                        <span>
+                                          <span className={styles.finishName}>
+                                            {finish.name}
+                                          </span>
+                                          <span
+                                            className={styles.finishTreatment}
+                                          >
+                                            {finish.treatment}
+                                          </span>
+                                        </span>
+                                      </span>
+                                    </span>
+                                  </label>
+                                ))}
+                              </div>
+                            </section>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {isOnePiece ? (
+                    <label className={styles.estimateAddon}>
+                      <input
+                        type="checkbox"
+                        checked={includeCustomFinish}
+                        onChange={(event) =>
+                          setIncludeCustomFinish(event.target.checked)
+                        }
+                      />
+                      <span className={styles.estimateAddonText}>
+                        <span className={styles.estimateAddonLabel}>
+                          Custom off-catalogue finish
+                        </span>
+                        <span className={styles.estimateAddonNote}>
+                          Covers{" "}
+                          {customFinishOptions
+                            .map((option) => option.name)
+                            .join(", ")
+                            .toLowerCase()}
+                          .{" "}
+                          <Link
+                            href="/finishes"
+                            className={styles.estimateAddonLink}
+                          >
+                            See examples
+                          </Link>
+                        </span>
+                      </span>
+                      <span className={styles.estimateRowValue}>
+                        +AUD {formatAud(CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4)}
+                      </span>
+                    </label>
+                  ) : null}
+                </ConfigurationStep>
+              )}
+              {unlockedStep >= 4 && (
+                <ConfigurationStep
+                  number={5}
+                  title="Centre caps"
+                  summary={formattedCapColour}
+                  open={openStep === 4}
+                  onEdit={() =>
+                    setOpenStep((current) => (current === 4 ? -1 : 4))
+                  }
+                  onContinue={() => continueStep(4)}
+                  nextLabel="Choose shipping"
+                >
+                  {/* ── Centre cap colour ── */}
+                  <div className={styles.optionGroup}>
+                    <div className={styles.optionHeader}>
+                      <p className={`label ${styles.optionLabel}`}>
+                        Centre cap colour
+                      </p>
+                      <span className={styles.optionSelected}>
+                        {formattedCapColour}
+                      </span>
+                    </div>
+                    <div
+                      className={styles.capColours}
+                      role="radiogroup"
+                      aria-label="Centre cap colour"
+                    >
+                      {(["Black", "White", "Custom"] as const).map((option) => (
+                        <label key={option} className={styles.capColourItem}>
+                          <input
+                            aria-label={option}
+                            checked={capColour === option}
+                            className="visually-hidden"
+                            name="capColour"
+                            onChange={() => setCapColour(option)}
+                            type="radio"
+                            value={option}
+                          />
+                          <span
+                            className={`${styles.capColourCard} ${capColour === option ? styles.capColourCardActive : ""}`}
+                          >
+                            <span className={styles.capColourImageWrap}>
+                              {option === "Custom" ? (
+                                <span
+                                  className={styles.capColourCustomMark}
+                                  aria-hidden="true"
+                                >
+                                  ?
+                                </span>
+                              ) : (
+                                <Image
+                                  alt={`${option} centre cap logo`}
+                                  className={styles.capColourImage}
+                                  src={
+                                    option === "Black"
+                                      ? "/brand/Logo%20Black.jpg"
+                                      : "/brand/Logo%20White.png"
+                                  }
+                                  sizes="48px"
+                                  width={96}
+                                  height={96}
+                                />
+                              )}
+                            </span>
+                            <span className={styles.capColourLabel}>
+                              {option}
+                            </span>
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                    {capColour === "Custom" ? (
+                      <input
+                        className={styles.capColourCustomInput}
+                        type="text"
+                        placeholder="Describe the colour you want (e.g. cherry red, brushed gold)"
+                        value={capColourCustom}
+                        onChange={(event) =>
+                          setCapColourCustom(event.target.value)
+                        }
+                        aria-label="Custom centre cap colour"
+                      />
+                    ) : null}
+                  </div>
+                </ConfigurationStep>
+              )}
+              {unlockedStep >= 5 && (
+                <ConfigurationStep
+                  number={6}
+                  title="Shipping"
+                  summary={`${shippingOption === "express" ? "Express · AUD $800" : "Standard included"} · Approx. ${estimatedTotalLeadTime} days total`}
+                  open={openStep === 5}
+                  onEdit={() =>
+                    setOpenStep((current) => (current === 5 ? -1 : 5))
+                  }
+                  onContinue={() => continueStep(5)}
+                  nextLabel="Review your build"
+                >
+                  <div className={styles.deliveryPanel}>
+                    <ShippingSelector
+                      value={shippingOption}
+                      onChange={setShippingOption}
+                    />
+                    <p className={styles.deliveryTotal} aria-live="polite">
+                      <strong>
+                        Approx. {estimatedTotalLeadTime} days to delivery
+                      </strong>
+                      {`Approximately ${productionTime} days production + ${`${shippingDays[shippingOption]} days`} shipping transit.`}
+                    </p>
+                  </div>
+                </ConfigurationStep>
+              )}
             </div>
 
             <details className={styles.advancedDetails}>
               <summary className={styles.advancedSummary}>
                 Advanced fitment details
-                <span>Optional if you want MonzaWheels to resolve the chassis numbers.</span>
+                <span>Optional · leave unknown measurements to us.</span>
               </summary>
               <div className={styles.advancedPanel}>
                 {/* ── PCD (optional) — hidden when fitment is auto-matched ── */}
                 {!fitment && product.pcdOptions.length > 0 && (
                   <div className={styles.optionGroup}>
                     <div className={styles.optionHeader}>
-                      <p className={`label ${styles.optionLabel}`}>PCD <span className={styles.optionalTag}>optional</span></p>
-                      {activePcd && <span className={styles.optionSelected}>{activePcd}</span>}
+                      <p className={`label ${styles.optionLabel}`}>
+                        PCD <span className={styles.optionalTag}>optional</span>
+                      </p>
+                      {activePcd && (
+                        <span className={styles.optionSelected}>
+                          {activePcd}
+                        </span>
+                      )}
                     </div>
-                    <div className={styles.pills} role="radiogroup" aria-label="PCD">
+                    <div
+                      className={styles.pills}
+                      role="radiogroup"
+                      aria-label="PCD"
+                    >
                       {product.pcdOptions.map((opt) => (
                         <label key={opt} className={styles.pillItem}>
                           <input
@@ -755,18 +1250,24 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                             checked={activePcd === opt}
                             className="visually-hidden"
                             name="pcd"
-                            onChange={() => setActivePcd(activePcd === opt ? "" : opt)}
+                            onChange={() =>
+                              setActivePcd(activePcd === opt ? "" : opt)
+                            }
                             type="radio"
                             value={opt}
                           />
-                          <span className={`${styles.pill} ${activePcd === opt ? styles.pillActive : ""}`}>
+                          <span
+                            className={`${styles.pill} ${activePcd === opt ? styles.pillActive : ""}`}
+                          >
                             {opt}
                           </span>
                         </label>
                       ))}
                     </div>
                     <p className={styles.offsetNote}>
-                      {carLabel ? `We'll match PCD to your ${carLabel}.` : "Leave blank — we match PCD to your vehicle after the quote."}
+                      {carLabel
+                        ? `We'll match PCD to your ${carLabel}.`
+                        : "Leave blank — we match PCD to your vehicle after the quote."}
                     </p>
                   </div>
                 )}
@@ -774,9 +1275,14 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                 {/* ── Offset (optional) ── */}
                 <div className={styles.optionGroup}>
                   <div className={styles.optionHeader}>
-                    <p className={`label ${styles.optionLabel}`}>Offset (ET) <span className={styles.optionalTag}>optional</span></p>
+                    <p className={`label ${styles.optionLabel}`}>
+                      Offset (ET){" "}
+                      <span className={styles.optionalTag}>optional</span>
+                    </p>
                     {product.offsetRange && (
-                      <span className={styles.optionHint}>{product.offsetRange}</span>
+                      <span className={styles.optionHint}>
+                        {product.offsetRange}
+                      </span>
                     )}
                   </div>
                   <div className={styles.offsetWrap}>
@@ -793,7 +1299,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                     />
                   </div>
                   <p className={styles.offsetNote}>
-                    {carLabel ? `Offset confirmed to your ${carLabel} after chassis review.` : "Leave blank — offset is confirmed per chassis after the quote."}
+                    {carLabel
+                      ? `Offset confirmed to your ${carLabel} after chassis review.`
+                      : "Leave blank — offset is confirmed per chassis after the quote."}
                   </p>
                 </div>
 
@@ -801,10 +1309,21 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                 {!fitment && product.centreboreOptions.length > 0 && (
                   <div className={styles.optionGroup}>
                     <div className={styles.optionHeader}>
-                      <p className={`label ${styles.optionLabel}`}>Centre Bore <span className={styles.optionalTag}>optional</span></p>
-                      {activeCentrebore && <span className={styles.optionSelected}>{activeCentrebore}</span>}
+                      <p className={`label ${styles.optionLabel}`}>
+                        Centre Bore{" "}
+                        <span className={styles.optionalTag}>optional</span>
+                      </p>
+                      {activeCentrebore && (
+                        <span className={styles.optionSelected}>
+                          {activeCentrebore}
+                        </span>
+                      )}
                     </div>
-                    <div className={styles.pills} role="radiogroup" aria-label="Centre bore">
+                    <div
+                      className={styles.pills}
+                      role="radiogroup"
+                      aria-label="Centre bore"
+                    >
                       {product.centreboreOptions.map((opt) => (
                         <label key={opt} className={styles.pillItem}>
                           <input
@@ -812,45 +1331,64 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                             checked={activeCentrebore === opt}
                             className="visually-hidden"
                             name="centrebore"
-                            onChange={() => setActiveCentrebore(activeCentrebore === opt ? "" : opt)}
+                            onChange={() =>
+                              setActiveCentrebore(
+                                activeCentrebore === opt ? "" : opt,
+                              )
+                            }
                             type="radio"
                             value={opt}
                           />
-                          <span className={`${styles.pill} ${activeCentrebore === opt ? styles.pillActive : ""}`}>
+                          <span
+                            className={`${styles.pill} ${activeCentrebore === opt ? styles.pillActive : ""}`}
+                          >
                             {opt}
                           </span>
                         </label>
                       ))}
                     </div>
                     <p className={styles.offsetNote}>
-                      {carLabel ? `We'll match centre bore to your ${carLabel}. Hub rings supplied where required.` : "Leave blank — matched to your vehicle. Hub rings supplied where required."}
+                      {carLabel
+                        ? `We'll match centre bore to your ${carLabel}. Hub rings supplied where required.`
+                        : "Leave blank — matched to your vehicle. Hub rings supplied where required."}
                     </p>
                   </div>
                 )}
               </div>
             </details>
 
-            <div className={styles.deliveryPanel}>
-              <ShippingSelector value={shippingOption} onChange={setShippingOption} />
-              <p className={styles.deliveryTotal} aria-live="polite">
-                <strong>Estimated total lead time: approximately {estimatedTotalLeadTime} days</strong>
-                {`Approximately ${productionTime} days production + ${shippingOption === "express" ? "2 weeks" : "40 days"} shipping transit.`}
-              </p>
-            </div>
-
             {/* ── Estimated quote ── */}
-            <details className={styles.estimatePanel} open>
+            <details className={styles.estimatePanel}>
               <summary className={styles.estimateSummary}>
-                <span>Estimate</span>
-                <strong>{estimatedTotal !== null ? `AUD ${formatAud(estimatedTotal)}` : headlinePrice}</strong>
+                <span>
+                  <span className={styles.estimateSummaryLabel}>
+                    Estimated set total
+                  </span>
+                  <strong aria-live="polite">
+                    {estimatedTotal !== null
+                      ? `AUD ${formatAud(estimatedTotal)}`
+                      : headlinePrice}
+                  </strong>
+                  <small>Includes GST · subject to fitment review</small>
+                  {(includeExpressShipping || includeCustomFinish) && (
+                    <small>
+                      {includeExpressShipping ? "Express +AUD $800" : ""}
+                      {includeExpressShipping && includeCustomFinish
+                        ? " · "
+                        : ""}
+                      {includeCustomFinish
+                        ? `Custom finish +AUD ${formatAud(customFinishSubtotal)}`
+                        : ""}
+                    </small>
+                  )}
+                </span>
+                <span className={styles.disclosureIndicator} aria-hidden="true">
+                  +
+                </span>
               </summary>
-              <div className={styles.estimateHeader}>
-                <p className={styles.estimateLabel}>Estimated quote</p>
-                <p className={styles.estimateSub}>
-                  Live estimate based on your selections — final quote confirmed after chassis review.
-                </p>
-              </div>
-
+              <p className={styles.estimateSub}>
+                Price breakdown for your current selections.
+              </p>
               {configSummary ? (
                 <p className={styles.estimateConfig}>{configSummary}</p>
               ) : null}
@@ -870,9 +1408,12 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                       : "Pick a diameter"}
                   </span>
                 </div>
-                {frontPerWheelPrice !== null && (!isStaggered || rearPerWheelPrice !== null) ? (
+                {frontPerWheelPrice !== null &&
+                (!isStaggered || rearPerWheelPrice !== null) ? (
                   <p className={styles.estimateRowDetail}>
-                    {isStaggered && rearPerWheelPrice !== null && rearPerWheelPrice !== frontPerWheelPrice
+                    {isStaggered &&
+                    rearPerWheelPrice !== null &&
+                    rearPerWheelPrice !== frontPerWheelPrice
                       ? `AUD ${formatAud(frontPerWheelPrice)} front · AUD ${formatAud(rearPerWheelPrice)} rear per wheel`
                       : `AUD ${formatAud(frontPerWheelPrice)} per wheel`}
                   </p>
@@ -886,49 +1427,41 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                 </div>
 
                 <div className={styles.estimateRow}>
-                  <span className={styles.estimateRowLabel}>{shippingLabel(shippingOption)}</span>
+                  <span className={styles.estimateRowLabel}>
+                    {shippingOption === "express"
+                      ? "Express shipping · approx. 2 weeks transit"
+                      : "Standard shipping · approx. 40 days transit"}
+                  </span>
                   <span className={styles.estimateIncluded}>
-                    {includeExpressShipping ? `+AUD ${formatAud(expressAirShippingIncGstAud())}` : "Included"}
+                    {includeExpressShipping
+                      ? `+AUD ${formatAud(expressAirShippingIncGstAud())}`
+                      : "Included"}
                   </span>
                 </div>
 
-                {isOnePiece ? (
-                  <label className={styles.estimateAddon}>
-                    <input
-                      type="checkbox"
-                      checked={includeCustomFinish}
-                      onChange={(event) => setIncludeCustomFinish(event.target.checked)}
-                    />
-                    <span className={styles.estimateAddonText}>
-                      <span className={styles.estimateAddonLabel}>Custom off-catalogue finish</span>
-                      <span className={styles.estimateAddonNote}>
-                        Covers {customFinishOptions.map((option) => option.name).join(", ").toLowerCase()}.{" "}
-                        <Link href="/finishes" className={styles.estimateAddonLink}>See examples</Link>
-                      </span>
-                    </span>
-                    <span className={styles.estimateRowValue}>
-                      +AUD {formatAud(CUSTOM_FINISH_PRICE_AUD_PER_WHEEL * 4)}
-                    </span>
-                  </label>
-                ) : null}
-              </div>
-
-              <div className={styles.estimateTotalRow}>
-                <span className={styles.estimateTotalLabel}>Estimated total</span>
-                <span className={styles.estimateTotalValue}>
-                  {estimatedTotal !== null ? `AUD ${formatAud(estimatedTotal)}` : "—"}
-                </span>
+                {customFinishSubtotal > 0 && (
+                  <div className={styles.estimateRow}>
+                    <span>Custom off-catalogue finish</span>
+                    <strong>+AUD {formatAud(customFinishSubtotal)}</strong>
+                  </div>
+                )}
               </div>
 
               <p className={styles.estimateFinePrint}>
-                Indicative only. Includes GST. Standard shipping is included; express is
-                added only when selected. Final pricing is confirmed after we review the build brief.
+                Indicative only. Includes GST. Standard shipping is included;
+                express is added only when selected. Final pricing is confirmed
+                after we review the build brief.
               </p>
             </details>
 
             {/* ── Specs ── */}
             <details className={styles.specsDisclosure}>
-              <summary className={styles.specsSummary}>Full specification table</summary>
+              <summary className={styles.specsSummary}>
+                <span>View full specifications</span>
+                <span className={styles.disclosureIndicator} aria-hidden="true">
+                  +
+                </span>
+              </summary>
               <div className={styles.specs}>
                 {product.specs.map((spec) => {
                   let value = spec.value;
@@ -949,38 +1482,74 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               </div>
             </details>
 
-            <div className={styles.cta}>
-              <ConversionLink
-                className={styles.quoteButton}
-                eventName="ProductQuoteClick"
-                eventSource={product.handle}
-                href={buildQuoteUrl()}
-              >
-                Send this build for review
-              </ConversionLink>
-              <p className={styles.leadTime}>
-                Production {product.leadTime} &nbsp;·&nbsp; Shipping additional
-              </p>
-            </div>
-
+            {unlockedStep >= 6 && (
+              <div className={styles.cta} tabIndex={-1} id="build-review">
+                <ConversionLink
+                  className={styles.quoteButton}
+                  eventName="ProductQuoteClick"
+                  eventSource={product.handle}
+                  href={buildQuoteUrl()}
+                >
+                  Send this build for review
+                </ConversionLink>
+                <p className={styles.leadTime}>
+                  Approx. {productionTime} days production +{" "}
+                  {shippingDays[shippingOption]} days transit.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      <section className={`${styles.productProof} container`} aria-label="Product program details">
+      <section
+        className={`${styles.productProof} container`}
+        aria-label="Product program details"
+      >
         <div className={styles.productStory}>
           <p className="label">Built around your car</p>
-          <h2>A starting design, not a locked specification.</h2>
-          <p>{product.description}</p>
-          <Link href="/custom-forged-wheels">Or send us a completely different design</Link>
+          <h2>The look you want. Built for your car.</h2>
+          <p>
+            Choose your size and finish. We’ll review the exact fitment with
+            you.
+          </p>
+          <details className={styles.designDescription}>
+            <summary>About this design</summary>
+            <p>{product.description}</p>
+          </details>
+          <Link href="/custom-forged-wheels">
+            Or send us a completely different design
+          </Link>
         </div>
         <dl className={styles.proofGrid}>
-          <div><dt>Design approval</dt><dd>Final drawing or render approved before machining</dd></div>
-          <div><dt>Production</dt><dd>{product.leadTime}</dd></div>
-          <div><dt>Testing</dt><dd>JWL certified with enhanced fatigue and impact testing</dd></div>
-          <div><dt>Warranty</dt><dd>Five-year structural and finish coverage</dd></div>
-          <div><dt>Payment</dt><dd>Full payment is completed before production begins</dd></div>
-          <div><dt>Fitment</dt><dd>Offset, centre bore and brake clearance confirmed to chassis</dd></div>
+          <div>
+            <dt>Fitment reviewed</dt>
+            <dd>
+              Offset, centre bore and brake clearance confirmed for your
+              chassis.
+            </dd>
+          </div>
+          <div>
+            <dt>Tested construction</dt>
+            <dd>
+              JWL certified with enhanced fatigue and impact testing.{" "}
+              <Link href="/engineering">Engineering details</Link>
+            </dd>
+          </div>
+          <div>
+            <dt>Five-year warranty</dt>
+            <dd>
+              Structural and finish coverage.{" "}
+              <Link href="/warranty">Read the terms</Link>
+            </dd>
+          </div>
+          <div>
+            <dt>Production timing</dt>
+            <dd>
+              Approx. {productionTime} days from order confirmation, plus
+              shipping transit.
+            </dd>
+          </div>
         </dl>
       </section>
       <div className={`${styles.orderJourneyWrap} container`}>

@@ -1,7 +1,11 @@
 import Link from "next/link";
-import { BRAND_FACEBOOK_URL, BRAND_INSTAGRAM_URL, BRAND_LEGAL_NAME, BRAND_NAME } from "@/lib/brand";
+import {
+  BRAND_FACEBOOK_URL,
+  BRAND_INSTAGRAM_URL,
+  BRAND_LEGAL_NAME,
+  BRAND_NAME,
+} from "@/lib/brand";
 import { MonzaLogo } from "@/components/monza-logo";
-import { ConversionLink } from "@/components/conversion-link";
 
 function InstagramIcon({ size = 18 }: { size?: number }) {
   return (
@@ -46,7 +50,7 @@ import styles from "./site-footer.module.css";
 
 const footerColumns = [
   {
-    title: "Build",
+    title: "Wheels",
     links: [
       { href: "/shop", label: "Wheels" },
       { href: "/collections/monoblock", label: "Monoblock" },
@@ -54,20 +58,22 @@ const footerColumns = [
     ],
   },
   {
-    title: "Proof",
+    title: "Explore",
     links: [
       { href: "/finishes", label: "Finishes" },
       { href: "/pricing", label: "Pricing" },
+      { href: "/favourites", label: "On the car" },
     ],
   },
   {
     title: "Support",
     links: [
-      { href: "/contact?design=custom", label: "Custom Design Quote" },
+      { href: "/contact?design=custom", label: "Custom design" },
+      { href: "/contact", label: "Contact" },
       { href: "/warranty", label: "Warranty" },
-      { href: "/returns", label: "Returns Policy" },
-      { href: "/fitment-tool", label: "Fitment Tool" },
-      { href: "/privacypolicy", label: "Privacy Policy" },
+      { href: "/returns", label: "Returns" },
+      { href: "/fitment-tool", label: "Fitment help" },
+      { href: "/privacypolicy", label: "Privacy" },
     ],
   },
 ];
@@ -77,6 +83,14 @@ export function SiteFooter() {
     <footer className={styles.footer}>
       <div className={`${styles.inner} container`}>
         <div className={styles.topRow}>
+          <Link
+            aria-label={`${BRAND_NAME} homepage`}
+            className={styles.logoLink}
+            href="/"
+          >
+            <MonzaLogo className={styles.logoMark} title={BRAND_NAME} />
+          </Link>
+
           <div className={styles.socials}>
             <a
               aria-label={`${BRAND_NAME} Instagram`}
@@ -97,20 +111,6 @@ export function SiteFooter() {
               <FacebookIcon size={18} />
             </a>
           </div>
-
-          <Link aria-label={`${BRAND_NAME} homepage`} className={styles.logoLink} href="/">
-            <MonzaLogo className={styles.logoMark} title={BRAND_NAME} />
-          </Link>
-
-          <div className={styles.ctaWrap}>
-            <ConversionLink
-              className={`button-outline ${styles.footerButton}`}
-              eventSource="site_footer"
-              href="/contact?design=custom"
-            >
-              Custom Design Quote
-            </ConversionLink>
-          </div>
         </div>
 
         <div className={styles.middleRow}>
@@ -119,7 +119,11 @@ export function SiteFooter() {
               <p className={styles.columnTitle}>{column.title}</p>
               <div className={styles.columnLinks}>
                 {column.links.map((link) => (
-                  <Link key={link.href} className={styles.columnLink} href={link.href}>
+                  <Link
+                    key={link.href}
+                    className={styles.columnLink}
+                    href={link.href}
+                  >
                     {link.label}
                   </Link>
                 ))}
@@ -129,8 +133,10 @@ export function SiteFooter() {
         </div>
 
         <div className={styles.bottomRow}>
-          <p className={styles.meta}>{`© ${new Date().getFullYear()} ${BRAND_LEGAL_NAME}. All rights reserved.`}</p>
-          <p className={styles.meta}>Operations based in Brisbane, Australia</p>
+          <p
+            className={styles.meta}
+          >{`© ${new Date().getFullYear()} ${BRAND_LEGAL_NAME}. `}</p>
+          <p className={styles.meta}>Brisbane, Australia</p>
         </div>
       </div>
     </footer>

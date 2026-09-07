@@ -552,3 +552,25 @@ body[data-js-ready="true"] [data-reveal][data-visible="true"] {
     @apply font-sans;
   }
 }
+
+/* Shared readable control typography. */
+.label {
+  letter-spacing: 0.09em;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.button-primary,
+.button-outline {
+  text-transform: none;
+  letter-spacing: 0.025em;
+  font-size: 14px;
+}
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--accent-red);
+  outline-offset: 4px;
+}
+html {
+  scroll-padding-top: calc(var(--nav-height) + 20px);
+}

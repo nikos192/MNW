@@ -4,11 +4,21 @@ export type ShippingOption = "standard" | "express";
 export const EXPRESS_SHIPPING_AUD = 800;
 
 export const orderSteps = [
-  ["01", "Submit your specification", "Choose a catalogue design or send your own direction."],
-  ["02", "Fitment confirmed", "We verify the vehicle, brake clearance and final order details."],
-  ["03", "Review your 3D render", "A custom 3D render is provided for your review and approval."],
-  ["04", "Approve before production", "Manufacturing begins only after you approve the render."],
-  ["05", "Inspected and shipped", "Your finished wheels are checked before dispatch."],
+  [
+    "01",
+    "Tell us what you want",
+    "Choose a wheel or share an idea. We confirm fitment and pricing for your car.",
+  ],
+  [
+    "02",
+    "Approve your design",
+    "Review your custom 3D render. Approval and full payment come before production.",
+  ],
+  [
+    "03",
+    "Made, checked, delivered",
+    "We manufacture your wheels, inspect the finished set and ship it to you.",
+  ],
 ] as const;
 
 export const productionDays: Record<WheelConstruction, number> = {

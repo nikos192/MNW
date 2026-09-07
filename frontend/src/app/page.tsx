@@ -7,9 +7,15 @@ import { ViewportVideo } from "@/components/viewport-video";
 import { ResponsiveHeroVideo } from "@/components/responsive-hero-video";
 import { OrderJourney } from "@/components/order-journey";
 import { FavouritesSection } from "@/components/favourites-section";
+import {
+  productionDays,
+  shippingDays,
+  totalLeadTimeDays,
+  EXPRESS_SHIPPING_AUD,
+} from "@/lib/order-timelines";
 import { collectionSummaries } from "@/lib/monza-data";
 import { getCatalogData } from "@/lib/catalog";
-import { DEFAULT_OG_IMAGE, jsonLd, websiteJsonLd } from "@/lib/seo";
+import { BRAND_LOGO_IMAGE, jsonLd, websiteJsonLd } from "@/lib/seo";
 import styles from "./page.module.css";
 
 const processClips = [
@@ -33,14 +39,14 @@ export const metadata: Metadata = {
     title: "Forged Wheels Australia | Custom Wheels | Monza Wheels",
     description:
       "Shop custom forged wheels with vehicle-specific fitment, 3D render approval and Australia-wide shipping.",
-    images: [DEFAULT_OG_IMAGE],
+    images: [BRAND_LOGO_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: "Forged Wheels Australia | Custom Wheels | Monza Wheels",
     description:
       "Shop custom forged wheels with vehicle-specific fitment, 3D render approval and Australia-wide shipping.",
-    images: [DEFAULT_OG_IMAGE.url],
+    images: [BRAND_LOGO_IMAGE.url],
   },
 };
 
@@ -63,7 +69,9 @@ export default async function Home() {
     ) ??
     products[products.length - 1] ??
     products[0];
-  const featuredProducts = [...products].reverse().slice(0, 4);
+  const featuredProducts = ["MW-12", "MW-22", "MW-21", "MW-28"].flatMap(
+    (handle) => products.filter((product) => product.handle === handle),
+  );
 
   return (
     <>
@@ -85,11 +93,11 @@ export default async function Home() {
           <div className={`${styles.heroInner} container`}>
             <div className={styles.heroCopy} data-hero-copy>
               <h1 className={styles.heroLabel}>Forged Wheels Australia</h1>
-              <p className={styles.heroHeading}>Built to be seen.</p>
+              <p className={styles.heroHeading}>Your style. The right fit.</p>
               <p className={styles.heroBody}>
-                Bespoke monoblock and two-piece forged wheels, designed around
-                your vision, verified for your exact vehicle and available
-                Australia-wide.
+                Found your look, but unsure it will fit? We design forged wheels
+                around your car, then show you a 3D render to approve before
+                production.
               </p>
 
               <div className={styles.heroActions}>
@@ -99,71 +107,27 @@ export default async function Home() {
                   eventSource="homepage_hero"
                   href="/shop"
                 >
-                  Shop All Forged Wheels
+                  Find your wheels
                 </ConversionLink>
                 <ConversionLink
                   className="button-outline"
                   eventSource="homepage_hero"
                   href="/contact?design=custom"
                 >
-                  Start A Custom Design
+                  Have a design in mind?
                 </ConversionLink>
               </div>
             </div>
           </div>
         </section>
 
-        <section className={styles.shippingBanner} aria-label="Shipping offer">
-          <Link className={`${styles.shippingInner} container`} href="/shop">
-            <span className={styles.shippingKicker}>
-              Included with every set
-            </span>
-            <strong className={styles.shippingHeadline}>
-              Standard shipping included Australia-wide
-            </strong>
-            <span className={styles.shippingDetail}>
-              Approx. 40 days transit · after production
-            </span>
-            <span className={styles.shippingLink}>
-              Browse wheels <span aria-hidden="true">→</span>
-            </span>
-          </Link>
-        </section>
-
-        <section className={styles.orderSection}>
+        <div className={styles.benefits} aria-label="Included with your set">
           <div className="container">
-            <OrderJourney />
-            <div
-              className={styles.timelineGrid}
-              aria-label="Production and delivery estimates"
-            >
-              <article>
-                <span>One-piece forged</span>
-                <strong>Approx. 20 days production</strong>
-                <p>
-                  Approx. 60 days total with standard shipping · 34 days with
-                  express
-                </p>
-              </article>
-              <article>
-                <span>Two-piece forged</span>
-                <strong>Approx. 30 days production</strong>
-                <p>
-                  Approx. 70 days total with standard shipping · 44 days with
-                  express
-                </p>
-              </article>
-              <article>
-                <span>Shipping choices</span>
-                <strong>Standard included · Express AUD $800</strong>
-                <p>
-                  Approx. 40 days standard transit · 2 weeks express transit.
-                  Shipping is additional to production.
-                </p>
-              </article>
-            </div>
+            <span>Fitment reviewed for your car</span>
+            <span>3D design approval</span>
+            <span>Standard shipping included Australia‑wide</span>
           </div>
-        </section>
+        </div>
 
         <section className={styles.featuredSection}>
           <div className={`${styles.featuredInner} container`}>
@@ -184,6 +148,53 @@ export default async function Home() {
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className={styles.orderSection}>
+          <div className="container">
+            <OrderJourney />
+            <details className={styles.deliveryDetails}>
+              <summary>
+                Production &amp; delivery times{" "}
+                <span aria-hidden="true">+</span>
+              </summary>
+              <div className={styles.timelineGrid}>
+                <article>
+                  <strong>
+                    One-piece: approx. {productionDays["one-piece"]} days
+                    production
+                  </strong>
+                  <p>
+                    Approx. {totalLeadTimeDays("one-piece", "standard")} days
+                    total with standard shipping or{" "}
+                    {totalLeadTimeDays("one-piece", "express")} days with
+                    express.
+                  </p>
+                </article>
+                <article>
+                  <strong>
+                    Two-piece: approx. {productionDays["two-piece"]} days
+                    production
+                  </strong>
+                  <p>
+                    Approx. {totalLeadTimeDays("two-piece", "standard")} days
+                    total with standard shipping or{" "}
+                    {totalLeadTimeDays("two-piece", "express")} days with
+                    express.
+                  </p>
+                </article>
+                <article>
+                  <strong>
+                    Standard included · Express AUD ${EXPRESS_SHIPPING_AUD}
+                  </strong>
+                  <p>
+                    Transit takes approx. {shippingDays.standard} days standard
+                    or {shippingDays.express} days express, after production.
+                  </p>
+                </article>
+              </div>
+            </details>
           </div>
         </section>
 

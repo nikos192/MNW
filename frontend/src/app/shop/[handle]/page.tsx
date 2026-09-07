@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductDetailClient } from "@/components/product-detail-client";
 import { getCatalogProduct } from "@/lib/catalog";
-import { breadcrumbJsonLd, DEFAULT_OG_IMAGE, jsonLd, productJsonLd } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  DEFAULT_OG_IMAGE,
+  jsonLd,
+  productJsonLd,
+} from "@/lib/seo";
 
 type ProductPageProps = {
   params: Promise<{
@@ -63,13 +68,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  const collection = product.series === "1-Piece Forged"
-    ? { name: "Monoblock", path: "/collections/monoblock" }
-    : { name: "Multi-Piece", path: "/collections/multi-piece" };
+  const collection =
+    product.series === "1-Piece Forged"
+      ? { name: "Monoblock", path: "/collections/monoblock" }
+      : { name: "Multi-Piece", path: "/collections/multi-piece" };
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(productJsonLd(product))} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLd(productJsonLd(product))}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={jsonLd(
@@ -81,7 +90,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           ]),
         )}
       />
-      <ProductDetailClient product={product} />
+      <ProductDetailClient key={product.handle} product={product} />
     </>
   );
 }

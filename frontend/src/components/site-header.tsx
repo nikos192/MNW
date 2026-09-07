@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Menu, X, Mail, ArrowUpRight } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
 import { BRAND_EMAIL, BRAND_INSTAGRAM_URL, BRAND_NAME } from "@/lib/brand";
 import { MonzaLogo } from "@/components/monza-logo";
 import { trackFunnelEvent } from "@/lib/meta-pixel";
@@ -64,6 +64,34 @@ export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [openPathname, setOpenPathname] = useState<string | null>(null);
   const isOpen = openPathname === pathname;
+  const menuRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const toggle = toggleRef.current;
+    menuRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
+    function trapFocus(event: KeyboardEvent) {
+      if (event.key !== "Tab") return;
+      const items =
+        menuRef.current?.querySelectorAll<HTMLElement>("a[href], button");
+      if (!items?.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+    document.addEventListener("keydown", trapFocus);
+    return () => {
+      document.removeEventListener("keydown", trapFocus);
+      toggle?.focus({ preventScroll: true });
+    };
+  }, [isOpen]);
 
   function closeMenu() {
     setOpenPathname(null);
@@ -112,7 +140,9 @@ export function SiteHeader() {
         <div className={styles.utilityBar}>
           <div className={`${styles.utilityInner} container`}>
             <p className={styles.utilityText}>
-              <span className={styles.utilityShipping}>Standard shipping included Australia-wide</span>
+              <span className={styles.utilityShipping}>
+                Standard shipping included Australia-wide
+              </span>
               <span className={styles.utilityDivider}>·</span>
               <span>Made-to-order forged wheels</span>
             </p>
@@ -130,7 +160,11 @@ export function SiteHeader() {
               <Link
                 className={styles.utilityLink}
                 href="/contact?design=custom"
-                onClick={() => trackFunnelEvent("QuoteCtaClick", { source: "utility_header" })}
+                onClick={() =>
+                  trackFunnelEvent("QuoteCtaClick", {
+                    source: "utility_header",
+                  })
+                }
               >
                 Design your wheel
               </Link>
@@ -141,7 +175,10 @@ export function SiteHeader() {
         <div className={styles.primaryBar}>
           <div className={`${styles.primaryInner} container`}>
             <div className={styles.navSlot}>
-              <nav className={`${styles.primaryNav} ${styles.primaryNavLeft}`} aria-label="Primary navigation left">
+              <nav
+                className={`${styles.primaryNav} ${styles.primaryNavLeft}`}
+                aria-label="Primary navigation left"
+              >
                 <ul className={styles.navList}>
                   {leftLinks.map((link) => {
                     const isActive = isActivePath(pathname, link.href);
@@ -161,12 +198,23 @@ export function SiteHeader() {
               </nav>
             </div>
 
-            <Link aria-label={`${BRAND_NAME} homepage`} className={styles.logoLink} href="/">
-              <span className={styles.brandWordmark}>{BRAND_NAME}</span>
+            <Link
+              aria-label={`${BRAND_NAME} homepage`}
+              className={styles.logoLink}
+              href="/"
+            >
+              <MonzaLogo
+                className={styles.headerLogoMark}
+                title={BRAND_NAME}
+                priority
+              />
             </Link>
 
             <div className={`${styles.navSlot} ${styles.navSlotRight}`}>
-              <nav className={`${styles.primaryNav} ${styles.primaryNavRight}`} aria-label="Primary navigation right">
+              <nav
+                className={`${styles.primaryNav} ${styles.primaryNavRight}`}
+                aria-label="Primary navigation right"
+              >
                 <ul className={styles.navList}>
                   {rightLinks.map((link) => {
                     const isActive = isActivePath(pathname, link.href);
@@ -178,7 +226,9 @@ export function SiteHeader() {
                           href={link.href}
                           onClick={() => {
                             if (link.href.startsWith("/contact")) {
-                              trackFunnelEvent("QuoteCtaClick", { source: "primary_header" });
+                              trackFunnelEvent("QuoteCtaClick", {
+                                source: "primary_header",
+                              });
                             }
                           }}
                         >
@@ -191,6 +241,7 @@ export function SiteHeader() {
               </nav>
 
               <button
+                ref={toggleRef}
                 aria-controls="site-menu"
                 aria-expanded={isOpen}
                 aria-label={isOpen ? "Close navigation" : "Open navigation"}
@@ -201,7 +252,11 @@ export function SiteHeader() {
                 {isOpen ? (
                   <X className={styles.menuIcon} size={20} strokeWidth={1.5} />
                 ) : (
-                  <Menu className={styles.menuIcon} size={20} strokeWidth={1.5} />
+                  <Menu
+                    className={styles.menuIcon}
+                    size={20}
+                    strokeWidth={1.5}
+                  />
                 )}
               </button>
             </div>
@@ -213,6 +268,10 @@ export function SiteHeader() {
         <div
           className={`${styles.overlay} ${styles.open}`}
           id="site-menu"
+          ref={menuRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation"
           onClick={(event) => {
             if (event.target === event.currentTarget) {
               closeMenu();
@@ -221,8 +280,16 @@ export function SiteHeader() {
         >
           <div className={`${styles.overlayInner} container`}>
             <div className={styles.overlayHeader}>
-              <Link aria-label={`${BRAND_NAME} homepage`} className={styles.overlayLogo} href="/" onClick={closeMenu}>
-                <MonzaLogo className={styles.overlayLogoMark} title={BRAND_NAME} />
+              <Link
+                aria-label={`${BRAND_NAME} homepage`}
+                className={styles.overlayLogo}
+                href="/"
+                onClick={closeMenu}
+              >
+                <MonzaLogo
+                  className={styles.overlayLogoMark}
+                  title={BRAND_NAME}
+                />
               </Link>
 
               <button
@@ -246,12 +313,15 @@ export function SiteHeader() {
                     href={link.href}
                     onClick={() => {
                       if (link.href.startsWith("/contact")) {
-                        trackFunnelEvent("QuoteCtaClick", { source: "mobile_menu" });
+                        trackFunnelEvent("QuoteCtaClick", {
+                          source: "mobile_menu",
+                        });
                       }
                       closeMenu();
                     }}
                   >
                     {link.label}
+                    <ArrowUpRight size={18} aria-hidden="true" />
                   </Link>
                 );
               })}
@@ -264,16 +334,18 @@ export function SiteHeader() {
                 rel="noreferrer noopener"
                 target="_blank"
               >
-                Instagram
+                <InstagramIcon size={18} /> Instagram
               </a>
-              <a className={styles.overlaySmallLink} href={`mailto:${BRAND_EMAIL}`}>
-                Email
+              <a
+                className={styles.overlaySmallLink}
+                href={`mailto:${BRAND_EMAIL}`}
+              >
+                <Mail size={18} aria-hidden="true" /> Email
               </a>
             </div>
 
             <div className={styles.overlayMeta}>
               <p>Brisbane, Australia</p>
-              <a href={`mailto:${BRAND_EMAIL}`}>{BRAND_EMAIL}</a>
             </div>
           </div>
         </div>

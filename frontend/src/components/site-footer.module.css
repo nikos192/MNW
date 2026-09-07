@@ -158,3 +158,76 @@
     gap: 10px;
   }
 }
+
+/* Compact brand group and quiet, readable navigation. */
+.footer {
+  padding: 32px 0 24px;
+}
+.inner {
+  gap: 28px;
+}
+.topRow {
+  display: flex;
+  justify-content: flex-start;
+  gap: 24px;
+}
+.logoMark {
+  width: 64px;
+  height: 64px;
+  filter: brightness(0) invert(1);
+}
+.socials {
+  gap: 4px;
+}
+.socialLink {
+  width: 44px;
+  height: 44px;
+  color: #e4e1da;
+}
+.columnTitle {
+  margin-bottom: 8px;
+  color: #c9b994;
+  font-weight: 600;
+}
+.columnTitle,
+.meta {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.columnLinks {
+  gap: 0;
+}
+.columnLink {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  line-height: 1.4;
+}
+.bottomRow {
+  padding-top: 18px;
+  gap: 4px 20px;
+  flex-wrap: wrap;
+}
+.meta {
+  color: #b9b8b1;
+}
+@media (max-width: 767px) {
+  .middleRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .column:last-child {
+    grid-column: 1 / -1;
+  }
+  .column:last-child .columnLinks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .columnLink {
+    min-height: 44px;
+  }
+  .inner {
+    gap: 22px;
+  }
+}

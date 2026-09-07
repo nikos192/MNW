@@ -6,7 +6,10 @@ type OrderJourneyProps = {
   className?: string;
 };
 
-export function OrderJourney({ compact = false, className = "" }: OrderJourneyProps) {
+export function OrderJourney({
+  compact = false,
+  className = "",
+}: OrderJourneyProps) {
   return (
     <section
       className={`${styles.journey} ${compact ? styles.compact : ""} ${className}`}
@@ -15,18 +18,23 @@ export function OrderJourney({ compact = false, className = "" }: OrderJourneyPr
       <div className={styles.heading}>
         <div>
           <p className={styles.eyebrow}>How your order works</p>
-          <h2 id={compact ? undefined : "order-journey-title"}>Approve it before we make it.</h2>
+          <h2 id={compact ? undefined : "order-journey-title"}>
+            Approve it before we make it.
+          </h2>
         </div>
         <p className={styles.promise}>
-          <strong>3D render provided before production.</strong>
-          You review the design and fitment before manufacturing begins.
+          See your custom 3D render and confirm the fitment before production
+          begins.
         </p>
       </div>
       <ol className={styles.steps}>
         {orderSteps.map(([number, title, copy]) => (
           <li key={number}>
             <span className={styles.number}>{number}</span>
-            <div><h3>{title}</h3><p>{copy}</p></div>
+            <div>
+              <h3>{title}</h3>
+              <p>{copy}</p>
+            </div>
           </li>
         ))}
       </ol>
