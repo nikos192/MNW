@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState, useRef, useEffect } from "react";
 import { BRAND_NAME } from "@/lib/brand";
 import { getVehicleFitment, vehicleData } from "@/lib/monza-data";
@@ -135,6 +136,7 @@ function TickerInput({
 }
 
 export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext }: BuildFormProps) {
+  const router = useRouter();
   const [notes, setNotes] = useState(initialNotes);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
@@ -293,6 +295,7 @@ export function BuildForm({ initialNotes = "", initialValues = {}, quoteContext 
         status: "success",
         message: `Quote request sent. ${BRAND_NAME} will get back to you shortly. A confirmation email is on its way now, so please check your junk mail if you do not see it in your inbox.`,
       });
+      router.push("/thank-you");
     } catch (error) {
       setSubmitState({
         status: "error",
