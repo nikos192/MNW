@@ -1,4 +1,5 @@
-export const BRAND_NAME = "MonzaWheels";
+export const BRAND_NAME = "Monza Wheels";
+export const BRAND_ALTERNATE_NAME = "MonzaWheels";
 export const BRAND_LEGAL_NAME = "MonzaWheels and Accessories";
 export const BRAND_EMAIL = "admin@monzawheels.com.au";
 export const BRAND_INSTAGRAM_URL = "https://www.instagram.com/monzawheels_/";

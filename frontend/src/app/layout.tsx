@@ -13,7 +13,6 @@ import {
   jsonLd,
   organizationJsonLd,
   resolveMetadataBase,
-  websiteJsonLd,
 } from "@/lib/seo";
 import "./globals.css";
 
@@ -83,9 +82,7 @@ export const metadata: Metadata = {
       { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
       { url: logoIcon, sizes: "500x500", type: "image/png" },
     ],
-    apple: [
-      { url: logoIcon, sizes: "500x500", type: "image/png" },
-    ],
+    apple: [{ url: logoIcon, sizes: "500x500", type: "image/png" }],
   },
   appleWebApp: {
     capable: true,
@@ -100,7 +97,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${headingFont.variable} ${bodyFont.variable} ${wordmarkFont.variable}`}>
+    <html
+      lang="en"
+      className={`${headingFont.variable} ${bodyFont.variable} ${wordmarkFont.variable}`}
+    >
       <body>
         <GoogleTag />
         <MetaPixel />
@@ -108,7 +108,6 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={jsonLd(organizationJsonLd())}
         />
-        <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(websiteJsonLd())} />
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>

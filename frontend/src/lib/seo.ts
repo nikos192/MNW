@@ -1,4 +1,5 @@
 import {
+  BRAND_ALTERNATE_NAME,
   BRAND_EMAIL,
   BRAND_FACEBOOK_URL,
   BRAND_INSTAGRAM_URL,
@@ -69,6 +70,7 @@ export function organizationJsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: BRAND_NAME,
+    alternateName: BRAND_ALTERNATE_NAME,
     legalName: BRAND_LEGAL_NAME,
     url: absoluteUrl("/"),
     email: BRAND_EMAIL,
@@ -90,6 +92,7 @@ export function websiteJsonLd() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: BRAND_NAME,
+    alternateName: BRAND_ALTERNATE_NAME,
     url: absoluteUrl("/"),
     description: DEFAULT_SEO_DESCRIPTION,
     inLanguage: "en-AU",
