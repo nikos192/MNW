@@ -7,13 +7,15 @@ import type { NextConfig } from "next";
 // scripts/styles, images locked to https + data + blob, connects limited to
 // same-origin plus the configured Meta and Google measurement endpoints, no embedding in iframes,
 // and HTTP requests upgraded to HTTPS.
+// Google Ads endpoints: https://developers.google.com/tag-platform/security/guides/csp
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://connect.facebook.net https://www.googletagmanager.com https://googleads.g.doubleclick.net https://www.googleadservices.com",
+  "script-src 'self' 'unsafe-inline' https://connect.facebook.net https://www.googletagmanager.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://www.google.com https://pagead2.googlesyndication.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
-  "connect-src 'self' https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://www.google.com.au https://googleads.g.doubleclick.net https://ad.doubleclick.net",
+  "connect-src 'self' https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://www.google.com.au https://googleads.g.doubleclick.net https://ad.doubleclick.net https://www.googleadservices.com https://google.com https://pagead2.googlesyndication.com",
+  "frame-src 'self' https://www.googletagmanager.com",
   "frame-ancestors 'none'",
   "form-action 'self'",
   "base-uri 'self'",
