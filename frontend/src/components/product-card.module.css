@@ -48,8 +48,13 @@
     transform 900ms var(--ease-precision);
 }
 
-.faceFocusedCrop {
-  object-position: right center;
+.extendedCanvas {
+  background: #fff;
+}
+
+.wholeWheelFit {
+  object-fit: contain;
+  object-position: center;
 }
 
 .primary {
@@ -73,6 +78,11 @@
 .card:hover .image,
 .card:focus-within .image {
   transform: scale(1.025);
+}
+
+.card:hover .wholeWheelFit,
+.card:focus-within .wholeWheelFit {
+  transform: none;
 }
 
 .placeholder {

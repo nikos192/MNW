@@ -14,8 +14,8 @@ export function ProductCard({
   imageLoading = "lazy",
 }: ProductCardProps) {
   const secondaryImage = product.images[1]?.url || product.images[0]?.url;
-  const imageCropClass =
-    product.handle === "MW-213" ? styles.faceFocusedCrop : "";
+  const showsWholeWheel = product.handle === "MW-213";
+  const imageFitClass = showsWholeWheel ? styles.wholeWheelFit : "";
   const tierRange = priceRangeForSeries(product.series);
   const primaryPrice = tierRange
     ? `From AUD ${formatAud(tierRange.minPerSet)} / set inc. GST`
@@ -24,12 +24,14 @@ export function ProductCard({
   return (
     <article className={styles.card} data-reveal>
       <Link className={styles.link} href={`/shop/${product.handle}`}>
-        <div className={styles.media}>
+        <div
+          className={`${styles.media} ${showsWholeWheel ? styles.extendedCanvas : ""}`}
+        >
           {product.images[0] ? (
             <>
               <Image
                 alt={product.images[0].alt}
-                className={`${styles.image} ${styles.primary} ${imageCropClass}`}
+                className={`${styles.image} ${styles.primary} ${imageFitClass}`}
                 loading={imageLoading}
                 src={product.images[0].url}
                 sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -41,7 +43,7 @@ export function ProductCard({
                   alt={
                     product.images[1]?.alt || `${product.title} alternate view`
                   }
-                  className={`${styles.image} ${styles.secondary} ${imageCropClass}`}
+                  className={`${styles.image} ${styles.secondary} ${imageFitClass}`}
                   loading={imageLoading}
                   src={secondaryImage}
                   sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 33vw"
