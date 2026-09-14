@@ -48,6 +48,10 @@
     transform 900ms var(--ease-precision);
 }
 
+.faceFocusedCrop {
+  object-position: right center;
+}
+
 .primary {
   opacity: 1;
 }

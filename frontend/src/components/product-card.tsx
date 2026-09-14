@@ -9,8 +9,13 @@ type ProductCardProps = {
   imageLoading?: "eager" | "lazy";
 };
 
-export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps) {
+export function ProductCard({
+  product,
+  imageLoading = "lazy",
+}: ProductCardProps) {
   const secondaryImage = product.images[1]?.url || product.images[0]?.url;
+  const imageCropClass =
+    product.handle === "MW-213" ? styles.faceFocusedCrop : "";
   const tierRange = priceRangeForSeries(product.series);
   const primaryPrice = tierRange
     ? `From AUD ${formatAud(tierRange.minPerSet)} / set inc. GST`
@@ -24,7 +29,7 @@ export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps
             <>
               <Image
                 alt={product.images[0].alt}
-                className={`${styles.image} ${styles.primary}`}
+                className={`${styles.image} ${styles.primary} ${imageCropClass}`}
                 loading={imageLoading}
                 src={product.images[0].url}
                 sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -33,8 +38,10 @@ export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps
               />
               {secondaryImage ? (
                 <Image
-                  alt={product.images[1]?.alt || `${product.title} alternate view`}
-                  className={`${styles.image} ${styles.secondary}`}
+                  alt={
+                    product.images[1]?.alt || `${product.title} alternate view`
+                  }
+                  className={`${styles.image} ${styles.secondary} ${imageCropClass}`}
                   loading={imageLoading}
                   src={secondaryImage}
                   sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -51,9 +58,13 @@ export function ProductCard({ product, imageLoading = "lazy" }: ProductCardProps
         <div className={styles.meta}>
           <div className={styles.metaTopline}>
             <p className={styles.series}>
-              {product.series === "2-Piece Forged" ? "Two-piece forged" : "Monoblock forged"}
+              {product.series === "2-Piece Forged"
+                ? "Two-piece forged"
+                : "Monoblock forged"}
             </p>
-            <span className={styles.arrow} aria-hidden="true">↗</span>
+            <span className={styles.arrow} aria-hidden="true">
+              ↗
+            </span>
           </div>
           <h3 className={styles.title}>{product.title}</h3>
           <p className={styles.description}>{product.shortDescription}</p>
