@@ -156,7 +156,7 @@ export function TrackingClient() {
                 setTrackingNumber(event.target.value);
                 if (view.phase === "error") setView({ phase: "idle" });
               }}
-              placeholder="e.g. C0051300145757"
+              placeholder="Enter your tracking number"
               autoCapitalize="characters"
               autoComplete="off"
               spellCheck={false}
