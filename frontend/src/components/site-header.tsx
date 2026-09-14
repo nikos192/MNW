@@ -24,6 +24,7 @@ const mobileLinks = [
   { href: "/shop", label: "Shop Wheels" },
   { href: "/favourites", label: "Our Favourites" },
   { href: "/finishes", label: "Finishes" },
+  { href: "/tracking", label: "Track Shipment" },
   { href: "/fitment-tool", label: "Fitment Check" },
   { href: "/pricing", label: "Pricing" },
   { href: "/contact?design=custom", label: "Custom Design Quote" },
@@ -157,6 +158,9 @@ export function SiteHeader() {
               >
                 <InstagramIcon size={16} />
               </a>
+              <Link className={styles.utilityLink} href="/tracking">
+                Track shipment
+              </Link>
               <Link
                 className={styles.utilityLink}
                 href="/contact?design=custom"

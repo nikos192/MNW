@@ -14,6 +14,7 @@ This app is the headless MonzaWheels storefront: a custom `Next.js` frontend bui
 - `/shop`
 - `/shop/[handle]`
 - `/fitment`
+- `/tracking`
 - `/about`
 - `/contact`
 
@@ -40,3 +41,27 @@ For quote requests sent through Resend, configure:
 - `BUILD_INTAKE_EMAIL`
 
 The quote form posts to `/api/quote`, which sends a formatted internal enquiry email to `BUILD_INTAKE_EMAIL`, sends a confirmation email back to the customer, and uses reply-to so each side can answer directly.
+
+### Shipment tracking
+
+The customer tracking page is available at `/tracking`. Browser requests go to
+the same-origin `/api/tracking` route, which validates and rate-limits the
+request before contacting the carrier from the server.
+
+The included limiter is a basic, per-instance safeguard. For a strict shared
+limit across multiple serverless instances, replace it with a durable store
+such as Vercel KV or Upstash Redis.
+
+Configure this server-only environment variable locally and in Vercel:
+
+```bash
+TRACKING_PROVIDER_URL=http://47.101.70.255:81/Home/QueryTrack
+```
+
+Do not prefix this variable with `NEXT_PUBLIC_`. The carrier endpoint must not
+be exposed to the browser. After adding or changing the production variable,
+redeploy the site so the server route receives it.
+
+The carrier is an undocumented dependency. Provider request and response
+handling is isolated in `src/lib/tracking-provider.ts`; update that adapter if
+the carrier changes its payload without changing the page or public API shape.

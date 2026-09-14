@@ -72,6 +72,7 @@ const footerColumns = [
       { href: "/contact", label: "Contact" },
       { href: "/warranty", label: "Warranty" },
       { href: "/returns", label: "Returns" },
+      { href: "/tracking", label: "Track shipment" },
       { href: "/fitment-tool", label: "Fitment help" },
       { href: "/privacypolicy", label: "Privacy" },
     ],

@@ -14,6 +14,7 @@ const staticRoutes = [
   { path: "/fitment", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/fitment-tool", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/pricing", priority: 0.7, changeFrequency: "monthly" as const },
+  { path: "/tracking", priority: 0.7, changeFrequency: "monthly" as const },
   { path: "/custom-forged-wheels", priority: 0.9, changeFrequency: "monthly" as const },
   { path: "/about", priority: 0.6, changeFrequency: "monthly" as const },
   { path: "/find-a-dealer", priority: 0.6, changeFrequency: "monthly" as const },
