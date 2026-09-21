@@ -3011,6 +3011,20 @@ const namedProducts: CatalogProduct[] = [
     imageBasePath: "/Wheels",
   }),
   buildNamedProduct({
+    handle: "MW-112",
+    title: 'MW-112 "Villeneuve"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A clean broad five-spoke monoblock with deep windows and uncompromised visual strength.",
+    description:
+      'MW-112 "Villeneuve" distils the forged monoblock into five broad, sharply defined spokes. Deep triangular windows and recessed spoke faces remove visual weight from the substantial structure, while the brushed finish keeps the profile technical and precise. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: [
+      'MW-112 "Villeneuve"1.png',
+      'MW-112 "Villeneuve"2.PNG',
+      'MW-112 "Villeneuve"3.PNG',
+    ],
+  }),
+  buildNamedProduct({
     handle: "MW-12",
     title: 'MW-12 "Roggia"',
     series: "1-Piece Forged",
@@ -3107,17 +3121,6 @@ const namedProducts: CatalogProduct[] = [
     description:
       'MW-111 "Rivazza" builds a sharply layered face from five divided spoke groups. Bright machined edges trace each spoke over deep graphite pockets, creating pronounced direction and generous openings around the brake package. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1j.png"],
-    imageBasePath: "/Wheels",
-  }),
-  buildNamedProduct({
-    handle: "MW-112",
-    title: 'MW-112 "Villeneuve"',
-    series: "1-Piece Forged",
-    shortDescription:
-      "A clean broad five-spoke monoblock with deep windows and uncompromised visual strength.",
-    description:
-      'MW-112 "Villeneuve" distils the forged monoblock into five broad, sharply defined spokes. Deep triangular windows and recessed spoke faces remove visual weight from the substantial structure, while the brushed finish keeps the profile technical and precise. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
-    imageFileNames: ["1k.png"],
     imageBasePath: "/Wheels",
   }),
   buildNamedProduct({
