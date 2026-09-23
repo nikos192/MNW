@@ -2806,6 +2806,51 @@ const PRODUCT_DISCOVERY: Record<string, ProductDiscovery> = {
     designCharacter: ["Performance", "Exotic"],
     visualForm: ["Open", "Concave"],
   },
+  "MW-115": {
+    spokeStyle: "Multi-spoke",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Mesh", "Open", "Concave"],
+  },
+  "MW-116": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Executive"],
+    visualForm: ["Open", "Concave"],
+  },
+  "MW-117": {
+    spokeStyle: "Multi-spoke",
+    designCharacter: ["Performance", "Grand touring"],
+    visualForm: ["Mesh", "Open"],
+  },
+  "MW-118": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Directional", "Open"],
+  },
+  "MW-119": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Directional", "Concave", "Open"],
+  },
+  "MW-120": {
+    spokeStyle: "5-spoke",
+    designCharacter: ["Executive", "Exotic"],
+    visualForm: ["Concave", "Open"],
+  },
+  "MW-121": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Directional", "Concave"],
+  },
+  "MW-122": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Grand touring"],
+    visualForm: ["Open", "Concave"],
+  },
+  "MW-123": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Executive"],
+    visualForm: ["Open", "Concave"],
+  },
   "MW-23": {
     spokeStyle: "Multi-spoke",
     designCharacter: ["Grand touring", "Executive"],
@@ -3023,6 +3068,105 @@ const namedProducts: CatalogProduct[] = [
       'MW-112 "Villeneuve"2.PNG',
       'MW-112 "Villeneuve"3.PNG',
     ],
+  }),
+  buildNamedProduct({
+    handle: "MW-115",
+    title: 'MW-115 "Tramonto"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "An intricate branching mesh monoblock with a weight-relieved perimeter and deep technical layering.",
+    description:
+      'MW-115 "Tramonto" layers branching spokes across an open forged face, tying each intersection into a finely relieved perimeter. Slender machined sections, small weight-saving apertures, and a deep centre transition give the intricate mesh a precise, competition-led character. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1n.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-116",
+    title: 'MW-116 "Quercia"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A tensioned split-five monoblock framed by a segmented, weight-relieved outer ring.",
+    description:
+      'MW-116 "Quercia" stretches five divided spoke groups from a compact hub into a segmented outer ring. Tapered spoke faces and machined perimeter windows remove visual mass while preserving a strong, structured silhouette suited to modern performance and executive builds. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1o.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-117",
+    title: 'MW-117 "Carro"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A dense paired multi-spoke monoblock with a finely machined hub and motorsport mesh rhythm.",
+    description:
+      'MW-117 "Carro" builds a dense radial mesh from fine paired spokes that separate as they travel from hub to rim. Repeated triangular reliefs around the centre and a ventilated perimeter give the bright machined face a highly detailed motorsport rhythm without closing off the brake package. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1p.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-118",
+    title: 'MW-118 "Materassi"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A geometric split-five monoblock with angular bridges and a crisp, open face.",
+    description:
+      'MW-118 "Materassi" uses five angular spoke groups that divide, change direction, and reconnect near the rim. The asymmetric bridges create controlled movement across the face, while the broad openings and bright machined finish keep the design light and technically resolved. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1q.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-119",
+    title: 'MW-119 "Luco"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A gloss-black split-five monoblock with blade-like spokes and deep negative space.",
+    description:
+      'MW-119 "Luco" drives five sharply divided spoke groups outward from a compact centre with pronounced directional tension. Long internal cut-outs and deep gloss-black surfaces emphasise the negative space, giving the open monoblock face an aggressive, modern stance. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1r.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-120",
+    title: 'MW-120 "Poggio Secco"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "An architectural five-spoke monoblock with hollowed centres and an assertive faceted profile.",
+    description:
+      'MW-120 "Poggio Secco" turns five broad spokes into open structural frames, creating a graphic face with substantial depth. Faceted edges, elongated internal windows, and a dark reflective finish balance visual strength with generous brake visibility. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1s.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-121",
+    title: 'MW-121 "Cimini"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A directional multi-spoke monoblock with interlaced blades and pronounced visual movement.",
+    description:
+      'MW-121 "Cimini" layers long tapered blades with shorter supporting spokes to create a strongly directional forged face. Alternating channels and slim machined cut-outs carry movement from the hub to the outer edge, producing a technical profile with visible concavity. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1t.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-122",
+    title: 'MW-122 "Campagnano"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A lightweight split-five monoblock with slender branches and a ventilated outer ring.",
+    description:
+      'MW-122 "Campagnano" combines five clean primary spokes with fine branching elements that meet a weight-relieved perimeter. The bright machined finish exposes every transition, while the open windows and restrained centre bowl give the technical face a lighter grand-touring character. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1u.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-123",
+    title: 'MW-123 "Soratte"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A clean split-five monoblock with long tapered spokes and generous brake visibility.",
+    description:
+      'MW-123 "Soratte" draws five paired spoke groups from a compact hub into long, uninterrupted lines at the rim. Subtle channels and small weight-saving apertures add definition without disturbing the open face, giving the brushed monoblock a clean performance-led profile. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1v.png"],
+    imageBasePath: "/Wheels",
   }),
   buildNamedProduct({
     handle: "MW-12",
