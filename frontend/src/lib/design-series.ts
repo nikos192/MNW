@@ -37,10 +37,10 @@ export type ConstructionFilter =
  * explicit so catalogue order, construction and naming never imply a series.
  */
 export const WHEEL_DESIGN_SERIES = {
-  "MW-11": "Forza",
+  "MW-11": "Velocità",
   "MW-12": "Velocità",
   "MW-13": "Velocità",
-  "MW-14": "Velocità",
+  "MW-14": "Forza",
   "MW-15": "Eleganza",
   "MW-16": "Velocità",
   "MW-17": "Velocità",
