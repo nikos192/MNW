@@ -3,6 +3,10 @@ import {
   addOnRrpIncGstAudPerSet,
   priceRangeForSeries,
 } from "@/lib/wheel-pricing";
+import {
+  designSeriesFor,
+  type DesignSeriesName,
+} from "@/lib/design-series";
 
 export type CatalogImage = {
   url: string;
@@ -47,6 +51,7 @@ export type CatalogProduct = {
   handle: string;
   title: string;
   series: string;
+  designSeries: DesignSeriesName;
   shortDescription: string;
   description: string;
   price: string;
@@ -2958,6 +2963,7 @@ function buildNamedProduct(args: {
     handle: args.handle,
     title: args.title,
     series: args.series,
+    designSeries: designSeriesFor(args.handle),
     shortDescription: args.shortDescription,
     description: args.description,
     price,

@@ -108,6 +108,7 @@ function tooBig(payload: QuoteRequestBody): string | null {
     [payload.notes, NOTES_CAP, "notes"],
     [payload.quoteContext?.productTitle, SHORT_CAP, "productTitle"],
     [payload.quoteContext?.productHandle, 100, "productHandle"],
+    [payload.quoteContext?.designSeries, 100, "designSeries"],
     [payload.quoteContext?.startingPrice, SHORT_CAP, "startingPrice"],
     [payload.shipping, 20, "shipping"],
     [payload.tracking?.eventId, 100, "eventId"],

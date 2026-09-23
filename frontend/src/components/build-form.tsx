@@ -24,6 +24,7 @@ type InitialValues = {
 type QuoteContext = {
   productHandle?: string;
   productTitle?: string;
+  designSeries?: string;
   startingPrice?: string;
   quoteType?: "wheel" | "custom" | "contact";
   shippingOption?: ShippingOption;

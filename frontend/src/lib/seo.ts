@@ -177,6 +177,11 @@ export function productJsonLd(product: CatalogProduct) {
     additionalProperty: [
       {
         "@type": "PropertyValue",
+        name: "Design series",
+        value: `${product.designSeries} Series`,
+      },
+      {
+        "@type": "PropertyValue",
         name: "Diameter options",
         value: product.diameterOptions.join(", "),
       },

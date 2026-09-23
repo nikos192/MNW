@@ -8,6 +8,7 @@ type ContactPageProps = {
   searchParams: Promise<{
     product?: string;
     title?: string;
+    series?: string;
     startingPrice?: string;
     make?: string;
     model?: string;
@@ -40,6 +41,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
     [
       params.product,
       params.title,
+      params.series,
       params.startingPrice,
       params.make,
       params.model,
@@ -58,6 +60,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
 
   const contextLines = [
     params.title ? `Product: ${params.title}` : "",
+    params.series ? `Series: ${params.series}` : "",
     params.startingPrice ? `Starting price: ${params.startingPrice}` : "",
     params.make ? `Make: ${params.make}` : "",
     params.model ? `Model: ${params.model}` : "",
@@ -87,6 +90,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
 
   const hasConfig =
     params.title ||
+    params.series ||
     params.startingPrice ||
     params.diameter ||
     params.width ||
@@ -152,6 +156,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               quoteContext={{
                 productHandle: params.product,
                 productTitle: params.title,
+                designSeries: params.series,
                 startingPrice: params.startingPrice,
                 quoteType: !isQuote
                   ? "contact"

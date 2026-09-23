@@ -6,6 +6,7 @@ export type QuoteEmailPayload = {
   quoteContext?: {
     productHandle?: string;
     productTitle?: string;
+    designSeries?: string;
     startingPrice?: string;
     quoteType?: "wheel" | "custom" | "contact";
     shippingOption?: ShippingOption;
@@ -101,6 +102,10 @@ function sectionRows(payload: QuoteEmailPayload) {
     {
       label: "Product handle",
       value: displayValue(payload.quoteContext?.productHandle),
+    },
+    {
+      label: "Design series",
+      value: displayValue(payload.quoteContext?.designSeries),
     },
     {
       label: "Starting price shown",

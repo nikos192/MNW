@@ -162,8 +162,11 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
                   </Link>
 
                   <div className={styles.collectionBody}>
-                    <p className={styles.cardOverline}>{product.series}</p>
                     <h2 className={styles.collectionTitle}>{product.title}</h2>
+                    <div className={styles.collectionClassification}>
+                      <p>{product.designSeries} Series</p>
+                      <span>{product.series}</span>
+                    </div>
                     <p className={styles.collectionCopy}>
                       {product.shortDescription}
                     </p>

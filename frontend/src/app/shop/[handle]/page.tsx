@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductDetailClient } from "@/components/product-detail-client";
-import { getCatalogProduct } from "@/lib/catalog";
+import { getCatalogData, getCatalogProduct } from "@/lib/catalog";
 import {
   breadcrumbJsonLd,
   DEFAULT_OG_IMAGE,
@@ -40,7 +40,7 @@ export async function generateMetadata({
     openGraph: {
       type: "website",
       url: `/shop/${product.handle}`,
-      title: `${product.title} | ${product.series}`,
+      title: `${product.title} | ${product.designSeries} Series`,
       description: product.shortDescription,
       images: product.images[0]
         ? [
@@ -53,7 +53,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${product.title} | ${product.series}`,
+      title: `${product.title} | ${product.designSeries} Series`,
       description: product.shortDescription,
       images: [product.images[0]?.url ?? DEFAULT_OG_IMAGE.url],
     },
@@ -67,6 +67,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product) {
     notFound();
   }
+
+  const { products } = await getCatalogData();
+  const relatedProducts = products
+    .filter(
+      (candidate) =>
+        candidate.handle !== product.handle &&
+        candidate.designSeries === product.designSeries,
+    )
+    .slice(0, 3);
 
   const collection =
     product.series === "1-Piece Forged"
@@ -90,7 +99,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
           ]),
         )}
       />
-      <ProductDetailClient key={product.handle} product={product} />
+      <ProductDetailClient
+        key={product.handle}
+        product={product}
+        relatedProducts={relatedProducts}
+      />
     </>
   );
 }

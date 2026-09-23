@@ -59,16 +59,19 @@ export function ProductCard({
 
         <div className={styles.meta}>
           <div className={styles.metaTopline}>
-            <p className={styles.series}>
-              {product.series === "2-Piece Forged"
-                ? "Two-piece forged"
-                : "Monoblock forged"}
-            </p>
+            <h3 className={styles.title}>{product.title}</h3>
             <span className={styles.arrow} aria-hidden="true">
               ↗
             </span>
           </div>
-          <h3 className={styles.title}>{product.title}</h3>
+          <div className={styles.classification}>
+            <p className={styles.designSeries}>{product.designSeries} Series</p>
+            <p className={styles.construction}>
+              {product.series === "2-Piece Forged"
+                ? "Two-Piece Forged"
+                : "Monoblock Forged"}
+            </p>
+          </div>
           <p className={styles.description}>{product.shortDescription}</p>
           <div className={styles.cardFooter}>
             <div className={styles.priceGroup}>

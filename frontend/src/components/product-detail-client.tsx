@@ -7,6 +7,7 @@ import { ConversionLink } from "@/components/conversion-link";
 import { ConfigurationStep } from "@/components/configuration-step";
 import { favouriteBuilds } from "@/lib/approved-builds";
 import { OrderJourney } from "@/components/order-journey";
+import { ProductCard } from "@/components/product-card";
 import { ShippingSelector } from "@/components/shipping-selector";
 import type { CatalogProduct, VehicleFitment } from "@/lib/monza-data";
 import { trackMetaEvent } from "@/lib/meta-pixel";
@@ -34,6 +35,7 @@ import {
 
 type ProductDetailClientProps = {
   product: CatalogProduct;
+  relatedProducts?: CatalogProduct[];
 };
 
 function diameterToInt(value: string): number {
@@ -51,7 +53,10 @@ function diameterOptionsForFitment(
   });
 }
 
-export function ProductDetailClient({ product }: ProductDetailClientProps) {
+export function ProductDetailClient({
+  product,
+  relatedProducts = [],
+}: ProductDetailClientProps) {
   const hasTrackedView = useRef(false);
   const [openStep, setOpenStep] = useState(0);
   const [unlockedStep, setUnlockedStep] = useState(0);
@@ -373,6 +378,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     const params = new URLSearchParams({
       product: product.handle,
       title: product.title,
+      series: `${product.designSeries} Series`,
       startingPrice: quotedPrice,
     });
     if (carMake) params.set("make", carMake);
@@ -523,8 +529,17 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
         <div className={styles.detailColumn}>
           <div className={styles.detailPanel}>
             <div className={styles.detailHead}>
-              <p className={`label ${styles.series}`}>{product.series}</p>
               <h1 className={styles.title}>{product.title}</h1>
+              <div className={styles.productClassification}>
+                <p className={`label ${styles.series}`}>
+                  {product.designSeries} Series
+                </p>
+                <p className={styles.constructionLabel}>
+                  {product.series === "2-Piece Forged"
+                    ? "Two-Piece Forged"
+                    : "Monoblock Forged"}
+                </p>
+              </div>
               <p className={styles.price}>{headlinePrice}</p>
               <p className={styles.priceContext}>
                 Set of 4 · GST &amp; standard shipping included
@@ -535,7 +550,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               </p>
               <Link
                 className={styles.guidanceLink}
-                href={`/contact?product=${encodeURIComponent(product.handle)}&title=${encodeURIComponent(product.title)}`}
+                href={`/contact?product=${encodeURIComponent(product.handle)}&title=${encodeURIComponent(product.title)}&series=${encodeURIComponent(`${product.designSeries} Series`)}`}
               >
                 Unsure where to start? Ask us for help →
               </Link>
@@ -1555,6 +1570,22 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       <div className={`${styles.orderJourneyWrap} container`}>
         <OrderJourney />
       </div>
+      {relatedProducts.length > 0 ? (
+        <section className={`${styles.relatedSection} container`}>
+          <div className={styles.relatedHead}>
+            <div>
+              <p className="label">Related designs</p>
+              <h2>More from {product.designSeries}.</h2>
+            </div>
+            <Link href="/shop">View all wheels</Link>
+          </div>
+          <div className={styles.relatedGrid}>
+            {relatedProducts.map((relatedProduct) => (
+              <ProductCard key={relatedProduct.id} product={relatedProduct} />
+            ))}
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }
