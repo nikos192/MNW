@@ -52,6 +52,7 @@ export type CatalogProduct = {
   title: string;
   series: string;
   designSeries: DesignSeriesName;
+  renderReady: boolean;
   shortDescription: string;
   description: string;
   price: string;
@@ -2993,6 +2994,37 @@ const SERIES_FACTS: Record<
   },
 };
 
+// Designs with customer-facing production renders. Catalogue sorting uses this
+// explicit list so reference-only imagery never moves ahead of finished assets.
+const RENDER_READY_HANDLES = new Set([
+  "MW-11",
+  "MW-12",
+  "MW-17",
+  "MW-21",
+  "MW-22",
+  "MW-28",
+  "MW-112",
+  "MW-115",
+  "MW-116",
+  "MW-117",
+  "MW-118",
+  "MW-119",
+  "MW-120",
+  "MW-121",
+  "MW-122",
+  "MW-123",
+  "MW-124",
+  "MW-125",
+  "MW-126",
+  "MW-127",
+  "MW-128",
+  "MW-129",
+  "MW-130",
+  "MW-132",
+  "MW-133",
+  "MW-134",
+]);
+
 function buildNamedProduct(args: {
   handle: string;
   title: string;
@@ -3014,6 +3046,7 @@ function buildNamedProduct(args: {
     title: args.title,
     series: args.series,
     designSeries: designSeriesFor(args.handle),
+    renderReady: RENDER_READY_HANDLES.has(args.handle),
     shortDescription: args.shortDescription,
     description: args.description,
     price,
@@ -3567,7 +3600,9 @@ const namedProducts: CatalogProduct[] = [
   }),
 ];
 
-export const fallbackProducts: CatalogProduct[] = [...namedProducts];
+export const fallbackProducts: CatalogProduct[] = [...namedProducts].sort(
+  (left, right) => Number(right.renderReady) - Number(left.renderReady),
+);
 
 // Populated as customer builds are delivered and photographed.
 export const deliveredSets: DeliveredSet[] = [];
