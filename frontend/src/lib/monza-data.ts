@@ -2891,11 +2891,6 @@ const PRODUCT_DISCOVERY: Record<string, ProductDiscovery> = {
     designCharacter: ["Performance", "Exotic"],
     visualForm: ["Directional", "Open", "Concave"],
   },
-  "MW-131": {
-    spokeStyle: "Split-spoke",
-    designCharacter: ["Performance", "Grand touring"],
-    visualForm: ["Open", "Concave"],
-  },
   "MW-132": {
     spokeStyle: "Aero",
     designCharacter: ["Performance", "Exotic"],
@@ -3304,17 +3299,6 @@ const namedProducts: CatalogProduct[] = [
     description:
       'MW-130 "Varano" links five sharply divided spoke groups to a geometric outer ring of relieved forged sections. Deep channels, small hub apertures, and alternating perimeter windows create pronounced depth and a progressive technical silhouette. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1ad.png"],
-    imageBasePath: "/Wheels",
-  }),
-  buildNamedProduct({
-    handle: "MW-131",
-    title: 'MW-131 "Adria"',
-    series: "1-Piece Forged",
-    shortDescription:
-      "An open twin-five-spoke monoblock with slim champagne faces and deep machined channels.",
-    description:
-      'MW-131 "Adria" draws five slender spoke pairs from a compact hub into long, open lines at the rim. Fine internal reliefs and a warm champagne finish highlight the lightweight proportions, giving the forged face a clean performance-led character. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
-    imageFileNames: ["1ae.png"],
     imageBasePath: "/Wheels",
   }),
   buildNamedProduct({

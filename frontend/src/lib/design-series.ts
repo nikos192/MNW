@@ -76,7 +76,6 @@ export const WHEEL_DESIGN_SERIES = {
   "MW-128": "Eleganza",
   "MW-129": "Aerodinamica",
   "MW-130": "Avanguardia",
-  "MW-131": "Velocità",
   "MW-132": "Aerodinamica",
   "MW-133": "Aerodinamica",
   "MW-134": "Velocità",

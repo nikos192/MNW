@@ -48,7 +48,6 @@ const expectedHandles = [
   "MW-128",
   "MW-129",
   "MW-130",
-  "MW-131",
   "MW-132",
   "MW-133",
   "MW-134",
@@ -60,7 +59,7 @@ const expectedHandles = [
 
 test("every catalogue wheel has exactly one design-series assignment", () => {
   assert.deepEqual(Object.keys(WHEEL_DESIGN_SERIES).sort(), expectedHandles.sort());
-  assert.equal(Object.values(WHEEL_DESIGN_SERIES).length, 47);
+  assert.equal(Object.values(WHEEL_DESIGN_SERIES).length, 46);
 });
 
 test("all five series contain at least one wheel", () => {
@@ -75,7 +74,7 @@ test("all five series contain at least one wheel", () => {
   assert.deepEqual(
     [...counts.entries()],
     [
-      ["Velocità", 12],
+      ["Velocità", 11],
       ["Forza", 9],
       ["Eleganza", 8],
       ["Avanguardia", 12],
