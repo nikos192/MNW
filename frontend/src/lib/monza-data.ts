@@ -2856,6 +2856,61 @@ const PRODUCT_DISCOVERY: Record<string, ProductDiscovery> = {
     designCharacter: ["Performance", "Executive"],
     visualForm: ["Open", "Concave"],
   },
+  "MW-124": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Directional", "Open", "Concave"],
+  },
+  "MW-125": {
+    spokeStyle: "5-spoke",
+    designCharacter: ["Performance", "Executive"],
+    visualForm: ["Open", "Concave"],
+  },
+  "MW-126": {
+    spokeStyle: "Multi-spoke",
+    designCharacter: ["Grand touring", "Executive"],
+    visualForm: ["Open", "Concave"],
+  },
+  "MW-127": {
+    spokeStyle: "Aero",
+    designCharacter: ["Grand touring", "Executive"],
+    visualForm: ["Aero"],
+  },
+  "MW-128": {
+    spokeStyle: "Multi-spoke",
+    designCharacter: ["Grand touring", "Exotic"],
+    visualForm: ["Mesh", "Concave"],
+  },
+  "MW-129": {
+    spokeStyle: "Aero",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Aero", "Directional"],
+  },
+  "MW-130": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Directional", "Open", "Concave"],
+  },
+  "MW-131": {
+    spokeStyle: "Split-spoke",
+    designCharacter: ["Performance", "Grand touring"],
+    visualForm: ["Open", "Concave"],
+  },
+  "MW-132": {
+    spokeStyle: "Aero",
+    designCharacter: ["Performance", "Exotic"],
+    visualForm: ["Aero"],
+  },
+  "MW-133": {
+    spokeStyle: "Aero",
+    designCharacter: ["Grand touring", "Exotic"],
+    visualForm: ["Aero", "Directional"],
+  },
+  "MW-134": {
+    spokeStyle: "Multi-spoke",
+    designCharacter: ["Performance", "Executive"],
+    visualForm: ["Open", "Concave"],
+  },
   "MW-23": {
     spokeStyle: "Multi-spoke",
     designCharacter: ["Grand touring", "Executive"],
@@ -3172,6 +3227,127 @@ const namedProducts: CatalogProduct[] = [
     description:
       'MW-123 "Soratte" draws five paired spoke groups from a compact hub into long, uninterrupted lines at the rim. Subtle channels and small weight-saving apertures add definition without disturbing the open face, giving the brushed monoblock a clean performance-led profile. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1v.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-124",
+    title: 'MW-124 "Mugello"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A deeply layered split-spoke monoblock with angular channels and pronounced directional tension.",
+    description:
+      'MW-124 "Mugello" builds an intricate forged face from sharply nested spoke pairs and long machined reliefs. The dark bronze finish emphasises the stepped surfaces, while open outer windows and a compact hub keep the technical geometry visually light. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1w.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-125",
+    title: 'MW-125 "Nardò"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A muscular five-spoke monoblock with broad satin-bronze surfaces and a clean deep centre.",
+    description:
+      'MW-125 "Nardò" reduces the forged face to five substantial spokes flowing from a simple circular hub. Softly radiused edges, generous brake openings, and a deep satin-bronze barrel give the minimalist layout a strong, planted road presence. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1x.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-126",
+    title: 'MW-126 "Magione"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A refined paired multi-spoke monoblock with long bright lines and restrained concavity.",
+    description:
+      'MW-126 "Magione" arranges fine paired spokes around a clean machined centre, carrying an even radial rhythm to the outer edge. Crisp spoke channels and the bright brushed finish balance detailed European character with generous openings around the brake package. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1z.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-127",
+    title: 'MW-127 "Rettifilo"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A near-solid aero monoblock defined by eight rounded perimeter vents and a clean brushed face.",
+    description:
+      'MW-127 "Rettifilo" presents a broad, uninterrupted forged disc framed by eight precisely radiused cooling windows. A recessed centre and fine concentric machining preserve the purity of the near-solid face, giving the design a restrained grand-touring aero character. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1aa.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-128",
+    title: 'MW-128 "Pergusa"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "An intricate gloss-black mesh monoblock with a dense centre and finely branching perimeter.",
+    description:
+      'MW-128 "Pergusa" develops a tightly woven radial mesh from repeated branching spokes and compact reliefs around the hub. The gloss-black finish gives the detailed forged structure a continuous, jewel-like read while open perimeter sections retain brake visibility. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1ab.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-129",
+    title: 'MW-129 "Traguardo"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A technical aero disc with concentric cooling slots and a sharply segmented outer ring.",
+    description:
+      'MW-129 "Traguardo" layers a near-solid brushed face between two rings of precision-machined ventilation. Short inner slots create a turbine rhythm around the hub, while angular perimeter windows break the polished outer edge into a highly technical aero profile. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1ac.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-130",
+    title: 'MW-130 "Varano"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A sculpted split-five monoblock with layered spokes and a segmented weight-relieved rim.",
+    description:
+      'MW-130 "Varano" links five sharply divided spoke groups to a geometric outer ring of relieved forged sections. Deep channels, small hub apertures, and alternating perimeter windows create pronounced depth and a progressive technical silhouette. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1ad.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-131",
+    title: 'MW-131 "Adria"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "An open twin-five-spoke monoblock with slim champagne faces and deep machined channels.",
+    description:
+      'MW-131 "Adria" draws five slender spoke pairs from a compact hub into long, open lines at the rim. Fine internal reliefs and a warm champagne finish highlight the lightweight proportions, giving the forged face a clean performance-led character. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1ae.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-132",
+    title: 'MW-132 "Folgore"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A satin-black aero disc with concentric hub perforations and a ventilated technical perimeter.",
+    description:
+      'MW-132 "Folgore" surrounds a broad satin-black forged disc with a ring of deep rectangular cooling windows. A second band of fine apertures around the hub introduces precision detail without interrupting the commanding near-solid aero surface. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1af.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-133",
+    title: 'MW-133 "Franciacorta"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A polished turbine-style aero monoblock with radial channels and a vented outer crown.",
+    description:
+      'MW-133 "Franciacorta" cuts a dense sequence of tapered radial channels into a bright near-solid forged face. The turbine-like centre meets a segmented ventilated perimeter, creating a highly reflective aero design with strong rotational movement. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1ag.png"],
+    imageBasePath: "/Wheels",
+  }),
+  buildNamedProduct({
+    handle: "MW-134",
+    title: 'MW-134 "Modena"',
+    series: "1-Piece Forged",
+    shortDescription:
+      "A lightweight paired multi-spoke monoblock with exceptionally open geometry and fine machined edges.",
+    description:
+      'MW-134 "Modena" stretches slender paired spokes from a compact centre to the rim in long, uninterrupted lines. The bright machined finish and generous negative space give the forged face a light, fast profile with clear brake visibility and restrained concavity. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+    imageFileNames: ["1ah.png"],
     imageBasePath: "/Wheels",
   }),
   buildNamedProduct({
