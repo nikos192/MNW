@@ -3161,11 +3161,11 @@ const namedProducts: CatalogProduct[] = [
   buildNamedProduct({
     handle: "MW-115",
     title: 'MW-115 "Tramonto"',
-    series: "1-Piece Forged",
+    series: "2-Piece Forged",
     shortDescription:
-      "An intricate branching mesh monoblock with a weight-relieved perimeter and deep technical layering.",
+      "An intricate branching mesh centre with a weight-relieved perimeter and deep technical layering.",
     description:
-      'MW-115 "Tramonto" layers branching spokes across an open forged face, tying each intersection into a finely relieved perimeter. Slender machined sections, small weight-saving apertures, and a deep centre transition give the intricate mesh a precise, competition-led character. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
+      'MW-115 "Tramonto" layers branching spokes across an open forged centre, tying each intersection into a finely relieved perimeter. Slender machined sections, small weight-saving apertures, and a deep centre transition give the intricate mesh a precise, competition-led character. Final diameter, width, PCD, centre bore, and offset are confirmed around the exact vehicle before production.',
     imageFileNames: ["1n.png"],
     imageBasePath: "/Wheels",
   }),
