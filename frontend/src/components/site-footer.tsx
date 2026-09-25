@@ -70,6 +70,7 @@ const footerColumns = [
     links: [
       { href: "/contact?design=custom", label: "Custom design" },
       { href: "/contact", label: "Contact" },
+      { href: "/shipping", label: "Shipping" },
       { href: "/warranty", label: "Warranty" },
       { href: "/returns", label: "Returns" },
       { href: "/tracking", label: "Track shipment" },
