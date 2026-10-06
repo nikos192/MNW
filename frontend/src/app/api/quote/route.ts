@@ -240,6 +240,21 @@ export async function POST(request: Request) {
     );
   }
 
+  const preferredContactMethod = body.customer?.preferredContactMethod ?? "email";
+  if (!["text", "call", "email"].includes(preferredContactMethod)) {
+    return NextResponse.json(
+      { error: "Please choose text, call, or email as your preferred contact method." },
+      { status: 400 },
+    );
+  }
+
+  if (preferredContactMethod !== "email" && !clean(body.customer?.phone)) {
+    return NextResponse.json(
+      { error: "Please enter a phone number so we can contact you by text or call." },
+      { status: 400 },
+    );
+  }
+
   if (body.quoteContext?.quoteType === "contact" && !clean(body.notes)) {
     return NextResponse.json(
       { error: "Please enter a message." },

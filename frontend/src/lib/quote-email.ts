@@ -16,6 +16,7 @@ export type QuoteEmailPayload = {
     name?: string;
     email?: string;
     phone?: string;
+    preferredContactMethod?: "text" | "call" | "email";
   };
   vehicle?: {
     description?: string;
@@ -92,6 +93,12 @@ function sectionRows(payload: QuoteEmailPayload) {
     { label: "Name", value: displayValue(payload.customer?.name) },
     { label: "Email", value: displayValue(payload.customer?.email) },
     { label: "Phone", value: displayValue(payload.customer?.phone) },
+    {
+      label: "Preferred contact method",
+      value: { text: "Text", call: "Call", email: "Email" }[
+        payload.customer?.preferredContactMethod ?? "email"
+      ],
+    },
   ];
 
   const productRows: SummaryRow[] = [
@@ -248,15 +255,12 @@ export function buildIntakeEmail(payload: QuoteEmailPayload): EmailContent {
         title: "New message received",
         intro: "A customer has sent a message through the site.",
         body:
-          renderSection(
-            "Customer",
-            customerRows.filter((row) => row.label !== "Phone"),
-          ) + renderNotes(payload.notes, "Message"),
+          renderSection("Customer", customerRows) +
+          renderNotes(payload.notes, "Message"),
       }),
       text: [
         subject,
-        formatLine("Name", payload.customer?.name),
-        formatLine("Email", payload.customer?.email),
+        ...customerRows.map((row) => formatLine(row.label, row.value)),
         "",
         clean(payload.notes),
       ].join("\n"),

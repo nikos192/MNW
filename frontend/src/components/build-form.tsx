@@ -60,6 +60,7 @@ export function BuildForm({
   const router = useRouter();
   const [notes, setNotes] = useState(initialNotes);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [preferredContactMethod, setPreferredContactMethod] = useState("email");
   const isContact = quoteContext?.quoteType === "contact";
   const isCustom = !isContact && quoteContext?.quoteType !== "wheel";
   const [files, setFiles] = useState<File[]>([]);
@@ -123,6 +124,7 @@ export function BuildForm({
           name: valueFor("name"),
           email: valueFor("email"),
           phone: valueFor("phone"),
+          preferredContactMethod,
         },
         vehicle: isContact
           ? undefined
@@ -204,6 +206,7 @@ export function BuildForm({
         { eventID: eventId },
       );
       form.reset();
+      setPreferredContactMethod("email");
       setNotes(initialNotes);
       setVehicle(initialVehicle);
       setFiles([]);
@@ -267,6 +270,46 @@ export function BuildForm({
           />
         </label>
       </div>
+
+      <fieldset className={styles.contactPreference} disabled={isSubmitting}>
+        <legend>Preferred contact method</legend>
+        <div className={styles.contactChoices}>
+          {[
+            { value: "text", label: "Text" },
+            { value: "call", label: "Call" },
+            { value: "email", label: "Email" },
+          ].map((option) => (
+            <label key={option.value} className={styles.contactChoice}>
+              <input
+                type="radio"
+                name="preferredContactMethod"
+                value={option.value}
+                checked={preferredContactMethod === option.value}
+                onChange={(event) => setPreferredContactMethod(event.target.value)}
+              />
+              <span>{option.label}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <label className={styles.field}>
+        <span>
+          Phone number{" "}
+          {preferredContactMethod === "email" && (
+            <span className={styles.optionalTag}>(optional)</span>
+          )}
+        </span>
+        <input
+          autoComplete="tel"
+          disabled={isSubmitting}
+          name="phone"
+          type="tel"
+          required={preferredContactMethod !== "email"}
+          maxLength={60}
+          placeholder="e.g. 0412 345 678"
+        />
+      </label>
 
       {!isContact && (
         <label className={styles.field}>
