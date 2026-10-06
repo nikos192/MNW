@@ -97,6 +97,7 @@ function tooBig(payload: QuoteRequestBody): string | null {
     [payload.vehicle?.year, 20, "year"],
     [payload.vehicle?.brakes, SHORT_CAP, "brakes"],
     [payload.vehicle?.suspension, SHORT_CAP, "suspension"],
+    [payload.wheel?.design, 100, "design"],
     [payload.wheel?.diameter, 100, "diameter"],
     [payload.wheel?.width, 100, "width"],
     [payload.wheel?.pcd, 60, "pcd"],

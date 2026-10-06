@@ -12,6 +12,7 @@ type InitialValues = {
   make?: string;
   model?: string;
   year?: string;
+  design?: string;
   diameter?: string;
   width?: string;
   pcd?: string;
@@ -37,12 +38,13 @@ type BuildFormProps = {
 };
 
 const wheelFields = [
-  { id: "diameter", label: "Preferred size", placeholder: "e.g. 20 inch" },
+  { id: "diameter", label: "Diameter", placeholder: "e.g. 20 inch" },
   {
     id: "width",
     label: "Preferred width",
     placeholder: "e.g. 9.5 front / 10.5 rear",
   },
+  { id: "offset", label: "Offset (ET)", placeholder: "e.g. ET35 front / ET40 rear" },
   { id: "finish", label: "Finish", placeholder: "e.g. Brushed silver" },
   { id: "capColour", label: "Centre cap colour", placeholder: "e.g. Black" },
 ] as const;
@@ -141,10 +143,11 @@ export function BuildForm({
         wheel: isContact
           ? undefined
           : {
+              design: valueFor("design"),
               diameter: valueFor("diameter"),
               width: valueFor("width"),
               pcd: initialValues.pcd ?? "",
-              offset: initialValues.offset ?? "",
+              offset: valueFor("offset"),
               centrebore: initialValues.centrebore ?? "",
               finish: valueFor("finish"),
               capColour: valueFor("capColour"),
@@ -326,6 +329,35 @@ export function BuildForm({
         </label>
       )}
 
+      {isCustom && (
+        <div className={styles.grid}>
+          {[
+            {
+              id: "design",
+              label: "Wheel design",
+              placeholder: "e.g. Split-spoke, mesh, or a Monza model",
+            },
+            ...wheelFields.filter((field) =>
+              ["diameter", "width", "offset"].includes(field.id),
+            ),
+          ].map((field) => (
+            <label key={field.id} className={styles.field}>
+              <span>
+                {field.label}{" "}
+                <span className={styles.optionalTag}>(optional)</span>
+              </span>
+              <input
+                disabled={isSubmitting}
+                name={field.id}
+                placeholder={field.placeholder}
+                maxLength={field.id === "offset" ? 60 : 100}
+                defaultValue={initialValues[field.id as keyof InitialValues] ?? ""}
+              />
+            </label>
+          ))}
+        </div>
+      )}
+
       <label className={styles.fieldWide}>
         <span>
           {isContact ? "Message" : "Notes"}{" "}
@@ -413,14 +445,16 @@ export function BuildForm({
             Add wheel details <span>(optional)</span>
           </summary>
           <div className={`${styles.grid} ${styles.detailContent}`}>
-            {wheelFields.map((field) => (
+            {wheelFields.filter((field) =>
+              !isCustom || !["diameter", "width", "offset"].includes(field.id),
+            ).map((field) => (
               <label key={field.id} className={styles.field}>
                 <span>{field.label}</span>
                 <input
                   disabled={isSubmitting}
                   name={field.id}
                   placeholder={field.placeholder}
-                  maxLength={100}
+                  maxLength={field.id === "offset" ? 60 : 100}
                   defaultValue={initialValues[field.id] ?? ""}
                 />
               </label>

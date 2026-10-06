@@ -27,6 +27,7 @@ export type QuoteEmailPayload = {
     suspension?: string;
   };
   wheel?: {
+    design?: string;
     diameter?: string;
     width?: string;
     pcd?: string;
@@ -139,6 +140,7 @@ function sectionRows(payload: QuoteEmailPayload) {
   ];
 
   const wheelRows: SummaryRow[] = [
+    { label: "Wheel design", value: displayValue(payload.wheel?.design) },
     {
       label: "Preferred diameter",
       value: displayValue(payload.wheel?.diameter),
